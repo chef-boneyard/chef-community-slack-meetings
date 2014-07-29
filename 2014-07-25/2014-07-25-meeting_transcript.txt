@@ -1,0 +1,267 @@
+12:02 <@holoway> welcome to the chef developers meeting, july 25, 2014
+12:03 <@holoway> we're going to start off with a quick roundup of issues left dangling from the last meeting
+12:03 <@holoway> nathan harvey is on the agenda but is actually on a vacation, so I can fill in for his slot updating on community stuff
+12:04 <@holoway> sersut can drop the science for a minute on anything thats new in the chef client
+12:04 < sersut> sure…
+12:04 <@holoway> then coderanger is going to tell us about how the PEP process works
+12:05 <@holoway> and I have some thoughts on how we should build some supported workflows, coming out of the conversations of the last few weeks on the mailing list/twitter
+12:05 <@holoway> any questions on agenda?
+12:05 <@holoway> (man, that statement sucks on irc)
+12:06 <@holoway> ok - from the last meeting, we asked folks to weigh in on the thread about how to represent nested attributes
+12:06 <@holoway> what do folks think about adopting kallistec's last position on the ML thread
+12:07 <@holoway> which is in ruby, we accept arrays or dots
+12:07 <@holoway> and on the cli, we use dots
+12:07 <@holoway> anyone have a violent hatred of dots as the arbitrary formatter? :)
+12:07 < coderanger> +1 from me
+12:07 < shain> I heart dots.
+12:07 <@holoway> +1 from me
+12:07 <@holoway> I think kallistec has an implicit +1
+12:08 < kallistec> yep :) anyone have the link handy?
+12:08 <@holoway> http://lists.opscode.com/sympa/arc/chef-dev/2014-07/msg00035.html < is your ML post
+12:08 <@holoway> ok, anyone against?
+12:09 < nulleric> consistency between tooling/search/code is good
+12:09 <@holoway> ok, btm - so moved, the official (tm) separator in Chef and attendent tools is dots, with arrays accepted
+12:09 <@btm> noted.
+12:09 < jtimberman> this is for cli tool use?
+12:09 <@btm> jtimberman: yes, dots for cli.
+12:09 <@holoway> jtimberman: anywhere you need to specify keys
+12:10 < jtimberman> rad. totally not going to use them for node['attributes']['in-recipes'] tho ;)
+12:10 <@holoway> btm - take a note to decide if we care about search being _'s
+12:10 < someara> to be clear... so instead of node['foo']['bar']['baz'] , we now recommend node.foo.bar.baz?
+12:10 <@holoway> btm: my gut says we don't, and if we do, we could probably just double the size of the index
+12:10 <@holoway> someara: not at all
+12:10 <@holoway> someara: when you do knife search -a 'foo.bar.baz'
+12:11 < coderanger> This is for things like the attribute whitelist feature, or partial search
+12:11 <@holoway> yep
+12:11 <@btm> ohai foo.bar.baz
+12:11 < kallistec> for querying and filtering
+12:11 < sdelano> kallistec: filtering AND querying?
+12:11 <@ssd7> If this is for partial search, does that mean we need a serverside API change?
+12:11 < j^2>  /b 5
+12:11 < j^2> yep
+12:11 < coderanger> Someone want to own putting together a list of everything that needs changes to match this?
+12:11 < coderanger> It might be a slow road, but there should be a list at least :)
+12:11 < shain> @ssd7 @kallistec the new partial search/filtering implementation supports dots
+12:12 < shain> No server changes needed
+12:12 < sdelano> I'm specifically thinking about how things are indexed in Solr with '_'
+12:12 < kallistec> sdelano: yes, I brought this up in my ML post
+12:12 < sdelano> kk
+12:12  * sdelano goes to read
+12:13 <@holoway> sdelano: right - that's the note I was having btm take. I'm okay with it being _ in search, and dots for retrieval
+12:13 < kallistec> holoway, btm maybe we need more conversations about scope and scheduling here
+12:13 < zuazo> so, this includes using dots inside ruby code libraries or only for console commands?
+12:13 < sfalcon> Note that we control the query parsing so shouldn't, I think, have to change the index on search.
+12:13 <@holoway> console commands / string representations of attributes you want to pull out
+12:14 <@holoway> kallistec: I'm purposely not doing scheduling, and I think we should pass on scheduling until we have the scope
+12:14 < kallistec> yup
+12:14 <@holoway> who wants to volunteer to make the list coderanger points out about all the places we need to touch for this?
+12:15 <@ssd7> I can take a stab at it for the next meeting
+12:15 <@holoway> crickets :)
+12:15 <@ssd7> What form do we want it in?
+12:15 <@holoway> ssd7: write an RFC
+12:15 <@ssd7> kk
+12:15 <@holoway> btm - take that action for ssd7
+12:15 < shain> I can help if needed @ssd7
+12:15 <@holoway> ok - next agenda item
+12:15 <@ssd7> shain: +1 I know where to find you :)
+12:15 < shain> lol
+12:16 <@holoway> lots of interest in standing up a local supermarket
+12:16 <@holoway> cwebber is tracking the progress on that
+12:16 <@holoway> cwebber - you want to weigh in?
+12:17 < stevenmurawski> I think he's still on PTO
+12:17 < jtimberman> I think cwebber is off today?
+12:17 < someara> cwebber is on PTO
+12:17 <@holoway> :)
+12:17 < nlloyds> holoway I can weigh in too
+12:17 <@holoway> nlloyds take it
+12:17 < someara> there's a supermarket cookbook that works on ubuntu right now... I think the plans going forward are to omnibus it
+12:17 < nlloyds> We're going to be open-sourcing oc-id, the component that does OAuth2 with Chef server (the hosted version is https://id.opscode.com/)
+12:18 < nlloyds> That will at least allow you to stand up a local supermarket and have it auth with an Enterprise Chef server. Nobody AFAIK has tried using against an open source chef server, but there's not any reason I can think of why you couldn't.
+12:19 <@holoway> and we can plug other auth backends in to oc-id if we want
+12:19 <@holoway> and yeah, the plan is to have it omnibus-ed
+12:19 < nlloyds> In an 11.X enterprise chef server point release and a 12 release oc-id will be included with EC
+12:19 < jtimberman> nlloyds: would someone running open source chef be able to use hosted / id.opscode.com for their "enterprise chef server"
+12:19 < nlloyds> which will mean you won't have to stand up oc-id separately.
+12:20 < jtimberman> and do the oauth magic
+12:20 < jtimberman> to register the app
+12:20 < nlloyds> jtimberman we're going to add the ability to create your own apps on oc-id, so once we do that, yes.
+12:20 < nlloyds> jtimberman we're pretty much shooting for having it work like https://github.com/settings/applications
+12:21 < jtimberman> nlloyds: right on
+12:21 <@holoway> ok - thanks nlloyds - any questions
+12:21 <@holoway> from the floor?
+12:21 <@holoway> ok, moving on
+12:21 < nulleric> sounds cool
+12:22 <@holoway> we had a good bit of conversation about what time these meetings should be, to try and fit the majority of developers
+12:22 < nlloyds> @holoway when you say "the plan is to have it omnibus-ed", you mean inside chef server right?
+12:22 < nlloyds> there will not be a standalone oc-id omnibus package, though there will be a supermarket one.
+12:22 <@holoway> nlloyds: that's what I meant
+12:22 <@holoway> nlloyds: thanks for the clarification
+12:23 <@holoway> in looking at the survey data of time zones, the tl;dr is there is no such thing as a good time
+12:23 <@holoway> but there are a few particularly bad ones
+12:23 <@holoway> on of which is Friday's :)
+12:23 < juliancdunn> maybe we rotate the meetings? too confusing?
+12:23 < j^2> juliancdunn: too confusing imo
+12:24 <@holoway> rotation was the only solution that came up to cover europe and asia pacific
+12:24 <@holoway> we can make a time work that is early in new zealand and CRAZY EARLY in asia/australia
+12:24 <@holoway> and pretty late in europe
+12:24 <@holoway> but my fear is j^2's, which is we will loose people and continuity
+12:25 <@holoway> my proposal is this
+12:25 <@holoway> we move the meeting to Thursday rather than Friday
+12:25 <@holoway> and I'll find the time that covers maximum human beings
+12:26 < juliancdunn> wfm
+12:26 <@holoway> and as a community, we need to figure out how to help the folks who get left out continue to have a voice
+12:26 < jtimberman> (thumbsup)
+12:26 < coderanger> +1
+12:26 < zts> +1
+12:26 < mattray> or encourage everyone to move
+12:26 <@holoway> (my thought on how to have a voice is, as we get clear about the maintenance plan, we have an LT in the missed time zone run this meeting)
+12:27 <@holoway> (also, "Help is on the way" by Rise Against is playing in my headset, which is funny)
+12:27 <@holoway> ok
+12:27 <@holoway> anyone against thursdays, maximum people as the time choice?
+12:27 <@holoway> 1...
+12:27 <@holoway> 2...
+12:27 <@holoway> 3...
+12:27 <@holoway> ok, moving on
+12:27 < adamleff> I know we’re anti-rotation, but would an infrequent rotation be acceptable?  I.e. 1 non-Thursday-morning meeting a month?
+12:28 < adamleff> Feels like a problem we solve with technology (i.e. emailing out an .ics to chef-dev or something)...
+12:28 <@holoway> adamleff: considering we meet every two weeks, that would be the defacto 1:1 rotation
+12:28 < adamleff> yeah, fair point.  The weeks blur… :)
+12:28 <@holoway> adamleff: so, that would work for me, because my life is LOADED With meetings and I live by my calendar
+12:28 <@holoway> adamleff: and I have an admin who manages it :)
+12:29 < adamleff> fair ‘nuff :)  Thanks!
+12:29 <@holoway> but my experience with most folks is they have so few meetings, they don't actually use their calendars :)
+12:29 < adamleff> (I don’t even know what that’s like anymore...)
+12:29 <@holoway> btm: take a note that I will update the meeting time PR on the IRC meetings RFC to reflect this conversation, and a note to re-visit in two weeks
+12:29 <@holoway> btm: er two meetings
+12:30 <@holoway> next topic is going to be a collapse of the community/chef software update
+12:30 <@holoway> to make up some tie
+12:30 <@holoway> er time
+12:30 <@holoway> I've been working on getting proposals for governance and maintenance policy through the stakeholders I need to before I can open it up to a wider audience
+12:31 <@holoway> there is no friction at all about doing it, but some conversations around details
+12:31 <@holoway> in particular, getting clear about how we deal with who the project leader is
+12:32 <@holoway> since some of those stake holders aren't coming to an IRC meeting (the Chef Software board, for example) I'm getting their feedback clear first before we open it up
+12:32 <@holoway> but I am hoping to wrap it up soon and get the proposals out for discussion
+12:33 <@holoway> the broad strokes ideas of having LT's for subsystems, lots of folks with merge privileges, and rules for when to merge, and an advisory style governance model are all +1
+12:33 <@holoway> questions?
+12:33 <@bawt> questions not found
+12:33 <@btm> holoway: do you think the proposal will be available before the next meeting?
+12:33  * holoway hugs bawt
+12:34 <@holoway> btm: I don't want to commit to it, because some of the steps left are conversations with lawyers
+12:34 < coderanger> Probably not helpful to discuss until specifics are available and we know it will happen
+12:34 <@holoway> coderanger: exactly
+12:35 <@holoway> ok - any other questions?
+12:35 -!- juliancdunn [~jdunn@pool-96-224-241-125.nycmny.fios.verizon.net] has left #chef-hacking ["gotta run off"]
+12:35 <@holoway> needless to say, an update on this topic will happen every meeting till its out
+12:35 <@holoway> ok, next topic - sersut, have anything you want to say about chef client?
+12:36 < sersut> Only a couple of things from me today...
+12:36 < sersut> Chef Client 11.14.0 & 10.34.0 RC candidates are out. We have been working on the releases for a while now. Expect to see them out next week.
+12:36 < sersut> Chef 12 scoping exercise including the supported versions of Chef Client and Ruby have been out for some time now. https://github.com/opscode/chef-rfc/pull/22
+12:36 < sersut> I'm planning to close down on this today. Comment on this PR if you haven't already
+12:36 < sersut> Given the current scoping we're expecting to have the Chef Client 12 out this fall during October..
+12:36 < sersut> short and sweet unless there are any questions :)
+12:37 <@holoway> just a bump for the fact that folks should absolutely weigh in on that PR
+12:37 < coderanger> There is some overlap on that rfc vs. the platform support one
+12:37 < coderanger> that should probably be explained
+12:38 < coderanger> (and/or removed)
+12:38 < sersut> coderanger: I think they are mostly orthogonal… do you have any specific concerns?
+12:38 <@ssd7> Also, there are other chef 12 RFCs that people have filed and commented on that should probably be linked up to that one
+12:39 < sersut> ssd7: agreed… I’ll make sure any item there has either a filed Github Issue or an RFC..
+12:39 <@holoway> there should be a platform support RFC that is separate, if only for linking
+12:39 <@holoway> btm: can you take a note for sersut to link up those other RFCs
+12:39 < coderanger> Yeah, thats probably all that is needed "For information on supported platforms, please see X"
+12:40 <@holoway> coderanger: yeah, and I think that's the most important thing
+12:40 < adamleff> Thank you all for kickstarting the RFC process again.  It’s been great to watch all the communication going on.
+12:40 < sersut> yeah currently we have a placeholder… Will be linked for real once they are finalized..
+12:40 <@holoway> ok, btm - two notes - sersut links the other 12 RFCs/imports them, and links to the platform support RFC
+12:41 <@holoway> I think we should merge the platform support RFC once the current feedback is incorporated and let issues/PRs mutate it from here
+12:41 <@holoway> since we lack a formal maintenance process still
+12:41 <@holoway> any votes against doing that?
+12:42 <@holoway> (you have 30 seconds to make with the typey)
+12:42 < coderanger> Well I have objections on the general style
+12:42 <@btm> +1 for getting it accepted and then fine tuning.
+12:42 < coderanger> But we'll get to that in a moment :)
+12:43 < shain> Would the platform support RFC be something that should live longer than the 12 RFC? It seems like having a kind of “support matrix” wouldn’t be a bad idea
+12:43 < shain> Or does that belong elsewhere?
+12:43 < coderanger> shain: Yes, thats how it is setup
+12:43 <@holoway> shain: it's a separate RFC now
+12:43 <@holoway> okay, lets move to having coderanger drop the knowledge of PEP on us
+12:44 < coderanger> Visual aid for to hopefully make this easier to follow: https://dl.dropboxusercontent.com/u/3962871/Enhancement%20Proposal%20Processes.pdf
+12:44 < c_t> "Talk to your kids about PEP, before their friends do."
+12:44 < coderanger> I'll start with PEPs since thats the process I know best, but I can also cover Django, XMPP, and OpenStack
+12:44 < coderanger> PEPs are Python Enhancement Proposals, its the system by which python evolves over time
+12:46 < coderanger> There are three types: standards track is the bulk of them, describing changes to the language or libraries. Informational PEPs describe something that is needed for the future but not part of the lang itself (eg. style guides) and Process PEPs change community processes like the release workflow
+12:46 < coderanger> In the PEP flow there are three main roles
+12:46 -!- paulmooring_away is now known as paulmooring
+12:47 < coderanger> the BDFL acts as the decider on a given PEP, they get final say on accept/reject, there is a single global BDFL but they can delegate for either certain subsystems or specific PEPs
+12:47 < coderanger> The Editors handle procedural stuff, they don't edit for content, just syntax and format, oversee the PEPs list, issue new PEP ID numbers, etc
+12:47 < coderanger> and then the Authors, each PEP has one or more authors that write it and are responsible for getting it through the stages
+12:48 < coderanger> (if people have questions, just stop me)
+12:48 < coderanger> The workflow is on slide 5
+12:49 < coderanger> But basically they start in Draft, then to Accepted once the BDFL says yes, and then Final when its actually shipped
+12:50 < coderanger> Informational and Process PEPs generally only use Draft and Active since they have no shipping per se
+12:50 < coderanger> pages 6 and 7 shows the metadata used in the pep process, won't retype it all here
+12:51 < coderanger> Each PEP has 8 sections generally , short description, copyright waiver, tech specs, reason the change should happen, explanation of the design, compat analysis, and reference impl
+12:52 <@btm> coderanger: DEPs, starting on page 11, are Django Enhancement Proposals?
+12:52 <@holoway> coderanger: do you have a preference for one of the flows? (you have the PEP flow, XEP, Openstack)
+12:52 < coderanger> Generally the last one is a pointer to an existing library that implements the feature, or for new syntax it has a mini implementation
+12:52 < coderanger> btm: Yeah
+12:52 < coderanger> holoway: I think we should probably find a rough middle ground between PEPs and OpenStack blueprints
+12:53 < coderanger> holoway: Less election-y than the OpenStack process, but with similar levels of team autonomy as opposed to the global BDFL model
+12:53 < coderanger> But I think the workflow on the PEP process is just about right
+12:54 < coderanger> I put in https://github.com/opscode/chef-rfc/pull/31 as an example of a hopefully nicer template than the current one we've been using
+12:54 <@btm> coderanger: the PEP process seems reasonable to me. I'd like to see an RFC that makes the necessary alterations/decisions like if you should email chef-dev your proposal or open a PR against chef-rfc.
+12:54 < coderanger> optimally I think that should now be merged, moved from drafts to the main folder and issued a number
+12:54 < coderanger> and then developed there in Draft state
+12:55 <@holoway> I would be +1 on trying the PEP process - I think we have
+12:55 < shain> I like the XEP workflow best out of the 3, I dislike the “priority” concept in general, I like the PEP ‘roles” — my 2c
+12:55 <@holoway> literally nothing to loose and only goodness to gain
+12:56 < coderanger> Anyone have questions on the various other processes?
+12:56 < coderanger> (I can go over the other three step by step but probably just as easy to read the slides)
+12:56 < coderanger> One thing to note between them is how the roles come to be
+12:57 <@btm> we still have one remaining agenda item, so I think we need to continue on.
+12:57 <@holoway> the one question on adopting, at least experimentally, the basics of the PEP process
+12:57 < coderanger> PEPs: BDFLs are appointed by the global BDFP. DEPs: core team is by invitation of existing devs. XEPs: The Council is elected by XEF membersion. OpenStack: PTLs are elected by team members
+12:57 <@holoway> since we lack a maintenance/governance policy
+12:57 <@holoway> we need a BDFL/delegate to make the PEP process function
+12:58 <@holoway> lets swap the word BDFL for "decider", and slot me in - and we'll have whatever the process we come up with as a community replace it
+12:58 < coderanger> I think sersut has already been acting as BDFL for chef-client
+12:58 < coderanger> but yeah, I would see holoway as global one
+12:58 < jtimberman> (thumbsup) to holoway as overall decider
+12:58 <@holoway> coderanger: exactly - we have a de-facto power structure
+12:59 < jtimberman> :)
+12:59 <@holoway> coderanger: that I'm fine with making a snudge more explicit than it is now, but I don't want to cement it in stone
+12:59 <@holoway> ok - btm, take a note
+12:59 <@holoway> well, one more thing
+13:00 <@holoway> anyone against adopting the PEP workflow for RFCs?
+13:00 <@holoway> 30 seconds to type -1
+13:00 < coderanger> I would add, we should skip a lot of the metadata :)
+13:00 < jtimberman> coderanger: yes
+13:00 < coderanger> In that #31 I included what I thought was helpful
+13:00 <@holoway> second motion, that coderanger did all the work, so he gets to write the draft for how we do it
+13:00 < shain> @coderanger +100 on metadata skipping
+13:00 <@holoway> which we'll put feedback in and I'll approve
+13:00 < coderanger> I'll include a template with the promposal
+13:00 <@btm> +1
+13:00 <@holoway> ok
+13:00  * coderanger can't type this morning
+13:01 <@holoway> going once
+13:01 <@holoway> going twice
+13:01 <@holoway> sold to coderanger for the cost of 1 RFC
+13:01 < jtimberman> haha
+13:01 <@holoway> btm: I am decider for RFCs, I can delegate explicitly, and coderanger is sending the RFC for the RFC process, modeled on a simplified PEP
+13:02 <@holoway> ok
+13:02 <@holoway> we are at time
+13:02 < kallistec> hrm, maybe 2 RFCs, template and process seem fairly orthogonal. But I'm not going to make a stink either way
+13:02 <@holoway> kallistec: lets leave it to coderanger
+13:02 <@holoway> I trust the beard and the obviously well researched slide deck :)
+13:02 < kallistec> also cuz I want the template in place sooner. But, yes, and let's move on
+13:03 <@holoway> ok - as we're at time, I'm going to push out the last agenda item to the next meeting
+13:03 <@holoway> the tl;dr - I'm going to submit an RFC that discusses having two supported worfklows
+13:03 <@holoway> that we're going to ask the ecosystem to support as well
+13:03 <@holoway> and we'll do the work as maintainers to keep first class
+13:04 <@holoway> with a process for adding/mutating those workflows as we go
+13:04 <@holoway> I'll publish in advance of the next meeting
+13:04 <@holoway> btm: take the note to put that on the agenda for the next meeting
+13:05 <@holoway> thank you coderanger for doing the research and putting together that deck - super helpful
+13:05 <@holoway> I declare this meeting over, and the floor open for your jibber-jabber
+
