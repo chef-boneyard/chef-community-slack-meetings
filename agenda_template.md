@@ -7,13 +7,15 @@ Moderator:  Adam Jacob (holoway)
 Secretary:  Nathen Harvey (nathenharvey)
 
 ### Agenda
-* Agenda Review, speaker Adam Jacob (holoway): 5 minutes
-* Previous Business, speaker Adam Jacob (holoway): 10 minutes
-  * Action Items from last meeting
-* Community Update, speaker Nathen Harvey (nathenharvey): 5 minutes
-* Chef Software Update, speaker Adam Jacob (holoway): 5 minutes
-* Chef Client and Server Update, speaker Adam Edwards (adamedx): 5 minutes
-* Roundtable, speaker Adam Jacob (holoway): 20 minutes
+* Agenda Review, speaker Adam Jacob (holoway): 2 minutes
+* Updates: 15 minutes max.
+  * Community Update, speaker Nathen Harvey (nathenharvey): 5 minutes
+  * Chef Software Update, speaker Adam Jacob (holoway): 5 minutes
+  * Chef Client and Server Update, speaker Adam Edwards (adamedx): 5 minutes
+* Review action items from last meeting (holoway): 5 minutes
+* Review PRs:  35 minutes
+  * Review new PRs and/or PRs deferred during last meeting
+  * Review PRs previously discussed
 
 ### Next Meeting
 
