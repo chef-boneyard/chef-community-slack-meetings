@@ -1,0 +1,194 @@
+16:01 <@thom> good afternoon everyone
+16:01 < metadave> hello!
+16:01 < tBunnyMan> Afternoon/morning
+16:01 <@thom> I'm virtually nathen for the afternoon
+16:01 < adamedx> hey everyone
+16:02 <@thom> the agenda is at https://github.com/chef/chef-community-irc-meetings/blob/master/2015-05-28-agenda.md
+16:04 <@thom> A quick community update
+16:04 <@thom> Please take the Cookbook Survey - http://bit.ly/chefconf2015-cookbook-survey
+16:05 <@thom> The Community summit in Seattle is October the 14th and 15th, http://summit.chef.io
+16:05 <@thom> We're still looking for a location for the London one, so more details will come for that one as we have them - I know Nathen saw a bunch of places last week
+16:06 <@thom> I suspect Adam's at velocity, so probably won't be around
+16:06 <@thom> so adamedx, would you like to give an update please
+16:06 < adamedx> sure, though I will turn it right back around to you Thom
+16:06 < adamedx> we have some upcoming chef-client and chef server releases
+16:07 < adamedx> a regresion in chef-client 12.4.0 rc was identified
+16:07 < adamedx> thank u coderanger and everyone involved
+16:07 < adamedx> that must be addressed before 12.4.0 goes out
+16:07 < adamedx> Thom, anything to add there?
+16:08 <@thom> Don't think so - there's a PR to fix the problem, but it's still in flight
+16:08 < adamedx> this was the issue: https://github.com/chef/chef/pull/3416
+16:09 < adamedx> yup, so I think we'll need at least one more rc release
+16:09 < adamedx> before 12.4.0 is out
+16:09 < adamedx> for chef server
+16:09 <@thom> yeah. We'll try and get the next rc next week
+16:09 < adamedx> mparadise will do the update
+16:10 <@mparadise> Howdy!
+16:10 <@mparadise>  We've identified a few critical performance bottlenecks and corrected 
+16:10 <@mparadise> them, which has cleared the way for 12.1.0-rc.1 -- this will be released 
+16:10 <@mparadise> shortly after this meeting concludes.  12.1 RC1 also includes full support 
+16:10 <@mparadise> for policyfiles and cookbook artifacts, now enabled by default. 
+16:10 < adamedx> yay
+16:11 < adamedx> all right
+16:11 < adamedx> back to you thom
+16:11 <@thom> thanks. 
+16:11 <@thom> So, to start with we have PR 128, which was reviewed last week: https://github.com/chef/chef-rfc/pull/128
+16:12 <@thom> i just pinged john to see if he's around
+16:13 <@thom> he's fighting irc, so whilst he does that let's move on to 129
+16:13 <@thom> jkeiser: welcome!
+16:13 < jkeiser> Hola.  Can't see context if we've started talking (sorry, Chrome got futzy with IRC)
+16:14 <@thom> we were just about to start in on #128, Add property to resource
+16:14 < jkeiser> Awesome
+16:14 < jkeiser> We approved last week, but there was feedback afterwards and I wanted to re-up it
+16:15 < adamedx> thanks for being conscientious about that jkeiser
+16:15 < jkeiser> It hasn't changed hugely, but it has changed a tiny bit.  attribute and property are now pure aliases of each other (though LWRPs may need to handle lazy defaults differently for backcompat)
+16:15 < jkeiser> And we changed "must_be" to "is".  Shorter to type, and matches better with what it does
+16:15 <@coderanger> I would also be comfortable if we called the old behavior a bug and left it at that
+16:15 < jkeiser> Other than that, it was mostly clarifications
+16:16 < jkeiser> I would prefer that personally
+16:16 <@coderanger> (the chances of it causing issues are extremely low)
+16:16 < jkeiser> Here is the context for that: https://github.com/chef/chef-rfc/pull/128#discussion_r31194865
+16:17 < jkeiser> Like, this is the thing that could break: if you are using a lazy default in an LWRP right now, it's *possible* that you are calling class-level methods inside the default.  If I change lazy defaults to execute in the instance (a big win), your code doing that will break.
+16:18 < jkeiser> If consensus here is that we can live with that breakage (and gain the ability to create defaults that read values from other properties in an instance), then we can always accept with that caveat
+16:18 < jkeiser> (i.e. that that was a bug, that is being fixed)
+16:19 <@coderanger> I just have never seen that. FWIW Poise's version of this has always been instance_eval'd
+16:19 < jkeiser> Yeah, it just makes sense
+16:19 <@thom> yeah, i think that sounds reasonable
+16:20 <@thom> jkeiser: ok, can you update with that as required, and then i think we can sign it off next week?
+16:20 < jkeiser> Sure!
+16:20 <@thom> great, thanks!
+16:20 <@thom> ok, on to 129. This is moving ubuntu 10.04 to tier 2
+16:22 < lamont_oc> i'm still grouchy over our support tiers, but i seem to be the only one
+16:22 <@thom> it doesn't seem like anyone found moving to tier 2 controversial, but it needs some +1s
+16:22 < jkeiser> RFC is updated, btw
+16:22 <@thom> jkeiser: awesome, thanks
+16:22 < jkeiser> oh, hi there github-bawt
+16:23 <@thom> lamont_oc: i think that might be a bigger discussion generally
+16:23 < lamont_oc> based on the letter of the law i think that moving to tier 2 is effectively going to be dropping support for 10.04 and that we will wind up stopping building omnibus artifacts for it
+16:24 < lamont_oc> so to be honest we should just state that we're dropping support for it if that's what we're doing
+16:24 < adamedx> I think there are other factors that go into dropping somethign from omnibus
+16:24 < adamedx> its not simply a tier2 matter
+16:25 < adamedx> I think we should give a heads up at the point that actually happens
+16:25 < adamedx> and get feedback
+16:25 < lamont_oc> that isn't captured in the RFC
+16:25 < adamedx> correct, that's a decision outside the rfc
+16:25 < adamedx> which is sort of what I'm saying
+16:25 < adamedx> so I hear your concern lamont_oc
+16:26 < adamedx> but I think we would explicitly communicate a change like this
+16:26 < lamont_oc> yeah, if there's some external process that should be captured in the RFC as well
+16:26 < adamedx> maybe, I don't think the rfc says "tier2 means no omnibus"
+16:26 < adamedx> unless I read it incorrectly
+16:26 < adamedx> so what I'm saying is that I'm not ready to say that there's no omnibus build for 10.04
+16:27 < adamedx> even if it moves to tier 2
+16:28 <@thom> it sounds as though we need to clarify exactly what our expectations of tier 2 are
+16:28 < lamont_oc> yeah its extremely unclear
+16:28 < lamont_oc> its all "may or may not" language which is completely up in the air
+16:28 < jmickle> *can you link me to this topic*
+16:28 < ranjib> yeah.. we have to fix that.. like specify what all things will be available/wont be available on tier two
+16:29 <@thom> lamont_oc: can i ask you write up a PR to clarify this? 
+16:29 < ranjib> currently its very vague 
+16:29 < lamont_oc> and if we still have 10.04 builders its unclear what the difference is between tier 1 and tier 2 support for 10.04 is as far as omnitruck goes, but the RFC is entirely about omnitruck support
+16:30 < lamont_oc> when the discussion was about people wanting to drop it down to tier 2 support mostly so we could stop writing cookbooks for it (which i would totally be in agreement with by the way).
+16:30 < lamont_oc> but cookbooks are not mentioned at all
+16:30 <@thom> indeed
+16:31 <@coderanger> lamont_oc: Why exactly do we want to continue doing builds for an EOL'd platform?
+16:31 < ranjib> even CVE and other patch management are out of question for 10.04. omnibus installers..
+16:31 <@coderanger> I've never heard that justified
+16:31 < lamont_oc> because its relatively easy still to do the builds and people still use it
+16:31 < ranjib> and lots of people still using it
+16:31 <@thom> coderanger: because our users are quite likely to still be using 10.04, so we should make it not suck for them in the mean time
+16:31 <@coderanger> Sure, but the whole point of EOL is to be the point where "if you still use this now you are on your own"
+16:32 < ranjib> so unless something is stopping us from building the installer, we should not just pro actively do it
+16:32 < jkeiser> Because there's a "sure, we aren't really paying attention to that platform, but it still seems to be working right now and it'd be sort of dickish of us to cut off the builds just because of that"
+16:32 <@thom> exactly what ranjib said
+16:32 < adamedx> yeah
+16:32 < adamedx> and there is precedent of vendors going beyond eol at times
+16:32 < adamedx> for critical issues
+16:32 <@coderanger> The build infra isn't free, and us saying "we'll just do this until the build breaks and then lolwut" is a pretty bad policy
+16:33 < adamedx> coderanger you're right, that is a cost
+16:33 <@coderanger> Sure, doing a one-off build at some point in the future is different than saying this should be kept in the standard build matrix
+16:33 < adamedx> but we have to weigh things and see how users are affected
+16:33 < adamedx> in terms of bearig it
+16:33 < adamedx> also
+16:33 < adamedx> one-off builds don't work if you aren't building it all the time :)
+16:33 < lamont_oc> not until the build breaks, but until we hit a point where there's costs, like it becomes difficult to build 10.04 on EC2 or dificult to make universal builds on 10.04 that run on whatever is latest, etc
+16:34 <@coderanger> Unless there is a major customer specifically paying for support on an old OS (eg. Solaris 9) I think we should just not assume that keeping it is a given
+16:34 < jmickle> +1 for dropping 10.04
+16:34 < jmickle> We are a user who still has 10.04 in play, and I have been looking for more reasons to win the political war of pushing us to newer chef version
+16:35 <@coderanger> Let me rephrase, what is our plan to stop releasing builds for 10.04
+16:35 < martinisoft> 10.04 is also EOL as of last month
+16:35 < martinisoft> +1 to dropping it too
+16:35 <@coderanger> because we need a plan for that, and if it isn't based on upstream EOL then we need our own policy
+16:35 < adamedx> so let's critique lamont_oc's rfc
+16:35 < adamedx> he hasn't written it yet :)
+16:35 <@thom> it's only a month out of EOL. i'd like to see us support it for a fair time window after that point to give our users time to migreate
+16:35 <@thom> adamedx: heh, yeah
+16:35 < adamedx> maybe it will address concerns like those raised by jmickle, et al
+16:36 <@coderanger> Okay, if lamont_oc is going to write that policy then thumbsup :)
+16:36 < lamont_oc> if you've got 10.04 in play, doesn't us dropping support cause issues with moving to new chef versions that don't have any support for 10.04?
+16:36 < lamont_oc> hrm
+16:36 < adamedx> jedi mind trick not fair coderanger :)
+16:36 < jmickle> yes giving me another piece to play in a political war for an upgrade 
+16:36 < jmickle> would be the best gift you guys could give me today :-)
+16:36 < lamont_oc> mental note to keep mouth shut in future... lol...
+16:36 < adamedx> that's how I feel about windows server 2003 jmickle
+16:36 < martinisoft> You'll have major difficulty moving forward. Ubuntu *literally* moves the Apt mirror to archive so you'll have problems with package support eventually.
+16:37 <@coderanger> I'm cool with our policy being broader than the vendor (we have way less to support), just as long as there is some time horizon for builds on old platforms
+16:37 < tBunnyMan> Did anyone cry out this much for solaris 9 who didn't even get a Tier two?
+16:37 <@thom> coderanger: agreed that we need a definition
+16:37 <@coderanger> tBunnyMan: To be fair, way fewer Chef users are on Sol9 compared to 10.04
+16:38 < lamont_oc> i was a cheerleader for dropping solaris 9 support because i directly felt so much pain out of how hard it was to support that platform
+16:38 < jmickle> hehe
+16:38 <@thom> ok, shall we move on to #118 ?
+16:38 < lamont_oc> which is my point which is that cost/benefit should drive the decision
+16:38 < martinisoft> Ubuntu also has a timed release and sunset cycle based on the versioning so it's not like you didn't see this one coming.
+16:38 < jmickle> il buy you all beers for this
+16:38 < lamont_oc> solaris 9 had huge hidden costs
+16:38 < jmickle> hehe
+16:38 <@thom> https://github.com/chef/chef-rfc/pull/118
+16:38 <@thom> btm: over to you ...
+16:38 <@coderanger> lamont_oc: Thats certainly an argument, but something purely time based is way easier to predict because the EOL timelines are known way in advance
+16:39 < jmickle> tl;dr
+16:40 <@btm> thom: I'm not sure what's next on this given kallistec's chef-config work.
+16:40 < lamont_oc> i'm not sure that the people still using 10.04 are good at planning and care about knowing in advance (or care about package upgrades either).  i've worked in those kinds of shops...    but...  lets move on...
+16:40 < kallistec> btm: make chef-config a dep of ohai
+16:40 < lamont_oc> yay chef-config!
+16:41 <@btm> I guess rewrite it given chef-config.
+16:41 < kallistec> add an ohai config context to chef-config/config
+16:41 < kallistec> put your defaults in there
+16:41 < kallistec> done
+16:41 < kallistec> users will do ohai.setting "blah"
+16:41 <@btm> yeah, so I'll learn chef-config and rewrite this given chef-config.
+16:42 < kallistec> btm: chef-config is just like the old thing you already know, but it's in its own gem so ohai can use it
+16:42 < jmickle> hehe
+16:42 < kallistec> I just renamed Chef::Config to ChefConfig::Config
+16:42 < kallistec> and then in chef, I did Chef::Config = ChefConfig::Config
+16:44 <@thom> btm: ok, cool. i'll re-agenda 118 for next week
+16:44 <@thom> let's move on to #126 - https://github.com/chef/chef-rfc/pull/126
+16:45 <@thom> jkeiser: would you like to talk about this one?
+16:46 <@coderanger> Really not a fan of this one, I think it should be part of the future resource_group work and not a standalone feature like this. I think it introduces too many new modes and permutations, will cause more confusion than it will solve.
+16:47 < kallistec> I want to try it and see
+16:47 < jkeiser> Oh, there's no progress there yet
+16:47 < ranjib> i think we need this, but not as a standard recipe.. may be like a separate cookbook segment... initializer .. etc..
+16:47 < jkeiser> We should leave it off future agendas until we do the experiment we talked about last time
+16:47 < lamont_oc> yep +1 on add the option to do it, make it global for a resource collection
+16:47 <@thom> jkeiser: ok
+16:48 < jkeiser> The specific RFC is not quite the right shape, even if the intent is there
+16:48 < jkeiser> As coderanger pointed out
+16:48 <@coderanger> :thumbsup:
+16:48 <@coderanger> Overall feature is a good addition, just need to find a way to include it that doesn't lead to confusion
+16:48 < jkeiser> Do we want to circle back to approving the property one, now that it's updated?
+16:49 <@coderanger> +1
+16:49 <@thom> jkeiser: we have no decider, so all we can do is collect +1s, which can be async
+16:49 <@thom> 10 minute warning
+16:49 < jkeiser> oh! ok. Are we OK with collecting them then?
+16:49 < jkeiser> Or did we do that already
+16:50 <@thom> i'm definitely +1 on it
+16:50 < ranjib> +1
+16:50 < kallistec> FWIW we're supposed to be donebuger at 10-'till, i.e., now
+16:50 <@thom> oh, i was wondering, but my calendar is still the follow hour
+16:51 < jkeiser> We can probably make quick progress on it, since it's a lot of incremental changes
+16:51 <@thom> This seems like a reasonable point to adjourn though
+16:51 <@thom> any further comments on #128 ?
+16:52 < jmickle> +1
+16:53 <@thom> OK, thank you all very much, and see you next week
