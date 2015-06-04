@@ -1,0 +1,209 @@
+16:03 <@thom> good afternoon 
+16:03 < nathenharvey> hello!
+16:03 < nathenharvey> everyone ready for a meeting?
+16:03 <@coderanger> Wooo
+16:03 < nathenharvey> jonlives: I think holoway might be traveling today.  would you be up for decidering?
+16:03 <@jtimberman> welllllll alrighty
+16:03 <@jonlives> nathenharvey: I can, tho I wasn't expecting to so am kind of in another meeting at the same time
+16:04 <@jonlives> i need to get holoway to let me know when he's not gonna be here :p
+16:04 < kierrr> all the meetings \o/
+16:05 <@jonlives> so, let's 'ave a community update from nathenharvey to start us off then!
+16:05 < nathenharvey> ok, thom is only in one meeting at the moment so let's have him do the decidering
+16:05 <@jonlives> ok cool
+16:05 < nathenharvey> if that's ok with jonlives and thom
+16:05 <@jonlives> works for me!
+16:05 <@thom> fine by me. 
+16:05 < nathenharvey> alright...now that's settled, here's the community update!
+16:06 < nathenharvey> we're closing out the cookbook survey soon so now's your final reminder and chance to participate
+16:06 < nathenharvey> http://bit.ly/chefconf2015-cookbook-survey
+16:06 < nathenharvey> Registration for the Community Summit (Oct 14-15) in Seattle is now open.  Register at http://summit.chef.io
+16:07 < nathenharvey> We are "this close" to finalizing a location in London, too.
+16:07 < nathenharvey> looks like the dates for the London summit will be November 3-4 but it's not final until you can register ;)
+16:08 < nathenharvey> we continue to host regular office hours for code review, helping people with chef, etc.
+16:09 < nathenharvey> we've set-up a meetup group on meetup.com to make these office hours more visible and to make it easier to plan what types of questions might be discussed during any given office hour session
+16:09 < nathenharvey> Join http://www.meetup.com/Chef-Office-Hours/ for updates as we schedule them
+16:09 < nathenharvey> That's the community update for this week
+16:10 < nathenharvey> oh, and here's the agenda for today:  https://github.com/chef/chef-community-irc-meetings/blob/master/2015-06-04-agenda.md
+16:10 < adamedx> thanks, I think that means I'm next 
+16:10 < nathenharvey> so probably over to adamedx for an update on Chef
+16:10 < nathenharvey> adamedx: yep, take it away!
+16:11 < adamedx> first I want to reiterate the call to try out the chef-client and chef-server release candidates
+16:11 < adamedx> chef-client 12.4.0 contains new subcommands to allow management of keys for the key rotation features introduced in past chef server releases
+16:11 < adamedx> sorry, chef-client 12.4.0.rc.0 :)
+16:12 < adamedx> it also contains fixes for some nagging Windows bugs
+16:12 < adamedx> and more Windows event log integration
+16:12 < adamedx> chef server 12.1.0.rc was released last week
+16:12 < adamedx> and has the policyfile endpoint fully enabled
+16:12 < adamedx> more details here: https://www.chef.io/blog/2015/05/28/chef-server-12-1-0-rc-1-now-available/
+16:13 < adamedx> we have another release
+16:13 < adamedx> finally releasing knife-windows 1.0.0.rc.0 gem
+16:13 < adamedx> longer term more of the functionality there should be available to Chef / ChefDK users without installing the separate knife-windows gem
+16:13 < adamedx> btm, can you share the improvements we'd like users to try out with the knife-windows release canddiate?
+16:14 < adamedx> and t be clear, for the chef-client 12.3.0 release candidates, the community found bugs
+16:15 < adamedx> so thank you :)
+16:15 <@btm> knife-windows 1.0.0.rc.0 is out, we want to release the final as soon as possible and, as always, need help testing it. It should be a lot easier to configure the matrix of winrm settings you want now, e.g. use negotiate + ssl, or use basic auth and no ssl. there are a bunch of new subcommands to help set up a winrm endpoint with ssl, like 'knife windows cert install' for those who are working on a non-windows workstation ...
+16:15 <@btm> ... and can't use negotiate without ssl. there's an awesome new 'knife wsman test' command to debugging issues.
+16:15 <@btm> more words exist in the release notes: https://github.com/chef/knife-windows/blob/v1.0.0.rc.0/RELEASE_NOTES.md
+16:15 <@jtimberman> adamedx: do we have a fix for the potential regression in the chef 12.4.0 rc wrt LWRPs? I think cwebber reported such?
+16:15 <@thom> it's worth noting that the Chef Client 12.4.0 RC had a couple of regressions, and we'll be rolling a new RC next week to fix those up. Aiming for a full release of 12.4.0 the week after next, all things being equal.
+16:15 <@thom> jtimberman: yeah, fixed and merged
+16:15 <@jtimberman> Ace
+16:16 < adamedx> which is why we have release candidates :)
+16:16 < adamedx> btm, thank you
+16:16 < adamedx> there has been a lot of pain around working with Windows nodes
+16:16 < adamedx> the new knife-windows release is designed to address a lot of that
+16:16 < adamedx> whether you are using a Windows or non-Windows workstation
+16:16 < adamedx> ok, chef server update complete, thank you
+16:17 <@jtimberman> nom nom chef server 12.1.0 and policyfiles are delightful
+16:18 < adamedx> hey, thanks
+16:18 < nathenharvey> awesome.  I believe that's it for updates so we can move on to PRs
+16:18 < nathenharvey> first up:  Add resource current value loading to actions, and converge helper - https://github.com/chef/chef-rfc/pull/127
+16:18 <@btm> it looks like #127 is still on hold pending updates.
+16:19 <@coderanger> Yeah, jkeiser isn't here either
+16:19 < lamont_oc> yeah we keep saying #127 should be off the agenda
+16:19 <@coderanger> but he wanted to make updates last week and hasn't gotten to it
+16:19 < github-bawt> [knife-windows] ksubrama pushed 1 new commit to master: http://git.io/vIfNN
+16:19 < github-bawt> knife-windows/master 7909598 Kartik Null Cating-Subramanian: Merge pull request #246 from chef/btm/fix-winrm-error-message...
+16:19 < github-bawt> [knife-windows] ksubrama deleted btm/fix-winrm-error-message at 2e5dee7: http://git.io/vIfNj
+16:19 <@coderanger> Going to add the on-hold tag so we remember :)
+16:19 < jkeiser> Ohai!  Sorry, phone conversation
+16:19 <@thom> lamont_oc: we took 126 off the agenda last week, didn't get to 127, i think
+16:20 <@coderanger> jkeiser: Do you want to talk about 127?
+16:20 < nathenharvey> jkeiser: hello...we were just going to look at https://github.com/chef/chef-rfc/pull/127
+16:21 < jkeiser> I don't mind if people know about it, it still needs to respond to some comments though
+16:21 < nathenharvey> ok.  anything worth discussing her or just add it to the agenda after you remove the "on hold" label?
+16:21 < jkeiser> Like, it's all still important (and the resource changes aren't really complete until we have loading)
+16:21 < jkeiser> Sure, later is fine
+16:21 < travis-ci> chef/chef#6460 (master - 511754c : Lamont Granquist): The build was fixed.
+16:21 < travis-ci> Change view : https://github.com/chef/chef/compare/c69db828a154...511754c11019
+16:21 < travis-ci> Build details : http://travis-ci.org/chef/chef/builds/65431358
+16:22 < nathenharvey> OK, next up then is Propose moving OpenBSD 5.7+ i386 and amd64 into Tier 2 support - https://github.com/chef/chef-rfc/pull/130
+16:23 <@coderanger> Any changes from last week?
+16:23 <@btm> (I've been moving the github IRC notifications to "message without join" so we can turn them on and off easily by setting -n and +n on the channel. +n makes the channel github-quiet)
+16:23 -!- mode/#chef-hacking [+n] by btm
+16:23 <@coderanger> Last week the conclusion was, I think, that we need a better definition of what service tiers are used for.
+16:23 <@coderanger> and that lamont_oc was going to write something
+16:24 <@thom> coderanger: that was about demoting ubuntu 10.04, but i think it's equally true here
+16:24 < kallistec> I think I would also like the RFC author or someone else to be a maintainer for OpenBSD, we don't have one currently?
+16:24 <@coderanger> Oh derp, didn't read title closely enough
+16:24 <@thom> we'll also need to think about how we do releases of non-opscode tier 2
+16:24 < kallistec> yeah
+16:24 <@thom> kallistec: agree 100%
+16:25 <@btm> I'd almost want to write somewhere we don't add new platforms to supported without at least one maintainer.
+16:26 < kallistec> yes, otherwise no one is on the hook to fix anything
+16:26 <@thom> yep
+16:26 < kallistec> and we have no one with expertise to evaluate any bug fixes or improvements == bad
+16:26 <@thom> this all seems to come back to lamont's hypothetical tiers RFC
+16:27 < lamont_oc> hmmm, i was not going to cover this kind of use case in that
+16:27 < nathenharvey> would that be a separate rfc or a clarification / expansion of rfc 21?  https://github.com/chef/chef-rfc/blob/master/rfc021-platform-support-policy.md
+16:27 < lamont_oc> seems very orthogonal to the concerns about 10.04
+16:27 <@coderanger> lamont_oc: Yeah, my bad
+16:28 <@coderanger> Not awake enough to read, apparently.
+16:28 <@thom> lamont_oc: um, yes and no
+16:29 < lamont_oc> is the RFC author the same person who has been writing openbsd provider code?
+16:29 < kallistec> lamont_oc: contributed some recently, I think?
+16:29 <@thom> i think we're still talking about "what does a tier mean?"
+16:29 <@thom> lamont_oc: yes
+16:29 <@btm> I'll volunteer to add a note to rfc021 about needing a maintainer to be added to supported.
+16:29 < kallistec> IMO, tier2 should have a maintainer at least
+16:29 < lamont_oc> i suspect we just need to poke them and get a PR submitted against the maintainers file, they may not know about that
+16:29 < kallistec> existing things can be grandfathered
+16:30 <@thom> lamont_oc: i asked for that in the rfc comments
+16:31 < nathenharvey> btm: I'll capture updating rfc021 as an action item that you'll take on
+16:33 <@thom> nathenharvey: i was seeing it as an expansion of rfc21, fwiw
+16:34 < nathenharvey> "extend rfc21 to include minimum requirements for each tier of support."
+16:35 < nathenharvey> and I suggest we put PR-130 on hold until we've accepted the expansion of rfc21
+16:35 <@thom> agreed
+16:35 < nathenharvey> ok, shall we move on then?  Initial draft of an ohai configuration specification - https://github.com/chef/chef-rfc/pull/118 is up next
+16:36 <@thom> btm: thanks for the neatly timed update of this one :)
+16:37 <@thom> btm: i did indeed get to have a cup of tea while reading it
+16:38 < kallistec> just occurred to me that code like:
+16:38 < kallistec> ohai[:plugin][:memory][:unit] = "mb"
+16:38 < kallistec> would require an auto-vivifying hash
+16:38 < kallistec> which I'm not too keen on
+16:39 < github-bawt> [chef-rfc] btm opened pull request #131: Add a requirement to the client platform policy regarding maintainers (master...platforms-need-maintainers) http://git.io/vIJJV
+16:39 < ranjib> +1,
+16:39 <@coderanger> So one thing that this still doesn't address is what we do with the hints system which currently serves as plugin config?
+16:39 < kallistec> unless there's some way for all the plugins to say what their configurables are up front
+16:39 < ranjib> auto vivifying is pain. and confusing in merge scenarios..
+16:40 <@btm> coderanger: I keep yelling at people about not trying to use it as a plugin config, because its just there to produce attributes we need but cannot detect. ;)
+16:40 < kallistec> alternative is to use the dot syntax
+16:40 <@thom> kallistec: plugins defining their configurables sounds reasonable
+16:40 <@coderanger> btm: If is used as a way to enable or disable plugins, that makes it a config system :P
+16:40 < jkeiser> What's the issue with auto-vivify?  The fact that when you retrieve the value it vivifies too?
+16:40 < jaymzh> why the autovivify hatred? I prefer autoviv
+16:40 < jkeiser> (There are ways to get rid of that behavior)
+16:40 < kallistec> thom: requires circular logic
+16:41 < kallistec> e.g., config sets plugin path, which tells ohai where the plugins are
+16:41 <@thom> kallistec: bah, right
+16:41 <@jtimberman> kallistec: dot syntax like, ChefConfig.ohai.config_thing, instead of ChefConfig.ohai[:config_thing] ?
+16:42 < kallistec> it'd have to be like
+16:42 < kallistec> ohai["plugin.setting"] = value
+16:42 <@btm> coderanger: its original purpose is still useful in parallel to a robust configuration system, because hints are something you want to provide on bootstrap to specific systems, but you wouldn't want to maintain a bunch of configuration files with only one difference for each of those kinds of systems.
+16:43 <@coderanger> btm: Sure, but how do we transition, do you have to enable the EC2 plugin in both systems, either system, some kind of auto-migration?
+16:43 < kallistec> though that's kinda weird too with mixlib-config supporting both method-ish and hashmap-ish access
+16:43 < nathenharvey> time check:  we have about 8 minutes left
+16:44 < kallistec> jaymzh: I just dislike the edge cases you have to deal with
+16:44 < kallistec> e.g.,
+16:44 < kallistec> vivid_hash[:value] = { :foo => "bar" }
+16:44 < kallistec> you have to detect that and do work to ingest it correctly
+16:44 < kallistec> or else
+16:45 < kallistec> vivid_hash[:value][:foo] doesn't work right
+16:45 < ranjib> exactly, with nested config values , folks tend to assign hashes directly to the parent keys, semantics of merge behavior is different there
+16:45 < jaymzh> kallistec: why? when you create :value and assign to it, it should jsut work
+16:45 <@btm> coderanger: we don't transition. you still use --hint when you want to hint to Ohai something about the system it doesn't know, like it being on openstack. You use configuration files to configure an ohai plugin across your entire infrastructure, like what interface you want to become ipaddress (just a neat thought).
+16:45 < ranjib> it also impacts setting nil value iirc
+16:45 < kallistec> jaymzh: my example was a bit off,
+16:45 < kallistec> but
+16:45 < jaymzh> when you assign foo[:bar] = {} in ruby it always works
+16:46 < jaymzh> the only reason its complicated in the attribute case is because it's not a hash it's 40 million hashes
+16:46 < jaymzh> if it's a single hash, it's simple and requires no custom logic
+16:46 <@coderanger> btm: Okay, so basically all plugins currently using the hint system for config need to just add explicit code for both systems during the transition? Thats not the worst but it's not as nice as I would hope.
+16:46 < kallistec> right, so vivid_hash[:foo] = {}; vivid_hash[:foo][:bar] = "baz"
+16:47 < kallistec> right, so vivid_hash[:foo] = {}; vivid_hash[:foo][:bar] = "qux"
+16:47 < kallistec> ugh
+16:47 < kallistec> right, so vivid_hash[:foo] = {}; vivid_hash[:foo][:bar][:baz] = "qux"
+16:47 < jaymzh> never merge. if someone does foo[:bar] = {:foo => :bar}; foo[:bar] = {:thing => :thong} -- it's fucking ruby, the result is that it its just {:thing => :thong}
+16:47 < jaymzh> no merging, just simple ruby hashes
+16:47 < jaymzh> it happens the LHS is vivified if necessary
+16:48 < kallistec> yeah, but you have to convert incoming types, etc.
+16:48 <@btm> coderanger: I don't see hint having anything to do with this. "--hint yellow" is just meant for hint?('yellow') => true so you know you're on a yellow system and act accordingly. Being able to pass JSON inside of that was never meant to configure the plugin, but rather to provide other related attributes that ohai wouldn't be able to gather (like cloud metadata that you can't get from the instance itself).
+16:48 < nathenharvey> 2 minute warning
+16:49 <@btm> I'll add a paragraph about the difference between Ohai::Config and --hint to the RFC.
+16:49 < jaymzh> kallistec: why? ruby does it for you - you just assign. again, you'll never ever merge, ti's not attribgutes, it's just a hash
+16:49 <@btm> ya'll should figure out variable-slaughtering and tell me what to do.
+16:49 <@coderanger> btm: I would think that enable/disable for optional plugins would move to the config system instead of hints?
+16:49 < kallistec> Hashes don't auto-vivify on their own, you need to make a subtype
+16:49 < kallistec> but the subtype isn't what you get from hash literals, those are just hashes
+16:50 < jkeiser> kallistec: the key is that [](key) needs to return an auto-vivifying wrapper type if h[key] is a Hash
+16:50 < jaymzh> ah, I see what you're saying
+16:50 < jkeiser> Just store hashes internally
+16:50 < jkeiser> The wrapper is just a getter
+16:50 < jaymzh> we should just rewrite chef in perl. :)
+16:50  * jaymzh hides
+16:51 <@btm> coderanger: no because the interface would be hard. you can't add lines to the config from the command linke "knife bootstrap something --hint it_is_yellow" as opposed to "knife bootstrap something -c ~/.chef/knife.rb.yellow_things". The second one means you end up with a more complicated set of configuration files than you should for that first case.
+16:51 < kallistec> jkeiser: there's really no way around finding every single edge case
+16:51 < jkeiser> Like, VivifyingHash.new({ a: 10, b: { c: 1 } })[:a] would return 10, and [:b] would return VivifyingHash.new(:a)
+16:51 < kallistec> so you have to deal with all the methods that Hash defines, like replace and stuff
+16:51 < jkeiser> Absolutely true
+16:51 <@btm> coderanger: you could still use config files to enable/disable plugins (whitelist) across your entire system. hints is the specific use case of needing a plugin to know something about the system that it can't figure out on its own.
+16:51 < jkeiser> I have that wrapper written
+16:51 < jkeiser> And tested
+16:51 <@coderanger> btm: If we want the config to be useful for important things, we'll need to tackle that problem regardless :)
+16:52 <@coderanger> btm: (assuming people want to configure node['ipaddress'] at bootstrap too)
+16:53 < nathenharvey> we are at time
+16:53 < kallistec> jkeiser: yeah, though over time new bugs tend to get created for you
+16:53 < kallistec> matz will add some convenient method for a thing in ruby 2.3
+16:53 < kallistec> etc.
+16:53 < nathenharvey> I propose we continue the discussion in the PR and revisit next week.  We'll also add PR 128 to next week's agenda
+16:54 < kallistec> that said, it might be the least bad option here
+16:54 < jkeiser> I'll dig up my hash tests and wrapper thingy.  It doesn't autovivify, but it makes it reasonably easy to wrap something in a "virtual hash"
+16:55 <@btm> coderanger: it'd be helpful if you could come up with a use case on the PR that isn't solved by the RFC or you think is inadequately solved.
+16:55 < jkeiser> Like, I think you had to define fetch, store and delete and it handled the rest, iirc
+16:56 <@coderanger> btm: Assuming that "configure which interface is node['ipaddress']" is a thing which needs to be configurable on bootstrap, using the existing hints system to enable/disable EC2 support seems confusing
+16:56 <@coderanger> btm: There should not be two systems for setting config data for ohai
+16:56 <@coderanger> btm: </use case>
+16:57 < jkeiser> I was considering adding it back anyway in order to deep validation when users set array or hash values
+16:57 <@coderanger> The day that I have to write "knife bootstrap --ohai-config=somethign.rb --hint ec2 ..." I would be unthrilled about UX.
+16:58 <@btm> coderanger: well, you should make your case on the PR.
+16:59 <@someara> what about people that don't use knife? test-kitchen, for example, wants to use the attribute interface for configuration
