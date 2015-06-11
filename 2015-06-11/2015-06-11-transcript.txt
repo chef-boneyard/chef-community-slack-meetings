@@ -1,0 +1,241 @@
+11:02 AM <@thom> Good day, folks. It's your regularly scheduled IRC meeting. The agenda's here: https://github.com/chef/chef-community-irc-meetings/blob/master/2015-06-11-agenda.md 
+11:02 AM <@thom> cwebber: done
+11:03 AM <cwebber> thom: thanks!
+11:03 AM <@thom> mr holoway will be joining in a few minutes, so until then i'm going to talk briefly about community, then cwebber has an update, and adamedx will update us too
+11:04 AM <@thom> Community wise: Community summit in seattle is open for bookings, http://summit.chef.io ; October 14 and 15
+11:04 AM <cheeseplus> hail
+11:05 AM <@thom> Community Summit in London: we've found a venue, expect the full announcement soon
+11:05 AM <@jonlives> woohoo
+11:06 AM <@thom> Chef Office Hours: We've run office hours in a somewhat ad-hoc fashion for some time. We'd like to do better at this. So, there's now a meetup group: http://www.meetup.com/Chef-Office-Hours/
+11:07 AM <@thom> there's also a (very empty, currently) repo for suggestions: https://github.com/chef/developer-office-hours
+11:08 AM <@thom> if there's a topic you'd like to see covered, or you'd like to be involved with, please raise a PR
+11:08 AM <@thom> I think that's all from me. cwebber?
+11:08 AM <cwebber> Hey all, we have launched and will be announcing https://feedback.chef.io later today.  It is a place for members of the community, which includes customers, to give feedback on feature requests, etc.
+11:09 AM <cwebber> We want to be super clear, that while this is a place to provide feedback it will not replace the RFC process.
+11:09 AM <cwebber> With that said, it is likely that feature requests will result in RFC.
+11:09 AM <cwebber> If you have any questions, please reach out to megan@chef.io
+11:09 AM <@jtimberman> woot
+11:09 AM <cwebber> i can also answer a few questions now if there are any.
+11:09 AM <@jtimberman> love this
+11:09 AM <@coderanger> cwebber: Who will be actively policing this to make sure it doesn't turn in to a support forum?
+11:10 AM <cwebber> coderanger: the product team here at chef
+11:10 AM <@coderanger> And what will be the process to hand off support questions?
+11:10 AM <adamedx> cwebber also, it works in such a way as to make using it that way difficult
+11:10 AM <adamedx> you get to "vote" on things, but votes are limited
+11:10 AM <@holoway> hi
+11:10 AM <@jonlives> hi holoway :)
+11:10 AM <@coderanger> adamedx: If it has textarea, people will ask support questions on it >_<
+11:10 AM <adamedx> definitely check out the site to get a feel for it :)
+11:10 AM <@thom> holoway: hi!
+11:11 AM <cwebber> coderanger: I would guess that the product team will handle that hand off
+11:11 AM <cwebber> coderanger: but i will pass along that concern
+11:11 AM <@coderanger> cwebber: Guesses make me nervous, lets come up with some plan :)
+11:11 AM <@thom> cwebber: this is awesome, thanks
+11:11 AM <@coderanger> cwebber: Could just be some standard boilerplate to close support-y things with
+11:12 AM <lamont_> the product team just needs some boilerplate and needs to close and lock support requests, that's all we do for github issues
+11:12 AM <cwebber> coderanger: since it is an effort of the product team, I am sure they will make sure it gets taken care of.
+11:12 AM <@coderanger> lamont_: :thumbsup:
+11:12 AM <@btm> coderanger: the product team responds as appropriate, see: https://feedback.chef.io/forums/301644-chef-product-feedback/suggestions/8340654-provide-method-for-users-who-have-forgotten-their
+11:12 AM <@holoway> I think that's a good idea, and we should track it down
+11:12 AM <@jonlives> we've aready got a couple of feedbacks in :p
+11:12 AM <@thom> holoway: would you like togive your update now?
+11:13 AM <@holoway> sure, my update is short - I'm contemplating how to make a larger number of us capable of rotating through the decider powers
+11:13 AM <@coderanger> cwebber: (and maybe add a note linking to the places to ask actual support questions on the main page itself)
+11:13 AM <@holoway> I'm mostly good at keeping this a high priority on my schedule, as long as time zones allow
+11:14 AM <@holoway> but if anyone has thoughts on how we might make a structure work where perhaps 3 of us all have that ability, and we rotate though, and make sure we're in sync on big decisions
+11:14 AM <@holoway> that's something I'm interested in hearing about
+11:14 AM <@holoway> otherwise, I'll come up with more of my own :)
+11:14 AM <@holoway> Chef Software is, otherwise, just fine 
+11:14 AM <adamedx> indeed
+11:14 AM <@jonlives> what about the same as we do with maintainers, except a decider can decide, any -1 from another of the three results in a majority vote
+11:15 AM <@coderanger> holoway: Isn't that the point of having LTs?
+11:15 AM <@jonlives> either that or having you as still being the arch-decider so to speak
+11:15 AM <@jonlives> coderanger: decider is project level rather than sub-component level thp
+11:15 AM <@jonlives> *tho
+11:15 AM <@holoway> coderanger: I was thinking specifically about the RFCs that tend to get deicerated in this meeting
+11:16 AM <@coderanger> jonlives: Sure, but things should only get to the decider if they want to override the LT
+11:16 AM <@holoway> jonlives: I'm not comfortable making it an actual majority (ie - I'm the arch-decider)
+11:16 AM <@jonlives> holoway: in that case I'd say any decider can decide and a -1 is deferred to you
+11:16 AM <@holoway> anyway, I wanted to put it in your heads
+11:16 AM <@holoway> jonlives: that might work
+11:16 AM <@coderanger> Basically +1 on more delegation I just think we already have stuffs in place for that and should use them more :)
+11:16 AM <@jonlives> it still gives you the ultimate power, but lets you delegate it where possible.
+11:16 AM <@holoway> coderanger: cool - I'll look at tit
+11:17 AM <@holoway> (er, it)
+11:17 AM <@holoway> ok
+11:17 AM <@thom> OK. Chef client update: 12.4.0 RC 2 (which is really RC 1) is available. It's a bit of a biggie, please test - and see my email for more details.
+11:17 AM <@thom> adamedx: over to you...
+11:17 AM <@btm> some words in writing that explain the relationship between rfc000 (rfc process) and rfc030 (chef process) would be Good.
+11:18 AM <adamedx> nice thing about chef-client is that we are doing a better job of keeping releases based on master
+11:18 AM <adamedx> while still using the rc releases to work out quality issues
+11:18 AM <adamedx> so thanks thom
+11:18 AM <@jonlives> holoway: (any info on governance board stuff btw?)
+11:18 AM <@holoway> no, which makes me question whether it was even actually neccessary
+11:19 AM <@holoway> (which doesn't mean it isn't)
+11:19 AM <@jonlives> (fwiw I still think it is, or at least that it's worth trying - we just haven't tried it yet)
+11:19 AM <@holoway> (I agree - but I have a niggling YAGNI in the back of my brain)
+11:19 AM <adamedx> shoudl we update on cbgb for next meeting?
+11:19 AM <@holoway> ya
+11:20 AM <@thom> noted
+11:20 AM <adamedx> k
+11:20 AM <adamedx> all right
+11:20 AM <adamedx> continuing on some Chef Software stuff, going to redirect to ssd7
+11:20 AM <adamedx> to talk about Chef Server release which is currently an rc
+11:20 AM <@ssd7> Ohai.
+11:21 AM <@ssd7> First, thanks to everyone who tested the RC.  The erchef improvements there are looking good both in Hosted and at a few customer sites.  
+11:21 AM <@ssd7> We hope to get another RC out tomorrow and are aiming for the final release of 12.1 out next week
+11:21 AM <@ssd7> If you haven't take a look, lots of good stuff has landed in 12.1: https://github.com/chef/chef-server/blob/master/omnibus/RELEASE_NOTES.md
+11:21 AM <adamedx> looking forward to it ssd7 
+11:22 AM <@ssd7> Internally, work continues on CD for the chef-server to help us get back to the "release often" discipline we had for 12.0.0 through 12.0.8
+11:22 AM <@ssd7> That's all here.  
+11:22 AM <@thom> thanks!
+11:23 AM <@thom> ok, action items from last week
+11:23 AM <adamedx> thanks, I'm done then
+11:23 AM <@jtimberman> fwiw, policyfiles api endpoint is delightful and makes policyfiles even MOAR awesome.
+11:23 AM <@thom> https://github.com/chef/chef-rfc/pull/131 from btm
+11:23 AM <@holoway> this is adding the requirement for an LT for tier 1, and a maintainer for tier 2
+11:24 AM <@jtimberman> +1 for #131.
+11:24 AM <@holoway> my question here is do we have LTs for all of tier 1, and a maintainer for all of current tier 2?
+11:24 AM <@jtimberman> should it be clear that just because there *is* a LT/maintainer doesn't mean that a platform is T1/T2?
+11:24 AM <@holoway> what I don't want is a stealth drop of platforms due to not meting the requirement
+11:24 AM <@jonlives> I think that sounds entirely reasonable, but we might have to grandfather in existing supported platforms and / or find maintainers
+11:24 AM <@btm> holoway: i thought about that, but didn't look presuming that we would grandfather existing t1/t2.
+11:25 AM <@holoway> awesome
+11:25 AM <@holoway> lets explicitly grandfather
+11:25 AM <@holoway> we don't need to put it in the PR
+11:25 AM <@holoway> well
+11:25 AM <@holoway> on second thought, we probably should
+11:25 AM <lamont_> i'm pretty sure that i'm a maintainer at least for all the platforms.
+11:25 AM <@jonlives> would be nice to find maintainers for them tho, less confusing for folks.
+11:25 AM <@holoway> lamont_: that's true!
+11:26 AM <@holoway> lets ask it a different way - out of the people in this room, can we commit to making sure that every platform that needs an LT has one, and every platform that needs a maintainer has one?
+11:26 AM <lamont_> AIX is probably missing an LT due to both me and scott hain playing 'not it'
+11:26 AM <@holoway> if so, no need to grandfather, and its a better outcome
+11:26 AM <@holoway> flip a coin :)
+11:26 AM <@holoway> heheh3e
+11:26 AM <@btm> AIX + Solaris need LTs.
+11:26 AM <@holoway> you know you want to be the AIX decider
+11:26 AM <@jtimberman> scott doesn't irc
+11:26 AM <lamont_> not it!
+11:26 AM <@holoway> well, they have to volunteer
+11:27 AM <kierrr> haha
+11:27 AM <@holoway> I'm not going to order anyone
+11:27 AM <kierrr> banish him to the AIX pits
+11:27 AM <@holoway> hehehe
+11:27 AM <@holoway> we should be able to recruit someone for solaris
+11:27 AM <tBunnyMan> kierrr sounds like he wants AIX but doesn't want to say it directly
+11:27 AM <@holoway> for example, lets go campaign for bdha
+11:27 AM <@holoway> ok
+11:27 AM <@holoway> I'm +1
+11:28 AM <@holoway> without a grandfather
+11:28 AM <@btm> oh hrm. Ubuntu needs an LT.
+11:28 AM <@btm> ranjib: You should volunteer to promote yourself.
+11:28 AM <@holoway> and as a community, lets get on the LT campaign trail
+11:28 AM <@holoway> ranjib: I would approve that
+11:28 AM <ranjib> k
+11:29 AM <@holoway> I totally trust your point of view on what is good for chef on ubuntu
+11:29 AM <@jtimberman> the master list of LT's/maintainers is MAINTAINERS.md in chef/chef?
+11:29 AM <@holoway> ok
+11:29 AM <@jonlives> yah
+11:29 AM <@btm> jtimberman: technically it's the toml, and the md is generated.
+11:29 AM <@holoway> lets move on - I'm putting the stamp on that PR
+11:29 AM <@jtimberman> that should have NOT been a ? on the end there :)
+11:29 AM <@jtimberman> https://github.com/chef/chef/blob/master/MAINTAINERS.md#platform-specific-components
+11:30 AM <@holoway> jtimberman or btm: can one of you take the role of lead campaigner for LTs/Maintainers?
+11:30 AM <@holoway> ie: go find us LTs
+11:30 AM <@jtimberman> holoway: I can do that.
+11:30 AM <@holoway> awesome
+11:31 AM <@holoway> thom: add a note to have jt report on his hunt in two weeks
+11:31 AM <stevenmurawski> noted
+11:31 AM <@btm> thought: do we want to campaign for maintainers for like, debian? and other "similar platforms" like centos?
+11:31 AM <@holoway> yes
+11:31 AM <stevenmurawski> I'm filling in for thom (he's hunting for power)
+11:31 AM <@holoway> awesome
+11:32 AM <@holoway> debian and ubuntu are not the same
+11:32 AM <@jtimberman> holoway: card added to my backlog, will get on that next week
+11:32 AM <@holoway> centos is EL
+11:32 AM <@holoway> anyway
+11:32 AM <@holoway> next up
+11:32 AM <@btm> jtimberman: take note that a lot of the t2 platforms don't have maintainers because debian->ubuntu, etc.
+11:32 AM <@holoway> https://github.com/chef/chef-rfc/pull/118
+11:32 AM <@jtimberman> btm: I have opinions and ideas. ;)
+11:32 AM <lamont_> i guess you can put me down as LT pro tempore for AIX and Solaris
+11:33 AM — @holoway hugs lamont_
+11:33 AM <@btm> 118: I just added some words about autovivification this morning. 
+11:33 AM — @someara chuckles
+11:33 AM <@thom> i found power. hipchat on windows = sad battery face
+11:33 AM <lamont_> can also put me down as maintainer on debian and [Open]SuSE
+11:33 AM <@coderanger> I'm still cranky about 118
+11:33 AM <@thom> lamont_: i can take debian and solaris
+11:33 AM <@coderanger> I think this UX is very not delightful.
+11:33 AM <@coderanger> And none of the proposed solutions make _any_ sense as an end user
+11:33 AM <@holoway> to be honest, I'm still trying to process all the implications - I spent an hour trying to catch myself up
+11:34 AM <@holoway> but I don't feel like I'm well informed enough to make a call on it today
+11:34 AM <@btm> 118: handling "undefined method `[]' for nil:NilClass" is probably an implementation detail we should handle, given the same thing in Chef ( https://feedback.chef.io/forums/301644-chef-product-feedback/suggestions/8364522-more-descriptive-nomethoderror-undefined-method )
+11:34 AM <kallistec> btm: I would've fixed that already if it was tractable
+11:35 AM <@btm> kallistec: is we do limit hash depth in Ohai.config, it might be easier?
+11:35 AM <kallistec> that's really what the attribute2 RFC is about but I'm too busy to finish, let alone implement
+11:35 AM <@coderanger> Until there is a solid answer for "How do I enable the EC2 plugin and reconfigure the Hostname plugin?", I don't think 118 should move forward.
+11:36 AM <kallistec> btm: my reasoning for the limited hash depth is to steer developers to write code that will not lead users down the path of no method [] on nil
+11:36 AM <@btm> coderanger: I directly answered that question: https://github.com/chef/chef-rfc/pull/118#issuecomment-109639675
+11:36 AM <@coderanger> And if the answer is "knife bootstrap --copy-config ohai.rb --hint ec2" I would say that makes no sense
+11:36 AM <@coderanger> btm: You did, and I think that answer is unsatisfactory.
+11:36 AM <@coderanger> Having --copy-config and --hint at the same time for things that _seem_ similar is bad UX
+11:37 AM <@btm> coderanger: I gave a possible roadmap to a satisfactory place, but too much has to change to too many other places to scope them into the RFC that adds a config file.
+11:37 AM <@holoway> coderanger: is that because you can set the hints in a config file, and also from the cli?
+11:37 AM <@coderanger> holoway: You cannot, in the current proposal, set hints in the config file
+11:38 AM <kallistec> yeah, but we can't nuke hints for a major release cycle anyway and trying to answer it all up front will cause scope creep expansion so rapid that it tears spacetime
+11:38 AM <@coderanger> holoway: Which is part of my frustration, you need to interact with two different subsystems to accomplish very similar goals
+11:38 AM <@coderanger> kallistec: If we can't answer this question effectively, then adding the config system is itself unacceptable creep
+11:39 AM <@coderanger> As written, this proposal results in a UX that is going to be incomprehensible to new users
+11:39 AM <@jonlives> gotta step out folks, something;s come up - until next time!
+11:39 AM <@thom> coderanger: totally disagree. having used ohai in non-chef applications, it's in dire need of a config system regardless of hints
+11:39 AM <@holoway> coderanger: is the status quo also incomprehensible? 
+11:39 AM <@coderanger> and I think that is more than enough grounds to say "then we don't do it"
+11:40 AM <kallistec> I could not possibly disagree more. Config is a thing that is good regardless.
+11:40 AM <@thom> coderanger: it doesn't make the situation one iota worse than it is currently. and it gives us a roadmap to make it better
+11:41 AM <@coderanger> thom: It does make it worse when and user using knife bootstrap has to touch both of these systems
+11:41 AM <@coderanger> that is objectively a worse UX
+11:41 AM <@holoway> can a bootstrap user even accomplish the same thing in the current scenario?
+11:41 AM <@coderanger> The current system with --hint is not wonderful, but two systems is worse than one
+11:42 AM <lamont_> so this whole thing started out as a fairly simple problem with solaris hostname resolution.  it grew into an ohai config system.  it is now in danger of growing to the scope of rewriting the hints API.  can we somehow reign in the scope a bit?
+11:42 AM <kallistec> sunsetting hints or reducing the scope of their usage would be fine, but we have to tackle the reason hints exist in the first place
+11:42 AM <@coderanger> holoway: If we made things like "reconfigure the hostname plugin" live in the hints system, sure.
+11:42 AM <@btm> holoway: you could use start using hint files to configure plugins, like "--hint hostname-configure_nis_as_preferred" but everyone would murder.
+11:42 AM <@coderanger> I think a totally reasonable approach, as mentioned in the comments, is to centralize on the config subsystem, have hints? in Ohai check config data first.
+11:43 AM <@coderanger> So users would not have to interact with the hints system itself
+11:43 AM <@coderanger> --hint would exist for comat, but would have to expect users to use ut
+11:43 AM <@coderanger> and define the flow entirely in terms of the config system (which still needs a solid UX worked out)
+11:44 AM <@coderanger> And no, I don't think defining the knife UX for using the system is out of scope for the RFC
+11:44 AM <@coderanger> btm: --hint 'hostname={"from": ["nis"]}'
+11:44 AM <@btm> yeah, murder.
+11:44 AM <@coderanger> btm: the CLI does already take JSON values
+11:45 AM <stevenmurawski> 5 minute warning
+11:45 AM <@coderanger> btm: How would you propose to set that kind of data on the CLI with a --ohai-config flag if not via JSON?
+11:45 AM <@holoway> ok - I'm not going to decide this today, but we should work to get it done by n ext week
+11:45 AM <@holoway> in broad strokes
+11:45 AM <kallistec> honestly. I don't see how config+hints actually is worse than, say, client.rb + dna.json
+11:46 AM <@holoway> I would favor making non-back-compat breaking iterative progress to the goal, rather than eating an incremental redesign of entire subsystems
+11:46 AM <kallistec> there's clearly different purposes
+11:46 AM <@coderanger> kallistec: because that is less clear than you think it is
+11:46 AM <@btm> holoway: please take some time on comment on the PR, I think I'm blocked at the moment.
+11:46 AM <@holoway> in particular if we're sketching our way towards a better, unified, back-compat breaking major relase
+11:46 AM <@coderanger> kallistec: "enable the EC2 plugin" and "use NIS for hostnames" sound similar to me.
+11:46 AM <@holoway> btm: yep
+11:47 AM <kallistec> coderanger: not the way things are now. if ohai was opt-in, then sure
+11:47 AM <stevenmurawski> We've got 2 minutes left.. not sure if you want to dive into anything new holoway
+11:47 AM <@holoway> as a point of principle, in general, I don't want perfect to be the enemy of the good
+11:47 AM <kallistec> so now we have to design an opt-in plugin system in ohai and chef
+11:48 AM <@coderanger> kallistec: "enable the EC2 plugin" doesn't mean actually enabling the plugin, creating the hint right is what seems to enable it if you are an end user
+11:48 AM <@holoway> but lets get this resolved by the next meeting
+11:48 AM <@coderanger> kallistec: The detail that it is always enabled but dormant without the hint is an obscure internal detail
+11:48 AM <@coderanger> kallistec: The way users think of it is that --hint ec2 is what enables the plugin
+11:48 AM <kallistec> " design an opt-in plugin system in ohai and chef" is something I would like. but I don't see any way it makes sense to make it a prereq for progress on a different thing
+11:49 AM <kallistec> so, yes, we have a lot of things we can improve
+11:49 AM <@coderanger> Or put another way, think of what actions users will want to take using this new config system and design based on that
+11:49 AM <@coderanger> Right now this is being designed based on your needs as a developer
+11:49 AM <@coderanger> and I'm very very concerned that is putting developer experience over user experience
+11:50 AM <kallistec> totally disagree, this is driven by an actual user problem
+11:50 AM <@holoway> ok - lets push PR 128 to the next meeting, and have the deciderating of this issue as the #1 agenda item next week
+11:50 AM <@holoway> wherein I will make a call after talking to everyone
+11:50 AM <stevenmurawski> Noted.  And we are at time for this meeting
