@@ -1,0 +1,256 @@
+12:00 < nathenharvey> ***** MEETING STARTS *****
+12:00 < nathenharvey> Agenda for today's meeting is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-06-18-agenda.md
+12:00 -!- rombob [~rombob@66.207.198.34] has joined #chef-hacking
+12:00 <@thom> good mooooorning irc
+12:01 < adamedx> mornin
+12:01 < rombob> morning
+12:01 <@holoway> quick agenda overview - updates first, only action item from last meeting that is urgent is covering 118 which is top of the list, and lots of RFCs to review
+12:01 <@holoway> so lets get to it
+12:01 <@holoway> nathenharvey: your up
+12:01 < nathenharvey> thanks!
+12:02 < nathenharvey> Chef Community Summit - http://summit.chef.io Oct 14-15 in Seattle.
+12:02 < nathenharvey> London will be November 3 & 4.  Registration for that should open by end of next week or so.  Mark your calendars
+12:02 < nathenharvey> or diaries
+12:02 <@holoway> (do they call them diaries over there?)
+12:03 <@thom> one's buttler handles that sort of thing
+12:03 <@holoway> :)
+12:03 <@holoway> we need more butlers in the states
+12:03 <@holoway> we truly are the mob
+12:03 < nathenharvey> ChefConf 2016 will be moved.  We'll announce it soon but the new dates will be July 11-13.  It will be in the previously announced location, Austin, Texas
+12:03 -!- tkuchiki [~tkuchiki@softbank126066124204.bbtec.net] has quit [Remote host closed the connection]
+12:04 < tBunnyMan> gasp!
+12:04 < nathenharvey> we aren't announcing the new dates yet b/c we don't want people to be confused and show up in Austin next month.
+12:04 <@thom> chefconf on my birthday
+12:04 < nathenharvey> July 11-13 should be nice and warm in Austin.  but won't conflict with Microsoft's Ignite conference.
+12:04 <@thom> blimey
+12:04 < nathenharvey> we'll all celebrate Thom May's birthday :)
+12:05 < adamedx> ah, the conference birthday
+12:05 < nathenharvey> We're talking with the people over at Discourse about getting our mailing list migration underway.  updates as we have them
+12:05  * ssd7 might melt
+12:05 <@thom> this couldn't possibly go badly
+12:05 -!- goacid [~Goacid@2a01:e34:ec14:c350:542e:2fb0:42ca:9b95] has quit [Remote host closed the connection]
+12:05 < nathenharvey> and a couple of quick reminders about new sites / urls you should be aware of
+12:05 -!- ranjib [49bdd590@gateway/web/freenode/ip.73.189.213.144] has joined #chef-hacking
+12:06 < nathenharvey> Product Feedback - http://feedback.chef.io - read, contribute, comment, and vote on things that fall outside of support requests, this RFC process, etc.
+12:06 < nathenharvey> and http://www.meetup.com/Chef-Office-Hours/ where we've been announcing regular Chef Office Hours
+12:06 < nathenharvey> that's that community update for this week.  As always, happy to answer the questions you have.
+12:07 <@holoway> thanks nathenharvey
+12:07 -!- pbpolar [uid12070@gateway/web/irccloud.com/x-gmrpebfuwaxmylga] has joined #chef-hacking
+12:07 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has joined #chef-hacking
+12:07 <@holoway> lots of folks traveling and otherwise out and about at Chef software - the large issue outstanding is setting up the CBGB
+12:07 <@holoway> clearly it needs to just get delegated :)
+12:08 -!- withnale_ [~withnale_@gateway.wby.mendeley.com] has quit [Quit: Be back later ...]
+12:08 <@holoway> adamedx: chef client/server updates?
+12:08 < adamedx> thx
+12:08 < adamedx> yes, new versions of chef-client and chef-server are on the way
+12:08 < adamedx> first u thom can tell us about chef-client
+12:08 < adamedx> first up
+12:08 <@thom> well, we found some more regressions in RC 2
+12:09 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has quit [Remote host closed the connection]
+12:09 <@thom> so there'll be an RC3 once those are fixed, which i guess will be next week at this point
+12:09 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has joined #chef-hacking
+12:09 < adamedx> thanks thom, and thanks to everyone pounding away on rc's
+12:09 <@thom> i think #3546 is the remaining one
+12:09 < adamedx> to find issues
+12:10 < adamedx> ssd7 now for chef-server
+12:10 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has quit [Read error: Connection reset by peer]
+12:10 <@ssd7> Chef Server 12.1 and Enterprise Chef Server 11.3.2 are on their way through the release pipeline right now.
+12:10 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has joined #chef-hacking
+12:10 < pbpolar> What is CBGB?
+12:11 <@holoway> pbpolar: the Chef Board of Governance Board
+12:11 <@ssd7> We will also be releaseing a new version of Chef Manage and Supermarket
+12:11 -!- tkuchiki [~tkuchiki@softbank126066124204.bbtec.net] has joined #chef-hacking
+12:11 <@holoway> pbpolar: an advisory committe to the maintainers, essentially
+12:11 < kallistec> pbpolar: long version: https://github.com/chef/chef-rfc/blob/master/rfc029-governance-policy.md
+12:11 <@holoway> pbpolar: also, a very famous nightclub
+12:11 <@ssd7> These contain an updated version of redis that addresses a security vulnerability.
+12:11 < adamedx> ssd7 this captures chef server changes? https://github.com/chef/chef-server/blob/master/omnibus/CHANGELOG.md
+12:12 <@ssd7> adamedx: Yes, there will also be a blog post once the releases are live.
+12:12 < adamedx> cool
+12:12 < adamedx> lots of deps got updated in chef server
+12:12 < adamedx> things like postgres
+12:13 < adamedx> so good time for everyone to get up to date
+12:13 < adamedx> ssd7, thank you, looking forward to the release
+12:13 < adamedx> I'm done nathenharvey ...
+12:13 <@holoway> ok
+12:13 <@ssd7> Yup.  A lot of updated dependencies that address CVEs.  We're mentioning redis specifically since the vulnerability there is serious (remote code execution) depending on your configuration.
+12:13 <@holoway> lets move on to #118, which we tabled from last time
+12:13 <@holoway> https://github.com/chef/chef-rfc/pull/118
+12:14 <@holoway> this one has had lots of discussion
+12:14 <@holoway> from my perspective, we have two very true things competing
+12:14 <@holoway> in what is probably a false competition
+12:14 <@holoway> the first is a need to add a configuration layer to ohai, which unlocks some near-term use cases, and doesn't have an impact on back-compat
+12:15 <@holoway> the second is the need to improve the user experience and utility of ohai in general, both through the use cases adding a configuation layer unlocks and unifying the ways you provide configuration to ohai
+12:15 <@coderanger> I don't see how we can reasonably claim those are separate tasks.
+12:16 <@holoway> the second certainly will in its final form break back-compat (which I'm fine with - ohhai has been very stable)
+12:16 <@coderanger> Unless the first comes with an unspoken "and makes UX worse"
+12:16 <@holoway> the question is can we iterate to the solution, or are we forced into a large scale redesign effort that has no value without the final form complete
+12:17 -!- cduong [~cduong@116.102.99.1] has quit [Remote host closed the connection]
+12:17 <@coderanger> I'm not saying this has to jump to final form, just that we need to _design_ the UX. The RFC should show what the goal is even if the first patches in ohai won't get all the way there.
+12:17 <@holoway> my point of view is that we should make iterative progress on writing the configuration layer, and we should be moving the ball towards the improved user experience
+12:17 <@coderanger> But make it clear where we are going.
+12:18 <@coderanger> Or at least make it clear we thought through all the ways this is going to be used and think we have a design that can possibly result in a nice UX eventually.
+12:18 <@coderanger> Because as written, this spec cannot.
+12:18 -!- cduong [~cduong@116.102.99.1] has joined #chef-hacking
+12:18 <@coderanger> And that I find dangerous at best.
+12:19 < nathenharvey> but we'll also uncover new things about the UX by iterating.  we can't know what the final UX will be today
+12:20 -!- epcim [~epcim@unassigned-84-246-166-26.ujezd.net] has joined #chef-hacking
+12:20 <@coderanger> If it changes over time then fine, but that's not an excuse to have a proposal now.
+12:20 <@holoway> I think we're arguing about things we essentially agree about. Nobody wants things to suck on purpose.
+12:20 <@coderanger> Again, show that good UX is possible based on this design, not that it is 100% going to be X.
+12:20 <@holoway> The only sticking point is there are clear issues that are blocked now by the layer not existing
+12:20 <@coderanger> And show that we are building the tech design based on actual end-user use cases
+12:20 <@coderanger> Not "users want to do things"
+12:21 <@holoway> even if the design is wrong, we can change it
+12:21 <@coderanger> Sure, but the whole point of having RFCs is to front load some of the work out so we can discuss design before implementation.
+12:22 <@coderanger> It would be way easier to just not do that because everything can always change, but there is value in capturing this stuff ahead of time.
+12:22 <@holoway> interestlingly enough, almost everyone involved in that RFC feels like the design as written moves the ball forward for important use cases and is a fine iterative step
+12:22 <@holoway> I think you're right to argue for understanding the end state
+12:22 <@holoway> that's a large improvement over the status quo
+12:22 <@holoway> why don't we write two RFCs?
+12:23 <@coderanger> I repeat the same question: why is configuring the hostname plugin substantively different from enabling the EC2 plugin?
+12:23 <@coderanger> No one has yet answered that other than to say that the hints system has been misused
+12:23 <@coderanger> which is a non-answer
+12:23 <@holoway> coderanger: because the ec2 plugin subsystem already exists, has back-compat requirements, and is clearly insufficient long term
+12:23 -!- epu [~epu@12.2.177.182] has joined #chef-hacking
+12:24 <@coderanger> holoway: Okay, so why are you cool with "lol legacy" as the stated solution to this problem?
+12:24 <@coderanger> Other than general faith that we'll fix it later
+12:24 <@coderanger> which is fine, but kind of missing the point of having RFCs
+12:24 <@holoway> back up
+12:25 <@holoway> I'm not cool with "lol legacy" - I am cool with saying there is a path to enabling new functionaltiy that doesn't exist in a way that solves real user problems now
+12:25 <@holoway> it doesn't solve *all user problems*
+12:25 <@holoway> there is another problem, which is that the actual design needs to be re-thought to be more extensible and easier to rok
+12:25 < pbpolar> I'm playing catchup here but does the new Ohai configuration syntax model a new syntax for the knife and client?  Or is it completely separate?
+12:25 <@holoway> er grok
+12:25 <@coderanger> Yes, and it will come at a cost of increased UX complexity until we do your "part two".
+12:25 <@holoway> which is fine - you'll only eat that complexity if you opt in to the new functionality
+12:25 -!- lamont_oc [~lamont_oc@c-71-231-26-189.hsd1.wa.comcast.net] has joined #chef-hacking
+12:25 <@holoway> otherwise, you can feel free to ignore it
+12:26 <@coderanger> holoway: And to be clear, we _could_ use the existing hints system for all this functionality
+12:26 <@coderanger> holoway: It would already be integrated with all the tooling, has APIs in Ohai, etc
+12:26 <@coderanger> It would be awkward and kind of odd, but my point is _so is this proposal_.
+12:26 < pbpolar> It seems to imply that we'll have something like 'chef.log_level = :info'
+12:27 <@holoway> coderanger: using the hints system does not iterate you toward a repalcement for that subsystem, which is one of the gaols
+12:27 <@btm> pbpolar: it uses the existing chef/knife config, doesnt change them.
+12:27 -!- wolstena [~pwolstenh@interweb.cucbc.com] has joined #chef-hacking
+12:27 < kallistec> pbpolar: the config syntax is the same, we made chef-config into a separate component so other things (like ohai) can reuse it without depending on all of chef
+12:27 <@coderanger> holoway: Sure, and if that is the long-term goal I want to see the RFC pay out an actual plan for that goal instead of stopping half way through.
+12:27 <@holoway> ok, enough talk - here's the decision. I would like to see a design that unifies and lays out the user expereince for ohai
+12:27 <@holoway> as a new rfc that builds on the existence of a configuration system
+12:28 <@holoway> coderanger, you are obviously all sorts of fired up, so you would be a great candidate to get the ball rolling on that
+12:28 < ranjib> +1, i dont agree that this RFC needs to lay out the long term plan, as long as it address current pain point in saneway, and opens up the possibility to iterate. which we dont have with hints
+12:28 <@coderanger> Surely, I already suggested stuff in the comments to which no one has responded other than saying it isn't needed.
+12:29 <@holoway> meanwhile, I approve this RFC, and we should start iterating on it now
+12:29 <@coderanger> UX design for stuff like this is your payment to the end-users for making their life more complicated by added systems.
+12:29 <@holoway> and unblock the functionality we need
+12:29 <@coderanger> holoway: So you are saying we should design UX after we approve the technical design?
+12:29 <@holoway> so, in short: start iterating on a config layer, and start the discussion about UX
+12:30 <@coderanger> That is 100% backwards.
+12:30 < pbpolar> So Ohai will have one syntax using '=' and Chef will continue to have the syntax that doesn't use '=' ?
+12:30 < kallistec> pbpolar: ohai and chef have the exact same syntax
+12:30 <@coderanger> Saying "make a new RFC" to shut me up doesn't change the fact that this is being done in a way that makes life for users actively worse for a while.
+12:30 <@holoway> coderanger: we know we need a configuration layer regardless
+12:30 <@coderanger> we _have_ one.
+12:30 <@coderanger> It is called hints.
+12:30 <@coderanger> If the functionality is critical, use that.
+12:31 <@jtimberman> I dunno, kind of jumping in the middle of this but I don't see the hint system as a configuration layer.
+12:31 <@holoway> I'm not proposing it to shut you up
+12:31 <@coderanger> It is data in files that configures plugins.
+12:31 <@coderanger> thats a config system :)
+12:31 <@jtimberman> pedantics aside
+12:31 <@holoway> enough of you putting motivation on other people, coderanger
+12:31 -!- tkuchiki [~tkuchiki@softbank126066124204.bbtec.net] has quit [Remote host closed the connection]
+12:32 <@holoway> it's disagree and commit time - if you would like to take a pass at an RFC that describes the better user experience, I'm stoked to have you run it
+12:32 < ranjib> coderanger: i dont know why you think like that. but btm 's comment on these same argument is fairly complete. we are not retrofitting hints in this RFC
+12:32 < pbpolar> kallistec: From a user perspective, the syntax at L41 looks pretty diff from L44
+12:32 <@holoway> if you are so irritated by this decision, I will ask someone else to do it
+12:32 < pbpolar> https://github.com/chef/chef-rfc/pull/118/files#diff-aad40a91e3650ff3cefdd397e0c3e179R41
+12:33 <@holoway> but we're done talking about it
+12:34 < kallistec> pbpolar: I'm pretty sure ohai.thing("new value") also works, but this is consistent with how chef config works now
+12:34 <@holoway> my motivation, since it's in question, is to actually improve the status quo without blocking what feels like obvious forward progress to everyone else (including me)
+12:34 -!- dblessing [~dblessing@h210.236.190.173.static.ip.windstream.net] has quit [Ping timeout: 244 seconds]
+12:34 <@holoway> okay - next up
+12:34 <@holoway> coderanger: let us know if you want to write that rfc, or I'll have thom take it
+12:35 < kallistec> pbpolar: this is built on a "config context" thing in mixlib-config, which is how stuff like knife[:whatever] = "new value" works
+12:35 <@coderanger> holoway: I've got no time for unpaid work currently.
+12:35 <@holoway> no prioblem
+12:35 <@holoway> thom can write it and you can weigh in
+12:35 < kallistec> pbpolar: it's fairly permissive in terms of syntaxes allowed since we had to retrofit some stuff that came about with knife plugins in an "organic" way
+12:36 <@thom> sure
+12:36 <@holoway> (while I'm being explicit about my motivations - I wasn't trying to extract unpaid labor, I was offering a passionate advocate first dibs on the UX)
+12:36 <@coderanger> holoway: I know, just not inclined to go above and beyond on this one at this point, I've put all my suggestions in the existing ticket.
+12:37 < pbpolar> Ok - I know a lot of new users find the structure of our config files pretty confusing, so was trying to determine if this make things any worse (I don't think so) and the gains from having Ohai behave on the CLI like it does during a Chef run is a nice win
+12:38 < nathenharvey> next up is 128 but that looks like it's approved and ready for merge just not yet merged.  Add 'property' to resource - https://github.com/chef/chef-rfc/pull/128
+12:38 <@holoway> coderanger: absolutely - I made it clear in my comment that we should take your input into account
+12:38 <@holoway> ya
+12:38 <@holoway> I regret calling everything an attribute in the first place
+12:38 <@holoway> :)
+12:38 -!- tkuchiki [~tkuchiki@softbank126066124204.bbtec.net] has joined #chef-hacking
+12:38 -!- geggam [~geggam@108-218-203-177.uvs.sntcca.sbcglobal.net] has joined #chef-hacking
+12:38 <@holoway> https://github.com/chef/chef-rfc/pull/128
+12:39 <@holoway> I see no rational reason this shouldn't be approved, hence I just approve it
+12:39 <@holoway> next up
+12:39 <@holoway> https://github.com/chef/chef-rfc/pull/130
+12:39 <@holoway> moving openbsd into tier 2
+12:40 <@holoway> we have a maintainer who is active, I say we move this into tier 2
+12:40 <@holoway> anyone against?
+12:40 < lamont_oc> +1
+12:40 < nathenharvey> 10 minute warning (for this meeting, not for raising an objection)
+12:40 <@jtimberman> +1
+12:40 < tBunnyMan> +1
+12:40 < ranjib> +1
+12:40 <@holoway> ok
+12:42 <@holoway> I approve that PR pending him adding himself as the OpenBSD LT
+12:42 <@holoway> next up
+12:42 <@holoway> https://github.com/chef/chef-rfc/pull/129
+12:42 <@holoway> removing 10.04 ubuntu as a supported platform
+12:43 <@jtimberman> holoway: iirc we don't need Lt for Tier 2, only maintainers (not to say we can't have a Lt for Tier 2 platforms)
+12:43 -!- dblessing [~dblessing@h210.236.190.173.static.ip.windstream.net] has joined #chef-hacking
+12:43 <@btm> jtimberman: +1
+12:44 <@holoway> sure - afaik, he's not a maintainer at all yet
+12:44 <@thom> he's not, no
+12:44 <@holoway> so it's not tier 2 until he is at least that
+12:44 <@jtimberman> I'll follow up since I'm still working on the "all supported platforms must have a maintainer/lieutenant" thing :)
+12:44 < lamont_oc> i haven't had time to update the tiers definitions with my thoughts on that one and distinguish between things-we-build-on and things-we-test-and-support-cookbooks-on
+12:44 <@btm> yay
+12:45 < nathenharvey> 5 minutes
+12:45 <@thom> yeah, i think 129 probably ought to remain on holding pending lamont writing some words
+12:45 <@thom> s/ing//
+12:45 <@holoway> ok
+12:46 <@holoway> agreed - lets let the next show of cards come up before deciding
+12:46 <@holoway> in general, we should get rid of it
+12:46 <@holoway> when the vendor says so, but we can use our own discernment
+12:46 <@holoway> the fact that we have ancient systems in production at Chef Software is not a reason to keep it, btw
+12:46 <@holoway> we should do the work to upgrade them like everyone else on the internet :)
+12:46 <@jtimberman> right?
+12:47 < adamedx> I think 10.04 is largely gone from Chef Software fwiw holoway
+12:47 < lamont_oc> we've still got a couple 10.04 virts kicking around (not including old-ci 10.04s for build/test)
+12:48 < pbpolar> 10.04 is largely gone from our customer base
+12:48 <@holoway> ok - lets push 135/136 to next meeting
+12:48 <@coderanger> Wasn't the sympa machine 10.04?
+12:48 <@jtimberman> coderanger: we don't speak its name
+12:48 <@holoway> john keiser has some replying to do on those threads anyway - lots of un-naswered questions
+12:48 < pwm> adamedx 10.04 is totally gone from Chef Software ;)
+12:48 < adamedx> :)
+12:48 <@jtimberman> btw, as said last week I'd have an update on the maintainer/lt for tier 1 and 2 supported platforms, which is in this PR: https://github.com/chef/chef/pull/3525 - I just added OpenBSD
+12:49 < kierrr> cyclops wishes it was 10.04
+12:49 <@holoway> cyclops is my jam
+12:49  * holoway hugs that server
+12:49 <@jtimberman> holoway: it's totally your jam ;)
+12:49 <@holoway> for sure a pet
+12:49 <@jtimberman> it has a name!
+12:49 <@holoway> and it's name was robert paulson
+12:49 <@jtimberman> careful about hugging it thoguh you might get covered in dust bunnies
+12:49 <@holoway> ok
+12:50 < nathenharvey> so, we'll revisit PR-129 Ubuntu 10.04 next week and that bring us to time for the end of the meeting
+12:50 <@jtimberman> ;)
+12:50 <@holoway> nathenharvey: and 135/136 both need more discussion on thread
+12:50 <@thom> thanks all. and thanks holoway for adding to my only moderately overflowing todo list ;)
+12:50 <@holoway> thom: feel free to delegate
+12:50 <@holoway> :)
+12:51 <@holoway> I actually don't care *who* writes it :)
+12:51 <@thom> no, i didn't really think you did :)
+12:51 -!- cduong [~cduong@116.102.99.1] has quit []
+12:51 < nathenharvey> thanks everyone, talk to you next week
+12:51 <@holoway> see you all next week
+12:51 < nathenharvey> ***** MEETING ENDS *****
