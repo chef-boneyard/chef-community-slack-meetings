@@ -1,0 +1,98 @@
+16:00 <@thom> good time of day, all!
+16:00 <@coderanger> \o/
+16:00 < stevenmurawski> Hey!
+16:01 <@thom> i am virtually nathen today, and I have battery so no running around searching for power dramas
+16:02 <@thom> adam's gonna be a trifle late, so let's get started with updates and such
+16:02 <@thom> the agenda for today is at https://github.com/chef/chef-community-irc-meetings/blob/master/2015-06-25-agenda.md
+16:03 <@thom> Community update: We have announced the european summit! 
+16:04 <@thom> https://www.chef.io/blog/2015/06/24/chef-community-summit-london/
+16:04 -github-bawt:#chef-hacking- [chef] jtimberman pushed 1 new commit to jtimberman/rfc-tier-maintainers: http://git.io/vtOIF
+16:04 -github-bawt:#chef-hacking- chef/jtimberman/rfc-tier-maintainers 711c32e jtimberman: Add Lamont as a maintainer for ArchLinux
+16:04 <@thom> Tickets are available for both the north american one and the london one, see https://www.chef.io/summit/
+16:06 <@thom> The other thing I want to mention community wise is that Nathen, in his role as community ombudsperson, has banned Douglas Garstang from the mailing lists &c for 30 days, as a result of his persistent failure to follow the community guidelines
+16:06 <@thom> this was communicated on mailing list but I just wanted to make a note
+16:07 <@thom> (i'm doing everyone's updates today)
+16:07 <@thom> Moving on, we released chef client 12.4.0 after a tonne of sterling community work, both in terms of testing and code
+16:08 <@thom> we've found some regressions which we're working on; #3586 #3589 and possibly one other, and we're hoping to get a 12.4.1 out to correct these as soon as possible
+16:10 <@thom> chef server wise, 12.1.0 is the latest
+16:10 <@btm> 12.4.1 will be next week for sure, due to a physical failure of the OS X build cluster machine.
+16:10 <@btm> s/for sure/no earlier than/
+16:10 <@thom> btm: ugh, missed that
+16:11 <@coderanger> btm: Rub a little cloud on it :)
+16:11 <@thom> so, that's the state of chef. 
+16:11 <@thom> coderanger: a magic hypothetical os x cloud :)
+16:12 <@jtimberman> coderanger: in 2015 it's rub a little container on it, not cloud.
+16:12 <@thom> i'd like to ask mr jtimberman to talk about PR 131
+16:12 <@jtimberman> yes!
+16:12 <@btm> coderanger: Apple has non-permissive licensing.
+16:12 <@thom> and his search for intrepid maintainers
+16:12 <@coderanger> jtimberman: OS X is like Linux from 5 years ago, give it time.
+16:12 <@jtimberman> I've just pushed a commit that adds Lamont as maintainer for ArchLinux, thanks lamont_oc for volunteering to be a maintainer for all our lost tier 2 children that didn't have one.
+16:13 <@thom> i though jaym was gonna be stitched up with arch
+16:13 <@jtimberman> The pull request to the chef repo is https://github.com/chef/chef/pull/3525
+16:13 <@jtimberman> jaym: is that true? i can add you, it's an array :).
+16:13 <@jtimberman> i also reached out to fujin, but haven't heard back other than "i'll think about it, but i'm not using chef to manage arch atm"
+16:14 <@jtimberman> but, we do have the minimum, which is an Lt for all tier 1, and Maintainer for all Tier 2, per the supported platforms documentation.
+16:14 <@jtimberman> at least as soon as that chef PR #3525 is merged.
+16:14 <@btm> some robot assigned chef#3525 to me, which was kind of neat.
+16:14 <@jtimberman> btm make with the button mash when you're ready :)
+16:15 <@thom> oh, I should've said. Supermarket, in the guise of curry, will auto-assign PRs to maintainers now once the PR is CLA happy
+16:16 <@thom> it's gonna get tweaked a bit to be a bit less trigger happy in the coming days
+16:16 <@jtimberman> so, that's my update on that PR
+16:16 <@holoway> still, that's pretty sweet
+16:16 <@thom> ok. So it sounds like we're in good shape with maintainers, thanks for tracking that all down jtimberman 
+16:16 <@jtimberman> "it's done"
+16:17 <@jtimberman> i'll defer button mash to someone :)
+16:17 <@thom> holoway: hi!
+16:17 <@holoway> hi!
+16:17 <@thom> So the next bit on the agenda is me talking about ohai ux. I have not even thought about this one yet, so I think it might need deferring. Sorry
+16:18 <@holoway> that's totally fine
+16:18 <@holoway> why don't we pull it from the agenda, since you were tasked with an RFC anyway
+16:18 <@holoway> we can table it until you have one
+16:18 <@thom> yeah, i'll do that thing
+16:19 <@thom> the next item on the agenda is #129, which is demoting ubuntu 10.04 to tier 2
+16:19 <@holoway> pulling 10.04 LTS - seems legit to just say "sorry, we don't make builds for platforms the vendor no longer supports"
+16:19 <@holoway> so 10 seconds to counter argue
+16:19 <@btm> looks like lamont is maintainer for like, half the things now, so keep pressuring your friends to sign up.
+16:19 <@thom> lamont_oc: would you like to comment on your change of heart? or are all the words there enough
+16:19 <@jtimberman> holoway: super legit
+16:20 <@thom> yeah, agreed
+16:20 <@holoway> ok - ship it
+16:20 <@holoway> next up
+16:20 <@holoway> https://github.com/chef/chef-rfc/pull/108
+16:21 <@holoway> lamont_oc: can you give a synopsis? (or btm?)
+16:21 <@thom> as btm says, 108 and 109 really need updating in a post rfc53 world, but that's fine
+16:22 < lamont_oc> yeah, 108 needs amending to use rfc53
+16:23 <@btm> 108: lamont cleaned up a lot of inconsistent hostname plugin behavior for ohai a while ago. Because hostname is essential for Chef, that broke some people whose DNS systems were odd. We want to further stablize that, but now need a config setting to allow people to specify how hostname is populated.
+16:23 <@holoway> ok - so there isn't anything to do here, other than track that we want it updated so we can merge it
+16:23 < lamont_oc> correct
+16:24 <@holoway> looks like the same story for 109
+16:24 <@btm> regarding RFC53, clairem is back in the chef engineering org and a maintainer again (hooray) and will begin implementing it shortly.
+16:24 < clairem> yep! =)
+16:24 < adamedx> yeah
+16:24 <@holoway> which brings us to the end of the agenda
+16:25 <@thom> marvellous
+16:25 <@holoway> a full half an hour early
+16:25 <@thom> holoway: indeed
+16:25 <@holoway> yay clairem 
+16:25 <@holoway> any other business anyone wants to bring up?}
+16:25 <@holoway> or you can half an hour of your time back
+16:25 <@holoway> :)
+16:25 <@jtimberman> oh
+16:25 <@jtimberman> i have a thing
+16:25 <@btm> chef#3525 mentioned earlier needs a bunch of :+1: from maintainers/lts
+16:25 <@jtimberman> i'm going to write words later
+16:25 <@coderanger> Would still love some feedback from folks on poise-ruby and/or poise-python as far as the model goes.
+16:25 <@jtimberman> but tl;dr is chef-server-ingredient cookbook is now chef-ingredient cookbook.
+16:26 <@jtimberman> https://supermarket.chef.io/cookbooks/chef-ingredient
+16:26 <@jtimberman> it aims to provide essential primitives for managing various Chef products
+16:26  * martinisoft awaits chef-seasoning
+16:26 <@jtimberman> martinisoft: that'll be the clustering cookbook that ties it all together ;)
+16:26  * holoway sprinkles some Mrs. Dash on it
+16:27 < tBunnyMan> Hooray. I will check out that later today
+16:27 <@jtimberman> that's all I had ;)
+16:27 <@thom> thank you all very much
+16:27 < martinisoft> cheers :)
+16:27 <@holoway> ok - thanks everyone
+16:27 <@holoway> see you next week
+16:27 <@coderanger> [re: poise-ruby] Especially from people currently using rvm, rbenv, or chruby on production machines
