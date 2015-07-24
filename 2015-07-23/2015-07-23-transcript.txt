@@ -1,0 +1,241 @@
+16:04 <@holoway> ok - lets get this party started
+16:04 <@holoway> ** meeting starts **
+16:05 <@holoway> https://github.com/chef/chef-community-irc-meetings/blob/master/2015-07-23-agenda.md <-- the agenda!
+16:05 <@thom> nathen's not around today so i'll get with the Community Announcements
+16:05 <@holoway> take it away
+16:05 <@thom> We're doing a test migration of the mailing list to Discourse this week
+16:05  * holoway cheers
+16:05 < adamedx> wow, I missed that :) yay
+16:06 <@holoway> (so little email going to be left in my world)
+16:06 <@jonlives> oh nice!
+16:06 <@thom> there'll be some verification and then a re-migration of the live data, so we figure on about a month before the real cut over. once we have a better feel for the time line we'll update
+16:07 <@thom> nathen and I have been talking some about a chef-community slack group and we'd like to get some feedback on whether people think that would be a worthwhile addition to the community channels we already have
+16:08 <@jonlives> i don't really get the use of slack over irc personally.
+16:08 <@holoway> my only worry is that it's already tempting to not be on irc if you're @ chef software
+16:08 <@jonlives> but then, I don't really use slack
+16:08 < adamedx> kind of what I'm thinking also holoway
+16:08 <@thom> The community summits are going to be awesome, please come! https://www.chef.io/summit/
+16:08 <@thom> holoway: nod
+16:08 <@holoway> jonlives: right - as soon as it shows up in your life, man, you want to push the world to slack
+16:08 <@coderanger> jonlives: Basically build-in znc
+16:08 <@jtimberman> holoway: I still super love irc at its core :)
+16:08 <@thom> or just use the irc gateway to slack and irssi all the things
+16:09 <@jtimberman> But Slack, kind of great too.
+16:09  * jonlives sings "I'd like to teach the world to slack, in perfect harmoneeeeeeeee"
+16:09 <@zts> I worry about community fragmentation, but then I'm on both Slack and IRC already so don't really mind.  Stuff on gitter bugs me more
+16:09 <@thom> zts: yeah, same
+16:09 <@jtimberman> fwiw there's a slack team for the chef-brigade cookbook org on github, that's started working pretty well.
+16:09 <@coderanger> Ditto on hangops slack
+16:10 <@holoway> is there a slack to irc bridge?
+16:10 <@coderanger> holoway: Yes, built-in
+16:10 <@coderanger> Also slack-to-xmpp
+16:10 <@holoway> no, I mean from slack to the #chef irc channel
+16:10  * someara writes a slackware cookbook
+16:10 <@thom> yeah, one of my concerns is the hangops #chef overlap
+16:10 <@thom> https://slack.zendesk.com/hc/en-us/articles/201727913-Connecting-to-Slack-over-IRC-and-XMPP
+16:10 <@coderanger> Ahh, not that I know of
+16:10 <@holoway> if there was, that would seal the deal for me
+16:10 <@thom> holoway: hm
+16:10 <@thom> that would be interesting
+16:10 <@jtimberman> thom: i think it would be entirely reasonable to say "yo hangops people, use this instead"
+16:11 <@coderanger> And yeah, as someone that monitors for user support, I would rather not create new places I have to watch, also signup for slack for user support is pretty daunting
+16:11 <@holoway> right
+16:11 <@holoway> I think I'm -1 on it without something that is lower overhead and lacks lock-in
+16:11 <@thom> ok, so that seems like a no to me
+16:11 <@holoway> at least integrating with it
+16:11 <@coderanger> The freenode IRC widget isn't great, but it is one-click-and-youre-done
+16:11 <@holoway> I want to be +1
+16:12 <@holoway> thom, anything else?
+16:12 <@thom> not from me
+16:13 <@holoway> ok - next up is Chef Software update. I think the most interesting news here is that I finally delegated the creation of the CBGB to people with both more time and better organizational skills than myself
+16:13 < jkeiser> holoway: just found this, so grain of salt, but IRC <-> Slack: https://ekmartin.com/2015/slack-irc/
+16:13 <@holoway> so Nathen and Karolin are pulling strings to get that rolling as stated in the RFC
+16:13 <@jonlives> great
+16:14 <@holoway> that's it for chef software - adamedx, you're up
+16:14 < adamedx> thanks
+16:14 < adamedx> the interesting stuff for chef-client in particular
+16:15 < adamedx> is that Chef Software is focusing on integration tests and tests on internal Chef systems
+16:15 < adamedx> this is to avoid regression issues that  we've had during all of the minor releases of Chef 12
+16:15 < adamedx> so the regression testing will be using popular community cookbooks
+16:16 <@jtimberman> this brings me so much joy
+16:16 <@coderanger> adamedx: Topical https://github.com/chef/chef/issues/3692
+16:16 < jkeiser> Another specific: we're working on making sure all projects internally use the latest nightly rather than latest released, so that Chef as a company takes the hit of bugs *before* they make their way out
+16:16 < adamedx> right now the plan is for these to be visible from Travis CI so that the community pr's can get tested this way
+16:16 <@jonlives> awesome
+16:16 < adamedx> wut jkesier said is the next part :)
+16:17 < jkeiser> Some parts of the company already do this, but we're spreading the love everywhere
+16:17 < adamedx> nod coderanger
+16:17 < adamedx> any ideas around the set of cookbooks are highly welcomed
+16:17 < adamedx> and I will ask one of our engineers to communicate specifics of the plan
+16:18 < adamedx> on mailing list I mean discourse
+16:18 < adamedx> goal is that you should feel quite fine taking a minor revision of Chef
+16:18 < adamedx> you should be looking forward to it
+16:18 < adamedx> that's it for client / server update
+16:19 <@holoway> since I wasn't at the last meeting, and none are tracked, I'm assuming there are no action items, and it's on to the PR review
+16:20 <@holoway> first up is https://github.com/chef/chef-rfc/pull/141
+16:20 <@thom> yeah, we've not actually had a meeting for a couple of weeks
+16:20 <@holoway> which removes windows 2003r2 support, as it is EOL
+16:20 <@holoway> 30 seconds to have someone explain why we wouldn't just follow policy and remove it
+16:20 <@thom> :party:
+16:20 <@holoway> :crickets:
+16:21 <@holoway> (slack!)
+16:21  * someara :grabs a shovel:
+16:21 <@holoway> ok
+16:21 <@jtimberman> I am +1 on removing platforms that the upstream vendor/distributor is no longer supporting.
+16:21 < adamedx> yeah, it can go
+16:21 <@jonlives> +1
+16:22 < adamedx> I chedked with the large users of that platform
+16:22 <@holoway> ok, next up
+16:22 < adamedx> and they had thankfully move don
+16:22 <@holoway> https://github.com/chef/chef-rfc/pull/140
+16:23 <@thom> so #140 is really only here so that we make sure everyone's seen it
+16:23 <@holoway> yeah - I think the story is fine. I agree with @coderanger that I don't want to constrain what anyone will do (if you want to port, we'll look at it) but in general, we provide security fixes
+16:23 <@holoway> so lets merge
+16:24 <@jonlives> +1
+16:24 < kallistec> +1 from me
+16:24 <@holoway> next up - https://github.com/chef/chef-rfc/pull/127
+16:25 < jkeiser> This adds some crucial helpers to augment the new resource "action" and "property" DSLs
+16:25 <@jonlives> I really like this one
+16:25 < jkeiser> The most important is load_current_value, which lets you define a method to do the equivalent of load_current_resource (but a bit easier)
+16:25 <@coderanger> jkeiser: I left some comments, just minor cleanup stuffs
+16:25 < jkeiser> converge_if_changed helps a bunch when you are making raw API-based resources rather than writing resources in terms of other resources
+16:25 <@jonlives> I especially like this one because the *WRP chapter in the next edition of the book will make a lot more sense :D
+16:26 <@coderanger> but to be clear, the "load_current_value(&block)" is the correct argspec?
+16:26 <@jtimberman> jonlives: i sense ulterior motives! ;)
+16:26 < jkeiser> coderanger: yep
+16:26 <@jtimberman> I love this.
+16:26 <@holoway> feels like this can ship
+16:26 < jkeiser> jonlives: my hope is it will just be the "how to make a resource" section and we won't ever hear about weight again
+16:26 <@thom> yeah, this is real good
+16:26 <@jonlives> jkeiser: innit
+16:26 <@holoway> I also want to call out that I really like the back and forth between coderanger and jkeiser 
+16:27 < jkeiser> Noah has been a super helpful :)
+16:27 <@coderanger> Yeah, to be clear load_current_value is useful only for the fused provider-in-resource mode, but converge_if_changed is useful for any kind of provider
+16:27 <@holoway> as a great example of talking through what we want and having it be about the code and the system
+16:27 <@jonlives> ^ very much so - a good example of collaboration without dogma and such
+16:28 <@coderanger> Also +1 on the new names, is better :)
+16:28 <@someara> I'm not sure the names of these methods are the best.... "load current value" vs "discover_current_state" may be more conceptually accurate
+16:28 < jkeiser> coderanger: absolute truth, you speak :)
+16:28 <@someara> but, then again, I like my sheds purple
+16:28 <@jtimberman> someara: green
+16:28 <@jtimberman> ;)
+16:28 <@holoway> https://github.com/chef/chef-rfc/pull/136 - 
+16:28 <@someara> purple!
+16:28 <@coderanger> someara: Yeah, I pushed to keep the name matching load_current_resource to make it clear those are related
+16:28 < jkeiser> someara: I would actually like to bikeshed it at some point, but wanted to get something in now
+16:28 <@holoway> jkeiser: please to describerate
+16:28 <@coderanger> someara: We can talk about renaming both some time later
+16:29 < jkeiser> 136 makes it so that by default, if you declare a resource and don't declare resource_name or provides yourself, it will automatically have resource name based on the class name
+16:29 < jkeiser> Basically, it expands what we do with Chef::Resource, to all resources, and makes Chef::Resource unspecial in that regard
+16:29 < jkeiser> We had tried to disable it entirely, and found that such a huge percentage of resources already followed the MyResource -> my_resource convention, that it felt like we were retyping most of the time
+16:30 < jkeiser> I added use_automatic_resource_name to the DSL, but we used it nearly everywhere so that felt silly too
+16:30 < jkeiser> So this just says
+16:30 <@coderanger> I still would like to see better naming rules as the default
+16:30 < jkeiser> If you declare class MyResource < Chef::Resource
+16:30 < jkeiser> Then you will get DSL "my_resource" in recipes
+16:30 <@coderanger> notably for MyMod::Resource and MyMod::Provider
+16:30 <@someara> I find that kind naming magic fantastically difficult to deal with when debugging things
+16:30 <@jtimberman> jkeiser: awwyiss
+16:31 <@someara> trying to track down things with grep is hard
+16:31 <@someara> "where did this method come from"
+16:31 <@someara> grep... nothing
+16:31 < jkeiser> I agree, coderanger. I just felt like "create a generic convention for finding the Provider class based on the Resource class" was a bigger discussion and out of scope
+16:31 < jkeiser> someara: same problem already happens with LWRPs
+16:32 <@coderanger> jkeiser: This applies directly for the resource too, re: MyMod::Resource => :my_mod
+16:32 <@jtimberman> This is key for me "So that I can concentrate on my code instead of ceremony."
+16:32 < jkeiser> Resources are kind of special in that regard already
+16:32 <@someara> jkeiser which is why I'm always explicit with mine =)
+16:32 <@coderanger> And yeah, this is not something I would ever advocate people use, but fallback behavior is good to have defined
+16:32 <@coderanger> best practice should still be to be explicit
+16:32 < jkeiser> coderanger: I added a rule for that in the RFC :)  It feels reasonable that "class MyMod::Resource < Chef::Resource" give a resource named "my_mod" rather than "resource"
+16:33 <@coderanger> jkeiser: I don't see that?
+16:35 < jkeiser> coderanger: I remember writing it, but don't see my commit :(
+16:35 < jkeiser> If we're willing to accept with that stipulation, I'll add it. If we want to wait, that's fine too
+16:35 <@coderanger> We definitely talked about it in the comments, but I don't think changes got made :)
+16:35 <@jonlives> I think that sounds like the only reasonable way to deal with this situation tbh
+16:36 <@thom> this feels like it probably needs a little more conversation to shake out the details
+16:36 <@holoway> ok - lets table it
+16:36 <@thom> hopefully we can just rubber stamp it next week :)
+16:36 <@holoway> yep
+16:36 < jkeiser> Will do
+16:36 <@someara> this is obviously an Ease of Use issue....I think it makes it harder, but yea
+16:36 <@holoway> thom: can you make sure it gets on next weeks agenda as surrogate nathen?
+16:36 <@thom> sure can
+16:37 < jkeiser> I'd make the changes now, but I think we have another of my RFCs to discuss :)
+16:37 <@holoway> https://github.com/chef/chef-rfc/pull/135
+16:37 <@holoway> also a jkeiser, so take it away
+16:38 <@coderanger> (needs copyright section)
+16:38 <@holoway> this needs the people in the @mention line to respond
+16:38 < jkeiser> This one makes changes to how we handle "default", especially relating to constants
+16:39 <@coderanger> jkeiser: Didn't we already implement a whole bunch of this?
+16:39 < jkeiser> Yeah, we kinda did, there was some necessariness to it
+16:40 < jkeiser> But since we haven't released that, I wanted discussion, thus RFC
+16:40 <@someara> https://www.irccloud.com/pastebin/pKYbZsuz/
+16:40 <@holoway> so my $0.02 is lets make sure we get lazy thumbsups on it
+16:40 <@holoway> and then lets merge it next meeting
+16:40 <@holoway> pending something clearly out of alignment
+16:41 <@coderanger> +1 on all of it
+16:41 < jkeiser> The issue is sort of complicated for IRC, but the basic problem is that "default: []" creates a globally shared value for the property
+16:41 < jkeiser> Meaning if you modify the property value in one resource, all the other resources see your changes
+16:41 <@coderanger> jkeiser: Though intro para should be updated for removal of reset
+16:41 < jkeiser> ah, sure
+16:41 <@holoway> https://github.com/chef/chef-rfc/pull/109
+16:42 <@someara> so, lamont seems to think this should be "fedora"
+16:42 <@coderanger> Otherwise looks good and I think this correctly matches current chef master
+16:42 <@someara> as somebody that spends all day working on cross platform cookbooks, I'm thoroughly unconvinced
+16:43 <@someara> since lamonts not around to defend himself, we should revisit this when he gets back from vacation
+16:43 <@zts> I'm similarly unconvinced, moving from "rhel" to "fedora" doesn't seem like it achieves much (if anything)
+16:43 <@holoway> ok - then lets fire up the convo in the PR
+16:43 <@holoway> and revisit next week
+16:44 <@thom> yep seems best
+16:44 <@someara> plus, the Amazon Linux team has signaled their intention to keep moving further and further away from "upstream"
+16:44 <@coderanger> If we have cycles to discuss something, https://github.com/chef/chef/pull/3684 isn't an RFC but we should probably talk about it one way or ther other.
+16:46 <@someara> +1, especially in the face of all the movement around resources/providers
+16:47 < jkeiser> Hrm. Is it happening to people a lot? I kinda figured it would be a little noisy until people fixed the issues
+16:47 <@holoway> I'm +1 on removing warnings, we're already warning heavy 
+16:47 <@coderanger> jkeiser: The problem is most of the time is isn't an issue
+16:47 < jkeiser> Like, if you have ambiguity, there are ways to fix the ambiguity
+16:47 <@coderanger> Any time you have legit multi-provider situations this fires too
+16:47 < jkeiser> Oh, this fires even when providers are mutually exclusive?
+16:48 < jkeiser> I thought it was designed to fire only when the tiebreaker was the class name
+16:48 <@someara>  Chef::Provider::GitClient::Source
+16:48 <@someara>  Chef::Provider::GitClient::Package
+16:48 <@holoway> ok, I am out for something emerging
+16:48 <@coderanger> jkeiser: That doesn't take into account priority maps because those can't be defined until after the resources
+16:48 <@holoway> I <3 you all
+16:48 <@thom> cheers holoway 
+16:48 <@coderanger> (or after the providers)
+16:48 < jkeiser> priority maps trigger it?
+16:49 < jkeiser> That would be weird
+16:49 <@coderanger> jkeiser: Yes, the warning happens at definition time
+16:49 < jkeiser> Ah, I see what you are saying
+16:49 <@coderanger> Even if you are going to define a priority map later, this warning still fires
+16:49 < jkeiser> It warns when you define the classes, then you fix it with priority map but it's too late.
+16:49 < jkeiser> That's totally fair
+16:49 <@coderanger> Yeah
+16:49 <@coderanger> Only way to fix that is to happen to declare your classes in reverse alpha order
+16:50 < jkeiser> Let's get lamont's opinion on it, but I'm +1 on either downgrading or removing
+16:50 <@coderanger> and that's too weird to even call a fix :)
+16:50 < jkeiser> I am not sure which yet
+16:50 <@thom> coderanger: i for one am not putting that workaround in the release notes :)
+16:50 < jkeiser> I'd rather not have a debuggy warning that happens all the time, but want to think about this to see if there is a righter way to fix the problem so people can get warned of real issues
+16:50 < jkeiser> Meantime, removal is right
+16:51 <@coderanger> jkeiser: I think if we want this kind of warning, it has to happen on lookup
+16:51 <@coderanger> since thats the only place we can know if there was truly ambiguity 
+16:51 < jkeiser> Yeah, that makes sense
+16:52 <@coderanger> (if people can copy their +1s on to the PR so can merge :)
+16:53 <@jtimberman> jkeiser: Chef::Log.debug('[WARN] This is a debug warning! :D')
+16:53 <@jtimberman> right?
+16:54 < jkeiser> Yeah
+16:54 < jkeiser> But not a fan in general
+16:54 <@thom> with that, i'm closing the meeting for the day
+16:54 <@thom> thanks ever so much, y'all
+16:54 < jkeiser> Noisy useless crap in debug is still bad
+16:54 <@thom> ** meeting adjourned **
+16:54 < adamedx> gracias, bye everyone
+16:54 <@someara> late
+16:55 <@coderanger> lat0rz
+16:57 < jkeiser> someara: discover is a super interesting word for the load thing
+16:57 < jkeiser> We should seriously bikeshed both names
+16:58 < jkeiser> Especially now that I can commit *something* with what we have and the name becomes the only thing to talk about
+
