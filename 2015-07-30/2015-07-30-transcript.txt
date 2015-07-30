@@ -1,0 +1,231 @@
+16:00 <@nathenharvey> ***** MEETING STARTS *****
+16:00 -!- adamleff [~adamleff@pool-70-106-248-114.clppva.fios.verizon.net] has joined #chef-hacking
+16:00 <@nathenharvey> Agenda for today can be found on GitHub - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-07-30-agenda.md
+16:01 <@nathenharvey> Adam isn't around today so thom and I will facilitate the meeting
+16:01 <@nathenharvey> we'll start with a couple of updates and then have 5 PRs to look at
+16:02 <@nathenharvey> On the community front, we hope to see you all at the Summit either in Seattle, London, or BOTH! http://summit.chef.io
+16:03 <@nathenharvey> mailing list migration to discourse continues and we are on track to have that completed well before summit
+16:03 -!- SkiDamien___ [sid1114@gateway/web/irccloud.com/x-wgxpugwgigcxwlby] has joined #chef-hacking
+16:03 -!- Guest52340 [sid1101@gateway/web/irccloud.com/x-bpkobrszsjnvfdva] has joined #chef-hacking
+16:03 <@nathenharvey> that's it for the community update.  as always, happy to answer whatever questions you have
+16:03 -!- ssd7 [~ssd@host81-135-251-49.range81-135.btcentralplus.com] has joined #chef-hacking
+16:03 -!- mode/#chef-hacking [+o ssd7] by ChanServ
+16:04 <@nathenharvey> in the meantime, I'd like to turn it over to adamedx for an update
+16:04 < adamedx> hello
+16:04 -!- rsmomo [~rsmomo@209.210.191.28] has joined #chef-hacking
+16:04 < adamedx> not a lot for chef-client / chef-server
+16:04 < adamedx> we are releasing a new chefdk very soon
+16:04 < adamedx> we were blocked on dependency conflicts between chef-provisioning and knife-windows
+16:04 < adamedx> that have now been resolved
+16:05 < adamedx> that's pretty much it from chef land
+16:05 -!- Igorshp [~igorshp@109.231.237.58] has quit [Remote host closed the connection]
+16:06 < adamedx> back to you Nathen
+16:06 <@nathenharvey> thanks, adamedx
+16:06 <@nathenharvey> we'll pause for a minute to see if anyone else has updates they'd like to share
+16:07 -!- nellshamrell [~Adium@2601:602:8800:3b00:980e:4670:d78:eedf] has joined #chef-hacking
+16:07 <@nathenharvey> The first PR on our agenda, https://github.com/chef/chef-rfc/pull/143, is now marked as "on hold"
+16:08 <@nathenharvey> jkeiser: want to discuss that this week or push it out to our next meeting?
+16:08 < jkeiser> Delay good
+16:08 < jkeiser> There are things to resolve there
+16:09 <@nathenharvey> sounds good!  I'll add it to the agenda after you remove the on hold tag, thanks
+16:09 -!- adamedx [~adamedx@103.sub-70-199-98.myvzw.com] has quit [Quit: adamedx]
+16:09 -!- lamont_ [~lamont@c-71-231-26-189.hsd1.wa.comcast.net] has joined #chef-hacking
+16:09 <@nathenharvey> next up is ohai identity attributes RFC - https://github.com/chef/chef-rfc/pull/108
+16:09 <@thom> i suspect that the next one probably ought to be on hold, since it;s not had any updates post ohai config
+16:09 <@nathenharvey> lamont_: you're just in time ;)
+16:10 < lamont_> (oddly enough like someone just ping'd me about a meeting i forgot about...)
+16:11 -!- cheeseplus [sid4449@gateway/web/irccloud.com/x-ytlrhyonhipkvnys] has joined #chef-hacking
+16:11 <@nathenharvey> lamont_: are there still some updates required for this RFC?
+16:11 -!- schisamo [sid4641@gateway/web/irccloud.com/x-vdbgpqbhrkxsumnq] has joined #chef-hacking
+16:11 < lamont_> yeah it needs to be updated for the ohai config stuff that is going in
+16:11 -github-bawt:#chef-hacking- [chef-rfc] jkeiser pushed 1 new commit to jk/property-defaults: http://git.io/vOvGP
+16:11 -github-bawt:#chef-hacking- chef-rfc/jk/property-defaults e189ac2 John Keiser: Remove reset
+16:12 <@nathenharvey> great, let's get it tagged 'on hold' and we'll add to the agenda once it's been updated and the tag removed
+16:12 < lamont_> yep
+16:12 <@nathenharvey> Next up:  adding reclassify_amazon_linux_platform_family.md - https://github.com/chef/chef-rfc/pull/109
+16:12 < lamont_> lol
+16:12 < lamont_> is sean around?
+16:13 <@coderanger> someara: ping
+16:13 < lamont_> do i get to win this argument by forfeit?  =)
+16:13 <@nathenharvey> while we wait for sean, let's move on to RFC some changes to default behavior - https://github.com/chef/chef-rfc/pull/135
+16:14 <@thom> lamont_: i think it's one all on forfeits :P
+16:14 < jkeiser> I believe this and the other one of mine were at the "rubberstamp probably but let's let it stew for a week" point
+16:14 -!- ganaiwali [~ganaiwali@182.71.174.246] has quit [Quit: ganaiwali]
+16:14 <@coderanger> jkeiser: Still needs the copyright section at the bottom
+16:14 < jkeiser> And there haven't been changes (except a minor edit I just made in response to a comment by coderanger last week)
+16:14 < jkeiser> OK, I'll do that
+16:15 <@thom> yeah, i think this is hot to trot once the copyright bits are in
+16:15 -github-bawt:#chef-hacking- [chef-rfc] jkeiser pushed 1 new commit to jk/property-defaults: http://git.io/vOvCC
+16:15 -github-bawt:#chef-hacking- chef-rfc/jk/property-defaults ad47106 John Keiser: Add copyright section
+16:15 < jkeiser> ok :)
+16:15 -!- j^2 [sid14252@gateway/web/irccloud.com/x-rcywjrkhtnknupqi] has joined #chef-hacking
+16:15 <@coderanger> Also we need to go over the examples
+16:16 <@coderanger> Like https://github.com/chef/chef-rfc/pull/135/files#diff-33830e75b3da674c1209b19f34e69f4cR75
+16:16 <@coderanger> That wouldn't throw an error as mentioned because lazy defaults get stickied?
+16:16 <@ssd7> ^- same question from me
+16:16 <@ssd7> I'm pretty sure the language there is reversed, example shouldn't throw an error
+16:17 < martinb3> ^- I'd also like a clearer error message indicating _why_ something is frozen (e.g. this value is used across all instances of this resource)
+16:17 < jkeiser> There isn't a way to do a clearer error message, sadly
+16:17 <@coderanger> martinb3: Not sure thats possible
+16:17 < jkeiser> It's a core ruby thing
+16:17 < martinb3> Ah. Not a rubyist by trade :)
+16:17 <@coderanger> Core ruby thing and doesnt have its own exception class
+16:17 < kallistec> What kind of error is it?
+16:17 < martinb3> I withdraw that then.
+16:17 <@coderanger> runtimeerror :(
+16:17 < martinb3> "RuntimeError: can't modify frozen Array"
+16:18 < kallistec> we can still grep for "can't modify frozen"
+16:18 < kallistec> and suggest a list of frozen things we know about
+16:18 <@coderanger> kallistec: Down that path lies grossness I think
+16:18 <@ssd7> What version are we thinking this would land in?
+16:18 < kallistec> in the error inspector
+16:18 -!- Aevin1387 is now known as Aevin1387_
+16:18 < jkeiser> 12.5
+16:18 -!- poliva83_ [63ebedb9@gateway/web/freenode/ip.99.235.237.185] has joined #chef-hacking
+16:18 <@coderanger> ssd7: Already on master for 12.5
+16:18 < kallistec> coderanger: better than nothing IMO
+16:18 -!- rsmomo [~rsmomo@209.210.191.28] has quit [Quit: Leaving...]
+16:18 -!- tkuchiki [~tkuchiki@softbank126066110054.bbtec.net] has quit [Remote host closed the connection]
+16:19 <@ssd7> Ah, must have missed this commit.  Have we seen much breakage in community cookbooks with not being able to write to default arrays?
+16:19 < kallistec> compare to a 401. for security reasons, the server can't say if your username or key is wrong
+16:19 < kallistec> so we say, it's one of these things
+16:19 < martinb3> I was just hoping for something that will be educational to the user; it might help them write better code & have more understanding, vs. "Why is this frozen?". But I understand if it's a core ruby thing.
+16:19 < jkeiser> ssd7: not yet, our cookbook testing hasn't run into it anyway
+16:19 < jaym> it has
+16:19 < jkeiser> martinb3: your desire is a very good one :)
+16:19 < martinb3> :D
+16:19 < jaym> isn't that the bug we ran into with the packagecloud repo?
+16:20 < jkeiser> jaym: I haven't fixed any bugs related to it
+16:20 <@coderanger> kallistec: I mean the stack trace will point to the modification line already
+16:20 < jkeiser> jaym: so if it is, it's still open and I don't know about it yet
+16:20 <@coderanger> kallistec: So I think it won't be unclear
+16:20 < jaym> i must be thinking of something else
+16:20 <@coderanger> kallistec: The most I would add is an explanation of why it was frozen
+16:20 < martinb3> Well, it'll be "don't do this" vs. "here's why this doesn't work"
+16:20 < martinb3> But yeah, explanation of freezing +1, if it's at all possible.
+16:21 < kallistec> right, but frozen objects are not a thing a novice rubyist would know a lot about, plus chef is freezing things on your behalf
+16:21 -!- Igorshp [~igorshp@109.231.237.58] has joined #chef-hacking
+16:21 < jkeiser> I'm cool with a nicer error being caught and described by the ChefClient
+16:21 < jkeiser> IMO that will be a refinement we don't need to update the RFC for
+16:21 -!- agoddard [sid25875@gateway/web/irccloud.com/x-bulrzjthstwbrerh] has joined #chef-hacking
+16:21 <@ssd7> jkeiser: jaym OK.  We might want to check some of the firewall related cookbooks that might be using arrays for things like "default allowed ports" and such, but that is just a testing concern not an objection to this feature.
+16:22 -!- cwj [sid26255@gateway/web/irccloud.com/x-zdgdjcuykacvjefw] has joined #chef-hacking
+16:22 < jkeiser> ssd7: definitely! I have my worries as well. However, I *think* all the cases it will break, are things it should break
+16:22 < martinb3> I'm maintaining the cookbook actually titled `firewall ` and I don't believe there's anything like that in there. Maybe in iptables/ufw.
+16:22 < jkeiser> jaym: oh right!  we did find one cookbook with that issue, and we had the cookbook maintainer fix it
+16:22 < martinb3> I promise to fix it if I see it :)
+16:23 < jkeiser> kallistec: I think it's super reasonable to rescue RuntimeError, grep for "cannot modify frozen" and add our own text with "this could be because of X"
+16:23 <@ssd7> I've been a bit aloof as a maintainer the last few weeks, but if we aren't already, we should be sure to note popular cookbooks that people will need to update in the release notes when we know about them I think.
+16:23 < jkeiser> It doesn't happen to users most of the time, I think
+16:23 < kallistec> coderanger: yeah, we're on the same page here. I think we can just add something to error inspectors that catches runtime errors with "can't modify frozen" and then it emits some text about the kind of objects that are typically frozen
+16:24 < jkeiser> ssd7: yep, we're running the top 10 cookbooks as tests already and can expand to more pretty easily I suspect
+16:24 < kallistec> the things that come to mind are LWRP default values and ENV vars
+16:25 <@coderanger> jkeiser: If the examples get fixed, thumbups for merge
+16:25 < jkeiser> coderanger: yep! I'm testing those in the background, can report in 10 mins or so
+16:25 -!- z [sid31258@gateway/web/irccloud.com/x-vtokmptwkyfpfwtd] has joined #chef-hacking
+16:26 < jkeiser> And yes, that's correct
+16:27 < jkeiser> The example was the opposite (the text had it right)
+16:27 <@coderanger> The text above the example matches the code, the text below it doesn't
+16:29 -github-bawt:#chef-hacking- [chef-rfc] jkeiser pushed 1 new commit to jk/property-defaults: http://git.io/vOv2K
+16:29 -github-bawt:#chef-hacking- chef-rfc/jk/property-defaults 7bd3bb6 John Keiser: Fix example to match text
+16:29 <@coderanger> +1
+16:29 < jkeiser> "Once a default is assigned, it is not re-evaluated."?
+16:30 < jkeiser> It seems right to me but my coffee seems not to have kicked in
+16:31 < jkeiser> OK, I feel like we should pull the discussion in and up or down?
+16:32 < jkeiser> I haven't added the nicer exception text, but I will happily file an issue in Chef right now
+16:32 <@ssd7> https://github.com/chef/chef-rfc/pull/135/files#diff-33830e75b3da674c1209b19f34e69f4cR83 that sentence is incorrect given the example correct?
+16:32 < martinb3> jkeiser: I'd be interested in working on it, if you'd like to assign to me.
+16:32 < martinb3> Something new to learn about the codebase :)
+16:32 < jkeiser> ssd7: I believe so
+16:32 -!- stevenmurawski [sid39739@lopsa/board/stevenmurawski] has joined #chef-hacking
+16:32 < jkeiser> ssd7: er
+16:32 <@coderanger> jkeiser: Technically it wouldn't hit that line
+16:32 -!- daxroc [sid33001@pdpc/supporter/bronze/daxroc] has joined #chef-hacking
+16:32 < jkeiser> the sentence looks correct to me, bug again, coffee
+16:32 <@coderanger> jkeiser: because the hash set above it would error first
+16:32 < jkeiser> but again, coffee
+16:33 < jkeiser> coderanger: ah, sure. Easy enough change, but the intent is pretty clear still
+16:33 <@coderanger> Yeah, this an RFC, not user docs, so not a big deal either way
+16:33 -github-bawt:#chef-hacking- [chef-rfc] jkeiser pushed 1 new commit to jk/property-defaults: http://git.io/vOvwI
+16:33 -github-bawt:#chef-hacking- chef-rfc/jk/property-defaults c052245 John Keiser: Fix the example order of assignment to match the text
+16:33 < jkeiser> It's worth having it be super technically correct though
+16:34 < jkeiser> People should be looking back at these for reference
+16:34 -!- withnale_ [~withnale_@gateway.wby.mendeley.com] has quit [Ping timeout: 264 seconds]
+16:34 <@ssd7> looks good to me now
+16:34 < jkeiser> Yay!
+16:34 < jkeiser> nathen: I think we're petering out on this :)
+16:35 <@thom> yeah, it feels like y'all are converging on being happy
+16:36 < jkeiser> https://github.com/chef/chef/issues/3734 is filed on the error message
+16:37 <@nathenharvey> are we ready to pull it in then and get it approved?
+16:37 -!- Aevin1387_ is now known as Aevin1387
+16:38 < jkeiser> coderanger, kallistec, ssd7, and martinb3 are the best ones to respond here. coderanger and ssd7 seem +1 (but please say "no" if I read you wrong), and I suspect the other two as well but don't have an explicit +1
+16:38 < jkeiser> by best ones, I mean "the ones most involved in this discussion"
+16:38 < martinb3> +1 from me, though I'm just a random community person so I don't think I have any binding vote :)
+16:39 <@nathenharvey> martinb3: your vote counts!
+16:39 < jkeiser> I am a random community person too, I just happen to work for Chef :)  There are no non-binding votes, the people who are here are the right people
+16:39  * martinb3 cheers.
+16:39 <@coderanger> We don't vote on RFCs, but thom can't accept it as LT
+16:39 <@coderanger> er, thom can
+16:39 < jkeiser> And I *really* want to get to the next RFC, I care about it more
+16:40 < jkeiser> It actually affects the number of keystrokes I have to type more
+16:40 <@thom> yeah, i can. my feeling is that everyone's happy with it, so let's make it so
+16:40 <@ssd7> I'm +1
+16:40 <@coderanger> +1
+16:40 <@nathenharvey> OK, let's move on to Proposal for default resource name and DSL - https://github.com/chef/chef-rfc/pull/136
+16:40 <@nathenharvey> we have 10 minutes left
+16:41 <@nathenharvey> I'll note that PR-135 was approved
+16:41 < jkeiser> This one I think we were even more clearly "let's wait and rubberstamp on" than the last one
+16:42 <@thom> yeah, i think this was just to make sure no-one wanted to hit the panic button
+16:42 <@coderanger> I'm still -1 on this
+16:42 <@coderanger> for the reasons listen in my comments
+16:43 < jkeiser> Oh? I don't see any unresolved issues in comments
+16:43 < jkeiser> Which one?
+16:43 -!- poliva83_ [63ebedb9@gateway/web/freenode/ip.99.235.237.185] has quit [Ping timeout: 246 seconds]
+16:43 <@coderanger> Ahh, was added but because the lines I commented on weren't edited it didn't show
+16:44 <@coderanger> Better :) Would still rather see no automagic naming outside of Chef::Resource so we could eventually kill it
+16:44 <@coderanger> but I won't block on that
+16:44 < kallistec> Honestly, I think a tiny bit of cermony is fine
+16:45 <@coderanger> (having the name explicitly in the code makes stuff like grep debugging waaaaay easier)
+16:45 < jkeiser> I don't mind a bit of ceremony at all--but it depends on just how often we have to do it
+16:45 < jkeiser> Like, if the ceremony does the same thing in 98% of cases
+16:45 <@coderanger> Also explicit provides() will always be encouraged for Poise stuff because it drives a lot of useful code.
+16:46 -!- mornap [~mornap@159.140.254.104] has joined #chef-hacking
+16:46 <@nathenharvey> 5 minute warning
+16:46 < jkeiser> It means another thing I have to remember if I want to just dash off a quickie resource
+16:46 <@coderanger> jkeiser: For most people, quickie means LWRP
+16:46 <@jtimberman> jkeiser: i hate remembering things
+16:46 <@coderanger> Where this isn't an issue
+16:46 <@jtimberman> i'm always going back through old code to cargo cult because i can't remember all the nuances of changes over the years ><
+16:47 < kallistec> also, if it's going to be automatic, I want the fewest number of branches possible
+16:47 <@ssd7> The problem for me with all the magic behind-the-scenes work is that it tends to be at odds with people eventaully learning the execution/evaluation model
+16:47 < lamont_> personally i think every resource should have to declare at least one provides line and a resource_name.  if we want to shorten that would tag one of the provides lines similarly to a 'name attribute' and pick up the resource_name from it.  then i can 'see' everything that is going on and there's no magic.
+16:47 <@jtimberman> something that makes it easy for me to clean that up and write resources/providers as "good working examples" is a win
+16:47 < martinb3> ssd7: I completely agree. Magic + learning what's under the cover = fighting the magic.
+16:47 < jkeiser> At the moment, you can type "use_automatic_resource_name" in your resource
+16:48 <@coderanger> The magic isn't terrible, and with the ::resource et al changes I do like it more, but IMO best practice will still be to be explicit
+16:48 < jkeiser> And get the current behavior
+16:48 < jkeiser> Er, and get the behavior described in the RFC.
+16:48 < kallistec> I dislike the ::resource thing; don't like having branches in conventions
+16:48 < jkeiser> The reason this particularly came up was when lamont_ noticed my patch to use resource_name in Chef resources used use_automatic_resource_name on *every resource*
+16:49 < kallistec> it should be the only way or not at all
+16:49 < jkeiser> I'm OK with removing it, it was to support Poise, but Poise won't use this
+16:49 <@coderanger> kallistec: Without that, we are actively encouraging terrible layouts
+16:49 <@nathenharvey> we're down to 2 minutes.   should we vote on this or move the conversation going to the PR
+16:49 < kallistec> coderanger: if you think it's right, then it should be the only way to do it IMO
+16:49 < jkeiser> Let's move it to the PR. Sounds like there are new objections
+16:49 < kallistec> coderanger: channel your inner python
+16:49 < martinb3> I feel like this change could also yield cases where it 'discovers' classes that shouldn't actually be chosen.
+16:50 < lamont_> lol @kallistic
+16:50 < jkeiser> coderanger: not the case
+16:50 <@nathenharvey> OK.  Moving this discussion to the PR and will add this to next week's meeting
+16:50 < jkeiser> There are two good layouts that use that naming convention
+16:50 <@coderanger> jkeiser: Example?
+16:50 < jkeiser> One: use "action" in your resource
+16:50 < jkeiser> Two: layout = MyResource for resource, MyResource::Provider for the provider
+16:51 <@coderanger> jkeiser: Fair, that is one
+16:51 <@nathenharvey> ...and that brings us to time.  Thanks everyone!  See you next week.
+16:51 <@coderanger> and for the latter, you need the branching :P
+16:51 <@coderanger> (or it wouldn't be automagic)
+16:51 < jkeiser> coderanger: explain? The rule of A:🅱:C = resource named "c" would apply
+16:52 <@coderanger>  MyResource::Provider == :my_resource
+16:52 <@nathenharvey> ***** MEETING ENDS *****
