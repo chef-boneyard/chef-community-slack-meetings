@@ -1,0 +1,149 @@
+16:00 <@thom> ***** MEETING STARTS *****
+16:01 <@thom> Agenda for today can be found at https://github.com/chef/chef-community-irc-meetings/blob/master/2015-08-06-agenda.md
+16:01 <@jonlives> except that thom is secretary for today and I'm filling in for adam :)
+16:01 <@thom> Neither Adam nor Nathen are around today, so Jon is the adult supervision, and i'm doing the typey-typey
+16:02 <@thom> On the community front, we hope to see you all at the Summit either in Seattle, London, or BOTH! 
+16:03 <@thom> adamedx: do you have client/server updates?
+16:03 < adamedx> yeah
+16:03 < adamedx> so I probably said this last week: chef-dk 0.7.0 release is imminent
+16:03 < adamedx> highlights include
+16:03 < adamedx> * new commands for enumerating policy groups / files
+16:04 < adamedx> * new diagnostics for your Chef environment (gem paths, versions, etc.)
+16:04 < adamedx> Details here: https://github.com/chef/chef-dk/blob/master/CHANGELOG.md
+16:04 < adamedx> Next week I really just want to tell everyone to use that release :)
+16:04 < adamedx> A minor thing for Windows users:
+16:05 < adamedx> We're releasing a updated knife-windows 0.8.6 gem that was previously RC and has updated WinRM dependencies
+16:05 < adamedx> so better WinRM connectivity
+16:05 < adamedx> Shortly after that will be the long-awaited knife-windows 1.0.0 release
+16:06 < adamedx> which has improvements for using WinRM from non-Windows systems
+16:06 < adamedx> and more secure defaults
+16:06 < adamedx> those defaults will have some breaking change impact from a usability standpoint
+16:06 < adamedx> The changes to defaults can be found here -- ETA is later this month: https://github.com/chef/knife-windows/blob/master/CHANGELOG.md
+16:07 <@thom> thanks, adam
+16:07 < adamedx> Not a lot of news on the Chef Client and Server front other than a focus on quality
+16:07 < adamedx> from the Chef team
+16:07 < adamedx> thanks Thom
+16:08 <@thom> ok, let's move on to the two RFCs we have outstanding
+16:08  * jtimberman grabs popcorn
+16:08 <@thom> unless anyone has any other business we should hit first?
+16:08 <@jonlives> none from me
+16:09 <@thom> right on
+16:09  * martinisoft_ pulls up a chair next to jtimberman and snacks on the popcorn too
+16:09 <@thom> AWS platform family: https://github.com/chef/chef-rfc/pull/109
+16:09 <@thom> lamont_: someara: you're up
+16:09 <@someara> it should be "amazon"
+16:10 <@jonlives> someara: what are your thoughts on having a config option to un-break that for anybody it affects? that was zts' principal objection to most of this
+16:10 <@jonlives> the main issue is that it could instantly render a large number of community cookbooks broken on amazon linux.
+16:11 <@jonlives> the suggestion is better for future proofing, but without an option to temporarily set it back, the short term pain could be significant IMO.
+16:11 < lamont_> really that indicates to me that the selection of "amazon" is wrong
+16:11 <@jonlives> personally I kind of err on the side of fedora for platform_family fedora and platform amazon
+16:12 <@jonlives> because it's fedora-ish, and the amazon part works for getting more specific.
+16:12 <@someara> It'll break "build-essential" and that's mostly it. Everything else I've seen has has to case around it being special anyway
+16:12 <@someara> "it has a /etc/sysconfig, so its fedora" doesn't fly. If we're going to play that game, we should re-classify suse as slackware
+16:12 <@jonlives> I'd still apply the same argument to cookbooks internal to orgs using amazon linux
+16:12 < lamont_> the other thing is that platform_families that only contain one platform are very pointless
+16:12 < lamont_> defeats the entire purpose
+16:12 <@someara> its broken
+16:12 <@someara> it doesnt work anyway
+16:13 <@someara> the guy that maintains the amazon linux distro, and used to work on fedora, has said they intend to diverge even further
+16:13 <@someara> because its its own platorm at this point
+16:13 < lamont_> and i think we're looking at the way that the 'rhel' platform is setup -- where its the one platform_family that really needs to be perfectly identical, and applying that to other platform_families which is not what was intended
+16:13 <@coderanger> lamont_: most platform families have only one platform
+16:14 <@coderanger> lamont_: groups are the exception
+16:14 <@someara> its not "in the family"
+16:14 < lamont_> which is really broken
+16:14 <@someara> its derived
+16:14 <@jonlives> leaving the exact thing we change it to aside for a second, what are folk's feelings about adding a config option to change it back temporarily for folks it breaks stuff for?
+16:14 <@thom> lamont_: but that's always going to happen - openbsd will be platform_family openbsd, platform openbsd. for the same reasons - it's unlike any of the other bsds
+16:14 < lamont_> we need a "solarishish" platform_family for example
+16:14 <@someara> true that
+16:14 <@someara> because for most configuration decisions, the solarish platforms are Totally Different
+16:14 < lamont_> the BSDs have diverged so much that's true, and aix and hpux will be alone in the wilderness
+16:15 <@jonlives> because if folks have a way to un-break any pain this causes them until they can fix cookbooks, the change itself doesn't matter as much.
+16:15 <@jtimberman> even in RHEL, there's potential for divergence, e.g., Oracle.
+16:15 <@jonlives> zts had the suggestion that an explicit way to override platform_family would also be handing for validating the impact of future changes
+16:15 <@thom> jonlives: so Ohai::Config[:platform] = 'fedora' in your config file
+16:15 <@jonlives> thom: essentially, yes
+16:15 <@thom> or platform_family
+16:16 < lamont_> the thing is that oracle works really well as platform_family of "rhel"
+16:16 < lamont_> which is a good case in point, that platform_family is NOT MEANT to be identical
+16:16 < lamont_> just like debian and ubuntu are platform_family of "debian" even though they're very different
+16:16 <@jonlives> once more, let's leave aside what we actually change it to for now and address the config option
+16:16 < lamont_> yet lots of cookbooks work with platform_family of ubuntu
+16:17 <@someara> This shouldn't be philosophical treatise on the classification of linux distributions. Amazon Linux has diverged far enough into its own "being" that it requires exception logic in almost every cookbook its supported in
+16:17 <@jonlives> IMO if we have the config option, the exact thing we change it to becomes somewhat academic, as anybody who doesn't like 'amazon' can change it.
+16:17 < lamont_> and the problem here stated in english is that amazon was always a fedora-derived distro, and not RHEL
+16:17 <@thom> agree with jon here, we're off in the weeds
+16:17 <@jtimberman> platform family in core chef is good for getting the right default provider for package, sometimes service (heh). for cookbook authors it's okay for general things, but it's not a panacea.
+16:17 <@jonlives> someara / lamont_ see above. let's get off the exact name change here
+16:17 < lamont_> stating that in code that reads like paltform_family of "fedora" to me
+16:18 < lamont_> platform_family isn't supposed to be perfect and isn't supposed to be a panacea
+16:18 <@jtimberman> lamont_: i think we're in violent  agreement tbh ;)
+16:18 <@someara> with "non-amazon" you'd still need the exact decision logic as "rhel". 
+16:18 <@thom> someara, lamont_: ok, we're not making progress. can we talk about jon's suggestion please
+16:18 <@someara> I'm not familiar enough with ohai to come up with a Good Way to transition 
+16:18 <@jonlives> OK, I am going to draw some dashes in this channel. After those dashes, there will be no more bikeshedding the name until we tackle the config option.
+16:19 <@jonlives> ---------------------------------
+16:19 <@jonlives> now.
+16:19 < lamont_> what is the config option supposed to do?
+16:19 <@jonlives> I would like to see this RFC recommend  adding the ability to set Ohai::Config[:platform] = 'whatever'
+16:19 <@jonlives> the config option would allow anybody who has pain from the platform change to stop said pain until they can update cookbooks etc.
+16:19 <@jonlives> it makes the pain less immediately breaky.
+16:19 < ranjibd> +1
+16:20 <@zts> +1
+16:20 < c_t> +1
+16:20 <@jonlives> it *also* makes the exact name change a hell of a lot less important.
+16:20 <@someara> +1
+16:20 < moted> +1
+16:20 < lamont_> you mean Ohai::Config[:platform][:amazon][:platform_family] = "fedora"
+16:20 < lamont_> or something?
+16:20 <@jtimberman> I am pro-config option.
+16:20 <@jonlives> lamont_: I was more thinking a global option per node to keep it simple.
+16:20 <@thom> you could presumably drop the first two keys
+16:20 <@jonlives> right
+16:21 <@thom> i guess the gist is "allow found values to be overridden by config"
+16:21 <@jonlives> yep
+16:21 < ranjibd> exactly, nesting is not needed
+16:21 <@jonlives> it also abides by the spirit of letting users know best
+16:21 <@jonlives> IMO
+16:21 < lamont_> then if you're multiplatform you have to case statement or have logic around the config rather than dropping a config which is uniform across all the nodes..
+16:22 <@jonlives> I think I'm OK with that, cos I'm envisaging this being a fairly special case kind of deal
+16:22 <@jonlives> ok. so I propose that we punt this until next week, someara updates the RFC with that config option, and then next week we can have a much more trivial discussion on what the amazon platform_family will be.
+16:22 < lamont_> i don't think i care too hard about it, but one way you're making statements about the individual node under management, the other way you can express how your infrastructure behaves
+16:23 <@jonlives> I'm erring on the side of a single override for a single found attribute here
+16:23 <@jonlives> to keep it simple
+16:23 < lamont_> 'k
+16:24 <@jonlives> someara: you cool to update the RFC along those lines?
+16:24 < lamont_> do you want to generalize it a bit though?
+16:24 <@someara> sure
+16:24 < lamont_> Ohai::Config[:override][:platform] and Ohai::Config[:override][:platform_family]
+16:24 <@jonlives> sure, I'd be fine with adding an explicit override key
+16:24 < lamont_> then for bonus points someone can allow for overriding arbitrary attributes
+16:25 < lamont_> (not required for MVP)
+16:25 <@thom> +1
+16:25 <@jonlives> gravy!
+16:25 <@jonlives> ok, that's that one done.
+16:25 <@thom> ok, i think we've reached a conclusion ehre
+16:25 <@thom> now, https://github.com/chef/chef-rfc/pull/136
+16:25 <@thom> "Proposal for default resource name and DSL"
+16:26 <@jonlives> we hath no jkeiser today it looks like
+16:26 <@thom> hm, he's not on slack either
+16:26 < lamont_> this is the one we talked about at length last time?
+16:26 <@jonlives> I have thoughts on this one, but I'd rather not deciderate it without jkeiser in attendance
+16:26 <@thom> lamont_: yeah, and we left it at further discussion required
+16:27 <@jonlives> tho essentially my thoughts are I don't like the idea of giving resource magical autonaming that providers don't get, and would rather keep it explicit via the provides statement for anything outside of Chef::Resource.
+16:27 <@thom> lamont_: unless there was more conversation after the meeting finished that i missed
+16:28 < lamont_> yeah probably should skip it
+16:28 <@jonlives> that's all we have for today then PR wise
+16:28 < lamont_> i think there's quite a bit of opposition to it and he's not around to defend it
+16:28 <@jonlives> I'll add my above comment on the PR
+16:28 <@jonlives> did we just break another meeting duration record?
+16:28 <@thom> I think whatever happens we need to capture the writing about documenting the resolution system
+16:29 <@jonlives> absolutely
+16:29 <@thom> jonlives: nah, but we're doing well. better than australia this morning
+16:29 < ranjib_> Yes, please
+16:29 < ranjib_> Its turning out into a complex yoga posture
+16:31 <@thom> heh
+16:31 <@thom> ok
+16:31 <@jonlives> a yoga posture where, depending in which order you place your feet on the ground, they might turn into hands. :p
+16:31 <@thom> **** MEETING ADJOURNED ****
