@@ -1,0 +1,62 @@
+12:01 < nathenharvey> ***** MEETING BEGINS *****
+12:01 < nathenharvey> we have a relatively short agenda for today - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-08-20-agenda.md
+12:02 < nathenharvey> I'll start with the community update
+12:03 < nathenharvey> We've filled our Cookbook Engineer positions...watch for announcements of who will be working on that and, more importantly, watch for progress in the land of cookbooks
+12:03 <@ssd7> w00t
+12:03 <@thom> yays
+12:04 <@jtimberman> awwyiss
+12:04 < nathenharvey> We're still looking for another engineer to join the Community Engineering team working on the Supermarket.  So if you people with some good production Rails experience who'd like to work on an open source project, send them our way
+12:04 < nathenharvey> Please register for the Community Summit(s) before the early registration period ends
+12:05 <@jtimberman> I'll be giving out free hugs, so you'll want to come just for that, surely.
+12:05 < nathenharvey> for Seattle, early registration ends at the end of August
+12:05 < nathenharvey> Hope to see you all there!
+12:06 < nathenharvey> Also from the community engineering team, Chef Push 2.0-alpha was released yesterday.  Watch the blog for details about that
+12:06 <@jonlives> jtimberman: you better be at the UK one too then
+12:06 <@jonlives> I don't want to miss out.
+12:06 < nathenharvey> adamedx: over to you for updates about Chef
+12:06 <@jtimberman> jonlives: ;)
+12:06 < adamedx> Thanks
+12:07 < adamedx> We did meet our goal of not having to say ChefDK 0.7.0 release is pending -- it's out now
+12:07 < adamedx> So please upgrade your workflow to it, especially if you're on Windows
+12:07 < adamedx> related to that
+12:07 < adamedx> a key focus at Chef
+12:07 < adamedx> is making it easier to get productive with Chef quickly
+12:08 < adamedx> so you'll see a lot of enhancements throughout the Chef tooling, especially ChefDK
+12:08 < adamedx> around making things easy. An example is the CHEFDK_HOME variable which helps on Windows
+12:09 < adamedx> to avoid defaulting to storing data / code in network locations where things break at runtime
+12:09 < adamedx> other examples include anything around web proxy configurations
+12:09 < adamedx> I'd like to ask
+12:10 < adamedx> that if you have an itch for something that should be easy
+12:10 < adamedx> but is not
+12:10 < adamedx> that you encounter or you see friends / colleagues hit
+12:10 < adamedx> to please file that and / or
+12:10 < adamedx> submit a PR :)
+12:11 < adamedx> along with making it easier to gain more Chef community members
+12:11 <@thom> we should mention https://feedback.chef.io too for people who might not have a github account
+12:11 < adamedx> yes, good point thom  ^^^
+12:11 < adamedx> as we finish up some feature work around PolicyFile support
+12:12 < adamedx> we want to do a major version bump of ChefDK to 1.0 in the next several weeks
+12:12 < adamedx> all right
+12:12 < adamedx> that's it for me
+12:12 < adamedx> over to you nathenharvey
+12:13 < nathenharvey> thanks, adamedx!
+12:13 < nathenharvey> Our one PR for today is Plugin configuration getter DSL - https://github.com/chef/chef-rfc/pull/146
+12:13 < nathenharvey> looks like this might be ready for approval and merge
+12:14 < nathenharvey> thom: is our decider today so....over to you thom
+12:15 < lamont_oc> thom already gave it a +1
+12:15 <@thom> yeah, i think this has enough votes now
+12:15 <@jonlives> yeah
+12:15 <@thom> so i will get out the rubber stamp and deciderate it
+12:15 < nathenharvey> excellent!
+12:16 < nathenharvey> that leaves us with 35 minutes for open discussion if there are topics anyone here would like to bring up
+12:16 <@jonlives> nathenharvey: if we have few, any updates on the CBGB?
+12:17 < nathenharvey> yes and no.  the coordination work for CBGB has been delegated from holoway to me and Karolin Beck.  Alas, we've not made much progress on that yet though.
+12:17 < nathenharvey> My objective is to have a meaningful update no later than the Community Summit in Seattle
+12:17 <@jonlives> awesome sauce!
+12:18 < nathenharvey> I don't know that we'll have the board assembled by then but will have a process for how it gets assembled articulated
+12:18 <@jonlives> that's fair
+12:19 < nathenharvey> any other topics y'all would like to discuss today?
+12:20 < nathenharvey> going once ....
+12:21 < nathenharvey> going twice ...
+12:22 < nathenharvey> sold!  thank you for joining today, we'll see everyone back here in a week. Enjoy the bonus 28 minutes of free time in your calendar ;)
+12:22 < nathenharvey> **** MEETING ENDS *****
