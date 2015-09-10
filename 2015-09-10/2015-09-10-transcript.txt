@@ -1,0 +1,260 @@
+12:00 < nathenharvey> ***** MEETING STARTS *****
+12:00 < nathenharvey> Hello!  It's been a couple of weeks since we've held a meeting so it's nice to be back in here with everyone.
+12:00 -!- ranjibd [~zenith@2601:646:c501:360e:50a6:9c38:6aad:ba0e] has joined #chef-hacking
+12:00 < nathenharvey> Our agenda for today is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-09-10-agenda.md
+12:01 < nathenharvey> jonlives is playing the role of decider today since holoway is on vacation
+12:01 -!- mornap_ [~mornap@159.140.254.105] has joined #chef-hacking
+12:01 -!- mornap_ [~mornap@159.140.254.105] has quit [Read error: Connection reset by peer]
+12:01 <@jonlives> muahahahaha
+12:01  * thom covers his eyes
+12:01 -!- mornap_ [~mornap@159.140.254.105] has joined #chef-hacking
+12:01 -!- adamleff [~adamleff@pool-70-106-248-114.clppva.fios.verizon.net] has joined #chef-hacking
+12:01 < martinisoft_> I for one, welcome our decider
+12:01 -!- martinisoft_ is now known as martinisoft
+12:02 < nathenharvey> we'll start today with an update on the Community.
+12:02 < nathenharvey> I wrote a post about the quality of cookbooks on the Supermarket https://www.chef.io/blog/2015/09/08/the-state-of-the-public-supermarket/
+12:03 < nathenharvey> We have an RFC later that's about one of the things we'd like to do to improve so more on that later
+12:03 < nathenharvey> in that post we also welcomed tas50 to the Chef team.  He's joined as a cookbook engineere
+12:03 < nathenharvey> s/engineere/engineer
+12:03 <@jonlives> welcome tas50!
+12:04 < tas50> hello all
+12:04  * martinb3 cheers.
+12:04 -!- clairem [~textual@richfield-28.sisna.com] has joined #chef-hacking
+12:04 < nathenharvey> one of the immediate things he's been working on is retiring https://github.com/opscode-cookbooks and moving everything over to https://github.com/chef-cookbooks
+12:04  * someara cheers
+12:04 < nathenharvey> with some updates to many of the cookbooks along the way
+12:05 < nathenharvey> We're making some internal progress on the CBGB and will have some additional info on that prior to the community summit in seattle and we'll discuss it there, too
+12:06 <@jonlives> nice
+12:06 < nathenharvey> Of course, I have to remind you to register for the summit, please.  Join us in Seattle, London, or both
+12:06 < martinisoft> Nice :)
+12:06 <@jonlives> will it be discussed at the london summit too?
+12:07 -!- moted [~moted@76.105.254.166] has quit []
+12:07 < nathenharvey> yes, we'll give the CBGB updates at both.  the London summit will have a slightly different update since it's a few weeks later
+12:07 <@jonlives> gravy
+12:07 < nathenharvey> That's the community update for today.
+12:08 < nathenharvey> adamedx: over to you for an update on Chef
+12:08 < adamedx> thanks
+12:08 < adamedx> Upcoming news is really all about releases this month
+12:08 < adamedx> We're working on the next chefdk release, 0.8.0 for next week
+12:09 < adamedx> there's a big focus on PolicyFile improvements, e.g. deletion and other management tasks
+12:09 < adamedx> and for the month we'd like to round out the rest of the PolicyFile functionality and also release a chef-client + server where PolicyFile can be used without any feature flags
+12:10 < adamedx> Additionally
+12:10 < adamedx> we are working on a native x64 Windows package (our current package uses a 32-bit Ruby process which runs fine on 64-bit Windows, but makes things complicated in a way that only Windows users will fully appreciate :) )
+12:11 < adamedx> Expect to see that 64-bit native Windows package at the end of the month in a "preview" form
+12:11 < adamedx> for Windows users we'd love for you to try it out and will encourage you to do so as soon as we release it
+12:11 < adamedx> it will eventually be the only package available for 64-bit Windows systems
+12:11 < adamedx> that's it for me
+12:12 -!- juliancdunn [~jdunn@2001:4830:1100:80ae:230:1bff:febe:eb33] has joined #chef-hacking
+12:12 < adamedx> back to you Nathen
+12:13 < nathenharvey> great, thanks!
+12:13 <@jonlives> and now nathen's going to introduce the PR section. onto our first PR, proposed by nathen :p
+12:13 < nathenharvey> we have one PR to review today - https://github.com/chef/chef-rfc/pull/147
+12:13 < nathenharvey> this is an RFC about measuring the quality of cookbooks on the supermarket
+12:14 < nathenharvey> my hope during the RFC process is to agree that a system similar to what's proposed is a good thing and then move the implementation discussion over to a separate repo
+12:14 < nathenharvey> given that...here's what I'm proposing:
+12:15 < nathenharvey> we need some way to make it easier for everyone to find and write better cookbooks on the supermarket.  to do so, we need some objective, automated ways of measuring what makes a cookbook 'better'
+12:15 -!- adamedx_ [~adamedx@209.210.191.28] has joined #chef-hacking
+12:15 < nathenharvey> with some inspiration from foodcritic, rubocop, and other such tools.  I'm suggesting that we create a cookbook quality metrics system
+12:16 < nathenharvey> this system would allow us to collaboratively and iteratively come up with various qualities that should be measured
+12:16 < ranjibd> +1 on the initiative
+12:16 < nathenharvey> we'd then expose a score or some indication of quality on the supermarket as well as a way to easily see how that score was created
+12:16 -!- Aevin1387 is now known as Aevin1387_
+12:17 -!- adamedx [~adamedx@209.210.191.28] has quit [Ping timeout: 244 seconds]
+12:17 -!- adamedx_ is now known as adamedx
+12:17 <@jonlives> there was already some discussion on the PR betwen martinb3 and I on this, coming down on the side of a traffic light system to give a rough indication, and full scores for those interested. equally weighted rules, and a "style" tag which would weight all style metrics in aggregate alongside each other "correctness" metric.
+12:17 <@coderanger> I'll just echo what I said on there, I think we should move forward with documenting the metrics we want to track, but remove any concept of a composite score or display for now in favor of showing each metric individually. When we have more of a feel for all of them and can look at how the metrics work in practice we can look at building composites (though I like the traffic light idea more than numeric karma-y scores). Notable all the inspiration
+12:17 <@coderanger> s do the same, there is no ranking system for FC or Rubocop violations.
+12:17 < ranjibd> but as others said, we'll need categorical metrics, other than nominal metrics. for things like platform support
+12:18 <@someara> +1 on the initiative, my only reservation is that the "easy to automate" metrics like rubocop / foodcritic are typically cosmetic and don't actually tell you if it works, works on your platform, or measures "reusability" in a meaningful way
+12:18 < ranjibd> just raw numbers or global indicators can be very misleading
+12:18 < nathenharvey> the https://github.com/chef-cookbooks/cookbook-quality-metrics repository will work in a similar way as the RFC repo.  Propose new metric via a PR, maintainers approve, it gets merged
+12:18 <@jonlives> I would actually disagree with leaving the composite score for now, because I think that's going to be most immediately impactful for folks. I'd propose all rules being equally weighted to begin with tho.
+12:18 < martinisoft> That sounds reasonable. A first pass could be indicating what is present in the cookbook? Are there tests? If so, do they run and pass? What Chef Versions are supported? Which platforms does it support?
+12:18 <@jonlives> and we can tweak balance as we go.
+12:18 < ranjibd> ditto as someara said.
+12:19 < martinb3> +1 on the initiative. I like starting with an aggregate score.  I think the devil's in the details on the quality metrics, though,.
+12:19 <@coderanger> Also picking metrics is going to be damn hard. Foodcritic is basically dead for practical purposes due to not having a release in a year, the non-lint rules on Rubocop are generally hugely controversial, etc.
+12:19 <@thom> someara: right, but they do indicate the developer cares, which is actually an important metric
+12:19 <@jonlives> someara: right - that was behind my suggestion of making all "style" metrics such as rubocop and foodcritic count in aggregate the same as each other metric individually.
+12:19 < tas50> I'd like to focus heavily on things like there are specs, there is a kitchen config, it has maintainer information and a name attribute.  Less on things like lint passes, but that is part of it.
+12:19 < ranjibd> yup
+12:19 < nathenharvey> The current repo contains a very small subset of the metrics I think we'd like to measure.  I can easily see that number reaching 100 or more pretty quickly which is why I'd argue for some sort of high level indicator
+12:19 <@thom> yup
+12:20 <@jonlives> tas50: agreed
+12:20 < martinb3> I'm also concerned for folks that have put tests in non-standard places or written custom foodcritic rules, since those may a generic check we'd write.
+12:20 -!- Igorshp [~igorshp@109.231.237.58] has quit [Remote host closed the connection]
+12:20 < martinb3> those may break, even.
+12:20 < martinisoft> tas50: Think we agree then :)
+12:20 -!- lamont_ [~lamont@c-71-231-26-189.hsd1.wa.comcast.net] has joined #chef-hacking
+12:20 < tas50> I also suspect as time goes on we'll identify more indicators of quality that we can measure
+12:20 < martinb3> ^ agree.
+12:20 <@jonlives> I think another compelling reason behind the "traffic light" or whatever is that newer chef users may not know how to interpret the many many rules that make up the score. they want an initial "should I even bother trying to use this" check
+12:20 <@coderanger> For example, every one of my cookbooks has specs in a non-standard folder.
+12:21 < stevenmurawski> martinb3: if the tests are in a non-standard place, scoring would give them incentive to move them
+12:21 <@coderanger> stevenmurawski: No, just flat out no.
+12:21 < martinb3> stevenmurawski: I actually think there are cases where the non-standard place is cleaner.
+12:21 < ranjibd> i feel we'll need a CI thing where we can actually run test-kitchen or some sort of integration tests..
+12:21 < ranjibd> stevenmurawski, -1
+12:21 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has joined #chef-hacking
+12:21 < martinb3> e.g. putting all tests under './tests' vs. having './tests/integration' and './spec'.
+12:21 <@coderanger> ^^ literally what I do
+12:21  * stevenmurawski concedes
+12:21 <@jonlives> lets not get too far down the test location rabbithole at this stage
+12:22 <@thom> jonlives++
+12:22 < cheeseplus> ^
+12:22 <@jonlives> we *can* agree that tests are an important metric ;)
+12:22 < ranjibd> most of the things recommended in the current proposal are cosmetic.. important things like whether this cookbook runs on ubuntu or centos is way more important
+12:22 <@coderanger> jonlives: I don't think it is a rabbit hole in all respects, it shows how hard this is even for a "really simple metric"
+12:22 < martinb3> Yeah, I'm just thinking in general, the devil is in the details, and we should make a statement that we will pay close attention to those details when implementing metrics, vs. rolling some out, putting a big red X on stuff, and then fixing it later.
+12:22 < martinisoft> ranjibd: Yes. This is what I mentioned earlier.
+12:22 < c_t> I'd just like to toss in that however the "traffic light" is represented, you could do something besides just small "green" and "red" icons
+12:22 <@jonlives> coderanger: it's a rabbit hole if all we're discussing today is the general idea not the implementation :) how we implement the test metric would be a whole separate discussion.
+12:22 < c_t> I realize that's the very definition of bikeshedding, but some other way to distinguish the two would be awfully nice
+12:23 <@coderanger> jonlives: For this to work, we need to sort this out in fairly excruciating detail so people know how the metrics works
+12:23 < nathenharvey> ranjibd: most are cosmetic b/c those were the ones that I wrote first.  There are plenty of additional ones that need to be added
+12:23 < ranjibd> yeah. c_t  i was hoping for platform specific icon as well .. like ubuntu/centos/etc
+12:23 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has quit [Remote host closed the connection]
+12:23 < martinb3> I'd like to just be sure we're avoiding the situation where we slap a big red X on a cookbook because we didn't think that deeply about a metric.
+12:23 <@jonlives> coderanger: I'm going by nathenharvey's initial comment of "my hope during the RFC process is to agree that a system similar to what's proposed is a good thing and then move the implementation discussion over to a separate repo"
+12:23 < c_t> ranjibd: that too, but also some of us have to stare pretty hard at those little round red/green icons to figure out what they are
+12:23 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has joined #chef-hacking
+12:23 < martinb3> I'm okay with moving the metric discussion to the separate repo, but I want it to happen before the actual ranking shows up in production Supermarket.
+12:23 < ranjibd> nathenharvey, agree. but if we force certain global nominal value.. we'll be dealing with weight related discussion in future
+12:23 <@coderanger> jonlives: My worry is that we are talking about using this for ranking and can't show even one example of a good metric to use
+12:23 < martinisoft> I'll just comment in the PR.
+12:24 <@jonlives> coderanger: there are a bunch of initial metrics in the repo that make a good start I think
+12:24  * c_t gets off his grayscale soapbox
+12:24 < nathenharvey> ranjibd: right.  which is why the proposed system allows for weighted scores per metric...but ...
+12:24 -!- heathsnow [~heathsnow@63-158-207-60.dia.static.qwest.net] has quit [Remote host closed the connection]
+12:24 < nathenharvey> we're getting too far into the weeds, I think.
+12:24 -!- heathsno_ [~heathsnow@63-158-207-60.dia.static.qwest.net] has joined #chef-hacking
+12:24 <@jonlives> so here's what I'd like to suggest
+12:24 < nathenharvey> question is should we implement a system?
+12:24 < clairem> c_t: agree with you
+12:24 < tas50> The idea of a metrics system and how we'd go about implementing that UI in supermarket really should be separate discussions
+12:24 < ranjibd> we can build tools that / things that exploit those individual metrics and expose some global thing.. for those who want it
+12:24 -!- Aevin1387_ is now known as Aevin1387
+12:24 < nathenharvey> then we should argue about that system in other meetings
+12:25 <@coderanger> jonlives: I've pointed out issues with all of them I think, it's a start but needs a lot of work to be usable for ranking since thats a high bar compared to just gathering data.
+12:25 < ranjibd> that will keep the rfc consumable for all. and the global metrics for those who want it
+12:25 < martinb3> I propose we do agree to implement a system, move metric discussion to the other repo, and agree to review any ranking/metrics and their output on the current set of cookbooks before they are published in production Supermarket.
+12:25 < ranjibd> +1 martinb3
+12:26 <@jonlives> I'd like the RFC to clarify that we will include an aggregate score (format tbd) for each cookbook such that it doesn't require grokking the entire metric pass / fail table
+12:26 <@jonlives> but other than that I'm also in favor
+12:26 < ranjibd> this is a very common issue.. and long standing one.. lets move forward
+12:26 < martinb3> I'm okay with an aggregate ranking too. +1
+12:26 <@someara> we should select a test set of cookbooks to play with on this
+12:26 < martinb3> But I do want to analyze it before it goes out :).
+12:26 <@jonlives> martinb3: yeah that part would be a whole separate discussion again methinls
+12:26 <@jonlives> *methinks
+12:26 < martinb3> agreed.
+12:27 <@jonlives> this would just amend the RFC to say that we commit to there being an aggregate score of some shape or size.
+12:27 <@jonlives> nathenharvey: what say ye?
+12:27 < nathenharvey> I will update the RFC to state that there will be some sort of aggregate metric and that data will be gathered prior to making it viewable on the supermarket by default
+12:27 <@thom> +1
+12:27 < martinb3> +1
+12:27 < martinisoft> +1
+12:27 < ranjibd> -1
+12:28 <@coderanger> -1
+12:28 -!- Igorshp [~igorshp@109.231.237.58] has joined #chef-hacking
+12:28 < nathenharvey> ranjibd: coderanger - your remaining objections are with the aggregate metric?
+12:28 < lamont_> +1
+12:28 < ranjibd> yes
+12:28 <@coderanger> nathenharvey: Yep, I think its a bad idea.
+12:29 < stevenmurawski> +1
+12:29 <@jonlives> ranjibd / coderanger what would you propose to make it easy for less experienced folks to get an idea of cookbook quality?
+12:29 < ranjibd> for me .. the single most important thing is platform support and test-kitchen / integrations test.. i see aggregate metrics inducing more confusion to get that info from this metric system
+12:29 < martinb3> I feel like, when we take a look at what the output data looks like, we'd have something more concrete to debate about RE: an aggregate metric. And we could reverse course on it if we think it's bad at that point.
+12:30 < ranjibd> i can think of a global quality metric, and flags for platforms..
+12:30 < ranjibd> i still ponder about versions within platform etc..
+12:30 < ranjibd> like as ubuntu LT i want to test out the top 20 ubuntu cookbooks..
+12:30 <@coderanger> jonlives: I think we can't jump directly there, and trying to iterate on this live is going to suck, we should set up the metrics and see how they play out  for a while.
+12:31 <@coderanger> jonlives: And maybe after that try to figure out how to aggregate them
+12:31 < martinb3> ranjibd: I feel like someone considering a cookbook should be able to expand the aggregate metric and look specifically at platform support and test-kitchen tests. Would that address the concern?
+12:31 -!- mornap_ [~mornap@159.140.254.105] has quit [Read error: Connection reset by peer]
+12:31 <@jonlives> coderanger: I do see the point there, but I'm also concerned that this is not going to produce something usable by non-expert chef users in the short term
+12:31 < ranjibd> i think so..
+12:31 < martinisoft> I'd love to spot the 3 cookbooks supporting FreeBSD easily. o/
+12:31 < nathenharvey> whatever system we launch with will be no where near complete and will absolutely require additional iterations
+12:31 < martinb3> Maybe we could add language about the individual metrics always being available, to address the concern?
+12:31 <@coderanger> jonlives: I agree, it won't. That's just the nature of the problem.
+12:31 <@jonlives> I like martinb3's suggestion actually
+12:32 <@coderanger> jonlives: And this seems to be saying "fuck it we'll do it live" instead of solving that.
+12:32 < ranjibd> what your are saying apart from global metric.. we'll have those individual metrics as well
+12:32 <@jonlives> of being able to expand the agg score to the most "commonly" cared about metrics.
+12:32 <@jonlives> coderanger: essentially it is though - we can theorise this all we want, but without putting it in front of real users we'll never know how well it'll work.
+12:32 -!- mornap [~mornap@159.140.254.105] has joined #chef-hacking
+12:32 < nathenharvey> ranjibd: yes.  some aggregate sort of score but all of the details of how that score was derived would be easily accessible, too
+12:32 < martinb3> Correct. You should be able to expand easily and see why it scored an "A" or a "B". And decide if the individual factors matter to you individually.
+12:32 <@coderanger> jonlives: Which works in some places, but I have a strong suspicion that as the author of ::handwave:: idiosyncratic cookbooks, this will have a direct impact one me.
+12:33 <@coderanger> jonlives: So I'm trying to push to build this system defensively
+12:33 < ranjibd> this problem is no different than standard github repo problem
+12:33 <@coderanger> In a way that won't effectively poison the well with bad data until we can be much more certain we have good data
+12:33 <@coderanger> Supermarket is already a joke re: quality, we don't get an unlimited number of do-overs.
+12:34 < ranjibd> so.. supermarket can show N flags.,., and a global score.. while the cookbook source code repo can show only the global metric.. may be
+12:34 < martinb3> coderanger: That's why I wanted to add a proviso that we will analyze and decide if we like the outcomes of the metrics (both singly and in aggretare) before anything goes live.
+12:34 < martinb3> err aggregate.
+12:34 <@coderanger> martinb3: Sure, thats basically the same thing I'm saying, just I don't think we should commit to an aggregate metric just because we think it is a good idea before seeing any data.
+12:35 < ranjibd> yeah.. also when we can specify scenarios upfront where this does not help
+12:35 < martinb3> I'm okay with leaving the aggregate language as something we want to explore, but not necessarily a requirement until we compare specific aggregate metrics and how they have.
+12:35 <@coderanger> Yes, that
+12:35 <@coderanger> :)
+12:35 < martinb3> err behave.
+12:35 <@jonlives> coderanger: it's not a question of data. novice chef users want to see a "seal of quality" on cookbooks without needing to understand in detail what we use to determine that. the folks in this room are not typical chef users in that regard, in that we all (largely) know that stuff already
+12:35 <@coderanger> jonlives: I would love to give them that, but I'm not convinced we can at this point.
+12:36 <@jtimberman> I have so many opinions.
+12:36 <@jonlives> if we just have a table of metrics, the only people who can use that are,I'd argue, the people who need it the least
+12:36 <@thom> (or that we're able to make a determination easily based on inspection)
+12:36 <@coderanger> Giving people more data is at least a start
+12:36 <@thom> coderanger: only if they know how to interpret it
+12:36 <@coderanger> thom: _we_ don't know how to interpret yet, so how can we do it for them?
+12:36 <@jonlives> ok so what if (bear with me)
+12:37 <@someara> friendly reminder that the Metaphysics of Quality has been known to drive people mad
+12:37 < ranjibd> lol
+12:37 < martinb3> I don't think we'll shoot down the idea that we need some aggregate metric, for the uninitiated.
+12:37 <@coderanger> someara: srsly, this is why I prefer the "ALL the datas!" approach for now :)
+12:37 <@jonlives> we state in the RFC that we will a) commit to producing an aggregate score which is very much tbd b) easily show how we calculated that score, with easily visible data on platform support & testing etc and c) also publish the full scores for them wot wants it.
+12:38 <@jonlives> we're only committing to working towards producing an aggregate score, bear in mind.
+12:38 < martinb3> jonlives: +1, but also that we don't publish anything in production until we've had a chance to review it and be sure we get feedback.
+12:38 -github-bawt:#chef-hacking- [chef] jaym created jdm/disable-service-specs (+1 new commit): http://git.io/vZBG3
+12:38 -github-bawt:#chef-hacking- chef/jdm/disable-service-specs 7d62aa4 Jay Mundrawala: Allow windows_service_spec to only run in appveyor...
+12:38 <@jonlives> because I think we all agree that we would like one eventually, even if we need data first.
+12:38 <@jonlives> martinb3: yes, I think that's fair too.
+12:39 <@jonlives> is there anybody -1 to ^^
+12:39 <@coderanger> jonlives: I'm still not in love with "commit" on there, but I think I've said my piece and if we get data and it doesn't work we can un-commit
+12:39 -github-bawt:#chef-hacking- [omnibus-chef] randomcamel deleted cd/revert-rubygems at ff00ed1: http://git.io/vZBGP
+12:39 <@coderanger> jonlives: Perhaps I'm taking that more strongly than it is intended
+12:40 <@jonlives> coderanger: maybe better phrases as "if at all practicable we will try to" :p
+12:40 <@coderanger> jonlives: Yeah, its cool as a goal, I'm just unconvinced it is attainable, but still fine with making it aspirational :)
+12:41 < martinb3> We may even find we want more than one.
+12:41 <@jonlives> nathenharvey: sounds like we have a rough agreement on tweaks to make to the RFC then :)
+12:41 < nathenharvey> I propose that I update the RFC to reflect jonlives suggestions and we review next week
+12:41 <@jonlives> agreed
+12:41 <@coderanger> Yeah, I suspect the final form is going to be individual counts of green/yellow/red. Thats the format I've seen work most often.
+12:41 < martinisoft> I am actually a full +1 as the RFC stands because it only indicates we will collaborate on creating metrics in a separate repo. Correct me if I am wrong here, but I think we might agree there should be cookbook quality standards, we just don't agree on those standards (yet).
+12:41 <@coderanger> But thats still some form of aggregate metric
+12:41 < martinb3> martinisoft: that's how I understand it, yes.
+12:42 <@coderanger> Ditto
+12:42 <@jonlives> martinisoft: right - I'm just clarifying a few aspirations we'd like to work towards if possible :p
+12:42 <@coderanger> And I'm mostly personally worried my code is going to get dinged and that has serious negative impact for me.
+12:42 < martinb3> I'd love to continue the discussion with actual metrics and then data about how they perform against cookbooks in Supermarket. I'm okay with an aspirational "the community has expressed a need for an aggregate metric..."
+12:43 <@coderanger> (as someone who's livelihood is directly tied to perceptions of quality in the chef world)
+12:43 < martinisoft> Just think the conversation is de-railing a lot towards specific things (I'm guilty of this and updating my comment now) versus the idea of actually having a quality system at all.
+12:44 < nathenharvey> the RFC is less than 24 hours old, too.  so I think the best course of action is to revisit next week with some changes
+12:44 < nathenharvey> and, in the meantime, discuss the virtues of the proposal in the RFC PR and the details of the metrics in the cookbook quality metrics repo (https://github.com/chef-cookbooks/cookbook-quality-metrics)
+12:44 <@jonlives> agreed ^^
+12:44 <@jtimberman> I agree with the words nathenharvey said, let's revisit next week.
+12:45 <@coderanger> All I would add is we shouldn't let scoring get in the way of working on metrics :)
+12:45 <@coderanger> I would say for now let's accept/discuss new metrics with a big ol' TBD for scores
+12:45 <@jonlives> yeah the implementation of scoring is totally not firm yet, that's def an "implementation" discussion for later.
+12:46 -!- dekae [~Twisted@50.111.35.214] has joined #chef-hacking
+12:46 -!- dekae [~Twisted@50.111.35.214] has quit [Changing host]
+12:46 -!- dekae [~Twisted@pdpc/supporter/active/dekae] has joined #chef-hacking
+12:46 < nathenharvey> we have 4 minutes left and nothing else on the agenda.
+12:46 < martinb3> Seems like we can revise and revisit.
+12:46 < nathenharvey> thanks for all the feedback on this.  very helpful!
+12:47 <@jonlives> thanks for proposing this nathenharvey, the one thing we can all agree on I think is that we definitely want these metrics :p
+12:47 < adamleff> So glad to see general across-the-board support for making things better, so for that, I’m thankful to everyone.
+12:47 < nathenharvey> Ok...
+12:47 < martinisoft> Yes, thank you nathenharvey. Awesome blog post too.
+12:47 < nathenharvey> ***** MEETING ENDS *****
