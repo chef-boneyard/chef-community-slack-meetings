@@ -1,0 +1,236 @@
+12:00 < nathenharvey> ***** MEETING STARTS *****
+12:00 < nathenharvey> welcome to our Chef Developers' Meeting
+12:00 <@thom> hello!
+12:00 < nathenharvey> Today's agenda can be found in GitHub here - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-09-17-agenda.md
+12:01 < Majost> Meeting today?
+12:01 < nathenharvey> Majost: yes, just getting started
+12:02 < nathenharvey> holoway is probably running a few min late
+12:02 < Majost> Np
+12:02 < nathenharvey> so our agenda will start with updates
+12:02 < nathenharvey> on the community side - Community Summit is only a few weeks out in Seattle.  Our hotel block is filling up very quickly so please reserve that soon if you're joining us
+12:03 < nathenharvey> and I hope you'll be joining us ;)
+12:03 < nathenharvey> If Seattle isn't great for you, join us in London in November
+12:03 < nathenharvey> http://summit.chef.io
+12:04 < nathenharvey> Looking forward to seeing many of you there...well, I'm looking forward to seeing each and every one of you there but realize you might not all make it
+12:05 < nathenharvey> This marks Jennifer Davis's first week on the Cookbook Engineering team, too.  So things are ramping up there
+12:05 < nathenharvey> that's it for the community update.  On to the Chef update
+12:05 < nathenharvey> adamedx is off taking his children to their first day of school, following a teachers' strike in Seattle, so he's not around but left an update with me
+12:06 < nathenharvey> ChefDK 0.8.0 is targeted for release next week
+12:06 < lamont_oc> foodcritic v5.0.0 later today
+12:06 <@coderanger> lamont_oc: Have we worked out what to do with FC054?
+12:07 < nathenharvey> the ChefDK release got stalled by an issue we uncovered as part of our delivery process.  You can read some great info on the release in jtimberman's blog post - https://www.chef.io/blog/2015/09/16/remediating-escaped-defects-within-continuous-delivery/
+12:07 < lamont_oc> yeah we're shipping it
+12:07 <@jtimberman> oh hey i wrote that blog post :D
+12:07 <@coderanger> lamont_oc: shipping it as is or with the include? change?
+12:07 < lamont_oc> shipping it as-is
+12:07 <@jtimberman> if you want to read about some bizarre file loading from ruby's `require`, read that post :)
+12:07 <@coderanger> lamont_oc: Can we not?
+12:08 < lamont_oc> we should talk after updates probably
+12:08 < nathenharvey> Foodcritic is a good topic for this forum, I think.
+12:08 < lamont_oc> nathenharvey: you should add foodcritic release to end of agenda
+12:09 < nathenharvey> those are all of the updates that I'm aware of though.  Anyone else have anything?
+12:09 < dhoer_> I would like to escalate a pull request for busser-rspec: https://github.com/test-kitchen/busser-rspec/pull/10
+12:09 < dhoer_> I'm developing selenium cookbook (https://github.com/dhoer/chef-selenium) and it requires rspec testing, which is broke on Windows platform
+12:09 < nathenharvey> agree, let's keep to our agenda and circle back to foodcritic if / as we have time to do so
+12:10 <@coderanger> If the FC release is planned for later today, I would call that higher priority than RFC review.
+12:10 < lamont_oc> we can suspend the release if we don't get the time to talk about it here
+12:11 < nathenharvey> I'm not suggesting we don't discuss foodcritic just that we hold off on that to get through the agenda
+12:11 <@coderanger> Okay
+12:11  * martinb3 has no agenda items.
+12:11 < nathenharvey> someara: is ruunnig a bit late so we'll come back to PR 148 after he's here
+12:12 < nathenharvey> and skip ahead to PR-147 - Cookbook Quality Metrics - https://github.com/chef/chef-rfc/pull/147
+12:12 < nathenharvey> again, I'd like to point out that my intent with RFC is to gain consensus that a system like this should be put in place and developed with the community
+12:13 < nathenharvey> we can discuss the specifics of individual measures and such in the repo for the system (https://github.com/chef-cookbooks/cookbook-quality-metrics)
+12:14 < nathenharvey> changes to the RFC since last week include words that say we'd like to see some sort of aggregate score but that score should not be immediately visible on the supermarket until we have a chance to review the way it's generated
+12:15 < nathenharvey> I also added a new stage to a metric's lifecycle:  "In Process" to reflect a metric that we're collecting data on but is not yet visible on the Supermarket
+12:15 <@someara> hello!
+12:16 < martinb3> Just looking over the diff of changes, it looks great to me now.
+12:16 <@coderanger> Meh, wording seems to still be somewhat weasel-y but if anyone tries to force in a silly aggregate score system I'll just be cranky then instead of now :D
+12:17 < nathenharvey> I think we need to start gathering data to see if or how an aggregate score would be useful
+12:18 <@coderanger> Yep
+12:19 < nathenharvey> I propose we accept the RFC as it currently stands
+12:19 <@coderanger> thumbsup
+12:19 <@thom> agreed
+12:19 <@jtimberman> :awwyiss:
+12:19 < adamleff> +1
+12:19 < nathenharvey> absent a holoway, thom is decider
+12:19 < lamont_oc> +1
+12:20 <@thom> make it so!
+12:20 < nathenharvey> awesome.  We've also given someara time to find some bandwidth
+12:20 <@jtimberman> it's irc, it doesn't need bandwidth ;)
+12:20 <@someara> I found some
+12:21 < nathenharvey> let's move on to https://github.com/chef/chef-rfc/pull/148
+12:21 <@someara> laptop battery might be an issue though =)
+12:21 <@holoway> hi
+12:21 <@jtimberman> someara: type fast
+12:21 < nathenharvey> hello, holoway!
+12:21 <@holoway> live from my car - I don't know how many of you have tried adjusting to a new routine with a kindergartner while also travelling a bunch, but I am failing miserably at it. sorry :)
+12:22 <@someara> holoway you're not driving are you?
+12:22 < nathenharvey> someara: want to talk about next steps for 148?
+12:22 < nathenharvey> while you still have some power
+12:22 <@someara> so next steps for 148 are ... keep commenting
+12:22 <@someara> I want to gather as much feedback as possible before summit
+12:24 <@holoway> no, I'm not driving
+12:24 <@holoway> :)
+12:24 <@someara> the purpose of the RFC was to try and establish a scope that a governance policy would operate within
+12:25 <@someara> define the goals, etc
+12:26 <@holoway> another option is something akin to a 'derivation'
+12:26 <@someara> from there we can decide if there is any engineering work to do, or if this can be %100 process
+12:26 <@jtimberman> i've seen namespacing mentioned in this within context, but do we have a clear statement about whether or not namespacing on supermarket is a thing that could happen? is this to address "someone has the namespace for something but aren't responsive to requests to fix/make changes/etc on a broken cookbook"
+12:26 <@holoway> where a cookbook is considered "the same thing" if it has the same name and version number
+12:26 <@holoway> but you can have preferences for derivation
+12:26 <@holoway> ie: I prefer "someara" cookbooks if they exist, otherwise use "chef"
+12:27 <@holoway> it'll still be completely up to the author to have it, well, actually work :)
+12:27 <@holoway> I'm not sure this makes things better, but it's another way to deal with it
+12:27 <@holoway> (essentially a list of derivations, in preference order0
+12:27 <@coderanger> holoway: That is similar to the DevPI model
+12:27 < lamont_oc> yeah, i've been a proponent of namespacing, but everyone that i've talked to internally about namespacing makes it pretty clear to me that namespacing is dead
+12:28  * holoway nods
+12:28 <@someara> well we DO have a namespace, its just a flat one
+12:28 <@someara> so are we going to just govern that,  or explore making it not flat
+12:28 <@coderanger> Multiple "repositories" with some kind of tiered inheritance scheme seems like the least disruptive way forward
+12:28 <@coderanger> Possibly with prefix reservations on the global namespace
+12:28 <@holoway> coderanger: is that essentially a +1 on what I just called a "derivation"?
+12:29 <@coderanger> holoway: Yeah, same idea.
+12:29 < lamont_oc> yeah multiple repos with conflict resolution is what is being done in policyfiles now
+12:29 <@holoway> I'm pretty sure that could be implemented in a back-compat way
+12:29 <@holoway> ie: everything without a derivation just gets some catch-all default derivation
+12:30 <@coderanger> holoway: Or phrased another way, by default all new repos on Supermarket inherit from "root"
+12:30 < nathenharvey> someara:  I'll say whatever I need to get everyone to stop spending time thinking about having something other than a flat namespace on the supermarket.  I welcome the discussion about how to manage/govern that namespace better.
+12:30 <@holoway> right
+12:30 < lamont_oc> https://github.com/chef/chef-dk/issues/430 and https://github.com/chef/chef-dk/pull/450 are minimum viable product
+12:31 < lamont_oc> already in chef-dk and policyfiles
+12:31 < kallistec> just to be clear, what exists in policyfiles now will conflict if the names are the same, doesn't care about versions
+12:31 < kallistec> I could perhaps be convinced otherwise, but am taking the most conservative path to start
+12:31 <@holoway> right - but we could easily move it forward
+12:32 <@coderanger> The downside of the repo/fallback model is it really needs a webapp to mediate the lookups
+12:32 < kallistec> the risk is that you have two cookbooks for the same thing (mysql or whatever) but they don't have the same API
+12:32 <@holoway> right
+12:32 < lamont_oc> yeah if "build-essential" comes from more than one source (has versions in two sources, even if the versions aren't the same) then you have to override that with an explicit cookbook source line to resolve the conflict
+12:32 <@coderanger> So this would have to be coded into Supermarket most likely.
+12:32 <@holoway> that's totally going to happen
+12:32 <@holoway> but it's going to be on you
+12:32 <@holoway> (where you is the user)
+12:32 <@holoway> there really isn't another way
+12:32 <@someara> the other thing is, prefixes are effectively namespaces
+12:32 <@holoway> right
+12:33 <@holoway> if you can reserve a prefix..
+12:33 <@someara> that use a - instead of a /
+12:33 <@holoway> a spade is a spade
+12:33 <@coderanger> someara: No, they aren't, unless you can globally say "use my thing instead of the global thing"
+12:33 <@holoway> right
+12:33 < ranjibd> right
+12:33 <@jtimberman> metadata has a 'provides' keyword.
+12:33 <@jtimberman> never implemented, but it exists.
+12:34 <@holoway> one thing a model like this probably needs
+12:34 <@holoway> is a "release" number for a cookbook, seperate from the version
+12:34 <@coderanger> someara: You _could_ implement that feature on top of simple name prefixes, but why?
+12:34 <@thom> we're almost into API versioning
+12:35 <@holoway> ie: "cookbook default/a1 version 1.2.3 and cookbook coderanger/a1 version 1.2.3" are equivalent, but I prefer coderanger
+12:35 <@coderanger> meh, if down this path also lies formalized interfaces
+12:35 <@holoway> but if coderanger wants to move that forward and remain equivalent, he needs a number he can change that doesn't fuck with the equivilancy acros
+12:35 < lamont_oc> right now we have the ability to check a build-essential cookbook into your local git repo or local supermarket instance and override the public supermarket one while still pulling other cookbooks from the public supermarket with dan's patches to chef-dk
+12:35 <@coderanger> And I don't think we know what we are doing enough to commit to that kind of thing :)
+12:35 <@holoway> ie: "a1 v 1.2.3 r xyz"
+12:36 <@holoway> I'm not sure this is good for chef, but it's what you would need to do, I think
+12:36 <@coderanger> lamont_oc: Yeah, but its a pain in the ass
+12:36 <@coderanger> lamont_oc: Idea is to make that one click on Supermarket instead of a bunch of "download here, upload there, reconfigure everywhere"
+12:37 <@coderanger> This is common enough that it also probably shouldn't require a private supermarket (though it should certainly be an option)
+12:39 < nathenharvey> we have about 12 minutes left and this RFC is meant to gather feedback.  I suggest we continue the discussion in the PR for the RFC and use the rest of our time to discuss foodcritic release
+12:39 < lamont_oc> if the server supported /universe it could also be used as a source (although there's probably a bit of inception in CI pipelines there)
+12:39 < martinb3> OT, but my feedback: Whatever solution is chosen, I would like it to behave in such a way that the current flat namespace is deprecated, and we don't use it as a way to steer people to a particular namespace depending on $cookbook and $current_timestamp. In other words, $cookbook would always default to $default_deprecated_namespace/$cookbook, and we wouldn't use default namespaces to steer people to particular blessed namespaces or cookbooks.
+12:39 <@coderanger> holoway: In the long term I agree, in the short term I think that is a hole we don't want to go down yet
+12:39 <@holoway> y
+12:40 <@holoway> lets move on
+12:40 <@holoway> and take it to the PR
+12:40 <@someara> thanks everyone. dropping off. see you in the thread
+12:40 < nathenharvey> someara: thank you for kicking this off!  we'll continue to make things better for everyone by discussing these things in an open format.  Should make for some great sessions at summit, too
+12:40 <@coderanger> So FC054, a thing, we should sort out what to do with it
+12:40 < martinb3> aye, thanks someara!
+12:40 <@someara> just wanted to get it written down somewhere =)
+12:40 <@coderanger> One option is release it as is, one is to remove it, both are probably bad ideas.
+12:40 <@jtimberman> is there a link to an issue or pull request for 054? I don't see it documented?
+12:40 <@coderanger> The rule as written is "the folder the cookbook is in must match the name of the cookbook"
+12:40 <@thom> https://github.com/acrmp/foodcritic/pull/358
+12:41 < lamont_oc> the bikeshed is here:   https://github.com/acrmp/foodcritic/pull/358
+12:41 <@coderanger> I think that is not something widespread enough to include as a default rule in FC
+12:41 <@jtimberman> 43 comments?
+12:41 <@coderanger> because of name schemes like chef-foo and foo-chef
+12:41 < lamont_oc> so facebook + phil are already using this and its something they want for their workflow and it prevents defects in their enviroment
+12:41 <@coderanger> My proposal is to use include?(name) instead of ==name
+12:41 <@thom> and foo-cookbook
+12:42 <@coderanger> Covers most of the cases phil mentioned, while having a lot fewer false positives
+12:42 < lamont_oc> but its not universal, and we made the name attribute mandatory so that cookbooks could be dropped in any directory, including tmpdirs, and the metadata was authoritative as to the name
+12:43 < martinb3> I think I'm -1 on it. I don't think the directory name should have to match or be special.
+12:43 < lamont_oc> since its not universal the best idea would probably be to ship the rule, but disable it by default, and let phil and other users enable it for their workflow
+12:44 <@jtimberman> this particular issue looks like something that you need to have context about, since there's over 40 comments on it in the last week. IMO the metadata should be authoritative. my understanding is that's how tools like berkshelf and the chefdk policyfile tooling works.
+12:44 <@coderanger> lamont_oc: With the downside of that being we have no machinery for enabling non-default rules AFAIK?
+12:44 < martinb3> I've seen folks ship their own custom gem and insert additional FC rules that way.
+12:44 <@coderanger> martinb3: Indeed, and FB already does that.
+12:44 < lamont_oc> but the problem is that foodcritic doesn't work well with that.  i'm not sure that .foodcritic can be used to enable rules rather than disabling them, and it has to be done per-cookbook and there's no global .foodcritic
+12:44 < lamont_oc> yeah, that's the workaround
+12:44 <@jtimberman> lamont_oc: i believe that's correct - .foodcritic is only to disable rules.
+12:45 < martinb3> coderanger: yep. I think that's a better model, even if plugging rules into foodcritic is kinda a pain.
+12:45 < martinb3> I'd rather make it easier to extend foodcritic with custom rules than include this rule in the core, disabled.
+12:45 < lamont_oc> so we need something like https://github.com/acrmp/foodcritic/pull/290 merge into foodcritic at some point
+12:45 < nathenharvey> why not just include it as a custom rule in your pipeline, if you need the rule.  seems better to me than shipping a disabled by default rule
+12:45 <@holoway> so, just to make sure I grok the debate
+12:45 <@coderanger> So I think the choice is either we ship with FC054 removed, or we ship with it in there but using include? and make it clear it is a lot "softer" than some of the other rules
+12:45 < lamont_oc> custom rules are a bit of a PITA
+12:46 <@holoway> phil is saying "if your cookbook is not in a directory with the correct name, it's bad mojo"
+12:46 <@holoway> and one response is "but that's sometimes very convenient and not an error"
+12:46 <@holoway> so at the very least this is a style thing
+12:46 <@holoway> and foodcritic really is all or nothing
+12:46 <@holoway> ie: if you ship a rule, it's on by default
+12:46 <@coderanger> holoway: He is saying that people often "cp -R" and don't update the name in the metadata
+12:46 < lamont_oc> pihl is saying "in my enviroment, that routinely hoses the crap out of us, i want that rule"
+12:46 <@coderanger> holoway: FC still passes because the name field is set, but it is still the old value
+12:47 <@holoway> so the question is who gets to play the "turn this rule off game"?
+12:47 <@holoway> right now the answer is always the coderangers
+12:47 < lamont_oc> yeah
+12:47 <@holoway> is that basically it?
+12:47 <@holoway> so this rule should stay, coderanger should turn it off, and we should extend foodcritic to ship rules that are not on-by-default
+12:47 < lamont_oc> we may need to turn it off for supermarket as well (i think i finally tracked down how supermarket runs foodcritic this AM, yay!)
+12:48 <@holoway> then we can flip it
+12:48 <@coderanger> holoway: As written right now it would be more than just me
+12:48 <@holoway> has this rule not shipped?
+12:48 <@coderanger> holoway: This would flag anyone that names folders like chef-foo or foo-cookbook
+12:48 < lamont_oc> rule has not shipped
+12:48 <@coderanger> And this has not yet shipped
+12:48 <@holoway> ahhhhhh
+12:48 <@holoway> that's a whole 'nother kettle of fish
+12:48 < martinb3> And the requestor is already using a gem to extend foodcritic to do this same check today.
+12:49 <@coderanger> I want us to pick a semantic before it hits a public release because doing it later sucks :)
+12:49 < lamont_oc> (supermarket also has a checked in gemfile.lock that pins to v4.0.0 if anyone is worried about the foodcritic release hosing supermarket somehow)
+12:49 <@holoway> ok
+12:49 < lamont_oc> i think the requestor may be pulling from foodcritic master off git?
+12:49 <@holoway> this makes it easy
+12:50 <@jtimberman> so rule 054, is this a thing that it would warn about: I have a github.com/jtimberman/vagrant-cookbook, i clone that to my local system in ~/dev/cookbooks/vagrant-cookbook, but the `name` in metadata is `vagrant` - since the containing directory is vagrant-cookbook, foodcritic will whinge?
+12:50 <@thom> jtimberman: yes
+12:50 <@holoway> we don't ship the rule, we make it clear we want to include it, but we would like to be able to ship rules that are opt-in
+12:50 <@holoway> rather than universal opt-out
+12:50 < martinb3> They also use the custom-rule-by-gem here: https://github.com/etsy/foodcritic-rules
+12:50 <@holoway> because this breaks known workflows
+12:50 <@jtimberman> but i can mv vagrant-cookbook vagrant and it would stop foodcritic?
+12:50 < martinb3> So it seems like the more advanced orgs definitely use this.
+12:50 <@holoway> and there are existing workarounds to get this rule included
+12:51 <@holoway> then someone on thom's team, or in the community, patches foodcritic to support optional rules
+12:51 <@holoway> et voila
+12:51 <@holoway> is foodcritic a project that's under the bubble of the maintenance policy?
+12:51 <@coderanger> I am happy with that resolution, basically I'm happy with anything that isn't shipping 054 in its full form.
+12:51 <@holoway> or is acrmp the decider?
+12:51 < lamont_oc> so @jtimerman @coderangers proposal is that we match with include? so that vagrant-cookbook will match name "vagrant" in the metadata.rb
+12:52  * jtimberman shrugs
+12:52 <@thom> i think it isn't yet, but acrmp has essentially stepped away
+12:52 < lamont_oc> acrmp is kinda absentee landlord
+12:52 <@holoway> ok
+12:52 <@jtimberman> lamont_oc: i'm totally down with using mv.
+12:52 <@holoway> then I'm going to just rock some judicial overreach
+12:52 <@holoway> and see if it breaks the universe in half
+12:53 <@thom> sounds good
+12:53 < lamont_oc> yep
+12:53 < nathenharvey> that brings us to 3 min past our scheduled time, too.
+12:53 < lamont_oc> i just wanna ship, so will abide by whatever judicial overreach... =)
+12:54 < martinb3> He must be typing something really long? :)
+12:54 < nathenharvey> OK, we'll be back next week if there are things to discuss.
+12:54 < nathenharvey> ***** MEETING ENDS ******
