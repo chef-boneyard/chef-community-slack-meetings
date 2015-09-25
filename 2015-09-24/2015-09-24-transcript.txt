@@ -1,0 +1,32 @@
+12:00 < nathenharvey> ***** MEETING STARTS *****
+12:01 < nathenharvey> Our agenda for today:  https://github.com/chef/chef-community-irc-meetings/blob/master/2015-09-24-agenda.md
+12:02 < nathenharvey> we'll have a couple of updates and one PR to comment on
+12:03 < nathenharvey> I'll kick us off with a Community Update.  As you know, the Summit is only a couple of weeks away.  I hope you'll all be there or join us in London
+12:03 < nathenharvey> We expect to have a full timeline for the CBGB nomination and voting process announced by then
+12:03 <@holoway> morning
+12:04 < nathenharvey> As always, I'm happy to answer any questions you have about either of those things
+12:04 < nathenharvey> morning, holoway
+12:04 < nathenharvey> you're up next on the agenda if you'd like to provide an update for everyone here
+12:05 <@holoway> not a ton to report from Chef Software - but since I know there are updates on the client/server front, lets go ther
+12:06 < nathenharvey> OK, over to you, adamedx
+12:06 < adamedx> hello
+12:06 < adamedx> A little recap: we released Chef Client 12.4.2 and 12.4.3 this week
+12:07 < adamedx> those are fairly minor release with support for RPM 5 and also addressed a security vulnerability with RubyGems
+12:08 < adamedx> The more interesting release of Chef Client 12.5.0 is where we are turning our attention next
+12:08 < adamedx> it has a much larger set of changes, particularly around resources that many of us here in this meeting are familiar with
+12:08 < adamedx> so we plan on doing a lot of acceptance on real infrastructure
+12:09 < adamedx> we've already addressed regressions in that release identified both internally and by consumers of our public nightly releases
+12:09 < adamedx> so thanks to everyone who uses those
+12:09 < adamedx> Our chef-dk 0.8.0 release is imminent as well, so watch for that
+12:10 < adamedx> and on the server
+12:10 < adamedx> we will have a release at the end of the month
+12:10 < adamedx> that includes PolicyFile node state support
+12:11 < adamedx> and at that point, you'll be able to use PolicyFile as your default workflow without turning on any feature flags or server features
+12:11 < adamedx> that's it for me nathenharvey
+12:11 < nathenharvey> awesome, thanks adamedx
+12:12 < nathenharvey> there's only one PR on our agenda today, the one requesting comments about namespace governance for the supermarket - https://github.com/chef/chef-rfc/pull/148
+12:13 <@someara> it still exists mainly as a place to collect thoughts ahead of the summit
+12:13 <@someara> so pile them on
+12:15 < nathenharvey> that's pretty much the entirety of our planned agenda.  So, I'd like to open up for anyone to raise a topic to discuss
+12:19 < nathenharvey> and with that, I say we end this meeting.  Everyone enjoy the rest of your week!
+12:19 < nathenharvey> ***** MEETING ENDS *****
