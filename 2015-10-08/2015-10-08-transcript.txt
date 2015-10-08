@@ -1,0 +1,118 @@
+16:00 < nathenharvey> ***** MEETING STARTS *****
+16:01 < nathenharvey> today we have a couple of updates to go over but not outstanding PRs that are ready to discuss
+16:01 < nathenharvey> I'll be playing the role of secretary today and jonlives has agreed to be the decider should anything need deciding
+16:01 <@jonlives> o/
+16:02 < nathenharvey> We'll have a community update from me then an update on Chef software from jkeiser
+16:02 < jkeiser> jonlives: everything should be underscores and not dashes. DECIDE.
+16:02 <@jonlives> jkeiser: I decide to stay out of that one :p
+16:02 < nathenharvey> The Community Summit in Seattle kicks off next week.  I hope to see a bunch of you there.
+16:03  * martinb3 wishes he could be there.
+16:03 < nathenharvey> We'll start with an open house at Chef's HQ on Tuesday afternoon then open spaces Wednesday & Thursday
+16:03  * tBunnyMan is excited for next week
+16:03 < nathenharvey> Wednesday night we're bringing back game night after the great success we had with it last year and earlier this year at ChefConf
+16:04  * juliancdunn will see y'all there!
+16:04 < nathenharvey> There will be Dungeons & Dragons and we could probably use another DM or two.  Let us know if you're intrested
+16:04  * j^2 hopes people will find him to talk about OpenStack :D
+16:05 < nathenharvey> to accommodate the summit schedule, next week's IRC meeting will start one hour later
+16:05 < robbkidd> j^2: You can talk about OpenStack with me, but I'll mostly be nodding and smiling.
+16:06 < nathenharvey> this way we can spend an hour in the same room not talking to one another except via IRC
+16:06 < j^2> ^5 robbkidd 
+16:06 < nathenharvey> The London Summit will happen November 3-4 if you can't make it to Seattle next week!
+16:06 < adamleff> I hope holoway brings the music like last year.
+16:07 < nathenharvey> I also wanted to update everyone on our migration to Discourse as the replacement for our mail list
+16:07 < jkeiser> Man, IRC meetings at chefconfs/summits are surreal
+16:07 <@someara> whaaat
+16:07 < nathenharvey> we're approaching the final cut-over and, if the stars align, we'll do that early next week prior to summit
+16:08 < nathenharvey> I also wanted to share some info about the CBGB in advance of next week's summit....
+16:08 < nathenharvey> The nomination process will begin next week.  There are two types of nominations that will need to be made.
+16:08 < nathenharvey> Users/Contributors which are:   an organization that uses Chef and that has published at least one use case; and/or (b) an individual contributor to the Project who is not a Company employee or Corporate Contributor.
+16:08 < nathenharvey> and Corporate Contributors - a company that (a) is one of the top eight companies in terms of non-trivial pull requests in the past six months as measured by contributions by all employees; (b) a company that has employees as Maintainers who make significant contributions to the Project; and (c) has committed to integrate Chef software into its products.
+16:08 <@jonlives> nathenharvey: what use cases are these?
+16:09 <@jonlives> (for Users / Contribs)
+16:09 < nathenharvey> we've not really defined 'use cases' so it's open to interpretation.  I'd argue that it could be anything from a blog post on how you're using chef to a cookbook you've shared on the supemarket
+16:10 <@jonlives> ah ok, it read more like "case study" type of thing to me, so just checking
+16:10 < nathenharvey> in other words, you're clearly doing something with Chef and sharing that for the benefit of the community.  But that 'something' need not necessarily be a code commit to /chef/chef
+16:10 <@jonlives> gotcha
+16:11 < nathenharvey> after nominations, voting will follow and be open for a week
+16:11 < nathenharvey> Initial CBGB members will be announced in November
+16:11 < martinb3> Who can nominate someone for these two types of nominations?
+16:11 < nathenharvey> and we're targeting early 2016 for the first CBGB meeting
+16:12 < nathenharvey> martinb3: a mail will go out to the mailing list, we'll post in IRC, and a blog post inviting anyone to nominate potential members
+16:12 < martinb3> Great. Thanks :)
+16:12 < nathenharvey> if you're interested in being on the CBGB, you should totally nominate yourself
+16:12 < nathenharvey> and when it comes time to vote, you should always vote for yourself ;)
+16:12 < martinb3> ;)
+16:13 < nathenharvey> Watch for more details and we can discuss further details at Summit for those that are in attendance.
+16:13 < nathenharvey> I have one more community update but want to pause for a minute to see what other questions I can answer about the CBGB before we move on
+16:14 <@jonlives> will there be sweet CBGB swag?
+16:14 < martinb3> Will the CBGB be remote friendly? Or is it something that needs to have in-person participation?
+16:14 <@someara> omfug
+16:15 < nathenharvey> sweet swag?  naturally!
+16:15 < juliancdunn> nathenharvey: will the formal announcement about the CBGB happen only at Summit? are we doing a blog post in advance of this?
+16:15 <@jonlives> awwyiss.
+16:15 <@btm> don't join CBGB just for the swag though please. :)
+16:16 < nathenharvey> martinb3: in-person will be the preference but we'll make accommodations and you shouldn't eliminate anyone from the nomination process because they may not be able to attend a meeting
+16:16 < nathenharvey> juliancdunn: there will be posts to the mailing list as well as blog posts announcing the process and eventual selection of board members
+16:16 <@jonlives> nathenharvey: if in person is preference, will travel costs be covered etc or is that down to individuals?
+16:17 <@jonlives> (ie does this basically need to be west-coast US people) :p
+16:18 < nathenharvey> jonlives: this is something that we've not fully decided but, again, I wouldn't let that stop you from the process.
+16:18 <@jonlives> rgr that
+16:18 < nathenharvey> I think it's safe to say that we'd either do "everyone in the same room" or "everyone remote individually"  trying to do something in between would be terrible
+16:19 <@jonlives> I'd suggest that we might want to clarify that before opening nominations, because we may end up with elected folks not being eligible by virtue of location or travel cash etc.
+16:19 <@jonlives> ie, we may end up having to do more than one round of nominations if folks can't do it
+16:19 < nathenharvey> My preference is that Chef would help cover travel costs
+16:20 <@jonlives> like, let's make the eligibility criteria as clear as we can
+16:20 <@btm> given the community is international and we've already seen that with time-zone issues for this meeting, I'd lean toward expecting remote meetings with occasional travel covered for a meeting at the summit or something if needed.
+16:20 < nathenharvey> I'm saying the travel costs or your ability to cover them are not eligibility criteria
+16:20 <@jonlives> btm: that's what I'd like to see too ideally
+16:21 < martinb3> ^ me three.
+16:21 <@thom> yeah, agreed that we should prefer remote given our community
+16:21 < nathenharvey> holoway and I will make a justification that we should cover travel expenses.  if we can't get that approved, we'd hold a fully remote meeting
+16:22 <@jonlives> that works.
+16:22 < nathenharvey> and we will target events such as ChefConf and Summits to hold the meetings so that it's easier for everyone involved and we're more likely to have people co-located
+16:23 <@jonlives> that works.
+16:23 < nathenharvey> OK.  I hope that answers most of your initial questions.  hit me at nharvey@chef.io with additional questions though.
+16:24 < nathenharvey> the last update from the community for today is actually around an issue that impacted some cookbook authors this week (including many cookbooks that Chef maintains)
+16:25 < nathenharvey> It was first reported by coderanger when some of his cookbooks started seeing `:gzip is not registered on Faraday::Response` errors on TravisCI
+16:26 < nathenharvey> We will have a full write up of the incident and how you can prevent it next week but in the meantime, I've asked reset to join us and talk about the specific issue.  tas50 is also here and changed a bunch of Chef cookbooks so should be able to provide some additional color as necessary
+16:28 < tas50> In general our recommendation going forward for users that test cookbooks in Travis CI or other CI solutions is to install your testing utilities by installing ChefDK vs. installing the Gems
+16:28 < reset> The high level of the problem is that many cookbook authors are using Berkshelf as a library in their testing process by including it as a gem in their Gemfile then using `bundle exec rspec` to run their unit tests. Two years ago we dropped support for distributing supporting for Berkshelf as a gem
+16:28 < reset> What tas50 said
+16:28 < tas50> By using Chef DK based test environments you're ensuring that your CI test environment matches that on your workstation and also that the combination of gems has gone through our full testing process
+16:29 < jkeiser> It's also freaking fast on Travis CI
+16:29 < tas50> Like nathenharvey we're have a writeup on how to do this, but for now you can see an example here where we use the pre-release ChefDK: https://github.com/chef-cookbooks/activemq/blob/master/.travis.yml
+16:29 < jkeiser> They build a docker container with the chefdk msi installed so you don't have to install anything at all
+16:30 < reset> When this was brought to my attention I also noticed a lot of cookbooks are just running their unit tests in Travis, not their functional tests. I'm hoping that we can turn this into a learning exercise for the community about what proper testing looks like and how we can make it super fast
+16:30 < tas50> changing chef-current-precise to chef-stable-precise in that example would get you the stable release of chef dk
+16:31 < nathenharvey> awesome, thanks for the update on this reset and tas50.  Definitely a great opportunity for us to learn and it's awesome to see this get caught and fixed so early in the development process
+16:31 < jkeiser> But please please pretty please with a cherry on top use chef-current-precise
+16:32 < nathenharvey> OK, those are all of the community updates for today.
+16:32 < jkeiser> We promise to respond very quickly if you see issues with it, and it makes the next Chef releases *so much better* if your cookbooks are running against the latest chefdk
+16:32 < nathenharvey> I'm going to turn things over to jkeiser for an update on Chef
+16:33 < jkeiser> We're on the very edge of releasing Chef 12.5 and ChefDK 0.9
+16:33 < burtlo> (applause)
+16:33 < jkeiser> The final binaries are produced and if there are no blockers we will push the button today
+16:33 < tBunnyMan> Horray!
+16:33 < jkeiser> So we really would love if you could download the ChefDK or Chef this morning and do something, and report back here :)
+16:34 < jkeiser> Instructions and a list of the goodies to be released are here: https://www.chef.io/blog/chef-12-5-and-chefdk-0-9-prerelease-announcement/
+16:34 < jkeiser> We've been through a ton of testing for this release, but we'd love for this last bit of testing to make sure nothing stupid slipped through into the final binaries
+16:35 < jkeiser> The two major features are *tons* of policy support in Chef and ChefDK, and new custom resource syntax in Chef that we hope will lead to much more reusable cookbooks
+16:35 < jkeiser> The resource syntax stuff can be experimented with right now using the compat_resource cookbook, which backports the features to 12.0
+16:35 < jkeiser> No other updates for now
+16:36 < jkeiser> Please download and try this morning :)
+16:36 < jkeiser> (command lines to do that are in the announcement above)
+16:36 < jkeiser> Back to you, nathenharvey
+16:36 < nathenharvey> thanks, jkeiser
+16:37 < nathenharvey> that's everything we had on our agenda for today
+16:37 < nathenharvey> I'll give everyone 3 minutes to raise other topics before we close out
+16:38 <@btm> I'm back! <3
+16:39 <@jonlives> ok, the motion on the table is to agree that btm is indeed in the proposed state of "back <3". I move that we accept.
+16:39 < jkeiser> Denied. Proposed state is "back! <3"
+16:39 < jkeiser> Punctuation is important.
+16:39 <@btm> Call to Question.
+16:39 < jkeiser> I propose that btm use underscores as well
+16:40 <@jonlives> I am ashamed at my lack of observation of punctuation.
+16:41 < nathenharvey> It is agreed:  btm is "back! <3"
+16:41 < burtlo> ---> Motion Linted
+16:42 < nathenharvey> in celebration of btm's return, we shall end this meeting 8 minutes early and use the time to celebrate in our own unique ways.
+16:42 < nathenharvey> ***** MEETING ENDS *****
