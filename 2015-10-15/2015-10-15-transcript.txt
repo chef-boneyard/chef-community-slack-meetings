@@ -1,0 +1,160 @@
+10:00 < nathenharvey> ***** MEETING STARTS *****
+10:01 < nathenharvey> jonlives:  have a pint.  for us, we miss you
+10:01 <@jonlives> <3
+10:01 < nathenharvey> wow, punctuation is not my strong suit this AM
+10:01 <@zts> I thought you were channelling William Shatner
+10:01 < nathenharvey> holoway: has been called away to a meeting and has nominated me decider for the meeting
+10:01 < martinisoft> nathenharvey: When in doubt, more coffee
+10:02 < nathenharvey> agenda is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-10-15-agenda.md
+10:02 < nathenharvey> so we'll have some updates and we have two PRs to review
+10:02 < nathenharvey> many of us are sitting quietly in a room at the Community Summit in Seattle at the moment
+10:02 < miketheman> it's eerie.
+10:03 < nathenharvey> for some reason, jtimberman stopped playing music so ... we are just listening to typing and HVA
+10:03 < nathenharvey> C
+10:03 < nathenharvey> So, I'll get started with the Community Update.
+10:03 < martinisoft> I'm in the social anxiety chat, all the feels.
+10:03 <@jtimberman> streaming music from the internet on the current wifi situation at the summit was sub-optimal.
+10:03 <@jtimberman> martinisoft: <3
+10:03 <@b_t_m> listening to HVAC is good for hangovers, if you have that sort of problem.
+10:04  * miketheman hums
+10:04 < nathenharvey> Good news:  we've officially migrated from SYMPA and are now on Discourse - https://discourse.chef.io/
+10:04  * b_t_m cheers
+10:04 <@jtimberman> RIP lists.opscode.com
+10:04 < nathenharvey> Bad news:  the migration was a little rough.  and by "a little", I mean "quite"
+10:05 < robbkidd> @nathenharvey  There was very recent PR added to chef-rfc for another ServerFault advocate volunteer: https://github.com/chef/chef-rfc/pull/153 
+10:05 <@btm> jtimberman: RIP cyclops?
+10:05 < tBunnyMan> I don't think I even ended up on the new list
+10:05 < nathenharvey> we still have some outstanding items but I want to thank coderanger for continuing to be awesome and helping with the migration
+10:05 <@jtimberman> btm: :'(
+10:05 <@zts> coderanger++
+10:05 < miketheman> coderanger++
+10:05 < nathenharvey> tBunnyMan: we still have some stuff in progress
+10:05 <@coderanger> tBunnyMan: We're working on it, you'll be getting an email from nathenharvey soon
+10:05 < martinb3> coderanger++
+10:05 < tBunnyMan> No invites for bsd people
+10:05 < nathenharvey> the thing that happened is this:  you love bsd
+10:06 < nathenharvey> oh, no, wait, that's not why
+10:06 < martinisoft> tBunnyMan: ;*(
+10:06 < agentmeerkat> I love BSD
+10:06 < tBunnyMan> ;_;
+10:06 < iam3> BSD rocks
+10:06 < nathenharvey> the real reason is that people who had participated in the previous lists ... ever... were migrated and auto subscribed to alerts.
+10:06 < agentmeerkat> ^
+10:06 < martinisoft> agentmeerkat: You keep saying that, but I don't think it means what you think it means.
+10:06 < tBunnyMan> Hey, I just laughed on the outside and cried on the inside,
+10:06 <@jtimberman> nathenharvey: did we get them into the pagerduty rotation too?
+10:06 < nathenharvey> people who were subscribed but never participated in a thread were not
+10:06 < agentmeerkat> martinisoft bahahaha
+10:06 < martinb3> jtimberman: lol.
+10:07 < miketheman> nathenharvey: was the post-mortem published anywhere?
+10:07 < nathenharvey> so ... those of you in the latter category will receive an invite from me by tomorrow at the latest but the invite will invite you to sign up so you can do that now if you'd like
+10:07 < robbkidd> miketheman:  I don't think the post-mortem notes have moved beyond the session's etherpad page yet
+10:07 < nathenharvey> the post-mortem hasn't been published because this is still an active thing.  it will be published on the blog
+10:08 < miketheman> robbkidd, nathenharvey: cool, thanks!
+10:08 < nathenharvey> also, what robbkidd said.  I'm sure robbkidd can provide a link to those notes, too
+10:08 < nathenharvey> This week we're hosting our 6th Chef Community Summit.  It's going really well
+10:09 < nathenharvey> and we've opened up the nomination process for the CBGB
+10:09 < martinisoft> nathenharvey: I will happily await the email, or I will bother you tomorrow at the hack day
+10:09 < nathenharvey> see the blog (or mailing list) post from Adam and start nominating folks
+10:09 < robbkidd> Sympa-to-Discourse review notes (ongoing) https://e.chef.io/p/lists_to_discourse
+10:10 < nathenharvey> I'd like to personally apologize for the migration issues, too.  I know we practice blameless stuff but I'm totally the one at fault here
+10:11 <@jtimberman> nathenharvey: <3 #hugops
+10:11 < nathenharvey> and with that, I'm done with the community update and will turn it over to ...anyone here who can give a chef update?
+10:11 < nathenharvey> adamedx is having some issues...probably with the conference wifi
+10:11 < nathenharvey> clairem: has volunteered!
+10:11 <@jtimberman> and now clairem with the chef update!
+10:12 < clairem> hi, this is actually adamedx now -- thank you clairem!
+10:12 < robbkidd> Pair IRCing
+10:12 < clairem> news is really around our release of 12.5.1 which has the new resources 2.0 support
+10:12 < clairem> and chefdk 0.9.0 which has feature complete implementation of policyfile
+10:13 < clairem> policyfile support will be complete end to end in an upcoming chef-server release (later this month) with the new policyfile endpoints
+10:13 < clairem> beyond that
+10:13 < miketheman> There's an open question as to how 12.5.0 "never was" that wasn't really addressed - https://discourse.chef.io/t/post-mortem-mini-on-12-5-0/7022
+10:13 < clairem> the chef team is working on improving Windows installation and runtime performance
+10:13 < clairem> ah
+10:13 < martinb3> I was going to link that as well.
+10:14 < clairem> miketheman you want to re-state that?
+10:14 < miketheman> here's my question: https://discourse.chef.io/t/post-mortem-mini-on-12-5-0/7022/3?u=mike
+10:15 < clairem> well, there is jkeiser's direct answer there
+10:15 < clairem> but in general
+10:15 <@coderanger> Maybe adamex should summarize that thread in a blog post?
+10:15 < clairem> the numbers themselves are not "sacred", i.e. its ok to skip 12.5.0 if you need to because you tagged the wrong thing
+10:15 < clairem> its not ok to delete a tag
+10:16 < clairem> and its not ok to violate semver
+10:16 < martinb3> I would mostly like the blog post to be updated to reflect the specific version that was actually released.
+10:16 < miketheman> my point is that while it's a number, there's a well-defined and accepted versioning policy for chef.
+10:16 < miketheman> it's not "just a number"
+10:16 < clairem> yes, we should comply with the policy
+10:16 < miketheman> https://github.com/chef/chef/blob/master/CONTRIBUTING.md#-chef-release-cycles
+10:17 < clairem> I think if there's a discrepancy, that's a great thing for us to address in an policy update
+10:17 < jkeiser> I'm sort of unclear on what part of the policy wasn't complied with, so we can either fix our behavior or fix the policy
+10:17 < martinb3> AIUI, miketheman is pointing out that 12.5.1 was NOT a patch release that contained only bugfixes.
+10:17 < jkeiser> So if we could clarify that, that would help a lot with remedy
+10:17 < clairem> could be a new IRC topic then?
+10:17 < miketheman> martinb3++
+10:18 < clairem> well, 12.5.1 followed semver, i.e. it had new features not found in 12.4.3
+10:18 < clairem> I believe 12.5.1 was a bug fix compared to 12.5.0
+10:18 < clairem> but
+10:18 < clairem> we should follow up :)
+10:18 < tBunnyMan> but 12.5.1 contains 12.5.0 which had new features
+10:18 < clairem> right
+10:18 < jkeiser> The way semver works is by comparing two versions
+10:18 < clairem> so if you were running 12.4.3
+10:19 < jkeiser> The actual version numbers are not the important bit
+10:19 < clairem> you would decide that 12.5.1 had new features
+10:19 < clairem> which I think is semver compliant
+10:19 < jkeiser> If you have a copy of both 12.4.0 and 12.4.3, then you should expect that 12.4.3 will contain no new features from 12.4.0
+10:19 < clairem> but it seems like we need to be more explicit about the policy (which I don't have in front of me at the moment)
+10:19 < nathenharvey> I move that we table this discussion to the end of the meeting and/or add as a topic for next week.  Perhaps with an new PR to the policy.
+10:19 < jkeiser> IF you have a copy of 12.3.0 and 12.4.3, on the other hand, you should expect that 12.4.3 *will* contain new features from 12.3.0
+10:20 < clairem> sounds good nathenharvey
+10:20 < martinb3> I think we need to also clarify if 12.5.0 was actually released or not. We're sort of in an in-between state where there's a tag but no artifact.
+10:20 < martinb3> I'm good with tabling.
+10:20 < miketheman> clairem: agreed, compliant, for sure. but there is a concept that from 12.5.0 "there mist have been a bug found that was important enought o push a 12.5.1 immediately and "12.5.0 doesn't exist anymore"
+10:20 < jkeiser> It was not released, to be clear
+10:20 < miketheman> jkeiser: sure, I get that. then what use is the tag?
+10:20 <@coderanger> 12.5.0 was tagged in the omnibus git repo and that was all.
+10:20 < nathenharvey> so tabled.  I will add to the agenda for next week as a discussion topic.  In the meantime please review and suggest updates to the policy as you see fit.
+10:20 <@coderanger> There is no 12.5.0 of Chef
+10:20 < martinisoft> I think the question is "Why was there no 12.5.0 release?"
+10:20 < jkeiser> I dunno, I've been told deleting and updating tags is verboten in git
+10:21 < tBunnyMan> jkeiser: it's a really bad idea
+10:21 < nathenharvey> Let's move on to the open PRs on the agenda for today
+10:21 <@coderanger> martinb3: Because there was an "oops" with tagging too soon.
+10:21 < clairem> tabled everyone, but thank you!
+10:21 < clairem> I'm done folks
+10:21 < clairem> clairem, thank you
+10:21 < nathenharvey> Starting with 152 - https://github.com/chef/chef-rfc/pull/152 - Adding advocates to the community guidelines for discourse
+10:21 <@coderanger> nathenharvey: You already accepted that one?
+10:22 <@coderanger> (and you are LT there so you already have Da Power)
+10:22 < nathenharvey> I have given it a thumbs up
+10:22 <@coderanger> Yeah, I was just going to merge, I thought that was all we needed :)
+10:22 < nathenharvey> good with me and now public as part of this meeting
+10:22 < nathenharvey> :)
+10:23 < nathenharvey> let's move to PR-150 - Add subscribes block RFC - https://github.com/chef/chef-rfc/pull/150
+10:23 <@coderanger> I would like to table 150, as it went up so recently I don't think people have had time to read it
+10:23 < nathenharvey> jkeiser: want to give a quick summary, please?
+10:23 <@coderanger> (given most people were either here or in transit for the time it has existed)
+10:23 < jkeiser> This allows you to pass a block instead of an action to subscribes and notifies
+10:24 < nathenharvey> holding off on that PR works for me, please review for next week and comment in the PR
+10:24 < jkeiser> So instead of saying subscribes :create, 'file[/x.txt]' and having the :create action run on your resource if file[/x.txt] is updated ...
+10:25 < jkeiser> you can say subscribes 'file[/x.txt]' { do something } and have a block run if file[/x.txt] is updated
+10:25 < jkeiser> Perfectly happy to hold off on decisions till later
+10:25 < nathenharvey> that is the entirety of our agenda for today, I'd also ask you to check out and weigh in on the newly added PR-153 adding martinb3 as a community advocate for stack overflow https://github.com/chef/chef-rfc/pull/153
+10:25 < jkeiser> I put the use cases I am most interested in into the RFC
+10:25 < miketheman> is it one-way? subscribs and not notifies?
+10:25 < martinisoft> coderanger: Agree to table it so I can review it too +1
+10:25 <@coderanger> I don't think discussing now would be productive
+10:25 < jkeiser> Can be done either way
+10:25 < miketheman> ok
+10:25 < jkeiser> Yeah, this was nothing more than explanation for people who are interested to know
+10:26 <@coderanger> Homework for next week: read the thing :)
+10:26 < jkeiser> No decision today.
+10:26 < nathenharvey> so that covers everything in our agenda for today.  We have a couple of additions here for next week.  We'll meet at the regularly scheduled time next thursday:  9AM PT
+10:26 < martinisoft> Also need to propose another RFC today or tomorrow :D
+10:26 < nathenharvey> keep 'em coming and we'll update the agenda for next week with them.
+10:26 < jkeiser> I can give an overview of why the PR came about after we close to anyone who is interested
+10:27 < nathenharvey> one minute to propose any additional topics before we wrap
+10:27 < tBunnyMan> I wanna hear the overview at close jkeiser 
+10:28 < nathenharvey> OK.  let's call today's meeting closed and we'll see you next week!
+10:28 < nathenharvey> ***** MEETING ENDS *****
