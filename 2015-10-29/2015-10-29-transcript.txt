@@ -1,0 +1,208 @@
+12:01 <@nathenharvey> ***** MEETING STARTS *****
+12:02 <@nathenharvey> Today's agenda can be found at https://github.com/chef/chef-community-irc-meetings/blob/master/2015-10-29-agenda.md
+12:02 <@nathenharvey> doesn't look like holoway is online at the moment...
+12:03 < thom> nope, he's asked me to deciderate
+12:03 <@nathenharvey> perfect!
+12:03 < thom> and so i shall <cracks knuckles>
+12:03 <@nathenharvey> there is a lot on the agenda and a number of things to discuss during updates
+12:03 <@nathenharvey> so let's jump right in with the community update
+12:04 <@nathenharvey> The Community Summit in Seattle was a success.
+12:04 <@nathenharvey> notes from the open space are available on GitHub here - https://github.com/chef/community-summits/wiki/Seattle-2015-Community-Summit
+12:05 <@nathenharvey> Our next Community Summit is next week in London
+12:05 <@nathenharvey> we'll have a day of presentations & announcements followed by a day of open spaces
+12:05 <@jtimberman> excite!
+12:05 <@nathenharvey> Hope to see many of you there
+12:05 <@nathenharvey> Our migration from lists.opscode.com to discourse.chef.io is complete
+12:06 <@nathenharvey> we continue to make changes to improve everyone's experience on discourse
+12:06 <@nathenharvey> please provide feedback & suggestions in the "Chef Forums Feedback" category
+12:06 <@nathenharvey> We are also managing the lifecycle of some of the changes we're making in a github repo so it's clear who owns the task and when it's done
+12:06 <@nathenharvey> https://github.com/chef/mailing-list/issues
+12:07 <@nathenharvey> Nominations for the CBGB continue to come in.  We've extended the deadline for getting in nominations to 11:59PM PDT today.
+12:07 <@nathenharvey> so, today is the day if you'd like to nominate yourself or someone else
+12:07 <@nathenharvey> read more about the process here - https://www.chef.io/blog/2015/10/13/chef-board-of-governance-cbgb-nominations-now-open/
+12:08 <@nathenharvey> adamedx: over to you for updates on Chef
+12:08 < adamedx> thanks nathenharvey
+12:08 < adamedx> First update is that we're working on a release of Chef DK 0.10.0 for next week
+12:09 < adamedx> key changes are reverting a change to not produce Berksfiles in generators (e.g. chef cookbook generate) by default
+12:09 < adamedx> so 0.10.0 will restore the default behavior
+12:09 < adamedx> also
+12:10 < adamedx> the new version of knife-windows 1.x will be included (upgrade from 0.8.6) which has some new behaviors on the command line for those using knfie winrm, knfie bootstrap windows, etc.
+12:10 < adamedx> Separately from chef-dk
+12:11 < adamedx> we're suspending some work we started to modify our internal CI to use Chef Delivery
+12:11 < adamedx> you may have seen some branches / PR's where we were testing integration of the chef project with Delivery
+12:11 < adamedx> which surfaced in adding Travis-like functionality to github PR's
+12:12 < adamedx> we have found from our own use and from some feedback from the community that Delivery isn't ready for this yet
+12:12 < adamedx> for instance it doesn't surface CI failure logs in a manner similar ot Travis or AppVeyor
+12:12 < adamedx> so we will allow the Delivery team to get the right features
+12:13 < adamedx> and then give more detail to the community ahead of time before we resume any testing on this area
+12:13 < adamedx> we will continue to use our existing CI pipeline which tests all the supported platforms internally
+12:14 < adamedx> and Travis / AppVeyor will provide visibility to the community for the Ubuntu and Windows platforms as we have been doing for a while now
+12:14 < adamedx> That's it for me nathenharvey
+12:14 < adamedx> oh, changelog for 0.10.0 so far: https://github.com/chef/chef-dk/blob/0100_release_prep/CHANGELOG.md
+12:14 <@nathenharvey> thanks, adamedx!
+12:14 < adamedx> for chefdk that is ^^^
+12:15 <@nathenharvey> let's move on to the PRs we have to review for today
+12:16 <@nathenharvey> jkeiser is running a bit late so let's jump to Chef-Client Exit status https://github.com/chef/chef-rfc/pull/157
+12:16 <@nathenharvey> Nick Carpenter...are you here?
+12:17 <@btm> i just left a comment on #157, but the gist is I don't want to accept this until we're more sure that the table is one we're going to stick with long-term.
+12:17 < jkeiser> Do we want to define compile and converge failures as a range of numbers, so that we can refine them going forward?
+12:17 < jkeiser> Or just have one?
+12:18 < jkeiser> Like, for example, I could imagine distinguishing audit from converge failures
+12:18 <@coderanger> Generally +1 on the idea, but I agree we need more noodling on the exact table.
+12:18 < thom> i think a range is a good shout, jkeiser
+12:18 < adamedx> yeah, in general some conditions may need to be combined
+12:19 < jkeiser> A lot of products do that--define ranges of errors as a super simple "inheritance" model, so you can say "I don't care what sort of compile error, but I want to know if the error is in the compile phase"
+12:19 < jkeiser> I'll comment over there
+12:19 <@btm> jkeiser: ranges would be good, because you can infer something from them. "something went wrong in chef" ranges would be different than "the user wants to tell us something" ranges.
+12:21 <@btm> nathenharvey: can we table this one and move on?
+12:21 < jkeiser> I don't have a good idea of what the ranges would be--what the top level ranges are--so I could use other people to comment on that
+12:22 < lamont_oc> @jkeiser its 0 to 255
+12:22 < jkeiser> btm: if you don't mind giving some examples and such of the "user wants to tell us something" and helping with range definition there, that would be awesome
+12:22 < martinb3> I generally don't have strong feelings, but I'm here lurking.
+12:22 <@nathenharvey> OK.  sounds like more discussion and detail are required.  I'll add this to next week's agenda and encourage everyone to participate in the PR
+12:22 < jkeiser> OK then, the ranges have to be smaller than I wanted :)
+12:22 < lamont_oc> yep
+12:22 < jkeiser> Not like we need *that* many
+12:22 <@nathenharvey> with jkeiser here, let's move on to PR-150 - Add subscribes block RFC
+12:22 <@nathenharvey> https://github.com/chef/chef-rfc/pull/150
+12:22  * someara makes popcorn
+12:23 < martinb3> :P
+12:23 < agentmeerkat> :D
+12:23 <@someara> So, there does exist a real problem here... I'm not sure if the letter of this RFC actually solves it
+12:23 < jkeiser> This one defines the immediately_before notification, which is a feature a number of people have asked for and has a vaunted history of trying to implement
+12:23 <@coderanger> I am -1, I think this adds new syntax that is only sugar, and doesn't actually help with the harder problems
+12:23 <@coderanger> jkeiser: Thats your next one
+12:24 < jkeiser> notifies :run, 'execute[ls -l]', :immediately_before
+12:24 < thom> jkeiser: nope, that's one's next! :) this is subscribe blocks
+12:24 < jkeiser> Oh
+12:24 < jkeiser> Sorry. Confused
+12:24 <@someara> The tricky part here is thinking about first-run vs subsequent runs
+12:25 < lamont_oc> i don't think this actually solves accumulating desired state
+12:25 <@someara> this is to avoid unnecessary work during the first-run
+12:25 <@coderanger> someara: That isn't related to this RFC though
+12:25 < jkeiser> OK, subscribe blocks. This one is indeed sugar. There are problems that it can solve--for example, the accumulation pattern (the example in there is `package`, adding a bunch of packages to a resource that accumulates them)
+12:25 <@someara> its not? /me re-reads
+12:25 < jkeiser> You use it like this
+12:25 <@coderanger> As written, the RFC just offers a way to run code on notification, it doesn't help with writing that code itself.
+12:25 < jkeiser> correct
+12:26 < lamont_oc> so @jkeiser i don't think this works to fix the problem
+12:26 < jkeiser> BTW, if this discussion starts to get immense, I'm on the edge of tabling the RFC anyway. As Noah says, there are / may be other ways of solving the problems it can solve
+12:26 <@coderanger> The problems everyone wants to solve are real, but are more about the specifics of the code that would go int he block
+12:27 < lamont_oc> with the multipackage cookbook you want to do the package installs early, and this would do them late as far as i can see, at which point you're kind of sunk
+12:27 < jkeiser> Let's can this RFC and solve the real problems in a separate RFC more directly
+12:27 < jkeiser> I'm -1 on my RFC
+12:27 <@btm> +1 on -1. :)
+12:27 < thom> well, that makes it easy. :)
+12:27 < lamont_oc> yeah -1
+12:27 < adamedx> so negative
+12:27 < jkeiser> Positively!
+12:27 < adamedx> :)
+12:27 < martinb3> No strong feelings here.
+12:28 < jkeiser> We may want to bring it back up in the future, but since Noah explained an alternate, better solution to the main problem I wanted to solve, this is a solution in search of a problem
+12:28 < jkeiser> (i.e. there might be other reasons to want to do this, but they should derive from other use cases)
+12:28 <@coderanger> If we end up seeing the "notify a ruby block" pattern way more often, we should definitely revisit this
+12:29 <@nathenharvey> OK, on to PR-154 - Add RFC for immediately_before notification timing  then - https://github.com/chef/chef-rfc/pull/154
+12:29 < jkeiser> +1
+12:29 < jkeiser> OK, *this* is immediately_before :)
+12:30 < jkeiser> The basics: if you say notifies :stop, 'service[httpd]', :immediately_before, then httpd will stop *before* this resource does its update, but *only* if this resource is actually going to make a change
+12:30 < lamont_oc> yeah, so btm recalled that this is the same or very simlar to CHEF-2421 and i haven't had time to re-digest that
+12:30 < tas50> this is a really powerful one for syntax checking configs before restarting services
+12:30 <@coderanger> This seems to make a lot of people (myself included) very uneasy about escalating complexity, but I don't want to block it, just will make my worried face.
+12:30 <@coderanger> tas50: That's already baked in to template resources.
+12:31 < jkeiser> This has been desired for a while, and it really helps, especially on Windows where you often have to stop processes to be able to update packages and files
+12:31 < jkeiser> But you don't want to stop the processes *every* time, only when you really want to update the packages and files
+12:31 < jkeiser> It's been attempted before (CHEF-2421), but it was too complex because there was no why-run then
+12:31 < tas50> if you have 10 resources that trigger a service restart based on various config changes you want a single place to require the binary itself to run the syntax check on its config.  how is that already in the template resource?
+12:31 < lamont_oc> i was +1 until i got reminded about CHEF-2421, now i'm :fry:
+12:32 < lamont_oc> but that ticket does show that its been asked for before
+12:32 <@coderanger> tas50: The verify property on templates
+12:32 < lamont_oc> (and why-run did exist back then)
+12:32 < jkeiser> Were there things in CHEF-2421 that make you wary of the general idea? Or is it just that the implementation was complex?
+12:32 < jkeiser> It could be people just didn't think of this solution at the time (or try it)
+12:33 <@someara> we're spending a lot of time in the notification system bits today
+12:33 <@coderanger> We should make sure to call out in the docs the specific cases this helps with and to caution against overuse. Notification chains already lead to terribly unmaintainable code as is, and this will be a big footgun towards that.
+12:33 < lamont_oc> on skimming it and what i recall from it we went down this hole before and found edge conditions in why-run, but i need to redigest that one and see if your proopsal is fundamentally different/cleaner than that one in some way or not
+12:33 < tas50> it's not always templates you are sometimes executing commands config change commands and then you issue a restart.  You'd also be defining that 10X which seems really silly when you could do it once and avoid 10 verifications as well potentially
+12:33 < jkeiser> The implementation is here: https://github.com/chef/chef/pull/4062/files
+12:34 <@someara> maybe we need to re-think notifications/subscriptions in general
+12:34 < thom> so i'm concerned that we're making cookbooks harder for people to read and reason about, but i think coderanger's point about sticking big warning flags in the docs about using this covers that to a degree
+12:35 <@nathenharvey> I suggest we table and give folks time to consider in light of CHEF-2421.  We'll revisit PR-154 next week.
+12:35 <@btm> "If you want to use immediately_before, paste a gist on IRC and ask if you're doing it wrong first." :)
+12:35 < lamont_oc> one thing from the other ticket is that i think i like simply :before better than :immediately_before, just less typing and :before has to happen immediately...
+12:36 < jkeiser> tas50 makes a good point that some sort of delayed notification might be nice as well--and it's possible, just not nearly as straightforward to implement
+12:36 < jkeiser> But it could be that we're smelling a "notifications really need a rethink" smell here (as someara notes)
+12:37 < tas50> I'd agree with sean on that
+12:37 <@coderanger> +1 on "notifications are turning in to a gross ball of pain"
+12:37 < thom> i think we might be, yes
+12:37 < martinb3> +1 to notifications needing a rethink.
+12:37 < jkeiser> That rethink might not block immediately_before / before, though, to be clear
+12:37 < jkeiser> Perfect, good, enemies, all that
+12:37 <@nathenharvey> ok, so tabling immediately_before until next week then
+12:38 <@nathenharvey> and let's move to PR-159 - Ohai Segments and Eager Loading - https://github.com/chef/chef-rfc/pull/159
+12:38 <@coderanger> shipit.gif
+12:38 <@coderanger> (give or take the core plugins clarification)
+12:39 <@btm> +1 on 159 with a clarification as to if we allow overwriting of core plugins.
+12:39 <@btm> I don't feel strongly either way, I just want to be clear about it.
+12:39 < lamont_oc> well there's users who want to override core plugins--we should be able to detect and warn though?
+12:40 <@coderanger> Another thing we should think about is how to clean up plugins that came from cookbooks that are no longer attached to the machine
+12:40 <@btm> lamont_oc: yeah, I definitely see a use case for allowing it, and maybe for saying something out loud about it.
+12:41 <@nathenharvey> 10 minute warning
+12:41 <@btm> I'm just tired of the pattern where we warn when you're doing something that *could* be bad, so then we need a flag to shut up about it if you're sure.
+12:41 < lamont_oc> well, i'd like to see zap-cookbook-like functionality in chef core, but its not there now
+12:42 < tas50> we really need that functionality
+12:42 < tas50> in a safe way
+12:42 <@coderanger> lamont_oc: It could be a one-off for the new plugins system
+12:42 < lamont_oc> yeah, its just not there yet, and i don't really want to block this RFC on that
+12:42 <@coderanger> lamont_oc: Like how we clean up the cookbook cache
+12:43 < lamont_oc> ah i guess so
+12:43 < lamont_oc> how does it interact with the existing dropping of ohai plugins into the plugin directory though?  those are just random templates in recipe code
+12:44 <@coderanger> My first pass would be to write them to /etc/chef/ohai/<cookbookname>/
+12:44 <@coderanger> So anything in /etc/chef/ohai/ is immune
+12:44 <@coderanger> or maybe /etc/chef/ohai/auto_<cookbookname>/
+12:44 <@coderanger> if we want to try and make it a clearer namespace
+12:44 < lamont_oc> okay, carve out a new filesystem namespace for them, and then keep it clean
+12:44 < lamont_oc> i can dig it
+12:45 <@coderanger> Yeah, and as part of the compile phase it could remove anything that doesn't correspond to a cookbook in the collection
+12:45 < lamont_oc> also files that disappear from a cookbook
+12:45 <@coderanger> Yeah
+12:45 < lamont_oc> that does sound like what people would want
+12:45 <@coderanger> Or at least what people would expect :)
+12:46 <@btm> then I still wonder how your hostname plugin interacts with the one in core ohai.
+12:46 <@coderanger> btm: It would just be loaded on top of it like if you did it with the ohai cookbook today?
+12:46 <@nathenharvey> OK, so lamont_oc you'll update the PR and I'll add to next week's agenda.
+12:47 <@nathenharvey> shall we spend our last 4 minutes on PR-160 - add 'gem' to cookbook metadata - https://github.com/chef/chef-rfc/pull/160
+12:47 <@coderanger> +INT_MAX on this one
+12:47 < thom> yeah, shipit
+12:48 <@someara> so long as it works behind firewalls and proxies, +1
+12:48 < jkeiser> Holy crap, I didn't realize this was here
+12:48 < jkeiser> That's
+12:48 < jkeiser> Wow
+12:48 <@someara> should a gem mirror be part of a supermarket?
+12:48 < jkeiser> That changes some things I was about to do :)
+12:48 < lamont_oc> yeah, i'll probably add the require stuff as i wrote in that comment with the cheftie: true sugar, and then it'll behave as much as i can like 'gem' in a Gemfile
+12:49 < adamedx> wow
+12:49 < lamont_oc> (so version pinning + deps at least, and maybe even git/github and such if i can...)
+12:49 < jkeiser> Man. I'll try not to start the conversation I want to have on this until the meeting ends, but there's some implications
+12:49 <@coderanger> lamont_oc: In retrospect the cheftie.rb thing is probably silly, I would make it work like rails does
+12:49 < jkeiser> Like, things we can do
+12:49 <@coderanger> lamont_oc: Just require the gem name with a require: 'whatever' override
+12:50 < lamont_oc> okay, i can drop that
+12:50 <@nathenharvey> We've reached the end of our time.  PR-150 will be closed and not merged in.  Decisions on 154, 157, 159, and 160 will be pushed to next week.  The 4 other PRs not discussed today will also move to next week.
+12:50 < jkeiser> I am interested in the autoload behavior as well, but I understand the minimum viable RFC
+12:50 <@coderanger> lamont_oc: I can build the autoload behavior internally via "if Chef.node"
+12:50 < jkeiser> Wait nathen, didn't we just +1 this one?
+12:51 <@nathenharvey> The way I read the discussion is that there's general and very strong agreement but more details to be added to the RFC?
+12:51 < jkeiser> I think lamont_oc was trying to add that detail as a separate RFC
+12:51 < jkeiser> No reason to block this one on it for the moment
+12:52 < jkeiser> lamont_oc: is that accurate?
+12:52 < lamont_oc> well i think i should polish up both of these
+12:52 < jkeiser> OK! Next week then, if you think there are changes to make
+12:52 < lamont_oc> there's no pressing need to get them shipped this week
+12:52 < jkeiser> And I want to talk to you after :)
+12:52 <@coderanger> Yeah, a few minor touchups, can probably deciderate outside of the meeting though :)
+12:52 < jkeiser> oh, we can?
+12:52 < lamont_oc> yeah that'd be cool as well
+12:52 < jkeiser> ok :)  The only pressing need is OMG I WANT
+12:52 <@nathenharvey> yeah, awesome if everyone +1s it before the meeting
+12:53 <@nathenharvey> then we can say at the meeting "we approved and merged PR-160"
+12:53 <@nathenharvey> ***** MEETING ENDS *****
