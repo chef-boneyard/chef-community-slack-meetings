@@ -1,0 +1,241 @@
+17:00 <@thom> MEETING STARTS
+17:01 <@holoway> morning
+17:01 <@thom> Nathen is currently flapping his wings over the north sea towards the netherlands, so i'm secretaryifying
+17:01 <@thom> good morning holoway 
+17:01 <@holoway> good morning
+17:01 <@thom> we've got a fair number of PRs, and it's been a pretty exciting week for Chef, so let's get started
+17:02 <@holoway> thom, you're first with community action
+17:03 <@thom> in terms of Community, this week was the London Community Summit, which was excellent
+17:03 <@holoway> any amazing takaways? 
+17:03 <@holoway> besides that europe is awesome
+17:03 <@thom> Some great open spaces, the first day was more curated with some really good talks, including mr jonlives
+17:04 <@thom> lots of interest around policyfiles, a lot of buzz around inspec (and compliance generally) and delivery
+17:04 < agentmeerkat> Were the talks the same as Seattle?
+17:04 <@thom> lots of newcomers to the community, so that was really positive. and lots of windows users, too!
+17:05 <@holoway> agentmeerkat: I think London had a few more prepared talks, right, thom?
+17:05 < agentmeerkat> Neat
+17:06 <@thom> agentmeerkat: our first day was a single track conference for most of it, with some round table discussions in the afternoon
+17:06 <@thom> and then the second was traditional
+17:06 < agentmeerkat> Cool
+17:07 <@holoway> looks like I'm back
+17:07 <@holoway> maybe
+17:07 <@thom> ah, great. i was just writing that you were flaky :)
+17:07 < agentmeerkat> Are we having the irc meeting this week?
+17:08 <@thom> agentmeerkat: that is what this is, yes :)
+17:08 < agentmeerkat> :)
+17:08 <@thom> holoway's internet is giving him a little grief, so btm why don't you give us an update for client and server
+17:09 <@btm> adamedx is currently on a train. We plan to release ChefDK 0.10 later today. This release reverts the generator back to defaulting to berkshelf over policyfile for backward compatibility. This is the first release to include knife-windows 1.0+, with many winrm improvements. It will also include inspec, a new open source project we've released this week for writing compliance auditing tests for your chef run.
+17:10 <@btm> I'm sure we'll go back to a client release cycle after ChefDK. the server, is uh, cool. and I like it.
+17:10 <@btm> that's it. :)
+17:10 <@thom> heh
+17:10 <@holoway> on the chef software side
+17:11 <@holoway> as thom mentioned, big week. lots of things - delivery being GA, compliance released, etc. On the open source tip the big news is InSpec and the transport abstraction it builds on top of, which are pretty dope
+17:11 <@holoway> lots of Chef folks in the air/travel for the EU summit
+17:12 <@holoway> thats all
+17:12 <@thom> yeah, inspec and train (the transport library) are both great code bases and y'all should check them out
+17:12 <@holoway> next up is RFCs
+17:13 <@holoway> starting with https://github.com/chef/chef-rfc/pull/154
+17:13 < ranjibd> Train is the method chaining thing?
+17:14 < kallistec> ranjibd: (tra)nsport (in)terface
+17:14 < kallistec> lib for doing cmds and files and such over ssh/winrm/docker/etc
+17:14 <@thom> i just pinged jkeiser about #154 , but shall we move on till he's here?
+17:14 < lamont_oc> i think 154 is mostly good to go
+17:14 <@holoway> sure
+17:15 <@thom> or we can deciderate 154 since it looks like everyone's ahppy
+17:15 < lamont_oc> just needs comments on naming, and a decision on including :before_once or not
+17:15 <@holoway> I think the big conecern is making sure we guard rail the possible footguns
+17:15 < kallistec> ranjibd: https://www.chef.io/blog/2015/11/04/the-road-to-inspec/ scroll down to "Backend execution"
+17:16 <@holoway> I'm fine with :before and :before_once
+17:16 <@btm> I think everyone's happy with 154 now. the only question is if we add :before_once, and that doesn't appear really debated. foot-gun is probably mostly docs.
+17:17 <@holoway> deciderated
+17:17 <@holoway> 154 is approved
+17:17 <@btm> yay
+17:17 <@holoway> next up
+17:17 <@holoway> https://github.com/chef/chef-rfc/pull/157
+17:17 < carpnick> 157 -  Need a decision on if we want to reuse platform exit codes.  Some are defined by Linux/Windows and as long as we dont mind stepping on some of them if we agree the resources/providers dont expose the native exit code.  Next item was to consider which exit code ranges need to exist.  Current ranges defined: Chef Phase Failures, Reboot/User Interaction and Bootstrap Failures.  Are any others needed?
+17:18 <@holoway> this RFC as written would break back-compat for certain
+17:18 <@coderanger> We also need to decide if we want them to be the same for Windows and *nix
+  17:18 <@holoway> anyone who relies on the existing exit cdoes will break
+17:19 <@holoway> (granted, the existing exit codes are crazy-go-nuts, but still)
+  17:19 <@holoway> coderanger: feels like they should be the same
+  17:19 <@thom> coderanger: i think we do 
+  17:19 <@holoway> is there a reason not to?
+  17:19 < carpnick> If they were different - each tool that uses them would have conditional logic
+  17:19 < carpnick> That seems like a mess
+  17:19 <@btm> carpnick: I think we have to stay within 0-255 so the codes mean the same thing coming from windows or linux systems. We can avoid the few super special ones on Linux. We keep 0 success, 1 general failure.
+  17:19 <@holoway> agreed
+  17:19 <@coderanger> I agree, but if so then I think this needs massive retooling
+  17:20 <@coderanger> because ^^ 0-155
+  17:20 <@coderanger> er 255
+  17:20 <@thom> i think we probably also want a range for "the client decided to terminate" ranges (ie, upgrade of self)
+  17:20 <@holoway> there is a helpfulc omment there that lists the 59 open and common exit codes
+  17:20 <@thom> or more stuff in the user requirement bit
+  17:20 < lamont_oc> it seems like the reboot stuff is mostly what is wanted and would be simpler
+  17:21 <@holoway> so lets have this RFC updated to reflect our desire for using the overlapping range
+  17:21 <@holoway> and specify the codes we want
+  17:21 <@holoway> and that they should be identical cross platforms
+  17:21 <@coderanger> Yeah, and a lot of these are probably going to have to collapse due to the very limited range of numbers we have
+  17:21 <@holoway> and then we have to make a call about whether this neccessitates Chef 13
+  17:22 < lamont_oc> if we limit to the reboot codes then doing it before chef 13 is more reasonable
+  17:22 <@btm> definitely want to have a transition where we can fix the test-kitchen reboot pattern before chef 13 by implementing the reboot codes though.
+  17:22 <@holoway> sure, you can make them a flag
+  17:22 <@holoway> and have test-kitchen call it with the flag enabled
+  17:22 <@holoway> and viola, good times
+  17:23 <@holoway> so one more question - what exit codes do we return now?
+  17:23 < carpnick> I think we should limit the scope down to reboot.  Include the free codes in the PR.  Provide a way to extend to add new phases and meanings
+  17:23 < lamont_oc> i think we mostly return exit 1 due to ruby's raise
+  17:23 <@btm> holoway: -1, 0, 1.
+  17:23 <@holoway> so the odds that anyone looking for failure is checking anything other than "did you return false-y" is pretty damn low
+  17:24 <@holoway> and on both powershell and linux non zero is falsy
+  17:24 <@holoway> yes?
+  17:24 < carpnick> Yes that is correct.  Only if you use exit, does it propagate, and it does not propagate by default in the fork use case.  The fork use case creates its own code.
+  17:24 < carpnick> Correct
+  17:24 < lamont_oc> yeah
+  17:24 <@holoway> so it's not back-compat breaking
+  17:24 <@holoway> most likely
+  17:24 < lamont_oc> most likely
+  17:25 <@holoway> coderanger: how does your gut feel about just doing it, after updating the RFC to make sure we're all clear?
+  17:25 < lamont_oc> i'm a bit worried that all the exit codes from the client phases looks like an unfunded mandate
+  17:25 <@coderanger> holoway: For reboots 100% fine, for the more detailed stuff I'm worries it just won't be super useful.
+  17:25 <@coderanger> Yeah, that.
+  17:25 <@holoway> ok
+  17:26 <@holoway> then lets go with carpnick's suggestion - we add the reboot codes and leave the others to a future RFC
+  17:26 < lamont_oc> yeah i'm not sure anyone super wants it, and it'll be a ton of work, that nobody will get done...  at least smells that way...
+  17:26 <@holoway> and declare it's safe in back-compat
+  17:26 <@holoway> 30 seconds to type something if you hate it
+  17:26 < lamont_oc> +1
+  17:26 < carpnick> Refactor and get rid of things not immediately desired,  then allow RFC updates for new use cases in future
+  17:26 <@thom> sounds good
+  17:27 <@holoway> carpnick: use the safe range of overlap, add the reboot exit codes, and remove stuff not related to reboots
+  17:27 <@holoway> then we will approve
+  17:27 < carpnick> ok thanks
+  17:27 <@holoway> thom: take a note to get back to it next week
+  17:28 <@holoway> my battery is going to die, and this coffee shop is a no power zone
+  17:28  * holoway sighs
+  17:28 <@holoway> thom: take over deciderating if I fall away :)
+  17:28 <@holoway> https://github.com/chef/chef-rfc/pull/159
+  17:28 <@holoway> ohai segments and eager loading
+  17:28 <@holoway> lamont_oc: summary?
+  17:28 <@thom> holoway: roger
+  17:28 < lamont_oc> i added the comments from last meeting
+  17:29 < lamont_oc> i think its good to go
+  17:29 <@thom> i think 159 looks great now that it has cleanup
+  17:29 <@coderanger> The only thing I would tweak is to say files in /etc/chef/ohai (but not a subfolder) will not be pruned
+  17:30 <@coderanger> So existing recipes will continue to work
+  17:30 < lamont_oc> so we need to wipe subdirs under /etc/chef/ohai
+  17:30 < lamont_oc> to catch cookbooks that disappear from the run list
+  17:30 < lamont_oc> but we can leave files there, is that what you're saying?
+  17:30 <@coderanger> Yes
+  17:31 < lamont_oc> okay can clarify that
+  17:31 <@coderanger> That should make this backwards compatible I think
+  17:31 <@btm> lamont_oc: need to ignore /etc/chef/ohai/hints too.
+  17:31 < lamont_oc> maybe we need a new top level directory?
+  17:31 <@coderanger> Yeah, might be simpler
+  17:32 <@thom> if we're managing them, do they need to be in /etc/chef ? /var/chef/ohai or something?
+  17:32 <@coderanger> etc/chef/ohai/cookbook_plugins or something
+  17:32 < lamont_oc>  /etc feels more correct than /var
+  17:32 <@coderanger> thom: Keeping cookbook-sync'd plugins near old-school ones seems like it would be easier to grok
+  17:32 <@thom> it's not user modifiable - they'll just get overritten
+  17:32 <@ssd7> +1 on a new top-level dir, fewer special cases then
+  17:33 <@holoway> they belong in /var if we change them for you
+  17:33 < lamont_oc> updated with /etc/chef/ohai/cookbook_plugins/<cookbook>
+  17:34 <@ssd7> I'd prefer /var as well
+  17:34 <@holoway> ok - lets change this to /var, then we accept
+  17:34 <@coderanger> Meh, no strong feelings, but I think /etc/ will be easier for users to understand and debug
+  17:34 <@holoway> maybe, but it will be the wrong thing per the FHS
+  17:35 < lamont_oc> yeah it doesn't feel substantially different to me than chef-client managing other files in /etc
+17:35 <@holoway> (granted, /var/chef is wrong too, but whose counting)
+  17:35 < lamont_oc> from an ohai perspective it just consumes those as config files, so /etc feels more right
+17:35 <@holoway> (those are wrong too, but hey - I got religion late in life)
+  17:35 <@holoway> I'm 2/10 on /var vs /etc
+  17:35 < lamont_oc> i grew up with an account on a dynix box on a sequent symmetry that had /etc/ping as a binary, so don't ask me...
+  17:36 <@holoway> if either lamont_oc, coderanger, or ssd7 have stronger feelings, go with that
+  17:36 < lamont_oc> it all looks good to me compared to that...
+  17:36 <@holoway> ok
+  17:36 < lamont_oc> i'm like 60/40 /etc vs /var
+  17:36 <@btm> keep in mind both /etc/chef/foo and /var/chef/foo become C:\chef\foo on Windows anyway.
+  17:36 <@holoway> okay - approved
+  17:36 <@thom> i think /var is more correct and more obvious that these are things that you can't touch, so i'm about 70/30 /var v /etc
+  17:36 <@ssd7> Yeah, I think which you prefer just has to do with expectation and bias
+  17:36 <@holoway> ya'll just make the call
+  17:37 <@ssd7> This is gonna make custom ohai plugins MUCH nicer
+  17:37 <@ssd7> great RFC 
+  17:37 <@holoway> https://github.com/chef/chef-rfc/pull/160
+  17:37 <@holoway> it's buddy, Gem cookbook metadata
+  17:38 <@coderanger> ♪┏(・o･)┛♪┗ ( ･o･) ┓♪
+  17:38 <@thom> ranjibd: did you have further thoughts on this?
+  17:39 < ranjibd> I think it's hack
+  17:39 < ranjibd> I would never expect metadata to alter chef gems
+  17:39 < ranjibd> It can check/assert etc
+  17:40 < ranjibd> I think comparison with cookbook library is wrong. As its inside the cache.
+  17:40 <@coderanger> I see it the same way as altering the cookbook cache as part of the sync process.
+  17:41 < martinb3> gah, I keep thinking it's Wednesday
+  17:41  * martinb3 waves.
+  17:41 < ranjibd> Finally I think ohai plugin and this is special case of phases or initializer or something else. But they all same.
+  17:41 <@holoway> ranjibd: but you would expect metadata to alter the cache 
+  17:42 < ranjibd> Metadata + censoring tool
+  17:42 <@holoway> (ie: 'depends')
+  17:42 < ranjibd> Oops..vendoring tool
+  17:42 < jkeiser> I can imagine a world where we install gems to the cache; rubygems is capable of handling multiple gem roots, isn't it?
+  17:42 <@holoway> ranjibd: lets look at this iteratively. I think most of us (certainly me) don't fully understand what a world that works the way you describe would feel like
+  17:42 <@ssd7> ranjibd: What if the gems were installed into a seperate path that was only added to the gem path of the chef run but didn't otherwise alter the ruby that chef was running under?
+  17:43 <@holoway> I assumed they were in a seperate gem path
+17:43 <@holoway> (this was perhaps a poor assumption)
+  17:43 <@ssd7> "The resulting gemset bundle will be installed into the ruby that chef-client is running out of (typically omnibus ruby)."
+  17:43 <@ssd7> maybe I misunderstood that
+  17:43 <@holoway> oh - yeah, I might tweak that
+  17:43 < lamont_oc> I can fix that
+  17:44 <@holoway> but it probably breaks integration with other gems installed via chef_gem
+  17:44 < jkeiser> Does it?
+  17:44 <@holoway> I don't know
+  17:44 <@holoway> :)
+  17:44 < jkeiser> chef_gem would be installed in /opt/chef
+  17:44 <@holoway> ranjibd: so to continue my line of thought - I would like to see an RFC that explains what you think should happen
+  17:44 < lamont_oc> So then it wouldn't be available at all outside of chef-client
+  17:45 < lamont_oc> without other tools also loading up the custom lib path
+  17:45 <@holoway> ranjibd: and I would also like to see the progress that this and the previous ohai rfc provide
+  17:45 < jkeiser> cookbook 'gem's would be installed in /var/cache/chef or wherever. And only available in chef-client. And could be cleaned up the way cookbook cache can be cleaned up
+  17:45 <@ssd7> I'm +1 even if we can't get them in a seperate path, I would just prefer that.  Most of my questions are around implementation of how we alert to users of problems in this install phase.
+  17:45 < jkeiser> Assuming we went with a separate path for chef gems
+  17:45 <@holoway> ranjibd: and if we did accept an RFC to add initializers, it would be a refactor
+  17:45 <@coderanger> lamont_oc: Just means we would pass through the equiv of --path when doing the internal Bundler install
+  17:46 <@holoway> ranjibd: so we're no worse off
+  17:46 < jkeiser> I'm +1 either way too. I think we can modify it to put it in the cache later, and I can see it making sense (though even bundler doesn't do separation that way)
+  17:46 <@holoway> ranjibd: does that make sense?
+  17:46 < lamont_oc> yeah its an easy implemention to make
+  17:46 <@thom> 5 minute warning
+  17:46 <@holoway> I'm fine with leaving that choice up the implementer as you explore options
+  17:46 < zenith_> holoway, i wanted too. but we are in a stalemate. 
+  17:46 <@holoway> zenith_: you wanted too what? 
+  17:46 <@holoway> what are we stalemated over?
+  17:46 < zenith_> since 12.1.1 we are stuck with chef version due to various backward compat issues
+  17:46 < jkeiser> The phases thing is the remaining issue. My problem with the phase argument is, cookbook phases the way they are are simply not sufficient to do what we want, even if we add a new phase just for doing chef_gem stuff
+  17:47 < zenith_> which limits the ability to implement and test new things iteratively ..
+  17:47 < jkeiser> Explanation of why is here: https://github.com/chef/chef-rfc/pull/160#issuecomment-153762417
+  17:47 < zenith_> add an RFC on phases/initializer , which will expose the full resource dsl
+  17:47 <@coderanger> Yeah, I don't see adding a new recipe execution phase to be a good idea.
+  17:47 < zenith_> add another one on pluggable host discovery
+  17:48 < jkeiser> So even if we add a new phase, it won't be enough, without adding more resources or other capabilities to Chef to make the phase do what we want.
+  17:48 < zenith_> that completes the basic public dsl i need
+  17:48 <@holoway> I don't know if it's a good idea or not yet, because I don't think I understand what ranjibd proposes
+  17:48 < zenith_> currently most bugs are being called as not public dsl
+  17:48 <@holoway> but I know and respect ranjibd's opinion, so I would love to see it more fleshed out so we can talk about it
+  17:48 < jkeiser> Yeah, I'm not sure what an initializer is, so I can't comment on that proposal
+  17:48 < jkeiser> But the cookbook phase one seemed clear enough to me
+  17:48 <@holoway> sure
+  17:49 < jkeiser> Also to be clear, I'm *interested* in a new phase
+  17:49 <@coderanger> I would mostly be concerned with how difficult it would be to explain to users, no node attributes, no LWRPs, etc etc, very unlike recipes/
+  17:49 < jkeiser> I don't know if I'd agree
+  17:49 < zenith_> rails has initializer, precompiler directives in C, filter in struts
+  17:49 < jkeiser> But I can imagine (for example) wanting to set up the system with compilers and such
+  17:49 <@thom> ok, we're pretty much out of time here
+  17:49 <@holoway> coderanger: I might be, but I don't know - cause I don't actually know what we mean
+  17:49 <@holoway> we kick it to next week
+  17:49 < jkeiser> Like, a phase where we could do build-essentials before we do gems
+  17:49 <@coderanger> holoway: Fair :)
+  17:49 <@holoway> along with the stuff we didn't reach
+  17:50 <@holoway> hence, show me what you mean, so we can decide if we all are actually swoony over it
+  17:50 < jkeiser> So I get the point of wanting a phase :) Just suspect that if we really need the phase for that, we'll *still* need the gem metadata
+  17:50 < jkeiser> Yep!
+  17:50 <@thom> let's kick this to next week, and let's try and get the stuff we talked about here fleshed out please
+  17:50 <@thom> MEETING 
