@@ -1,0 +1,124 @@
+12:00 < nathenha_> ***** MEETING STARTS *****
+12:00 < nathenha_> today's agenda can be found here - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-12-03.agenda.md
+12:01 < nathenha_> I'll kick us off with a quick community update
+12:02 < nathenha_> CBGB votes are in and we will be notifying the elected members this week to see if they'll accept their seat on the board
+12:03 < nathenha_> that's basically all that I have for today though
+12:03 < nathenha_> holoway: want to provide us an update on Chef Software?
+12:03 <@holoway> That was my update too - that email is blocked on me :)
+12:04 < nathenha_> :)
+12:04 <@holoway> Otherwise, most of chef is wrapping up the year, heading into a kickoff in January
+12:04 <@holoway> That's it
+12:04 < nathenha_> over to adamedx for an update next
+12:05 < adamedx> thanks
+12:05 < adamedx> So as part of wrapping up the year
+12:05 < adamedx> we're going to get some chef-client and chef-dk releases out
+12:05 < adamedx> chef-client 12.6 is heading out next week, you can see more about the changes here:
+12:05 < adamedx> https://github.com/chef/chef/pull/4225/files
+12:05 < adamedx> https://github.com/chef/chef/blob/master/CHANGELOG.md
+12:06 < adamedx> and we'll also have a chef-dk release following a week after that
+12:06 < adamedx> in general
+12:06 < adamedx> we'd like to move toward a predictable release day each month
+12:07 < adamedx> so everyone knows what day to expect a release
+12:07 < stevenmurawski> Patch tuesday, then Chef Wednesdays!
+12:07 < adamedx> without having to attend IRC or read blog posts :)
+12:07 < adamedx> yup!
+12:07 < adamedx> so I'd like to have that topic at an upcoming IRC meeting
+12:08 < adamedx> other than that, like holoway says, we're wrapping things up for the year
+12:08 < adamedx> that's it for me
+12:08 <@holoway> Sounds like a good administrative rfc
+12:08 < btm> preceeding the chef 12.6 release will be an ohai 8.8 release too, to be included.
+12:08 < adamedx> good point holoway
+12:09 < adamedx> note: Fridays are *not* an option for chef-client release days :)
+12:09 <@holoway> Saturday it is
+12:10 < nathenha_> OK, let's move on to the PRs
+12:10 <@holoway> I have decided
+12:10 <@holoway> I kid
+12:10 < adamedx> :)
+12:10 <@holoway> I'm a kidder
+12:10 < nathenha_> first up - Chef code should have consistent style - https://github.com/chef/chef-rfc/pull/168
+12:10 <@thom> saturday sounds fun
+12:11 <@holoway> Is anyone against this? Feels like all the bike shed comes next
+12:11 <@thom> um, so i think we resolved lamont's fear that this would get used in places it shouldn't
+12:11 <@thom> and the requirement that any additions come with a PR against chef/chef to demonstrate viability should cut the bikeshedding a little
+12:11 < lamont_oc2> yeah
+12:11 <@holoway> One question I have is if we have automated reformatting?  Like gofmt, rustfmt, perl critic, etc
+12:12 < lamont_oc2> rubocop -a
+12:12 <@thom> rubocop can do that
+12:12 <@holoway> Let's add that explicitly to the rfc - once excepted, everything goes through it
+12:12  * holoway is on an iPad
+12:12 <@coderanger> Through -a?
+12:13 <@coderanger> Or through rubocop
+12:13 <@holoway> Ya - we should auto format to the rules we set
+12:13 <@coderanger> I disagree, if nothing else than because that isn't how a github review pipeline works
+12:13 <@ssd7> This doen't need to be in the rfc, but implementation wise, it should be trivial to run a command on your branch locally, so you can avoid being embarrassed by travis
+12:13 < lamont_oc2> we’ll wind up adding it to travis which will go red if it fails, and the solution to a lot of stuff will be ‘rubocop -a’ (or probably ‘chefstyle -a’)
+12:13 <@coderanger> I think the plan is to put it in Travis
+12:14 <@coderanger> Sure, we can tell people that's an option but it just has to be green before merge :)
+12:14 <@ssd7> as in `rake check-patch` or something
+12:14 <@coderanger> I don't think we want to trust travis to update PRs is all I'm saying
+12:14 <@holoway> That's fine, but not having it be easily automatic will be a bummer
+12:14 <@coderanger> That would be a bigger thang to build out
+12:14 <@holoway> Sure
+12:15 <@thom> ssd7: yeah, rubocop has rake tasks for that :)
+12:15 <@holoway> But yes to this
+12:15 <@thom> awesome :)
+12:15 <@holoway> Make it so - I look forward to the bike shed on style
+12:15 <@ssd7> +1 to this.  I see the exact details of where it gets integrated and how as things that can evolve as we use it.
+12:16 < nathenha_> Next is Cookbook Segment Deprecation - https://github.com/chef/chef-rfc/pull/161
+12:17 <@coderanger> That just got a full rewrite, punt so people can read it?
+12:17 <@coderanger> (just as in 30m before the meeting)
+12:17 < lamont_oc2> yes
+12:18 < lamont_oc2> i was pretty much pushing rewrites down to the wire
+12:18 <@holoway> Let's punt - but this is a clear provisional yes, pending impl nits
+12:18 <@holoway> Long time coming
+12:18 < nathenha_> OK, I'll move it to next week's agenda
+12:18 < lamont_oc2> so i did have to rewrite everything from prior meeting
+12:18 < lamont_oc2> based on discussions in slack with ssd this AM
+12:18 <@holoway> Sure - lots of dragons
+12:19 < lamont_oc2> all the sort of ‘dual mode’ stuff got dropped because of how the API stuff works
+12:19 <@holoway> The idea is a yes :)
+12:19 <@ssd7> Yeah, I think that addresses all the comments from the server-side I had last week, but we should give people time to read :)
+12:19 < lamont_oc2> and there’s now the try-new-and-rescue-and-downgrade stuff
+12:19 < nathenha_> Another RFC was opened after the agenda was finalized.  New signing protocol allowing hashing algorithms other than SHA1 - https://github.com/chef/chef-rfc/pull/169
+12:20 < lamont_oc2> that plus spying on your own sandboxes is the best we can come up with because of how API versioning works
+12:20 < nathenha_> I'll add that to next week's agenda, too.  But we have some time for a brief discussion on that if y'all have had a chance to read it.
+12:21 < jaym> it looks like people want to completely drop sha1
+12:21 < kallistec> coderanger et al's comments make sense
+12:21 < kallistec> kill the sha1
+12:21 <@holoway> I'm with Noah - if you have to move the proto version, let's just move you to he new algo
+12:21 < kallistec> +1 on everything else
+12:21 <@holoway> No need to negotiate
+12:21 <@thom> +1
+12:22 < jaym> ok, so v1.3 will be RSA + SHA256?
+12:22 <@holoway> Y
+12:22 < jaym> that does make things simpler
+12:22 <@ssd7> +1
+12:22 < lamont_oc2> +1
+12:23 <@coderanger> jaym: Only major question I have is on the username hashing
+12:23 <@coderanger> I would still support removing that for 1.3
+12:23 <@coderanger> Since it isn't needed anymore
+12:23 < jaym> right, that was the initial plan
+12:23 <@coderanger> But it isn't critical :)
+12:23 < jaym> however i didn't see an issue with it being there
+12:23 < jaym> but we can do that cleanup now
+12:23 < adamedx> yeah
+12:23 < jaym> the path also does not need to be hashed
+12:24 <@coderanger> thumbsup.gif
+12:24 <@thom> good show
+12:24 <@coderanger> And <3 for writing up a great RFC
+12:24 <@ssd7> +1 this is one of the better RFC write ups we've had I think
+12:25 <@holoway> For sure
+12:25 < jaym> kallistec, ssd7, and btm made it so
+12:25 < ranjibd> +1
+12:25 < adamedx> rfc's are a good thing
+12:25 <@holoway> Let's see the update and then approve next mtg
+12:26 <@ssd7> coderanger: jaym Is the user with username and path hashing just that it is uncessary or is there a deeper problem there?
+12:26 < nathenha_> OK, so that covers everything on the agenda for today
+12:26 <@ssd7> s/the user/the issue/
+12:26 < jaym> it was because 1.0 signed the message directly
+12:26 <@coderanger> ssd7: Yeah, it used to be needed because of how we did the signature
+12:26 <@holoway> Also, it is necessary for non repudiation
+12:26 < nathenha_> we'll revisit 161 and 169 next week
+12:26 < jaym> holoway: can you explain that a little more
+12:27 < nathenha_> next meeting is Thursday, December 10, 2015 9AM-9:50AM PST - http://everytimezone.com/#2015-12-10,240,cn3
+12:27 < nathenha_> ***** MEETING ENDS *****
