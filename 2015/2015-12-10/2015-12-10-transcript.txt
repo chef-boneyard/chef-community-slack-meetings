@@ -1,0 +1,324 @@
+09:00 < nathenharvey> ***** MEETING STARTS *****
+09:01  * martinb3 waves
+09:01 <@holoway> I'm getting called into something last minute - thom, can you play decider for me?
+09:01 < nellshamrell> yay!
+09:01 < nathenharvey> The agenda for today's meeting can be found here - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-12-10.agenda.md
+09:01 <@thom> holoway: sure can
+09:01 <@holoway> yay!
+09:01  * holoway high fives thom
+09:01 <@jonlives> hi all
+09:01 -!- mwrockx [~mwrock@50.46.234.250] has joined #chef-hacking
+09:01 < j^2> o/
+09:02 < nathenharvey> On today's agenda we have some updates and 5 PRs to review
+09:02 < nathenharvey> I'll start things off with a Community update.
+09:02 -!- lamont_oc2 [~lamont@71.231.26.189] has joined #chef-hacking
+09:02 < nathenharvey> We're working with the folks elected to the CBGB to be sure everyone can accept their nomination and is able to participate
+09:03 -!- blacksails [~blacksail@87.104.209.93] has joined #chef-hacking
+09:03 < nathenharvey> Most have but there are still a couple of corporate contributors that are working through some things internally
+09:03 -!- nellshamrell [~Adium@209.210.191.28] has quit [Client Quit]
+09:03 < nathenharvey> We'd like to announce the entire CBGB at the same time but that means we're not ready to do so today
+09:05 -!- nellshamrell [~Adium@209.210.191.28] has joined #chef-hacking
+09:05 -!- ranjibd [~AndChat50@2607:fb90:2852:ea41:9a29:be6e:d902:a415] has joined #chef-hacking
+09:05 < nathenharvey> Chef is having a all-company meeting the first week of January in Seattle.  If any of you find yourselves in that neighborhood we're hosting an open-house / meetup on Tuesday, Jan 5
+09:05 < nathenharvey> http://www.meetup.com/Chef-Meetup/events/227204402/
+09:05 < nathenharvey> we would love to see you there!
+09:05 < nathenharvey> that's it for the community update this week
+09:05 < nathenharvey> I'll turn it over to adamedx
+09:05 < adamedx> Thanks
+09:06 -!- mornap_ [~mornap@159.140.254.96] has joined #chef-hacking
+09:06 < adamedx> update for this week is that we're finalizing the year's last chef-client release so we can get it out next week
+09:06 < adamedx> before star wars
+09:06 < adamedx> if you check out the change log there are some really, really, cool contributions
+09:06 -!- mornap_ [~mornap@159.140.254.96] has quit [Read error: Connection reset by peer]
+09:07 < adamedx> so thank you to everyone who contributed in this release, including those of you here today
+09:07 < adamedx> https://github.com/chef/chef/blob/master/CHANGELOG.md
+09:07 < adamedx> of note
+09:07 -!- mornap [~mornap@159.140.254.96] has quit [Read error: Connection reset by peer]
+09:07 -!- mornap [~mornap@159.140.254.96] has joined #chef-hacking
+09:08 < adamedx> there was a fix for a regression around resource execution order that was introduced in the last release (12.5.1)
+09:08 < adamedx> that has been addressed for compatibilty with pre 12.5.1 cookbooks
+09:08 < adamedx> and for Windows users
+09:08 < adamedx> the installer is much faster (especially on server skus) and
+09:08 < adamedx> the full functionality of the windows package resource from the windows cookbook
+09:08 < adamedx> has finally migrated to core
+09:09 < adamedx> so all the non-msi installers will now work using the package resource in core Chef
+09:09 < adamedx> we will have a pre-relase out today or tomorrow on the current channel
+09:09 < adamedx> if you'd like to try it out
+09:09 < adamedx> that's it for me nathenharvey
+09:09 < nathenharvey> Thanks, adamedx
+09:10 < nathenharvey> Let's move on to the PRs we have for today starting with PR-170 - Add RFC for order of operations in compound actions with inline resources - https://github.com/chef/chef-rfc/pull/170
+09:10 <@thom> holoway didn't have anything Chef Software related that Nathen didn't cover
+09:11 < nathenharvey> :) thanks, thom
+09:11 <@coderanger> Move for fiat-accept because it should happen ASAP (chef 13.0)
+09:11 <@thom> do we need to say anything, or can i just get out the stamp of approval on this RFC?
+09:11 < lamont_oc2> i don’t think there’s any discussion on 170
+09:11 < martinb3> +1
+09:11 <@jtimberman> i think the discussion is "merge this and fix it please" ;)
+09:12 <@thom> Done
+09:12 < nathenharvey> Yay!
+09:12 < nathenharvey> OK, next up is Chef, upgrade thyself - https://github.com/chef/chef-rfc/pull/171
+09:13 <@thom> I think most of what needs resolving here is about _when_ the upgrade will happen
+09:13 <@btm> I'm sympathetic to tas50, we should figure out that use case.
+09:13 <@coderanger> I think the major discussion here is when the upgrade should happen
+09:13 <@thom> tas50 raises some good points
+09:13 <@thom> and we need to figure that out
+09:13 < tas50> this is an improvement over what we have now, but I think we're taking the easy way out and forgetting the troubles our users are going to encounter
+09:13 <@thom> adamedx also just noted we should formalise the protocol to discover versions
+09:13 < martinisoft> Yeah. Would need to discuss further on when upgrades happen
+09:14 <@jtimberman> it seems we could gather customer feedback?
+09:14 <@btm> jtimberman: *user
+09:14 <@jonlives> I agree with tas50, especially since we're still on chef 11 because of client upgrade difficulties Pp
+09:14 <@jtimberman> btm: everyone's a customer ;)
+09:14 <@btm> jtimberman: trololol.
+09:14 <@jonlives> jtimberman:  *you're* a customer.
+09:14 < tas50> If we take user impact lets make sure to gather input from people that aren't in the cloud because that's where long running failures happen
+09:14 <@jtimberman> jonlives: :P
+09:14  * jonlives volunteers for non cloud input
+09:15 <@jonlives> as in, to provide it
+09:15 <@btm> i had a crazy idea in the car this morning about having ohai upgrade chef. but I haven't had enough coffee yet.
+09:15 <@thom> btm: zounds
+09:15 < martinisoft> Could suggest a :diceroll mode so it happens when the server rolls a critical?
+09:15 <@jtimberman> @btm: i mean... you could....
+09:15 < lamont_oc2> then how do you control it via attributes?
+09:15 < martinb3> It definitely feels like more input, or a way to allow for flexibility/choice, would be good.
+09:15 -!- chefsalim [~salam@c-76-22-119-202.hsd1.wa.comcast.net] has joined #chef-hacking
+09:15 <@jtimberman> hell you could put Mixlib::Install.new stuff into /etc/chef/client.rb
+09:15 -!- troyready [~troyready@199.19.146.255] has joined #chef-hacking
+09:15 <@thom> ok, i'll take an action to post to the mailing list about when our users think we should do that
+09:15 <@jonlives> I'm actually less bothered about *when* it happens, and more about the fact that for us major client upgrades have rarely been trouble free, and I don't want to see 4 digits worth of servers with broken chef clients
+09:16 < tas50> thanks thom
+09:16 < nathenharvey> Maybe we could prototype something with jonlives?
+09:16 <@thom> jonlives: yup, that's a whole separate class of problem that we need to talk about
+09:16 < martinisoft> thanks thom, I'll chime in on the issue anyway
+09:16 <@jonlives> thom: agreeds
+09:16 <@jonlives> *agreed too
+09:16 < j^2> maybe out of scope, but how about we look at an upgrade path with chefdk, _then_ chef-client
+09:16 <@jonlives> I'd argue it's a very different upgrade path
+09:17 <@thom> j^2 i don't think chefdk is similar enough to make it worthwhile
+09:17 <@coderanger> chefdk is for humans
+09:17 < martinisoft> Agreed jonlives
+09:17 <@jtimberman> definitely different
+09:17 < j^2> but we could hash out the "path" of how upgrades should happen
+09:17 < martinisoft> chefdk is aimed at devs, generally you want bleeding edge
+09:17 <@btm> thom: it'd be good to be sure to ask like, 1) when would you want to upgrade in the run, and 2) how would you want to set the version. I feel like when I asked about the versioning format the other day I made the mistake of providing a bunch of lumber to build a shed without being clear about the shed purpose.
+09:17 < martinisoft> and want upgrades on a very regular basis
+09:17 <@thom> btm: aye
+09:17 < martinisoft> like the heroku client. auto updates
+09:17 <@jonlives> I yolo upgrade chefdk with every release. I do *not* do that with chef-client :p
+09:17 <@thom> jonlives: persactly
+09:17 < j^2> jonlives: that's valid.
+09:18 < nellshamrell> jonlives: sounds like you like to live dangerously, but sensibly.  I admire that :)
+09:18 < lamont_oc2> the thing i don’t like about doing it early is that you start to lose useful ways of setting the version that you want — i.e. goodbye to writing recipe code that pulls it from a data bag
+09:18 <@btm> jonlives: embrace the edge, be agile, follow master, get rich?
+09:18 -!- nicholaskey [~nicholask@208.66.31.146] has joined #chef-hacking
+09:18 < lamont_oc2> and if you push it very early before the cookbook sychronizer runs then you can’t set the version from cookbook code at all, etc
+09:18 <@jonlives> nellshamrell: I like to live on an edge sensibly protected with safety foam.
+09:18 < tas50> lamont: you just get that the next run
+09:18 < nellshamrell> :)
+09:18 <@coderanger> lamont_oc2: I mean the same rules apply, if you set it via attr it happens early, but you can still use the resource to do it at a specific time
+09:19 < lamont_oc2> yeah, but then you’ve just reinvented the problem you’re trying to solve
+09:19 <@coderanger> lamont_oc2: But if you do it using a resource the earliest it can happen is recipe compile
+09:19 < tas50> true
+09:19 <@jonlives> per comments on ticket would be nice to make sure we don't limit this to omnitruck installs too
+09:19 <@jonlives> or at least make sure it works with internal mirrors etc
+09:19 < lamont_oc2> okay so coderanger, you’ve got a different model in mind that i what i was thinking where it can get triggered arbitrarily
+09:19 <@thom> the latter is how i've been thinking about this
+09:19 < martinb3> It's a nifty feature to have the client automagically do something, but really the resource approach would be fine for us.
+09:20 <@btm> sure, it should take a url and plug the version into it (or not).
+09:20 <@thom> jonlives ^ - ie, we ship omnitruck or an omnitruck alike in chef-server
+09:20 <@jonlives> yah
+09:20 <@thom> martinb3: tas50 points out the problems of clients being left behind in that model
+09:20 < lamont_oc2> so coderanger, your implemention looks something like when you poke-the-button-to-change-the-version then it immediately goes and does the upgrade — whatever phase you happen to be at…
+12:21 <@jonlives> at the very least I'd like to be able to query the server to find clients which hadn't upgraded.
+12:21 <@coderanger> lamont_oc2: Sure, when the :upgrade action runs
+12:21 <@thom> coderanger: i think lamont and i have been thinking that the resource would only ever provide configuration, but the upgrade would always happen in a handler just before the reboot handler
+12:21 < lamont_oc2> right, then my mental model of “doing it early” was having a defined earlier phase…
+12:21 <@thom> i'm not sure why you'd want to be able to do the upgrade at different points in the CCR?
+12:21 <@jonlives> the more I think about it the more I like the idea of this being right at the end of the run, so it doesn't get in the way of the rest of the run
+12:21 < jaym> doing it inside ruby could be problematic
+12:22 < jaym> especially on windows
+12:22 < jaym> it'd require a reboot
+12:22 <@thom> i think to avoid mid run stuffage you have to do it really early or right at the end
+12:22 <@btm> thom: besides upgrading before your cookbooks are compiled with stuff that doesn't work in the running version?
+12:22 <@coderanger> jonlives: Problem then is your can't use new syntax until you are sure your fleet is upgraded
+12:22 < martinb3> I feel like 'clients left behind' are probably going to be a special case. I do l ike thom's idea of being able to query client versions from the server.
+12:22 <@thom> coderanger: but that's true for mid run, too
+12:22 <@jonlives> coderanger: that's generally the way I approach client upgrades now though
+12:22 <@btm> you can already get current client versions from node attributes + search.
+12:23 <@thom> coderanger: the only way you can get round that is pre, which brings in the problems of configuration
+12:23 <@coderanger> thom: Indeed, which is why I think the default case should be before cookbook sync
+12:23 <@coderanger> thom: and put the config in the node object
+12:23 < adamedx> @jaym, we can fix install logic for Windows so it can be done without a reboot
+12:23 <@coderanger> either as an attr or a new property on node
+12:23 <@coderanger> That gives the smoothest UX
+12:24 <@coderanger> and we can build an in-line or handler-stage version on top of that code
+12:24 <@thom> coderanger: that's actually how i wrote this to start with :) lamont convinced me that being able to configure during the run was important enough that doing it late was good
+12:24 <@coderanger> where you leave the data on the node unset and take care of it manually
+12:24 < lamont_oc2> i’m leaning towards what coderanger is suggesting now since it lets the user control the implementation
+12:25 <@coderanger> I think pulling config from weird places is cool but will be less common and I would rather make the default non-foot-gun-y
+12:25 < lamont_oc2> if we have both an attribute-driven way to upgrade extremely early, and a resource-driven way to upgrade later then the user can pick-their-poison
+12:25 < martinb3> Do we need some prototypes for this one too? I feel like the discussion is too hypothetical for us to forsee the real problems we'll encounter.
+12:25 <@coderanger> Most people will use whatever `knife fleet-upgrade` command we give
+12:25 <@coderanger> which I would imagine would take a version and a search and set the node value
+12:25 <@thom> knife environment chef-version 12.5.3
+12:25 < lamont_oc2> we’ve got the omnibus_updater prototype
+12:25 <@coderanger> yeah, something like that
+12:25 <@thom> knife environment chef-version prod 12.5.3
+12:25 <@thom> rarther
+12:25 -!- jkeiser [uid51159@gateway/web/irccloud.com/x-ydnmgnyaaakpdziv] has joined #chef-hacking
+12:26 <@btm> martinb3: knife search node *:* -a chef_packages.chef.version
+12:26 < lamont_oc2> heh so that adds a new normal node attribute, or probably set of attributes...
+12:26 <@jonlives> I would totally use it by using a search to drive what got the upgrade.
+12:26 -!- Aevin1387_ is now known as Aevin1387
+12:26 <@jonlives> lamont_oc2: personally I'd like to be able to query the server for client versions to see what broke anyway
+12:26 < martinb3> btm: I was thinking most folks won't find that, unless it's in `knife status` output.
+12:26 <@jonlives> ie, "how much stuff do i have that didn't upgrade"
+12:27 < martinb3> Just a UI/UX thing.
+12:27 <@thom> ok, i'll: 1 - write words on the mailing list; 2) update the RFC
+12:27 < lamont_oc2> gah, i’ll have to get going on the desired-state-split-rfc or the bug reports will be annoying...
+12:27 <@thom> lamont_oc2: i think that's almost a pre-req, yeah
+12:28 < nathenharvey> OK, thanks for driving this, thom. I'll add this to next week's agenda and we can move on for now
+12:28 <@thom> shall we move on to the next RFC?
+12:28 <@thom> cool
+12:28 < nathenharvey> So, next up is draft of rfc around handling cookbook abandonment on Supermarket - https://github.com/chef/chef-rfc/pull/172
+12:29 <@coderanger> Soooooo this makes me deeply uncomfortable
+12:29 <@coderanger> I don't like the idea that names will be forcibly reallocated
+12:29 <@jonlives> this makes me *somewhat* uncomfortable if we in any way impose static thresholds and / or anything less than a very specific definition of "abandoned"
+12:30 < martinb3> I think I'm -1 on this one. Especially the 2 week threshold, and the dependency on email.
+12:30 <@coderanger> Yeah, I will concede in cases of imminent threat to users like a cookbook has a major security issue I would grok doing ::something::
+12:30 < lamont_oc2> coderanger, what if this was implemented via RFC?  so the process would be that a PR is submitted against an existing RFC to add a new transfer of ownership, and it then got discussed here at the next meeting?
+12:30 < martinisoft> Well there is a code of conduct for stuff like this...
+12:30 <@coderanger> But doing it because we want a clean namespace, not a fan.
+12:30 <@jtimberman> i wonder if this isn't because of a very small subset of cookbooks have "issues" (read: were developed in a way that people don't like, or need updating to modern cookbook dev practices) have gotten a very noisy amount of attention over the years.
+12:30 <@jonlives> yeah I'd almost prefer to have an "in-extremis" process for emergencies
+12:31 < martinisoft> In terms of abuse anyway
+12:31 < nellshamrell> Are there any objections to - if a cookbook owner has put a cookbook up for adoption, but is not responding to adoption requests, re-assigning the cookbook to someone who wants to adopt it after the Supermarket team is unable to contact them?
+12:31 < martinisoft> So if a cookbook abandons and someone goes crazy with it, we have a code of conduct for that. Not entirely worried about that case.
+12:31 <@coderanger> nellshamrell: having no vetting makes me still nervous there
+12:31 <@jonlives> so my issue isn't with people abusing it, it's with somebody having their work taken away from them because their definition of "maintained" didn't line up with an RFC for whatever reason (illness, vacation, real life getting in the way etc)
+12:31 <@coderanger> nellshamrell: But less so
+12:31 <@jtimberman> the part about email is that sometimes people put say, their work email address on their supermarket account, then leave that company.
+12:32 < nellshamrell> that's a good point
+12:32 < nathenharvey> I'm not sure the code of conduct really covers - you wrote shitty or dangerous code
+12:32 <@thom> coderanger: we have no vetting, why apply a different standard for transfers than uploads?
+12:32 <@coderanger> thom: Because its a trust-on-first-use model
+12:32 < martinisoft> nathenharvey: I'm thinking abuse...
+12:32 <@coderanger> thom: When you use a cookbook named X, you assume it will be the same "security context" going forward
+12:33 <@someara> but on the other hand...
+12:33 <@someara> https://supermarket.chef.io/cookbooks/apache
+12:33 <@coderanger> by way of comparison, this is a similar model to domain names
+12:33 <@someara> ^ created 4 years ago, only works on ubuntu-10
+12:33 <@coderanger> you go to google.com, decide it is legit, and then continue using that domain name
+12:33 < lamont_oc2> again i think the RFC process would handle the trust transfer…   we can all do some due dilgenece and make sure the new owner does not look like they signed up to github yesterday on a throwaway account…
+12:33 < tas50> somera also all rights reserved
+12:33 <@jonlives> that kind of self selects against new users who might want to get involved in cookbook work though
+12:34 <@thom> jonlives: yep
+12:34 < nellshamrell> Something else to keep in mind is what if the cookbook owner passes away suddenly?  We saw this happen with Jim Wierich's very sudden passing last year
+12:34 <@coderanger> lamont_oc2: And for emergency situations I would be okay with that I think, but this should be a once-a-year-or-less kind of thing IMO
+12:34 < nellshamrell> I think that would count as an extreme case
+12:34 <@jonlives> so broadly I don't actually mind the idea of this process, I just think we need to be careful about Chef taking someone's work away from them if they haven't marked it as up for adoption.
+12:34 < lamont_oc2> the RFC process can also handle ambiguity around how long we need to wait for the author in different circumstances (author dead - very short timeline.   cookbook put up for adoption - shorter timeline.   cookbook just abandoned - longer timeline)
+12:34 <@someara> not at all.. we've had members of the Chef community pass as well
+12:34 <@btm> We could start with the extreme case of being abandoned. There could be a thing for deprecating and/or removing and/or replacing cookbooks over a long time period, e.g. someone could click a button that's like "i think this is abandoned" and if there's no activity for one year something happens. a badge would show up when the person clicked the button (or after two weeks or something).
+12:35 <@thom> i think CPAN had a good model for doing this
+12:35 < martinb3> I think a year is a much more reasonable amount of time.
+12:35 <@thom> which nell linked too
+12:35 -!- jmillerv2 [~jmiller@cpe-74-133-230-189.kya.res.rr.com] has quit [Ping timeout: 256 seconds]
+12:35 <@coderanger> I would rather see deprecations handled by making a cookbook invisible in the API eventually, rather than changing it.
+12:35 <@jonlives> quick recap of the cpan model? missed that
+12:35 <@thom> oh, sean did. sorry: http://www.cpan.org/misc/cpan-faq.html#How_adopt_module
+12:36 <@thom> - contact CPAN owners explaing what you did to contact author
+12:36 < martinb3> They seemed reasonable, but they also are vague about the time requirement.
+12:36 <@thom> - post a message in public site explaining what you're doing
+12:36 <@thom> - wait
+12:36 <@btm> "Wait a bit. The PAUSE admins don't want to act too quickly in case the current maintainer is on holiday."
+12:36 <@btm> yeah that's too vague / too fast. at least for the first step.
+12:36 < martinisoft> An rfc style public process would.... not be a bad idea.
+12:37 <@coderanger> thom: I don't like the level of "this is normal" that policy seems to portray
+12:37 <@someara> I don't think CPAN ever quite figured this one out either
+12:37 < martinisoft> Community driven public adoption?
+12:37 <@jonlives> that sounds like a pretty reasonable model to me (cpan), but I do agree with coderanger that the onus has to be on the side of "work with the maintainer unless you reeeeeeally can't get hold of them in forever"
+12:37 <@thom> jonlives: totally
+12:38 < nellshamrell> agreed on that
+12:38 <@thom> this should be an extreme case, but we should have a process that we can apply
+12:38 <@coderanger> and even then, you should have to show a reason beyond "I want the name"
+12:38 <@someara> I think there needs to be a mechanism for reclaimation but it should be a pretty high bar
+12:38 <@jonlives> coderanger: agreed
+12:38 <@thom> leaving a core cookbook hanging for a long time doesn't do our community any favours
+12:38 < martinisoft> coderanger: That reason could even be "I have an already working, updated cookbook I'd like to publish under this name"
+12:38 <@thom> I really like the idea of the RFC approach
+12:38 < martinisoft> Which would help the cause I think.
+12:38 <@jonlives> the general consensus seems to be that we want this to apply in extremis rather than for everyday cases
+12:39 <@coderanger> martinisoft: I don't like that reason unless you can show the current one is more than outright broken
+12:39 < nathenharvey> It might be worthwhile to start with a policy for cookbooks that are marked for adoption.  The author has indicated a desire to stop maintaining the cookbook.
+12:40 < nellshamrell> nathenharvey: that sounds good to me
+12:40 < nathenharvey> When that author is unresponsive to adoption requests, what happens?
+12:40 < nathenharvey> we start with that small use case and iterate our way to a more comprehensive policy
+12:40 < martinisoft> I like starting there
+12:40 <@jonlives> seconded
+12:40 < nellshamrell> sounds good
+12:40 <@someara> so this happened with redis... I managed to track down the author, and he responsed that it was under his old work email
+12:40 <@someara> manually fixed that in the database
+12:41 <@someara> then he stopped responding to further emails
+12:41 <@someara> zero fucks
+12:41 < nellshamrell> what should the threshold/criteria be for determining that the owner of the adoptable cookbook is unresponsive?
+12:41 <@coderanger> I think a root issue is still namespacing, we want a "clean namespace" and that is going to be hard given our management model for supermarket
+12:42 <@someara> yep. we have a flat one.
+12:42 <@someara> and we're talking about governing it
+12:42 < martinisoft> Having abandoned cookbooks taking up a namespace is... not great for new users.
+12:42 <@btm> can we table this so we can try to get through the remaining PRs?
+12:42 -!- nicholaskey [~nicholask@208.66.31.146] has quit [Ping timeout: 250 seconds]
+12:42 < martinisoft> The running joke for... a while has been "Which redis cookbook do I use _this week_ ?
+12:42 <@coderanger> martinisoft: Depends on the UX, there are other remediation steps like delisting and badging
+12:42 <@jtimberman> martinisoft: i wrote my own ><
+12:42 < martinisoft> redis, redis2, redisio, that weird forked cookbook on someone's github
+12:43 < martinisoft> For a new user, that sucks.
+12:43 < nathenharvey> So actions will be that nellshamrell will update the RFC re-scoping it to only cookbooks that are up for adoption
+12:43 <@jtimberman> martinisoft: but that's what i was thinking of when i wrote my comment 13 minutes ago
+12:43 < nathenharvey> and we'll revisit when that's done
+12:43 < nellshamrell> I will do that
+12:43 <@thom> nathenharvey: sounds good
+12:43 <@jonlives> ^ this
+12:43 <@thom> nellshamrell: thanks!
+12:43 < martinisoft> Agreed
+12:43 < nellshamrell> before we end the discussion…any input on what the threshold should be for a cookbook up for adoption?
+12:43 <@jonlives> months not weeks
+12:43 < nellshamrell> i.e. when would we consider the owner unresponsive?
+12:44 <@coderanger> 6+ months
+12:44 <@someara> a year?
+12:44 <@thom> 6 months seems a reasonable compromise
+12:44 <@btm> nellshamrell: +1 for 6mo.
+12:44 -!- _cha0s_ [~AndChat50@2607:fb90:21ac:5952:31fe:797f:1dad:89b3] has joined #chef-hacking
+12:44 < nellshamrell> (I only put specific numbers when I submitted the RFC to get the conversation going)
+12:44 <@jtimberman> has anyone ever heard from the maintainer of 'redis' for example?
+12:44 <@coderanger> And at least one email a month in that
+12:44 < nellshamrell> ok, will default to 6 months, at least one email a month
+12:44 < nathenharvey> OK, let's move on to PR-161 - Cookbook Segment Deprecation - https://github.com/chef/chef-rfc/pull/161
+12:45 < nathenharvey> we have about 5 minutes left
+12:45 <@coderanger> shipittttttttttt
+12:45 <@btm> +1 :shipit:
+12:45 -!- contempt [contempt@unaffiliated/contempt] has quit [Disconnected by services]
+12:45 <@coderanger> The internals inside Chef are going to be gross during the transition but we need to shovel that shit eventually.
+12:45 <@thom> :+1:
+12:45 <@thom> approved
+12:45 -!- contempt [contempt@unaffiliated/contempt] has joined #chef-hacking
+12:46 <@coderanger> This is going to break so many of my cookbooks <3
+12:46 < nathenharvey> awesome!  one more PR on the agenda then - PR-169 - New signing protocol allowing hashing algorithms other than SHA1
+12:46 < nathenharvey> https://github.com/chef/chef-rfc/pull/169
+12:46 <@coderanger> +1 I think this is ready to go
+12:46 <@thom> i think this is good to go too now
+12:46 <@jonlives> ^ shibbit
+12:46 <@btm> +1 :shipit:
+12:47 -!- ranjibd [~AndChat50@2607:fb90:2852:ea41:9a29:be6e:d902:a415] has quit [Ping timeout: 250 seconds]
+12:47 <@thom> Approved.
+12:47 < nathenharvey> Excellent
+12:48 < nathenharvey> That's everything that was on today's agenda.
+12:48 <@jonlives> \m/
+12:48 < nathenharvey> Next week's meeting will be the last for 2015
+12:48 -!- mwrockx [~mwrock@50.46.234.250] has left #chef-hacking []
+12:48 <@jonlives> i'm off next week so I'll see you all in the new year!
+12:48 <@coderanger> chag sameach to all still celebrating :)
+12:49 <@thom> have fun, jon!
+12:49 < nathenharvey> In fact, we'll be taking a long break to account for the holidays and the aforementioned all-company meeting for Chef
+12:49 < nathenharvey> our first meeting in 2016 will be Thursday, January 14
+12:49 < nathenharvey> ***** MEETING ENDS *****
