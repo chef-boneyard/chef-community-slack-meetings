@@ -1,0 +1,147 @@
+12:00 < nathenharvey> ***** MEETING STARTS *****
+12:00 < nathenharvey> Welcome to the final IRC meeting for 2015.
+12:01 -!- btm [~btm@static-64-223-129-88.man.east.myfairpoint.net] has quit [Ping timeout: 260 seconds]
+12:01 < nathenharvey> Our agenda for today - https://github.com/chef/chef-community-irc-meetings/blob/master/2015-12-17.agenda.md
+12:01 < nathenharvey> We'll have the customary updates followed by 3 PRs to review
+12:01 -!- troyready [~troyready@199.19.146.201] has joined #chef-hacking
+12:01 < nathenharvey> I'll get us started with the community update...
+12:02 < nathenharvey> We are finalizing the CBGB membership with two corporations and hope to have an announcement before the end of the year on who is part of the CBGB
+12:02 < nathenharvey> Stay tuned for that.
+12:03 < nathenharvey> We have been working on an update to the private Supermarket that will allow you to set-up and manage groups of cookbook owners
+12:03 -!- fwtbt [~fwtbt@pool-74-100-250-9.lsanca.fios.verizon.net] has joined #chef-hacking
+12:03 < nathenharvey> That functionality is on track to be released this week but is only for private Supermarkets.  It will not be part of supermarket.chef.io for now
+12:04 < nathenharvey> As I mentioned last week, Chef is having a all-company meeting the first week of January in Seattle.  If any of you find yourselves in that neighborhood we're hosting an open house / meetup on Tuesday, Jan 2
+12:04 < nathenharvey> Would love to see you there - http://www.meetup.com/Chef-Meetup/events/227204402/
+12:04 < nathenharvey> That's the full community update for today.
+12:04 -!- btm_ [~btm@static-64-223-129-88.man.east.myfairpoint.net] has quit [Ping timeout: 246 seconds]
+12:04 < nathenharvey> adamedx: over to you for the Chef update
+12:04 < adamedx> Thanks
+12:04 < adamedx> pretty short today folks
+12:05 -!- lamont_oc2 [~lamont@c-71-231-26-189.hsd1.wa.comcast.net] has joined #chef-hacking
+12:05 < adamedx> we're finishing up the Chef Client 12.6 release for today
+12:05 -!- btm [324b2701@gateway/web/freenode/ip.50.75.39.1] has joined #chef-hacking
+12:05 -!- mode/#chef-hacking [+o btm] by ChanServ
+12:05 < adamedx> and that should be our final software release of the year barring anything urgent
+12:05 < adamedx> So take a peek at the changelog if you haven't already: https://github.com/chef/chef/blob/master/CHANGELOG.md
+12:06 < adamedx> When the new year starts, we're going to focus on getting these releases out in a regular cadence documented via RFC
+12:06 < adamedx> that's it for me -- we hope you have a chance to play with 12.6 before any holiday breaks
+12:07 < adamedx> back to you nathenharvey
+12:07 -!- fwtbt [~fwtbt@pool-74-100-250-9.lsanca.fios.verizon.net] has quit [Client Quit]
+12:07 < nathenharvey> Thanks, adamedx!
+12:08 < nathenharvey> holoway: are you here?  any updates from you before we move on to our PRs?
+12:08 -!- roshanav_ [~roshanava@23d1-4738-0c5a-dde2-9001-82c2-07d0-2001.dyn.estpak.ee] has quit [Read error: Connection reset by peer]
+12:08 -!- roshanavand [~roshanava@194.5.196.88.sta.estpak.ee] has joined #chef-hacking
+12:09 < nathenharvey> Let's move on to our first PR for today:  PR-173 - PostgreSQL Chef Search - https://github.com/chef/chef-rfc/pull/173
+12:09 < c_t> Happily I managed to be here for this week's meeting
+12:10 < nathenharvey> yay!  would give us a quick tl;dr on the PR?
+12:10 < c_t> certainly
+12:11 < c_t> the postgres search RFC is purely an informational RFC describing a postgres backed search, rather than using solr/elasticsearch/etc.
+12:12 < c_t> along with some details of implementation
+12:12 -!- nellshamrell [~Adium@209.210.191.28] has joined #chef-hacking
+12:12 < lamont_oc2> yeah the only thing that kind of worried me briefly was the second motivation, which seemed to be suggeting the RFC was about actually doing the replacement of solr
+12:13 < c_t> it's only found in goiardi, unsurprisingly, so at this time it doesn't affect erchef at all
+12:13 <@coderanger> lamont_oc2: It is
+12:13 < c_t> lamont_oc2: I'm fine with changing the wording
+12:13 < lamont_oc2> which is just an epic epic
+12:13 <@coderanger> (eventually)
+12:14 < lamont_oc2> yeah this has been discussed before and its definitely on the table, nobody particularly defends using solr
+12:14 < c_t> although replacing solr someday wouldn't be so terrible
+12:14 < lamont_oc2> just omg big epic
+12:14 -!- HollowPoint [~quassel@62.255.245.182] has quit [Remote host closed the connection]
+12:14 -!- nicholaskey [~nicholask@208.66.31.146] has joined #chef-hacking
+12:15 < c_t> as far as the client's concerned, at least, the syntax is the same
+12:16 < lamont_oc2> yeah i think its probably fine though
+12:16 < c_t> with a few minor caveats mentioned in the RFC (mostly around if you had a key named "/dev/xvda1" and "dev_xvda1" for some reason, you might get unexpected results)
+12:17 -!- kvanderw is now known as zz_kvanderw
+12:17 < c_t> and of course fuzzy/nearby searches, which may not even work in erchef now
+12:18 <@coderanger> Seems like a solid thing to have as an informational RFC, in the hopes it will be used some day
+12:18 < c_t> yeah, at least as an informational RFC it doesn't require much in the way of immediate action
+12:18 <@thom> yeah, i think it's a solidly useful document, thanks for doing the write up c_t
+12:20 < nathenharvey> shall we move to accept the RFC?
+12:20 <@thom> and yeah, let's approve it and go
+12:20 < lamont_oc2> +1
+12:20 < nathenharvey> Objections?
+12:21 <@btm> naive :+1: here.
+12:21 <@coderanger> +1
+12:22 -!- chefsalim [~salam@c-73-254-192-116.hsd1.wa.comcast.net] has joined #chef-hacking
+12:22 < nathenharvey> without holoway, thom is today's decider so this looks approved
+12:22 < nathenharvey> let's move on to our next PR - PR-171 - Chef, upgrade thyself - https://github.com/chef/chef-rfc/pull/171
+12:23 <@thom> so the feedback from the mailing list and slack was pretty disappointingly light, but what there was was definitely in favour of doing the upgrade as early as possible
+12:24 < tas50> ;)
+12:24 <@coderanger> thom: So we should probably table this one for a rewrite?
+12:24 <@thom> so I think the next step is to rewrite the RFC in the light of that, and define a safe attribute to drive that.
+12:24 <@thom> so yeah, let's table to next year
+12:24 <@jtimberman> i'm just gonna use mixlib/install in my /etc/chef/client.rb :troll:
+12:25 < lamont_oc2> i like coderanger’s idea of having a generic mechanism though that could be trigger early, middle or late
+12:25 < nathenharvey> OK, I'll add this to the agenda for our next meeting (Jan 14)
+12:26 < nathenharvey> Let's move to PR-172 - draft of rfc around handling cookbook abandonment on Supermarket - https://github.com/chef/chef-rfc/pull/172
+12:26 < nellshamrell> I highly revised it and narrowed the scope after last week's meeting
+12:27 <@coderanger> I'm tepidly +1 given the new scope requires author opt-in at some point.
+12:28 < nathenharvey> I left some comments about logging adoption requests and transfers.  I also asked a question about what would happen if multiple people ask to adopt the same cookbook.
+12:28 < nellshamrell> My inclination is first come first serve, but I'm happy to be pushed back on that
+12:29 <@thom> i think they should be coralled into a team
+12:29 <@thom> but i have no idea how you'd go about enforcing that
+12:29 <@thom> so yeah first wins
+12:29 < nathenharvey> If multiple people request a cookbook and the current owner is responsive, the current owner makes the determination of who should get the cookbook.
+12:29 < nellshamrell> exactly
+12:30 < nellshamrell> we will always defer to the current owner except when they are not responsive for 6 months
+12:31 < nathenharvey> I think we should be very transparent about who is requesting ownership and, in the case of multiple people, should encourage them to collaborate
+12:32 -!- roshanavand [~roshanava@194.5.196.88.sta.estpak.ee] has quit [Remote host closed the connection]
+12:32 < nathenharvey> and then default to first come, first served.  That individual may choose to add others as collaborators on the cookbook
+12:32 <@btm> ^-- yeah, I'd like an activity page that shows most/all adoption/collaboration events.
+12:33 < nellshamrell> publicly accessible or accessible to supermarket admins?
+12:33 < lamont_oc2> i’d kind of like to see abandoned cookbooks just moved back to chef-cookbooks, and then we add collaborators for whoever asks for it / shows interest / submits PRs / seems to give a damn…
+12:34 < nellshamrell> then chef-cookbooks would be responsible for it
+12:34 <@coderanger> By definition the first of these won't happen until June
+12:34 <@btm> nell: page or whatever. public. some feed that you can easily find without going to every cookbooks individual page. for transparency mostly, but also for participation. event types could be filtered on user/admin as appropriate.
+12:34 < tas50> we can't take back abandoned cookbooks due to CLA
+12:35 < nellshamrell> @btm - feel free to submit that as a feature request to the Supermarket github repo :)
+12:35 < lamont_oc2> we could if we didn’t make any promises that the cookbooks under chef-cookbooks were necessarily all under the CLA
+12:35 <@coderanger> We could use chef-brigade as a staging area instead
+12:35 -!- roshanavand [~roshanava@23d1-4738-0c5a-dde2-9001-82c2-07d0-2001.dyn.estpak.ee] has joined #chef-hacking
+12:35 < lamont_oc2> it just means we can’t slap a copyright doc on it that states its all CLA’d because that’d be incorrect
+12:35 < lamont_oc2> that’d be fine
+12:36 < lamont_oc2> i still think we should have everyone in chef-brigade have commit bits to chef-cookbooks and vice versa
+12:37 < nellshamrell> We would be taking the cookbook away from the owner if we moved it under chef-cookbooks/chef-brigade
+12:37 < nellshamrell> this is something I'm not necessarily opposed to, but I would need community buy in to it
+12:37 < lamont_oc2> pretty easy to give them back commit bits if they want them at some point in the future
+12:37 < lamont_oc2> but we’re talking about non-responsive put-up-for-adoption cookbooks here anyway...
+12:38 < nellshamrell> any other thoughts on that?
+12:39 <@thom> i agree with lamont, we're already taking the cookbook away, and this gives us a bit more opportunity to avoid having to do the same thing again a year later
+12:39 -!- adamedx [~adamedx@209.210.191.28] has quit [Ping timeout: 265 seconds]
+12:40 < nellshamrell> so we ARE ok taking a cookbook away from a cookbook owner if the owner has been unresponsive for 6 months?
+12:40 <@coderanger> I think this whole thing is a slightly silly stopgap and we've already decided this structure won't work when we ignored namespacing concerns.
+12:40 <@coderanger> We feel uncomfortable with anything but the bare minimum of a policy here, and for good reason
+12:41 <@coderanger> We made this bed years ago, now we have to lie in it, and one downside is that dead names will happen
+12:41 <@coderanger> We should add something to signal forced deprecation and let people fork to figure this out
+12:42 <@coderanger> And if we implement the cookbook quality metrics, we probably don't even need to do anything
+12:42 <@coderanger> it should just fall out of that system
+12:43 <@coderanger> _maybe_ a tag cloud based "see also" section that becomes more prominent on your cookbook page if your quality score drops too far
+12:43 < nellshamrell> I can see that.  What I most need is a consensus (or close to one) on whether we let dead namespaces stay dead, that we don't transfer that namespace to someone else.
+12:43 < nellshamrell> I've received enormous pressure from other community members to give dead namespaces to someone else
+12:44 <@jtimberman> nellshamrell: that's been a thing for 5 years though.
+12:44 <@coderanger> I think the blanket policy should be "no"
+12:44 <@coderanger> Case by case if you can make a really compelling argument like "this cookbook is active dangerous to users", but I'm more inclined to yank those than transfer ownership
+12:45 < nellshamrell> What I'm looking for most with this RFC is a resolution on this question - are there any circumstances where we would give the namespace to someone else without the express consent of the cookbook owner
+12:45 <@coderanger> I think our collective unease answers that question
+12:45 < tas50> I don't see how saying it's been a broken process for years so lets leave it broken for more years is a solution. Some sort of process should have been outlined from day one, but that doesn't stop us from doing it now
+12:46 <@thom> i still think there's no difference between adoption and transfer, and we should allow both
+12:46 <jtimberman> "actively dangerous" is aggressive wording that doesn't necessarily reflect the reality. just because a cookbook is written with the best practices (or lack thereof) from 2011, doesn't mean it's *dangerous* unless it really is doing things like removing files, or stopping services in an unexpected way.
+12:46 <coderanger> It's gross to have dead names, but it's more gross to have forced transfers. We're at this point only talking about the really specific subcase of "is up for adoption and 6 months and we actually transfer to ourselves"
+12:47 <thom> coderanger: i entirely disagree that forced transfers are worse than dead names
+12:47 <coderanger> I still won't -1 that specific subcase, but I think we're grasping at straws here.
+12:48 (also 3m warning)
+12:48 <nellshamrell> So would a better process be 1) When a cookbook is up for adoption for 6 months, some sort of alert comes through 2) That cookbook is transferred to the chef-brigade 3) The chef-brigade takes responsibility for it until a new and suitable owner is found
+12:48 that is something I would be fine with
+12:48 <thom> i am very happy with that, nell
+12:49 <nellshamrell> especially since when someone puts the cookbook up for adoption, it indicates they no longer want ownership of it
+12:49 <coderanger> That does sound better than waiting for someone to request it at least
+12:49 <nellshamrell> OK, I can rewrite the RFC to incorporate that
+12:49 <coderanger> So it can be a more transparent policy
+12:49 <nellshamrell> that will be my action item for this meeting :)
+12:49 <coderanger> and we can warn about it on the screen for the "up for adoption" button
+12:49 <nellshamrell> :thumbsup:
+12:50 ty, I think I'm good with that action item for this meeting
+12:50 <coderanger> What are we saying about cookboks up not up for adoption?
+12:51 "File and RFC but the overall default is no"?
+12:51 <thom> we're at time
