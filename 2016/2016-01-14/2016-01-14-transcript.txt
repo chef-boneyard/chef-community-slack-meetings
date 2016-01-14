@@ -1,0 +1,143 @@
+12:00 < nathenharvey> ***** MEETING STARTS *****
+12:01 < nathenharvey> Welcome to our first developers' IRC meeting of 2016.
+12:01 < stevenmurawski> woo
+12:01 < nathenharvey> holoway is unavailable today.  thom will be the decider for today's meeting
+12:01 < nathenharvey> the agenda can be found here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-01-14-agenda.md
+12:02 < nathenharvey> we'll start with updates and then have 3 PRs to cover
+12:02 < nathenharvey> Starting with the community updates...
+12:03 < nathenharvey> The CBGB has been fully elected and announced and planning is underway for our first meeting which will be held mid February
+12:03 < nathenharvey> Speaking of things that happen in February, the ChefConf CFP will open on 1 February.  Now is a good time to start thinking about the topics you might like to present there
+12:04 < nathenharvey> As you know, ChefConf will be held July 11-13 in Austin.
+12:04 < nathenharvey> We will again hold an community summit as part of ChefConf.  That will be a single-day of open spaces on July 11
+12:05 < nathenharvey> That's the community update so I'll turn things over to adamedx and thom for any Chef updates
+12:05 < adamedx> thanks
+12:05 < adamedx> While you were getting ready for vacation in December, we released chef-client 12.6.0: https://www.chef.io/blog/2015/12/21/chef-client-12-6-0-release-announcement/
+12:06 < adamedx> Here at Chef we have a few things in the works around simplifying the process of building and releasing Chef
+12:07 < adamedx> And mainstreaming 64-bit ruby on Windows chef-client
+12:08 < adamedx> And since it's been a year since a major version rev to chef-client, a future meeting / RFC topic will revolve around changes to some Chef defaults
+12:08 < adamedx> things like default installation location on Windows for instance
+12:08 < adamedx> so look out for those topics in the upcoming weeks
+12:08 < adamedx> that's it for me nathenharvey
+12:09 < nathenharvey> thanks, adamedx!
+12:09 < nathenharvey> thom: did holoway leave any Chef updates for you to share?
+12:09 <@thom> he did not
+12:09 < nathenharvey> OK, let's move on to our first PR for today - Automatic Versioning - https://github.com/chef/chef-rfc/pull/175
+12:10 < nathenharvey> btm: please provide us with the tl;dr
+12:10 <@btm> our primary goal is to be able to have any build be releasable, so we don't have to make a second build after an RC that we want to be the final release but could end up being different.
+12:11 <@btm> so we want the build system to automatically bump the last version for each build.
+12:12 <@btm> there are a number of process risks in doing that, like ensuring bundler can be pointed at master or a topic branch and still work. We've gone around and discussed these risks with a lot of internal stakeholders and this is what we've come to.
+12:13 <@btm> we would ideally have a perfect git history, but we have to make some compromises there due to aforementioned process risks, so that's probably the 'worst' part.
+12:13 <@coderanger> I think the worst part is that version numbers are going to get super gross.
+12:14 <@btm> coderanger: can you be more specific please?
+12:14 <@coderanger> 12.7.34521
+12:14 <@coderanger> A la Ruby 1.9p405
+12:15  * martinb3 doesn't have a strong preference/opinion at this point.
+12:15 <@btm> We are keeping x.y.z though, z is just going to be a larger number. We're not switching to "x.y patch z".
+12:16 <@jtimberman> if that's the worst part, then i think we're ok
+12:16 < adamedx> larger but not particularly huge btm
+12:16 <@thom> coderanger: is that just an aesthetic concern?
+12:16 <@coderanger> thom: Nope, it makes communication and reasoning more difficult
+12:16 <@coderanger> thom: User support issue
+12:17 <@coderanger> thom: As with Ruby 1.9, did you ever really know what patch version you had or did you just occasionally get mad when stuff didn't work and you had to hammer on google for a while.
+12:17 < ranjibd> Are we supposed to support user  around those numbers?
+12:17 <@thom> i don't see how; 12.7.45 is just as explicit as 12.7.1
+12:17 < ranjibd> We are likely call most of them around the sender wise significant bits
+12:18 <@coderanger> thom: Because people can grok smaller numbers in a way they cannot grok bigger numbers.
+12:18 <@jtimberman> i don't think that using Ruby 1.9 is really a fair comparison. we're at a place now where we can assume more certainty and compatibility between 12.7.X->Y releases
+12:18 <@coderanger> thom: I'm mostly just being a broken record at this point, but I think any kind of automated patch/build number is a step backwards and that release versions should be determined by a human
+12:19 <@btm> Saying "twelve dot six dot thirty-four twenty-one" is more syllable, but I would surprised if that number gets very high.
+12:19 <@thom> coderanger: i think people can copy and paste big numbers just as easily as they can do smaller numbers, and we're not going to release every build as a stable release
+12:19 <@coderanger> thom: Yes, it will work exactly like Ruby did. Which does technically work, but there is a reason everyone was really happy when they went back to normal semver-y releases.
+12:20 <@btm> Let's be clear, we would never have 12.7.34521.
+12:20 <@btm> I would be surprised if we ever break three digits in the last version.
+12:20 <@btm> Because minor is still bumped any time we add a feature, which resets build/patch.
+12:21 <@thom> no, it's not the same. the chances are there will be only *one* and maybe *two* 12.7s in the wild. it's just that the number on the end will not necessarily be 1
+12:21 <@thom> there were *19* released versions of ruby 1.9.3
+12:21 <@thom> we're not going to do that
+12:22 <@btm> right, there will only be a few versions promoted to stable and available to users. The rest of the numbers will be only exposed to people tracking current.
+12:23 < nathenharvey> so stable might also skip numbers.  12.7.5 --> 12.7.9 where 12.7.6, 12.7.7, and 12.7.8 were never promoted to stable.
+12:24 < martinb3> Even if the only 12.7 releases were 12.7.434 and 12.7.132, I could totally see that being more confusing for users than 12.7.1 and 12.7.2, if only because they'd be harder to remember and we'd have a harder time extracting it from tickets/issues. If that's the only problem with this scheme, I wouldn't hold it back, but we should probably be aware that it might make our lives harder.
+12:24 <@btm> nathenharvey: yes.
+12:24 < martinb3> (And I don't have a better solution than the ones already proposed. I recognize that.)
+12:24 <@coderanger> btm: Is there a reason why you specify "is stored as light-weight git tags."
+12:24 <@btm> martinb3: it is less awesome than only consuming one version for each stable release, agreed.
+12:24 <@coderanger> btm: git tag -a ftw ;-)
+12:26 <@btm> coderanger: we entered discussion with trying to have the least number of entries in the git log. as it is, there will be a commit bumping the version, and that will get tagged.
+12:27 <@coderanger> btm: Do annontated tags show up in the log in a way I'm not aware of?
+12:27 <@btm> coderanger: no, but the commit with the version commit and the annotated tag would have the same information.
+12:28 <@coderanger> btm: It would still be good to store the creator even its the same
+12:28 <@coderanger> in the future it might not be
+12:28 <@coderanger> or if we want to analyze tag data, etc
+12:28 <@coderanger> Also signed tags would be nice
+12:29 <@coderanger> (but getting that to work safely with this kind of CI system is probably a non-starter)
+12:30 < nathenharvey> I propose we move to decide on this PR or push the discussion to next week's meeting.
+12:30 <@btm> I think it's a shed at this point and I don't care either way. The thing is that we don't have a use case for annotated tags right now.
+12:31 <@coderanger> Yes, but its not something we can fix later so might as well store all the data now
+12:31 <@coderanger> Throwing away contextual info is rarely a good idea, especially when non-annotated tags are a rarity in general so this is going out of our way to do so
+12:32 <@thom> i think we should come back to this next week; it feels like we're close but not completely there
+12:32 < kallistec> I'm in favor of annotated tags also, but don't care enough to argue about it
+12:32 <@btm> I wouldn't want to hold up on tags.
+12:33 <@coderanger> Also we should figure out how tagging in the omnibus repo vs chef repo will work.
+12:33 <@btm> It's really a minor detail.
+12:33 <@thom> there's no omnibus-chef repo anymore
+12:33 <@btm> coderanger: omnibus-chef? that's gone.
+12:33 <@thom> ok, let's do annotated tags, and i approve
+12:33 <@coderanger> Oh
+12:33 <@coderanger> Was that announced?
+12:33 <@thom> there were PRs to chef and chef-dk merging it to them
+12:33 < nathenharvey> OK let's move a vote on this to next week and move on to 'Chef, upgrade thyself' - https://github.com/chef/chef-rfc/pull/171
+12:34 < kallistec> and a dead-ender on the ominbus-chef repo
+12:34 < nathenharvey> thom: want to give us the latest update on status?
+12:34 <@coderanger> btm: Please can someone send an email when big changes like that happen?
+12:34 <@thom> nathenharvey: sure
+12:35 <@thom> so I updated the RFC to reflect the desire of most everyone to run the upgrade right at the start of the chef run. I also fleshed out how one would control the upgrade using attributes
+12:36 <@jtimberman> I kind of want a chef-client --upgrade-thyself, too.
+12:37 <@thom> I think i've incorporated all current feedback
+12:37 <@coderanger> thumbsup.gif
+12:37 < ranjibd> :+1:
+12:39 <@btm> coderanger: https://discourse.chef.io/t/chef-authentication-protocol-changes/7382/7
+12:39 <@thom> i feel a bit odd about approving my own RFC, but does anyone else have any feedback?
+12:40 < nathenharvey> 10 minute warning
+12:40 < nathenharvey> any detractors on 171?
+12:40 <@thom> alright, approved!
+12:40 < nathenharvey> yay!
+12:40 <@thom> nathenharvey: next :)
+12:40 < nathenharvey> let's move to our final PR for today - draft of rfc around handling cookbook ownership transfers on Supermarket - https://github.com/chef/chef-rfc/pull/172
+12:40 < nathenharvey> nellshamrell: quick tl;dr on the latest, please?
+12:40 < nellshamrell> I incorporated all feedback from the last meeting
+12:41 < nellshamrell> basically - if a cookbook is up for adoption for 6 months+, it automatically gets transferred to chef-brigade
+12:41 < nellshamrell> (who can then transfer it to a new owner as they see fit)
+12:41 < nellshamrell> we will not transfer ownership of cookbooks NOT up for adoption, except in extreme cases (i.e. death of the cookbook owner)
+12:42 < nellshamrell> in that case, it will be discussed in this meeting, and action on who to transfer it to will be decided there
+12:42 <@coderanger> +1
+12:42 < ranjibd> +1
+12:42 <@thom> +1
+12:43 < travis-ci> chef/chef#8422 (master - 652c10f : Thom May): The build was fixed.
+12:43 < travis-ci> Change view : https://github.com/chef/chef/compare/e245519d02c3...652c10fd5129
+12:43 < travis-ci> Build details : https://travis-ci.org/chef/chef/builds/102397161
+12:43 < nellshamrell> yay!
+12:43 < nathenharvey> OK!  that was the last PR on our agenda for today
+12:43 <@coderanger> And we should probably make a mental note that after a year or two, see if chef-brigade is still a good group to use for the purpose
+12:44 < nellshamrell> good point
+12:44 <@coderanger> but if and when that changes, we can deal with it then :)
+12:44 < nellshamrell> +1
+12:44 < nathenharvey> That was the last agenda item for today's meeting
+12:44 < nathenharvey> any other business you'd like to raise before we adjourn?  (you have one minute to do so)
+12:45 <@coderanger> I would like to request that Chef Software write an email to the dev list to let people know about the omnibus split
+12:45 <@coderanger> Because no one else I've now mentioned this to was aware of this change
+12:45 <@coderanger> and it would be good to make sure people know what happened.
+12:45 < ranjibd> Well it was obvious from that large pr
+12:46 <@coderanger> ranjibd: Try as I might, I can't read every PR on chef/chef. I go over maybe half of them at this point.
+12:46 < ranjibd> Those who has internal build pointing at that repo will be affected
+12:47 <@coderanger> I'm not arguing against the change, or even that an RFC was needed in this case
+12:47 < ranjibd> Do u think a weekly summary mail will help?
+12:47 <@coderanger> Just a notification of a reorg
+12:47 < ranjibd> Sure
+12:47 < ranjibd> Lwn style weekly mail will be good
+12:48 <@coderanger> ranjibd: Probably not, honestly. I don't think we have stuff happening that often which requires email-level notification
+12:48 <@coderanger> Major structural changes are more like every 4-8 months (chef-config reorg, chef-server repo combination, etc)
+12:48 < nathenharvey> I will sign-up to post a message to chef-dev announcing the change and, as a preview, the message will largely be a cut-n-paste of the README here https://github.com/chef/omnibus-chef
+12:49 < ranjibd> 'Major structural' is arbitrary
+12:50 < nathenharvey> thank you all for joining today
+12:50 < nathenharvey> Our next meeting is Thursday, January 21 at 0900 PST - http://everytimezone.com/#2016-01-21,300,cn3
+12:50 < nathenharvey> ***** MEETING ENDS *****
