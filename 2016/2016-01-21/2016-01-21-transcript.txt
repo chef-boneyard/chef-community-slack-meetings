@@ -1,0 +1,107 @@
+12:01 < nathenharvey> ***** MEETING STARTS *****
+12:01 < nathenharvey> Today's agenda is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-01-21-agenda.md
+12:02 < nathenharvey> I believe Adam is unavailable so thom will play the role of decider
+12:02 < nathenharvey> we'll run through our typical updates and then have a few PRs to look at
+12:02 < nathenharvey> I'll kick us off with a community update.
+12:03 < nathenharvey> As I mentioned last week, the first CBGB meeting will be held in early February.  The meeting is actually on the 11th so look for more updates from that group afterwards.
+12:04 < nathenharvey> I'd also like to talk for a few minutes about test kitchen
+12:04 < nathenharvey> fnichol_: has done an amazing job with this project and helping oversee it's progress and future.
+12:05 < nathenharvey> I think now is also the time for us to look at expanding the number of community maintainers for test kitchen and all of the various drivers
+12:06 < nathenharvey> This was a discussion topic at our recent Chef company meeting and, out of that, we added more maintainers to test kitchen here - https://github.com/test-kitchen/test-kitchen/blob/master/MAINTAINERS.md
+12:06 < nathenharvey> we'd really love to see some additional community members joining the effort
+12:07 < stevenmurawski> nathenharvey: as part of that fnichol_ and cheeseplus are working on a vision document to help guide that, and we are building up additional documentation to help onboard new maintainers
+12:07 < nathenharvey> :awesome:
+12:08 < stevenmurawski> that is still in progress, but we (mostly cheeseplus) have made progress triaging issues and merging some prs
+12:08 < stevenmurawski> and that will continue onward.  We are working on a release at this moment
+12:08 < stevenmurawski> and want to pick up that cadence
+12:08 < martinb3> I'd love to be a maintainer for one or two of the drivers, and maybe be a backup for test-kitchen proper. Let us know how to step forward when the visioning process is further along +1
+12:08 < adamleff> cheeseplus has been simply amazing.
+12:08 < stevenmurawski> martinb3: you bet
+12:09 < stevenmurawski> we've actually had a good number of folks step forward to want to help, so we'll broadcast more details in the near future
+12:09 < martinb3> There's been a ton of hard work recently on these projects.
+12:09 < martinb3> Kudos to everyone putting in time & energy.
+12:09 < nathenharvey> Great to see everyone pitching in!
+12:10 < nathenharvey> Last community update is a reminder that we plan to open the CFP for ChefConf on 1 Feb. so now is a great time to start thinking about things you'd like to present
+12:10 < nathenharvey> That's it for the community update this week.  Thanks to fnichol_, cheeseplus, and everyone else who's continuing to push test kitchen forward!
+12:11 < nathenharvey> over to adamedx for an update next
+12:11 < adamedx> thanks nathenharvey
+12:11 < adamedx> Pretty short: At Chef our current focus is on keeping the Chef and Chef-DK projects releasable at all times in terms of quality, release logistics, etc..
+12:12 < adamedx> so for example it takes a lot of us to check for regressions prior to releases
+12:12 < adamedx> and we need to build more of this into the validation of each change that goes in
+12:13 < adamedx> and do a better job of changes to external dependencies (mostly gems from RubyGems)
+12:13 < adamedx> a better job of validating those
+12:13 < adamedx> so that's a lot of the work you'll see from Chef for several weeks
+12:13 < adamedx> that's it for me nathenharvey
+12:14 < nathenharvey> great, thanks, adamedx
+12:14 < nathenharvey> We'll now move on to the PRs to review for this week.  First up is PR-179 - Add a CBGB markdown file to the repository (https://github.com/chef/chef-rfc/pull/179)
+12:14 <@thom> I do not have any updates from Adam
+12:14 < lamont_oc2> we might want to mention omnibus-chef deprecation
+12:15 < nathenharvey> the tl;dr on this one is that we'd like to publish the list of CBGB members somewhere other than the blog post announcing them.  Question is where to publish that list
+12:15 <@btm> lamont_oc2: we talked about that last week and nathenharvey mentioned it on the list since.
+12:15 < lamont_oc2> ah, cool, nm then
+12:15 < stevenmurawski> nathenharvey: pinned topic on discourse?
+12:16 <@thom> lamont_oc2: we did that last week :)
+12:16 < nathenharvey> PR-179 gives some options.  In the RFC that describes the CBGB, in a separate file in the RFC repo, in the maintainers file in chef/chef, or in a separate CBGB file in chef/chef
+12:16 <@btm> nathenharvey: My gut is still that chef-rfc isn't something that many users see, and a markdown file in chef/chef that briefly explains the CBGB, links to the rfc, and lists the members would be most helpful to everyone outside of this room.
+12:17 < nathenharvey> btm that's where the voting on that PR is heading, too
+12:17 <@thom> it seems like most responders are leaning towards 4
+12:17 <@thom> stevenmurawski: ooh, that's a thought
+12:17 < nathenharvey> I'd like to propose that we do just that and I can take the action to open a PR against chef/chef to make it so
+12:18 <@thom> yep, agreed
+12:18 < lamont_oc2> +1
+12:18 <@thom> do it :)
+12:18 < karobeck> that is agood suggestion - thanks all
+12:18 < nathenharvey> great, I'll make that happen
+12:18 < martinb3> +1 for option 4, plus linking it widely and in Discourse and on Chef.io.
+12:19 < nathenharvey> That will supersede PR-178 where karobeck listed the members directly in the RFC, too
+12:19 < nathenharvey> karobeck: thanks for the PR, we'll close without merging but publish the CBGB file in the main chef repo
+12:20 <@coderanger> +1
+12:20 < nathenharvey> Next up:  Subject Tagging for discourse or emailing - https://github.com/chef/chef-rfc/pull/177
+12:20 < karobeck> agreed
+12:20 <@coderanger> (though I wouldn't make a sticky thread because the UI for those is kind of weird)
+12:21 < nathenharvey> j^2: feedback to-date on this has been :thumbsdown:
+12:21 < j^2> yep :(
+12:21 < j^2> but i get it
+12:21 <@coderanger> -1 on 177, if we want to make new sub-fora we can do that directly in Discourse
+12:21 <@coderanger> (like we did for Delivery)
+12:22 < j^2> There is an advantage to catorgizing things, but at the same time our traffic isn’t that high
+12:22 < ranjib> cant we tag the emails afterwards.. like curators can tag the messages later on..  i like the benefit of categorizing..
+12:22 <@coderanger> ranjib: No
+12:22 < ranjib> why?
+12:22 <@coderanger> Or at least I wouldn't want to move stuff around because the Discourse notification settings would get all weird.
+12:22 < j^2> I wanted to at least have this conversation now so it’s on the books
+12:23 <@coderanger> Also a human would have to tag every message
+12:23 <@coderanger> Overall +1 to people that want to do it, but I don't think we need a standard
+12:23 < martinb3> -1 I think it's unnecessary beyond just letting people tag their own stuff.
+12:23 <@thom> j^2: that's appreciated :)
+12:23 < j^2> thom: :D
+12:25 < nathenharvey> OK, so we'll be closing but not merging 177?  Is that decided?
+12:25 <@coderanger> But maybe add a note that tagging subjects isn't forbidden
+12:25 < nellshamrell> +1
+12:25 <@coderanger> lest some new user find it and get scared :)
+12:25 <@thom> ok, so let's officially close out that PR and move on, nathenharvey?
+12:25 < ranjib> +1
+12:25 < nathenharvey> Our final PR for today then is Automatic Versioning - https://github.com/chef/chef-rfc/pull/175
+12:26 <@thom> next RFC is https://github.com/chef/chef-rfc/pull/175
+12:26 <@thom> automatic versioning
+12:26 <@thom> btm: where do we stand?
+12:26 <@coderanger> I still don't love it but I appreciate why it is going to happen anyway :)
+12:26 <@thom> yes
+12:26 < ranjib> im +1 on this.
+12:27 < adamleff> +1
+12:27 < jkeiser> I'm +1
+12:27 <@btm> thom: since last week I changed the light-weight git tags to annotated. most didn't feel super strong either way, but the stronger feelings leaned toward annotated.
+12:27 < jkeiser> And super happy we can get to it--it will make releasing a build so much faster and more reliable for us
+12:28  * martinb3 doesn't feel strongly at this point.
+12:28 <@btm> the other discussion last week was about the patch/build number being larger than we're accustomed to, but I sense we've accepted that's a cost of faster builds/releases.
+12:29 <@coderanger> I look forward to the point where the build infra is robust enough that we can get away with reverting this, but that day is not today.
+12:30 <@thom> yup i think so (re acceptance)
+12:31 <@coderanger> shipit.gif?
+12:32 <@thom> done, thank you all
+12:32 < nathenharvey> alright!  that's everything on our agenda for today
+12:32 < nathenharvey> I'll leave the floor open for another 2 minutes if you'd like to propose a topic
+12:35 < nathenharvey> circling back to omnibus-chef deprecation, here's the message on discourse - https://discourse.chef.io/t/omnibus-chef-project-has-been-deprecated/7608
+12:35 < nathenharvey> Our next meeting will be January 28, 2016 http://everytimezone.com/#2016-01-28,300,cn3
+12:35 < nathenharvey> thank you all for participating!
+12:35 < lamont_oc2> nokogiri will ship in chef 12.7.0
+12:35 < nathenharvey> ***** MEETING ENDS *****
