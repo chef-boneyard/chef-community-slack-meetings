@@ -1,0 +1,87 @@
+11:00 AM <stevenmurawski> **** Meeting Starts! ****
+11:00 AM <stevenmurawski> Welcome to the Chef Developer IRC Meeting for February 4th, 2016!
+11:00 AM <stevenmurawski> Our agenda is https://github.com/chef/chef-community-irc-meetings/blob/master/2016/2016-01-21/2016-01-21-agenda.md
+11:00 AM <@holoway> it's looking like a short one today
+11:00 AM <stevenmurawski> Yep
+11:00 AM <stevenmurawski> Just our updates and one PR
+11:00 AM <@holoway> pretty sure its https://github.com/chef/chef-community-irc-meetings/blob/master/2016-02-04-agenda.md
+11:01 AM <stevenmurawski> argh
+11:01 AM <stevenmurawski> copy paste fail
+11:01 AM <stevenmurawski> thanks holoway
+11:01 AM <stevenmurawski> For the community update, ChefConf 2016 (Austin, TX / July 11-13) details have been posted (https://chefconf.chef.io/) and the call for papers is open! (https://chefconf.chef.io/call-for-presentations/)
+11:01 AM <stevenmurawski> And that's pretty much all I have for this week's update on community.
+11:02 AM <stevenmurawski> holoway, anything you'd like to share as an update from Chef Software?
+11:02 AM <@holoway> Chef Software continues to move along :)
+11:02 AM <@holoway> adamedx: 
+11:02 AM <adamedx> Thank you holoway 
+11:02 AM <@holoway> adamedx: want client and server?
+11:03 AM <adamedx> Next week we will release Chef Client 12.7
+11:03 AM <adamedx> The goodness is here: https://github.com/chef/chef/blob/master/CHANGELOG.md
+11:03 AM <adamedx> Also
+11:04 AM <adamedx> We now have publicly available versions of 64-bit Chef Client for Windows
+11:04 AM <adamedx> On our current channel (not the download site)
+11:04 AM <adamedx> These are not stable builds, but you can try them out, and they are up to date with the latest changes in the chef repository
+11:04 AM <adamedx> To install
+11:04 AM <adamedx> . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -channel current -project chef
+11:04 AM <adamedx> From PowerShell
+11:05 AM <adamedx> Eventually (not with next week's 12.7 release), that version of Chef will be the default for 64-bit versions of Windows (if you're not familiar with the 32-bit Ruby on 64-bit Chef conundrum, don't worry, everyone else will get it :) )
+11:05 AM <adamedx> Ok, that's it for me.
+11:06 AM <adamedx> On to the next thing stevenmurawski
+11:06 AM <stevenmurawski> thanks adamedx
+11:06 AM <@holoway> looks like we only have https://github.com/chef/chef-rfc/pull/183/files
+11:06 AM <stevenmurawski> There are no follow up action items from the last meeting, so into new PRs
+11:06 AM <stevenmurawski> yep
+11:06 AM <stevenmurawski> jaym: 
+11:06 AM <jaym> yes
+11:07 AM <stevenmurawski> anything you want to share about the pr or just looking for more discussion?
+11:07 AM <jaym> so the tldr is we'd like knife bootstrap to be flexible enough to the right thing on the first converge
+11:07 AM <jaym> and there are 2 proposals for adding some flexibility in that PR
+11:07 AM <jaym> the first one is to have a client.d directory in your chef-repo's bootstrap folder that will get uploaded and loaded as part of the client.rb
+11:08 AM <jaym> the second one is to make client.rb a template you can pass to knife bootstrap
+11:08 AM <jaym> after writing the rfc, i think the first one is the good one
+11:08 AM <jaym> the second way is overly complicated and i would never use it if we had the first one
+11:09 AM <@holoway> that feels legit to me
+11:09 AM <@holoway> anyone prefer option 2?
+11:09 AM <jaym> btw, option 1 was btm's idea, option 2 was mine
+11:09 AM <jonlives> I like the RFC as stands, seems eminently sensible (option 1)
+11:10 AM <@btm> jaym: I cheated by thinking about it all before asking you to write it. :)
+11:10 AM <jaym> hehe
+11:10 AM <stevenmurawski> +1 for option 1
+11:10 AM <@holoway> ok
+11:10 AM <@btm> for years. so +1 for client.d folder and ship bits to it.
+11:10 AM <@holoway> lets do it
+11:11 AM <jaym> \o/
+11:11 AM <jaym> i'm gonna delete the template stuff
+11:11 AM <jaym> any thoughts on the UX?
+11:11 AM <lamont_oc2> yeah +1 on #1
+11:11 AM <jaym> feel right?
+11:12 AM <@btm> jaym: not sure that we'd need to override --client_d_dir or not. we should be sure that it defaults to like $ChefConfigDir/client.d or whatever.
+11:13 AM <@btm> curious about other peoples feelings on a flag for --client_d_dir?
+11:13 AM <jaym> yep, it may not be needed
+11:14 AM <jaym> i run knife from my chef repos
+11:14 AM <@holoway> I think if you have the sane default, and it's changable from within client.rb, you're fine
+11:14 AM <jonlives> i wouldn't have a need for it myself, but I guess others might.
+11:14 AM <@holoway> I don't know that you need a cli flag
+11:14 AM <jonlives> ^ yeah what holoway said
+11:14 AM <@holoway> ie: "client_partials_path" or whatever
+11:15 AM <@btm> I guess just make sure we have a use case before we add a CLI arg for it.
+11:15 AM <@holoway> right
+11:15 AM <@holoway> I don't think you need a CLI arg for it, and I would resist until you don't have a choice
+11:15 AM <jaym> fair enough, ill change that to knife.rb config
+11:16 AM <jaym> client_partials_path or client_d_dir or client_d_path
+11:17 AM <stevenmurawski> I like client_d_path
+11:17 AM <@holoway> works for me
+11:17 AM <@btm> client_shed_path :D
+11:17 AM <jaym> can we?
+11:18 AM — @btm high fives jaym
+11:18 AM <stevenmurawski> :)
+11:18 AM <stevenmurawski> Do we have any other colors to paint this one?
+11:18 AM <@holoway> ok - lets ship it
+11:18 AM <@holoway> and on that note, I think we're done
+11:18 AM <@holoway> yes?
+11:19 AM <stevenmurawski> unless you've got anything else you wanted to share
+11:19 AM <jaym> yes
+11:19 AM <@holoway> I'll see my CBGB peers in San Francisco soon
+11:19 AM <@holoway> looking forward to spending the day with y'all
+11:19 AM <stevenmurawski> Thanks everyone!
+11:19 AM <stevenmurawski> **** Meeting Ends! ****
