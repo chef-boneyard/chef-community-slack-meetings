@@ -1,0 +1,81 @@
+09:01 < nathenharvey> ***** MEETING STARTS *****
+09:01 < nathenharvey> Today is the first official meeting of the Chef Board of Governance, the CBGB
+09:03 < nathenharvey> we are just gathering....in our conference room, there was some trouble with security
+09:03 < j^2> hi!
+09:03 < nathenharvey> While holoway gets settled I'll review our agenda for today and get started with the updates
+09:04 < nathenharvey> ChefConf 2016 tickets are on sales now and, of course the CFP is open now
+09:04 <@jonlives> o/
+09:04 < btm_> "trouble with security" oh noes. ;)
+09:05 < nathenharvey> we would love to hear from you and are looking for everything from beginner talks to super technical talks
+09:06 < nathenharvey> oh, and people have been asking how we went from Chef Board of Governance to "CBGB", or more specifically, what's that final 'B' for
+09:06 < nathenharvey> the last "B" stands for "awesome", obviously
+09:06  * martinb3 giggles.
+09:06 <@holoway> hi
+09:07 < nathenharvey> that's it for the the community update today.  Be on the lookout for some updates from the CBGB soon
+09:07 < nathenharvey> adamedx: I'll turn it over to you for updates from Chef
+09:07 < adamedx> thanks nathenharvey
+09:07 < adamedx> very simple on the news front
+09:07 < adamedx> chef-client 12.7 is going out today
+09:08 < adamedx> and we'll have a chef-dk release in the next two weeks
+09:08 < adamedx> chef-dk is long overdue, and will include an updated inspec with support for new rules around the Windows registry and security options
+09:09 < adamedx> and the new chef-dk will also include a much-improved knife-windows with standard Windows authentication available from Linux / Mac workstations
+09:09 < adamedx> that's it for me nathenharvey
+09:10 < stevenmurawski> that cross-plat auth is pretty awesome.. no more mucking about with winrm security settings!
+09:10 <@jonlives> agenda: https://github.com/chef/chef-community-irc-meetings/blob/master/2016-02-11-agenda.md
+09:10 < adamedx> yes, "it just works" stevenmurawski :)
+09:10 <@holoway> and that's the agenda
+09:10 <@holoway> anyone have something they need to talk about?
+09:11  * martinb3 blinks.
+09:11 <@holoway> I can give a CBGB update
+09:12 < nellshamrell> please do!
+09:13 <@holoway> https://twitter.com/adamhjk/status/697830636954869760
+09:13 <@holoway> we're just getting settled, and then we're heading in to some more definition of what the CBGB actually is going to do >)
+09:13 <@holoway> should be good
+09:13 <@holoway> :)
+09:13 <@holoway> that's what I have
+09:13 < Majost> 👍
+09:14 < nathenharvey> ok, so on to our PRs but ... there were no open PRs recently when I put together the agenda for today
+09:14 < lamont_oc2> https://github.com/chef/chef-rfc/pull/184/files needs a look at and a merge
+09:15 < nathenharvey> However, there was one opened  - https://github.com/chef/chef-rfc/pull/184
+09:15 < tas501> thanks lamont
+09:15 < nathenharvey> yep, that's the one lamont ;) "update supported platforms"
+09:16 <@holoway> looking
+09:17 < robbkidd> Yes, please, to not be supporting distro versions the distros don't support themselves.
+09:17 < lamont_oc2> something to note is that just because we merge this doesn’t mean chef-client stops working on those distros or that omnibus builds stop happening tomorrow
+09:18 < tas501> The only real question I had was should be just get saying openSUSE 13.X\
+09:18 < lamont_oc2> i expect 10.04 builds continue until doing the work to provision a 12.04 builder less less work than keeping the 10.04 builder going
+09:18 < lamont_oc2> *is less work
+09:21 <@holoway> since we have a pluarlity of maintianers and LTs around the table
+09:21 <@jtimberman> yeah there's a substantial amount of work to migrate to new builders
+09:21 <@holoway> we're going to say Yes
+09:21 <@jtimberman> but the right thing is to stop building on old unsupported-upstream platform versions.
+09:22 <@holoway> doe
+09:22 <@holoway> done
+09:23 < nathenharvey> OK, with that done, we've completed the agenda for today
+09:23 < btm_> I'd like thoughts on chef-dev on how we get consistency inside maintainers and then communicate to contributors about what projects we're responsible for, what a major change is and how we communicate it, what is required beyond a CLA for contributions (e.g. unit tests). Every couple months we have disagreements about these topics inside maintainers.
+09:24 <@coderanger> btm_: +1 I would also like this
+09:25 < btm_> I'm pretty concerned if we don't do this we're going to burn out some maintainers.
+09:25 <@coderanger> I think we also need broad understanding of the current state of chef-solo
+09:25 <@holoway> then lets settle it
+09:25 < ranjib> btm_, you have any proposal. ?
+09:27 < btm_> ranjib: my personal pattern in these circumstances is that I make an opinion spike in a wordy document to encourage people to disagree. I'll probably do that in chef-rfc soon if we don't come up with an alternative.
+09:27 <@holoway> rather than the long wordy spike, lets try this
+09:27 <@holoway> can you put together a list of questions
+09:27 <@holoway> that need answers?
+09:27 <@holoway> and then lets look at just that
+09:27 <@holoway> (the questions, no answers)
+09:28 <@holoway> then we'll come back together and talk about each
+09:28 <@holoway> and from there we'll have suggestions
+09:28 <@holoway> yes?
+09:28 <@coderanger> The question that I think immediately caused this would be "Do we promise feature parity for non-server-related things?"
+09:28 <@coderanger> or maybe "feature parity for workflow-level features?"
+09:28 <@coderanger> (between chef-client and chef-solo)
+09:28 < btm_> can do. send me questions via DM or email or in this channel and I'll secretary-collate-file-deliver.
+09:28 <@holoway> cool
+09:28 <@holoway> lets have that at the next meeting
+09:29 < nathenharvey> that sounds like a plan.  We'll cover that at the next meeting, or whenever the list is ready.
+09:30 < nathenharvey> Any other business we should cover before wrapping up today's meeting?
+09:31 <@coderanger> I think that's it
+09:32 <@holoway> lets shut this down then - thanks for coming, see ya'll next week
+09:32 < nathenharvey> ok, thanks everyone.  We'll meet here again next week
+09:32 < nathenharvey> ***** MEETING ENDS ******
