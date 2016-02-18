@@ -1,0 +1,164 @@
+12:01 < nathenharvey> ***** MEETING STARTS *****
+12:01 <@jonlives> o/
+12:01 < nathenharvey> today's agenda can be found here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-02-18-agenda.md
+12:02 < nathenharvey> We'll have a couple of updates, including one from the CBGB.  Then we have a few PRs to review and can pick-up a conversation opened by btm last week
+12:02 < nathenharvey> I'll start us off with a community update.
+12:03 < nathenharvey> ChefConf is a topic I'll likely bring up between now and July.  As a reminder, the CFP is open now and scheduled to close 29 Feb.
+12:03 < nathenharvey> Early bird tickets are available now as well.
+12:04 < nathenharvey> In other community-related news the cookbook engineering team continues to push out a number of cookbook updates and are triaging issues and PRs at a pretty good pace
+12:05 < nathenharvey> holoway: are you here?  I'd like to turn the floor over to you for an update on the CBGB
+12:06 < nathenharvey> hmmm....perhaps we have another CBGB member available who can give us a quick tl;dr on last week's meeting?
+12:06 < nathenharvey> A report was published here - https://gist.github.com/dougireton/85fed9408effd62eee79
+12:06 <@jtimberman> we met. we banged gavels.
+12:06 <@jonlives> I'll do it if'n you like
+12:06 <@jtimberman> governed and whatnot
+12:07 <@jonlives> ^ that
+12:07 <@jtimberman> we met most of the day thursday, discussed many things, which lead to that report above.
+12:07 <@coderanger> nathenharvey: Are we going to publish the report somewhere slightly more official-like?
+12:07 <@jonlives> this first meeting aimed to set out a bunch of stuff around what the CBGB will actually *do*, defined a missions statement and core values for the chef project
+12:08 <@jonlives> we also looked at reviewing our core processes (the community that is), the health of the community overall, and then considered technical recommendations the board might want to make
+12:08 < nathenharvey> coderanger: yes, I would like to have a blog post that covers the CBGB and includes the report.  Additionally, I'd like to see the report end up in a repo somewhere.  Perhaps the chef-rfc repo, perhaps the chef repo?
+12:08 < adamedx> I had a question about something in that gist, should I follow up after this meeting?
+12:08 <@jonlives> adamedx: depends how long the answer is likely to be ;)
+12:09 < adamedx> I think its quick
+12:09 < adamedx> just a clarification on the technical direction section
+12:09 < adamedx> about publishing builds of chef-dk to omnitruck
+12:09 < adamedx> which we do currently, so I might be misunderstanding the  request
+12:09 <@jonlives> I think the ask there was that they get pushed to the stable channel instead of just the current channel
+12:10 <@jonlives> (or as well as)
+12:10 <@jonlives> coderanger: that was what we said wasn't it?
+12:10 < adamedx> ok, they are on the stable channel, so we should probably dig into what people are seeing after the meeting (I always install chef-dk via omnitruck stable channel)
+12:10 < adamedx> we can move on
+12:11 <@coderanger> Might have just been fixed long ago and we didn't notice
+12:11 <@holoway> sorry - got stuck
+12:12 < nathenharvey> I'll take as an action item to get a blog post published on CBGB and get it published to a repo somewhere
+12:12 < adamedx> cool @coderanger, if you see we're not doing it though, we need to fix it
+12:12 < adamedx> we've never broken omnitruck before...
+12:12 < nathenharvey> holoway: welcome!  we've just completed a quick recap of CBGB meeting and I'm about to turn things over to adamedx for an update on Chef software
+12:12 <@holoway> I think one thing for this channel to weigh in on was the idea that the CBGB didnt' see a burning need for a breaking release of Chef 13
+12:13 < adamedx> yeah, that's interesting to me
+12:13 < adamedx> I see a lot of improvements that might be considered breaking
+12:13 < adamedx> particularly on Windows
+12:14 <@holoway> as maintainers, we can do what we need to
+12:14 <@holoway> so if we need to do that, we can
+12:14 <@btm> someone needs to take the lead on making the place to collect what people think we are putting off for 13.
+12:14 <@holoway> but from their perspective, stability was preferable (nobody in that room was a core windows user)
+12:14 <@holoway> anyway - we can bring it up again as needed
+12:14 < adamedx> an oversight holoway?
+12:15 <@holoway> an oversight of what?
+12:15 <@holoway> they were elected
+12:15 <@holoway> :)
+12:15 <@holoway> not chosen
+12:15 < adamedx> true
+12:15 <@jtimberman> it's not that we don't care about windows!
+12:15 < adamedx> let's do as btm suggests
+12:15 <@holoway> it's that the *people* don't care about windows (I kid!)
+12:15 < adamedx> we can see just how bad it is
+12:16 <@jtimberman> holoway: heh heh ;)
+12:16 < adamedx> :)
+12:16 <@btm> I think not having the wiki, we've lost the "default" place to collect lists of things. I'd suggest etherpad because it's already there.
+12:16 <@coderanger> btm: https://github.com/chef/chef/issues/3705
+12:16 <@coderanger> Or just search Accepted Major on the issues
+12:17 <@btm> coderanger: we could expand that issue to include breaking changes too?
+12:17 <@coderanger> btm: Any that don't have a ticket already should have one put in
+12:17 <@thom> note that those are all negative reasons; i think that etherpad is a better way to track why people want to go to 13
+12:17 <@coderanger> But a bunch of those are breaking changes planned in the future
+12:18 <@thom> (that bug, not accepted major)
+12:18 <@holoway> ok - lets move to the enxt agenda item, and y'all can put together something to talk about
+12:18 <@coderanger> thom: -inf, put in issues for them
+12:18 < tas50> ohai has ohai 9 items tagged as well so a similar breaking changes list could be compiled there
+12:19 < nathenharvey> I'll capture as an action item:  Come up with a list of things that would warrant a Chef 13
+12:19 < nathenharvey> and let's move on to adamedx for an update on Chef server, client, etc.
+12:20 < adamedx> thank you
+12:20 < adamedx> chef-dk 0.11.0 is almost here
+12:20 < adamedx> and rather overdue
+12:21 < adamedx> last release was in November, and this will go out before next week's IRC meeting
+12:21 < adamedx> our focus moving  forward is to just release this predictably every month as we are doing for chef-client
+12:21 <@jtimberman> 👍
+12:22 < adamedx> key changes include lots of dependency updates for berks, test-kitchen
+12:22 < adamedx> a very much improved knife-windows that lets you manage your Windows boxes from Linux / MacOS via WinRM without changing any defaults -- it just works (well, as well as WinRM just works)
+12:23 < adamedx> And also on Windows the installation and uninstallation are substantially faster and will avoid post-install high-cpu issues
+12:23 < adamedx> you can try out a build that may be promoted to stable soon by requesting version 0.11.0 on the current channel
+12:23 < adamedx> Changelog is here: https://github.com/chef/chef-dk/blob/master/CHANGELOG.md
+12:23 < adamedx> And thanks to this group btw
+12:23 < adamedx> for work on the version RFC
+12:24 < adamedx> we used that in the chef-client 12.7.2 release and are using that with chef-dk as well
+12:24 < adamedx> and yes, this will be available on the STABLE channel when it is released :)
+12:24 < adamedx> back to you nathenharvey
+12:24 < nathenharvey> thanks!
+12:25 < nathenharvey> holoway: do you have any Chef Software, Inc. updates for us today?
+12:25 <@holoway> nope
+12:25 < nathenharvey> Great, let's move to our first RFC then - PR-185 - Minimum supported Mac OS X version is now 10.9 - https://github.com/chef/chef-rfc/pull/185
+12:26 <@jtimberman> 👍
+12:26 < nathenharvey> schisamo: you opened this PR.  anything to be said here?
+12:26 < nathenharvey> looks like it's ready for merge
+12:26 < nellshamrell> Pretty universal thumbs up
+12:26 <@jonlives> yah
+12:27 <@holoway> do it
+12:27 <@holoway> next up!
+12:27 < nathenharvey> Next up is j^2's RFC-meetbot PR - https://github.com/chef/chef-rfc/pull/186
+12:27 <@jtimberman> nathenharvey: Seth is PTO ;)
+12:27 < j^2> hi!
+12:28 <@coderanger> I think he should hold off on the RFC because we are planning to move these meetings off IRC
+12:28 < nathenharvey> jtimberman: approved in his absence :)  yay for PTO!
+12:28 <@coderanger> (a thing j^2 wouldn't have known)
+12:28 < j^2> so yeah i’d like to open this up as a way to automate note taking
+12:28 < j^2> there’s no reason why we couldn’t create the same for something off IRC
+12:28 < j^2> the process of having it in place though is what i’m trying to suggest, have the bot take the notes export the summary capture action items etc
+12:29 <@thom> yeah, there's no real reason that slackbot or whatever couldn't do the same job
+12:29 < j^2> it works swimmingly in the OpenStack world, it seems like something we could leverage here
+12:29 <@coderanger> Fair, maybe just remove mention of "IRC" specifically :)
+12:29 < j^2> will do, updates soon
+12:29 <@btm> j^2: I've been thinking in general, I'd like to see the writing style be more declarative and have the right tense so the RFC doesn't sound wrong if/when implemented.
+12:29 <@jtimberman> i'm in favor of the idea for sure, but we should hold off on specifics until we've settled the discussion mentioned in the cbgb report about where community chat things happen.
+12:30 < j^2> noted
+12:30 < j^2> btm: totally, updates soon
+12:30 <@thom> q
+12:30 < j^2> as I’ve done in the past, i just think the idea that we have it “on the books” as a process we want to do then we figure out later on the specifics
+12:31 < j^2> but yeah to coderanger’s point i’ll remove the specific IRC point here in a bit
+12:31 < j^2> \o/
+12:31 <@coderanger> thumbsup overall
+12:32 <@btm> j^2: "can open up people to have conversations instead of the dogma of making sure the conversations stay on track."
+12:32 < j^2> btm: yeah?
+12:32 <@btm> j^2: can you explain that? do you mean the person taking notes can participate instead of taking notes?
+12:32 <@btm> j^2: or would this someone make it so we talk about multiple things at once?
+12:33 < j^2> btm: more to the fact of the experience of the note taker from OpenStack. Before leveraging the meetbot the notetaker would get lost in the process instead of the conversation. From that experience it seemed reasonable that it’s possible it could happen in our meetings, I wanted to nip that in the bud before it happened here
+12:34 < j^2> I was trying to be proactive instead of reactive which a lot of process seems to be created for
+12:35 <@btm> okay. I'll comment on the PR.
+12:35 < j^2> rockon
+12:35 < nathenharvey> ok, sounds like we're in general agreement with some tweaks.  Let's revisit next week and move on to Multiple policy support - https://github.com/chef/chef-rfc/pull/187
+12:36 <@coderanger> So I put this in mostly so people can tell me all the ways it will be a broken pile of terrible
+12:36 <@coderanger> The goal is to extend the policyfile workflow to include orgs where multiple teams interact on the same box(en)
+12:36 < lamont_oc2> yeah, 187 needs to bake awhile longer
+12:37 <@holoway> we've had this idea float around for a while
+12:37 <@coderanger> This is something not really handled in any Chef workflow right now (except maybe Delivery)
+12:37 <@holoway> I think something like this is inevitable
+12:37 <@coderanger> but any major user is going to hit it
+12:37 <@holoway> yeah, delivery would coalesce a single policy
+12:38 <@coderanger> So yeah, read it, tell me all the things you think will go horribly wrong so I can fix 'em :)
+12:39 < nathenharvey> coderanger: thanks!  we can move further discussion and feedback to the PR and I'll add this to the agenda for next week
+12:39 < nathenharvey> And we'll move on to Add downstream impact section - https://github.com/chef/chef-rfc/pull/188
+12:40 <@coderanger> thumbsup
+12:40 < nathenharvey> feels like bringing this one up is just to explicitly approve it here.
+12:40 <@jonlives> for the record, this one is derived from something the CBGB proposed, which is being more explicit about the potential downstream impact of RFCs etc.
+12:40 <@thom> jonlives: thanks for typing faster than me :)
+12:40 <@jonlives> oh sorry I didn't spot you were here :D
+12:41 <@coderanger> We should probably also update the template in rfc0
+12:41 <@thom> coderanger: will do
+12:41 <@coderanger> for consistency :)
+12:41 <@thom> more tempted to rip that one out and just say "see new/rfc-template.md" there
+12:42 <@holoway> y
+12:42 <@coderanger> thom: Having a single doc is nice, and we've only changed it 3 times in the past year
+12:42 <@thom> eh, keeping something in two distinct places just seems like a recipe for sadness
+12:43 <@thom> but yeah it doesn't change often
+12:43  * thom shrugs
+12:44 < nathenharvey> so approved pending updating the template(s) for new rfc then?
+12:45 <@coderanger> shipit.gif
+12:45 < nathenharvey> That leaves us with another 5 minutes for btm's Dilemmas that the Chef maintainers need to resolve for themselves - https://e.chef.io/p/maintainers_dilemma
+12:47 <@holoway> +1
+12:48 <@thom> i think a lot of the first two bullets are kind of covered by the CBGB report
+12:50 <@btm> so it's a brain dump of things we've tripped over in the last year or so. some may be less painful than at the time but I wasn't sure we had official decisions (or decisions to not decide) anywhere.
+12:50 < nathenharvey> We are at time so I will add this to next weeks agenda for further discussion
+12:50 < nathenharvey> Next meeting is scheduled for next Thursday, February 25, 2016 9AM-9:50AM PST - http://everytimezone.com/#2016-02-25,300,cn3
+12:50 <@btm> big question to think about is how we want to handle picking through that.
+12:50 < nathenharvey> ***** MEETING ENDS *****
