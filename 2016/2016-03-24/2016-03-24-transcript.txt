@@ -1,0 +1,157 @@
+12:00 < nathenharvey> ***** MEETING STARTS *****
+12:01 < nathenharvey> Today's agenda can be found here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-03-24-agenda.md
+12:01 <@thom> good morning
+12:01 < nathenharvey> we'll start with updates, review an action item, then on to 3 prs up for review
+12:01 < nathenharvey> I'll start us off with a community update
+12:02 < nathenharvey> ChefConf tix are now on sale.  Early bird pricing ends April 17 and we hope to see all of you there
+12:02 < nathenharvey> There is a contributor discount code available for anyone who has signed a contributor license agreement.  You should have received an email with that code
+12:03 < nathenharvey> in case you missed it, the code is "GotChef" This gets you an additional $295 off early bird pricing
+12:03 < nathenharvey> The first day of ChefConf (July 11) consists of training workshops and a community summit.  Tickets for these are separate.  Please plan accordingly.
+12:04 < nathenharvey> I imagine most of you have seen what's happened in the node community this week.  If not, this is a good read on the topic:  http://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/
+12:04 < nathenharvey> This is a bit of a cautionary tale, how might the same sort of actions impact our community?
+12:05 < nathenharvey> We have a couple RFCs in place that address some of the implications here
+12:05 < nathenharvey> RFC-069 Cookbook Adoption On Supermarket - https://github.com/chef/chef-rfc/blob/master/rfc069-cookbook-adoption.md
+12:05 < nathenharvey> RFC-O72 Cookbook and Cookbook Version Yanking Policy - https://github.com/chef/chef-rfc/blob/master/rfc072-artifact-yanking.md
+12:05 < nathenharvey> and there's a Issue in the Supermarket repo with some conversations about this sort of thing, too.  https://github.com/chef/supermarket/issues/954
+12:06 < nathenharvey> No immediate action out of that but definitely something to consider especially as it may relate to your current development workflow.
+12:06 < nathenharvey> A question came up this week...should Cookbooks under https://github.com/chef/chef-cookbooks be part of the Chef maintainer policy.
+12:07 < nathenharvey> those cookbooks follow a similar process as the chef project but aren't part of that maintainer policy.
+12:07 <@jtimberman> Is that a question to discuss now?
+12:07 < dougireton> @nathenharvey I assume you mean the training workshops require separate tickets, but the community summit is included with general ChefConf ticket price?
+12:07 < nathenharvey> Every cookbook in that organization has it's own MAINTAINERS.md file.  So, if you want to be a maintainer of a cookbooks, just submit a PR
+12:08 < nathenharvey> dougireton: both the workshops and the summit require a separate ticket.
+12:08 < nathenharvey> jtimberman: it's a question I'm answering now :)
+12:08 < nathenharvey> we could totally discuss it further if there's a feeling that the current state is not desirable though
+12:09 < nathenharvey> on that same thread there was a question about the Obvious Fix policy.  So figured I'd mention that today as a reminder for folks, too.
+12:09 < lamont_oc2> it might produce more community engagement if some active members could be maintainers for chef-cookbooks as a whole?
+12:10 < nathenharvey> it applies to cookbooks and other chef projects equally.  You can read the obvious fix policy in the contributing doc for cookbooks (or chef for that matter) ttps://github.com/chef-cookbooks/community_cookbook_documentation/blob/master/CONTRIBUTING.MD#chef-obvious-fix-policy
+12:10 < nathenharvey> it's also published on the docs site - https://docs.chef.io/community_contributions.html#the-obvious-fix-rule
+12:10 <@jtimberman> i don't know, i'd have to reread the chef maintainer policy. it seems like it might be a lot of overhead to manage that for the what, 100+ cookbooks in the chef-cookbooks org
+12:12 <@coderanger> lamont_oc2: +1, mostly because it seems unlikely Chef Software would want a new person on the CE team to put in that many individual PRs
+12:14 < nathenharvey> lamont_oc2: it might, indeed.
+12:14 < nathenharvey> jtimberman: agree.  that's part of why cookbook maintainership is set up this way today.
+12:14 <@thom> it feels like we should have a good enough overview of who's contributing to multiple cookbooks to be able to nominate people to be org-wide contributors
+12:14 <@jtimberman> i mean it's not ideal, we all know that chef-cookbooks has long suffered from the "not enough active maintainers" problem.
+12:14  * jtimberman glances around nervously
+12:14 < nathenharvey> I recommend we move the discussion of whether or not to just have an all encompassing maintainer policy for all chef-cookbooks to the end of today's meeting or into an RFC.
+12:14 < nathenharvey> I mainly wanted to raise it today to remind/let people know of current state
+12:14 < lamont_oc2> +1
+12:14 <@jtimberman> 👍
+12:14 < nathenharvey> with that, I'm done with community updates for today :)
+12:14 < nathenharvey> holoway: over to you for any Chef Software, Inc. updates
+12:15 < nathenharvey> holoway: might not be here....let's move on to adamedx for updates on Chef
+12:16 < adamedx> Thanks
+12:16 < adamedx> If you've followed discourse, we released a new Chef-DK 0.12.0 yesterday
+12:16 < adamedx> Lots of updated deps, including test-kitchen 1.6
+12:17 < adamedx> https://github.com/chef/chef-dk/blob/master/RELEASE_NOTES.md
+12:17 < adamedx> Also
+12:17 < adamedx> jkeiser posted this update on how we're implementing the versioning policy: https://discourse.chef.io/t/chef-and-chefdk-version-number-changes/8048
+12:18 < adamedx> So if you look in the chef and Chef-DK repos
+12:18 < adamedx> You'll see that when your pr is merged the patch version of chef is updated automatically via a commit
+12:19 < adamedx> jkeiser's doc goes into more detail on the benefits and links to the original rfc: https://github.com/chef/chef-rfc/blob/master/rfc047-release-process.md
+12:19 < adamedx> So key thing is that if you see commits like this, they are normal and expected: :)
+12:19 < jkeiser> You have no idea how exciting this is for those of us who do the releases of chef :)
+12:19 < adamedx> https://github.com/chef/chef/commit/a421cf39a76a80da8154c93f26d3c665afa8f768
+12:20 < adamedx> And if your friends ask you why the version numbers seem to be much larger in the patch version
+12:20 < adamedx> You can comfort them with jkeiser's discourse post
+12:20 < jkeiser> "Pick a build that's been tested and promote it" is SO much better than "hmm it's time to release, let's change a bunch of stuff and build a build and go through a test process and then release if it's good"
+12:20 < adamedx> Yeah
+12:20 < adamedx> This is a new process
+12:21 < adamedx> So definitely if you see strangeness with how the automated version bump works
+12:21 < adamedx> Or any other issues related to it
+12:21 < adamedx> Please raise them on the GitHub
+12:21 < adamedx> That's it for me
+12:21 <@coderanger> I'll say that the general feedback I've gotten over the new version numbers even from 12.7 and 12.8 has been mild-but-not-problematic confusion
+12:21 < adamedx> Interesting coderanger
+12:21 < adamedx> Back to you nathenharvey
+12:22 < adamedx> Thank you coderanger
+12:22 < nathenharvey> thanks, adamedx
+12:23 < nathenharvey> there was an action item from last week's meeting to ensure we follow-up with the packagecloud-to-bintray migration
+12:23 < nathenharvey> a post was made to discourse on that topic - https://discourse.chef.io/t/we-ve-moved-our-software-distribution-to-packages-chef-io/8001
+12:24 < nathenharvey> So, I think, that action was completed and we're good there.
+12:24 < nathenharvey> Let's move on to our PRs to review for today.
+12:24 < nathenharvey> The first isn't actually an RFC but a PR against Chef
+12:24 < nathenharvey> Add Chef Provisioning to Maintenance Policy - https://github.com/chef/chef/pull/4731
+12:25 < tball> Yes!
+12:25 <@thom> as with ohai, we need five LT +1s
+12:26 <@jtimberman> doneburger
+12:26 < tas50> still waiting on the 5th one for Ohai btw
+12:26 < tas50> https://github.com/chef/chef/pull/4634
+12:27 < tas50> thank you
+12:27 <@jtimberman> > 5 ;)
+12:27 <@coderanger> @thom Can the sync script make an LTs team automaticall?
+12:28 <@coderanger> Might help with notifications :)
+12:28 < nathenharvey> OK, that seems in good shape now.  Let's move on to our next RFC PR which is Multiple policy support - https://github.com/chef/chef-rfc/pull/187
+12:28 <@thom> yeah, that can happen
+12:29 <@thom> coderanger: i'll make that so
+12:30 < nathenharvey> coderanger: do you have words to say / type on 187?
+12:30 <@coderanger> I updated it with some more specific bits
+12:30 <@coderanger> I think it's about as good as I can get it
+12:31 <@coderanger> The implementation is going to be rough around the edges, but I'm not sure there is a solution to that and we really are going to need to address this workflow if we want to recommend a snapshot-based workflow
+12:31 <@coderanger> (which I think we should)
+12:32 < jkeiser> I hadn't seen this idea yet, and like it
+12:33 <@thom> i think we've reached the point where the RFC has probably been discussed enough, and we should go ahead and accept it
+12:33 <@coderanger> I mean if there is a compelling counter-proposal I'm cool with that :)
+12:33 <@jtimberman> accept it because the discussion tended toward positive?
+12:34 <@coderanger> But I don't think it should just be accepted because we've run out of things to say
+12:34 <@jtimberman> Indeed.
+12:34 < jkeiser> I'm a real fan of the decoupling of runs
+12:34 <@thom> i think the discussion has been positive and has tended to converge on the same thing
+12:35 < jkeiser> heh, you said "converge"
+12:36 <@coderanger> The issue with registering handlers still needs resolution too
+12:36 < lamont_oc2> heh ‘zap’ is indeed a curious case
+12:36 <@coderanger> Like do we make one of the policies more special-er in that it gets non-fork control
+12:37 <@coderanger> lamont_oc2: I've been saying zap-style stuff is a bad idea because of that for years
+12:37 < lamont_oc2> think i’m +1
+12:37 < lamont_oc2> as long as run ‘two’ drops all the files whatever directory and run ‘one’ does not then you’re fine...
+12:38 < jkeiser> Do we think that we can move forward with the proposal in question without resolving handler registration, and still be able to fix that in a future RFC without backcompat breaks?
+12:38 < lamont_oc2> otherwise enjoy playing with your footgun…
+12:39 <@coderanger> jkeiser: I think if we start with it being unsupported, adding it in some way would be fine
+12:39 < jkeiser> Yeah, I think you are right
+12:40 < jkeiser> I am +1. We'll probably discover issues during impl, but the direction seems right to me
+12:40 < nathenharvey> I move that we take a vote on this RFC and decide if it should be accepted.
+12:40 < jkeiser> Seconded, Robert!
+12:41 < kallistec> I'm +1. I think the correct thing to do for teams is to implement Ci that does the fanout from cookbook updates to policies that include them, but I think Chef should let you be productive without that
+12:41 < jkeiser> This gives people something they've wanted for a long while
+12:41 <@coderanger> kallistec: the npm kerfuffle is a great example of why snapshot workflows are cool :)
+12:42 < jkeiser> The one thing that security folks might want is a way to lock out app team from detaching or altering their security policy from the node, but that can be changed or added later if the need arises
+12:42 < jkeiser> And could be handled with monitoring
+12:42 < jkeiser> +1
+12:43 <@coderanger> I am +1 for accepting
+12:43 < nathenharvey> thom: Adam's out so you're decider today
+12:43 <@thom> yep
+12:43 <@thom> i think we're in a good position on this, so +1 let's make it so
+12:44 < ranjib> +1
+12:44 < ranjib> i hope we get the ci bits right
+12:44 < nathenharvey> awesome!  on to PR-193 - Change Ohai version numbers to match Chef - https://github.com/chef/chef-rfc/pull/193
+12:45 < nathenharvey> and a warning that we have 5 minutes left
+12:46 <@coderanger> I wrote up what I think is a decent middle ground plan as a comment
+12:46 <@thom> i suspect that coderanger's proposal is where i started out from, and i'm happy with taht
+12:46 <@thom> the aforementioned version bumping bot can do all this for us, essentially
+12:47 < jkeiser> Funnily, I just released ohai 8.13 for build reasons, and that would be impossible if the versions were tied (because it had new features, it would have to be a minor version bump)
+12:47 < jkeiser> Unless we abandoned semver for ohai itself
+12:48 < jkeiser> The reason being, I didn't release a corresponding minor version of Chef
+12:48 <@coderanger> jkeiser: Yes, the idea is stop having semver for ohai
+12:48 < jkeiser> righto
+12:49 <@coderanger> Ohai versioning would just be snapshots of master at the time of the corresponding Chef build
+12:49 < jkeiser> My understanding is that ohai could have different patch #'s
+12:49 < nathenharvey> we're down to one minute in our meeting time so move to vote or push to next week?
+12:49 < jkeiser> At least, that's how I read the proposal
+12:50 <@coderanger> I don't think that's the idea
+12:50 <@thom> jkeiser: no, they should be the same
+12:50 <@coderanger> It would be direct equivalence
+12:50 < jkeiser> It's pretty clear about minor version being the lockstep
+12:50 <@thom> i'll update to make that clear
+12:50 <@thom> nathenharvey: vote next week i think
+12:50 < nathenharvey> yep, feels like it
+12:50 < jkeiser> OK. Then I think that what I just did would still be impossible
+12:51 < nathenharvey> OK, I'll include this PR in next week's agenda.  Further discussion in the meantime should happen in the PR itself
+12:51 < jkeiser> But it's probably OK, I did it for weird build reasons
+12:51 < jkeiser> I'll dump this into the PR
+12:51 <@coderanger> jkeiser: What you did would require a mid-cycle Chef release
+12:51 < nathenharvey> thanks everyone for attending and continuing to be awesome!
+12:51 <@coderanger> Not impossible, but also would have to be a reasonably big deal to warrant it
+12:52 < nathenharvey> Next meeting - Thursday, March 31, 2016 9AM-9:50AM PDT - http://everytimezone.com/#2016-3-31,240,cn3
+12:52 < jkeiser> Yep
+12:52 < jkeiser> I think I can deal with the problem I just had in the new world
+12:52 < nathenharvey> ***** MEETING ENDS *****

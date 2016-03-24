@@ -7,7 +7,7 @@ Moderator:  Adam Jacob (holoway)
 Secretary:  Nathen Harvey (nathenharvey)
 
 ### Agenda
-* Agenda Review, speaker Adam Jacob (holoway): 2 minutes
+* Agenda Review, speaker Nathen Harvey (nathenharvey): 2 minutes
 * Updates: 15 minutes max.
   * Community Update, speaker Nathen Harvey (nathenharvey): 5 minutes
   * Chef Software Update, speaker Adam Jacob (holoway): 5 minutes
