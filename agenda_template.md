@@ -1,6 +1,6 @@
 # Chef Developers' IRC Meeting
 
-[Thursday, Month Date, 2015 9AM-9:50AM PST](http://www.timeanddate.com/worldclock/fixedtime.html?msg=%23chef-hacking+developers%27+meeting&iso=20150821T12&p1=419&am=50)
+[Thursday, Month Date, 2016 9AM-9:50AM PST](http://everytimezone.com/#2016-4-14,240,cn3)
 
 Moderator:  Adam Jacob (holoway)
 
@@ -19,4 +19,4 @@ Secretary:  Nathen Harvey (nathenharvey)
 
 ### Next Meeting
 
-[Thursday, Month Date, 2015 9AM-9:50AM PST](http://www.timeanddate.com/worldclock/fixedtime.html?msg=%23chef-hacking+developers%27+meeting&iso=20150821T12&p1=419&am=50)
+[Thursday, Month Date, 2016 9AM-9:50AM PST](http://everytimezone.com/#2016-4-14,240,cn3)
