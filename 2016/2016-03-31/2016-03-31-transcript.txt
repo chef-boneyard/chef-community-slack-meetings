@@ -1,0 +1,88 @@
+16:00 < nathenharvey> ***** MEETING STARTS *****
+16:01 < nathenharvey> Our agenda for today is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-03-31-agenda.md
+16:02 < nathenharvey> We've got a few updates and then one PR to review
+16:02 < nathenharvey> I'll get us started with the community update
+16:03 < nathenharvey> ChefConf early bird tix are on sale until April 17.  Contributor discount code: GotChef This gets you an additional $295 off early bird pricing
+16:03 < nathenharvey> The first day consists of training workshops and a community summit.  Tickets for these are separate.  Please plan accordingly.
+16:04 < nathenharvey> Release and Security Announcements will now be posted to Discourse in the Release and Security Announcements categories, respectively.  Please be sure to update your subscription and notification settings accordingly.
+16:05 < nathenharvey> http://status.chef.io/ was recently updated, too.  It's a good idea to check that out and update your subscriptions.
+16:06 < nathenharvey> Finally, a question, that we can actually save a decision on until the end of the meeting, I'll bring it back up then but give you some time to think about it.
+16:06 < nathenharvey> Our Discourse account allows for tagging of messages.  I'd like to enable these tags but wanted to poll this group first.  Should we just do it or should this be more fully discussed via an RFC?
+16:06 <@thom> JFDI :)
+16:07 <@btm> What are the tags for?
+16:07 < nathenharvey> tags would allow us to do something like tag a message in the [chef] category as related to inspec or test kitchen without having to create new categories
+16:08 < nathenharvey> also allow you to filter topics by tags, watch tags, etc.
+16:09 <@btm> would we make a fixed list of tags, or is it something everyone could create? I'd want a fixed list otherwise I think the usefulness quickly gets lost in the number of slack channels. I mean tags. ;)
+16:09 < Majost> Whom can create tags, and whom can assign them to a thread?
+16:09 < nathenharvey> I'm against a proliferation of lots of new categories.  tagging might be a nice middle ground
+16:10 <@coderanger> Do we have enough traffic for anything outside the existing categories for it to help much?
+16:10 <@btm> yeah, I'm pro tags for that reason, just worry about having more than like a list of products/projects/platforms for tags.
+16:10 <@coderanger> I feel like the vast majority is still Chef support
+16:10 < nathenharvey> I've been asked to create at least two or three new categories by folks.  I've denied those requests.  They were for Inspec/Compliance, Openstack, and, maybe, Test Kitchen, if my memory serves
+16:11 <@coderanger> Fair
+16:11 <@coderanger> If it won't hurt the UX for the average Chef user looking for help, hard to see much harm
+16:12 <@thom> tagging seems like a reasonable approach to that. but i'd like to avoid the epic bikeshed of which tags we should create
+16:13 < nathenharvey> OK.  I propose we do this:   revisit at the end of today's agenda and vote on - an RFC before enabling or just enabling.  At a minimum, a post should be written that describes the how/why/who/when of tagging.
+16:13 <@thom> tempted to suggest we should just let the moderators (or whatever y'all are called in discourse) create tags if they think it appropriate
+16:13 <@coderanger>  We should check if changing tags breaks threading even more than it already is
+16:14 < nathenharvey> for now, let's move on to adamedx for an update on Chef
+16:14 <@btm> nathenharvey: I think at this point we should PR chef-rfc, maybe update RFC028, and answer questions like what the policy is for new tags and who can create them.
+16:15 <@holoway> hi
+16:15 <@holoway> sorry I'm late
+16:15 < nathenharvey> btm: I'm leaning the same way, let's vote at the end of today's meeting
+16:15 <@holoway> spring break
+16:16 < nathenharvey> hello, holoway.  We've just completed the community update
+16:16 < nathenharvey> adamedx: is up with the chef update
+16:16 < adamedx> thanks
+16:16 < adamedx> Our next Chef Client release will be April 13th.
+16:16 < adamedx> For the Windows platform, the existing chef-client will be replaced by the Ubuntu chef-client package
+16:17 < adamedx> Oh, April 1 is tomorrow
+16:17 < adamedx> For real: The April 13th release will be the official GA of the 64-bit chef-client -- this will be the default client installed on 64-bit Windows systems via the web site, knife bootstraps etc.
+16:17 <@holoway> I'm pro tags - low risk, would help some people - let moderators tag threads?
+16:17 < adamedx> If you can't wait until April 13 for 64-bit chef-client on Windows
+16:18 < adamedx> you can grab it from the current channel now (and forever)
+16:18 < adamedx> i.e. `. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -channel current -project chef`
+16:18 < adamedx> btm, anything to add on chef / chef-dk front?
+16:19 < adamedx> that's it for me nathenharvey
+16:19 <@btm> not really. the build is currently broken in a few ways. a team of Chef software engineers is fixing allthethings.
+16:19 < nathenharvey> thanks, adamedx and btm!
+16:19 < nathenharvey> holoway: over to you for a Chef Software update
+16:21 <@holoway> nothing to say
+16:22 < nathenharvey> ok, great!
+16:22 < nathenharvey> then on to our PR for today:  Change Ohai version numbers to match Chef - https://github.com/chef/chef-rfc/pull/193
+16:23 < nathenharvey> thom: any update from last week here?
+16:23 <@thom> yeah, i updated the RFC to reflect that we don't think merging is right, but do think auto-bumping ohai versions in lockstep with chef is goodness
+16:24 <@thom> merging -> bringing ohai into the chef repo, to be clear
+16:24 <@thom> btm just noted that he didn't think it was worth bumping chef when ohai changed, since the velocity of chef is higher in general anyway
+16:25 <@thom> and i agree, and am just updating the RFC again
+16:26 <@holoway> that makes sense as long as any critical ohai issue just triggers a chef release
+16:26 <@holoway> which any sufficiently bad one would
+16:26 <@thom> holoway: exactly
+16:27 <@coderanger> Will help keep down those big numbers I love so much ;)
+16:29 <@btm> thom: anyway, +1, one of us should update the versioning section in rfc047 to note that chef/chef-config/ohai should have their version numbers bumped in sync.
+16:29 <@holoway> +1
+16:30 <@thom> btm: yep, will do
+16:32 < nathenharvey> OK, that PR is approved.
+16:32 <@thom> thanks!
+16:32 < nathenharvey> that was the only one for today's meeting.
+16:33 <@coderanger> Nath
+16:33 <@coderanger> Gah, mobile irc is the worst
+16:34 < nathenharvey> so I think the prudent thing to do with tagging is a little research on how the feature works within discourse and a PR to the existing mailing list RFC (https://github.com/chef/chef-rfc/blob/master/rfc028-mailing-list-migration.md) to be reviewed for next week.
+16:34 < nathenharvey> I'll take that as an action item for me
+16:34 <@coderanger> Nathen and Holoway and I should probably (virtually) sit down and sort out a migration plan for slack in the next few weeks :)
+16:35 <@btm> nathenharvey: +1. it'd be nice to have a written policy regarding when we add tags and when we add categories.
+16:35 < nathenharvey> coderanger: yes.  I'm happy to propose some times that work for me
+16:35 < nathenharvey> OK.  I'll plan to have something for next week on the tagging.
+16:36 < nathenharvey> that leaves us about 15 minutes for any additional business that you'd like to raise...
+16:37 < lamont_oc2> heads up that at some point i’m going to want to pull this into core:  https://github.com/lamont-cookbooks/chef_hostname
+16:37 <@holoway> anything folks need to talk about?
+16:37 <@holoway> I know code ranger wanted to talk about slack
+16:38 <@holoway> I'm going to bail out of that conversation - as I trust you and nathen, and my schedule just gets in the way
+16:38 <@holoway> suffice to say, I'm +1 on the move
+16:38 <@coderanger> Lamont_oc2: will it work on Windows? :troll:
+16:39 < lamont_oc2> not yet, but i’ve got some code that at least attempts it on windows…
+16:39 <@holoway> tl;dr - I approve your plan together in advance
+16:40 <@coderanger> 👍
+16:40 < nathenharvey> OK, let's call this meeting adjourned then and give everyone 10 minutes back
+16:41 < nathenharvey> our next meeting is Thursday, April 7, 2016 9AM-9:50AM PDT - http://everytimezone.com/#2016-4-7,240,cn3
+16:41 < nathenharvey> ***** MEETING ENDS *****
