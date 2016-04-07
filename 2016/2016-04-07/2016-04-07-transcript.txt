@@ -1,0 +1,36 @@
+12:01 < nathenharvey> ***** MEETING STARTS *****
+12:01 < nathenharvey> our agenda for today's meeting is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-04-07-agenda.md
+12:02 < nathenharvey> the agenda is pretty light today in terms of PRs to review but we do have a couple of updates and a couple of action items to review
+12:03 < nathenharvey> For the community update, just a friendly reminder about ChefConf.  Contributor discount is GotChef.  Early bird pricing, for your friends who aren't contributors, ends April 17
+12:04 < nathenharvey> Anyone who has signed our contributor license agreement is welcome to use the contributor discount code.  We do have a limited number of those tix available though so get yours soon.
+12:05 < nathenharvey> Also on ChefConf, notifications to everyone who submitted talks have started going out and everyone will be fully notified by the end of the day today.
+12:05 < nathenharvey> Once we have confirmed all of the speakers we'll announce the schedule.  We have some really great content and speakers lined up.
+12:06 < nathenharvey> we had over 200 submissions for the CFP and fewer than 40 breakout sessions to fill from that pool.  Needless to say, there were some very difficult decisions made about which talks to accept.
+12:07 < nathenharvey> That's everything on the community update for today.
+12:07 < nathenharvey> holoway: are you around for any updates on Chef Software?
+12:08 < nathenharvey> I believe adamedx is in an offsite meeting so not available for an update on Chef.
+12:08 < chip> I do have an update on some planned Chef Server changes
+12:09 < nathenharvey> chip take it away! ;)
+12:09 < chip> I usually idle these meetings, but for those who don't know, I'm Charles Johnson (also Chip if you want), I'm product manager for chef client, server, chefdk, etc.
+12:10 < chip> The good news is that we're working on a new HA solution for Chef Server, and we're planning to show it off a lot more in the coming months.
+12:10 < chip> People have been asking about this for years, I'm pretty excited to get it in front of people.
+12:12 < chip> The current plan is to release this as a separate package that can be used with the existing chef server package to build clusters.
+12:13 < chip> In the last few months, we've also shipped support for specifying non-bundled datastores for chef server. You can use external solr, elasticsearch, queue, etc. now with Chef Server, instead of using the bundled ones.
+12:14 < chip> As part of the release of the new HA features, one of the goals is to simplify the existing chef server package, and deprecate & remove support for the tiered and drbd-based ha solutions from the package.
+12:15 < chip> This is about streamlining the chef server package and simplifying things as much as possible.
+12:16 < chip> Would love your feedback / questions around this, please feel free to reach out at any time.
+12:16 < nathenharvey> ok, thanks, chip!
+12:16 < tball> For the Chef update, we are going to release 12.9 next Wednesday.  This will be the first release that includes Windows 64-bit and 32-bit builds available via Omnitruck (which is used by the install.sh script).  More information is available at https://discourse.chef.io/t/incoming-updates-to-windows-64-bit-build-availability/7989/2
+12:18 < nathenharvey> thanks for the update, tball!
+12:19 < nathenharvey> we had three action items from last week's meeting.
+12:19 < nathenharvey> first was mine:  RFC or PR for tagging in Discourse.
+12:19 < nathenharvey> I've not made any progress there.  You'll know it's done when a PR shows up on the agenda though.
+12:19 < nathenharvey> coderanger: and I also had an action to start work on a slack migration plan
+12:20 < nathenharvey> I'm working with the internal Chef team to get the project in the queue.
+12:21 < nathenharvey> and the third action was to update an rfc so it's ready for merge.  thom completed that work and it's ready for the rfc-editors to merge - https://github.com/chef/chef-rfc/pull/193
+12:21 < nathenharvey> that concludes all of the business we had on today's agenda.  I'd like to open the floor for other topics, questions, concerns, or discussion.
+12:23 < nathenharvey> one more minute to raise a topic...
+12:23 < tBunnyMan> ...crickets...
+12:24 < nathenharvey> great topic tBunnyMan!  the crickets will be joining us soon now that it's Spring ;)
+12:24 < nathenharvey> alright, I'd like to thank everyone for coming today.  We'll meet next Thursday, April 14 at 9AM PDT.  Chat with you then!
+12:24 < nathenharvey> ***** MEETING ENDS *****
