@@ -1,0 +1,82 @@
+17:00 <@thom> MEETING STARTS
+17:00 <@thom> good morning, and welcome to your regularly scheduled maintainer's meeting
+17:00 <@thom> the agenda is https://github.com/chef/chef-community-irc-meetings/blob/master/2016-04-21-agenda.md ; it's a quiet one today
+17:02 <@thom> You should go buy Chef Conf tickets, if you've not already done so. The contributor discount code is GotChef
+17:02 <@thom> over to adamedx for an update on Chef/Chef Server
+17:03 < adamedx> hello
+17:03 < adamedx> We're releasing chef-dk 0.13 next week. Here's snapshot of the current change log: https://github.com/chef/chef-dk/blob/815a864e59aa96b8b6149c369ca67d24cd22bae2/CHANGELOG.md; changes include updating chef-dk to use the latest released version of Chef (12.9.38).
+17:03 < adamedx> Also numerous Windows fixes for the WinRM transport and test-kitchen usage
+17:04 < adamedx> and a switch to the built from source Ruby
+17:04 < adamedx> That's all my news thom
+17:04 <@thom> thanks adam
+17:04 <@thom> mmzyk: you are up
+17:05 < mmzyk> Awesome - so I’ve got some updates on how Chef products are going to handle displaying and accepting license information going forward.
+17:05 < mmzyk> For all products, we’ll be adding a /opt/<product-name>/LICENSE file.
+17:05 < mmzyk> This will contain pointers to the master license for the product, and pointers to all the licenses for any 3rd party software bundled into the product.
+17:06 < mmzyk> Copies of the 3rd party licenses will then be collected in /opt/<product-name>/LICENSES
+17:06 < mmzyk> The intent is to make it easy to find all the licenses associated with a Chef product, so that information is clear.
+17:06 < mmzyk> In addition for CLOSED source chef products, reconfigure now require that a user explicitly accept the Chef license.
+17:07 < mmzyk> On a reconfigure, the user will have to type yes to accept the license.
+17:07 < mmzyk> And the reconfigure will also display the license before the user types yes.
+17:07 < mmzyk> For automation purposes, a user can use the —accept-license flag
+17:08 < mmzyk> Or put a .license.accepted file on disk at /var/opt/<product-name>  to accept the license.
+17:08 < mmzyk> Given that this change will require intervention to prevent any automation breaking, we want to give advance notice on it.
+17:08 < mmzyk> The initial products that will be affected with the requirement to accept the license will be Manage, Analytics, Reporting, and Compliance.
+17:09 < mmzyk> You can expect to start seeing that in the release of each of those products over the coming few weeks.
+17:09 < mmzyk> To reiteracte, the explicit step to accept the license only affects closed source products. Open source products will not have this.
+17:09 < mmzyk> But all products will get the change to better collect and display the licenses.
+17:10 < mmzyk> We’ll continue to do communication around this change to make sure it’s clear, starting here is just step one.
+17:10 < mmzyk> Any questions I can answer?
+17:10 <@thom> ( the chef-ingredient cookbook is in the throes of growing support for this - https://github.com/chef-cookbooks/chef-ingredient/pull/101 )
+17:10 <@coderanger> Who decided this was needed?
+17:10 < mmzyk> Our legal department.
+17:11 <@coderanger> Then why are they not the ones here defending it?
+17:11 < mmzyk> It’s part of Chef ensuring we have proper protections for our IP.
+17:11 < mmzyk> Previously we did so with the need to accept the agreement on the downloads page.
+17:11 <@coderanger> Is there any prior art for other similar software requiring anything like this?
+17:11 < tBunnyMan> I can think of more than a few
+17:11 < mmzyk> But as we expand the ways you can acquire chef products, that no longer suffices.
+17:12 <@thom> i can't think of a heap, including the jvm
+17:12 < tBunnyMan> Java runtime comes to mind
+17:12 <@thom> i can think of a heap, rather
+17:12 < tBunnyMan> XCode tools
+17:12 < mmzyk> So that’s the basics of things.
+17:12 <@coderanger> JVM is on the download page AFAIK
+17:12 <@coderanger> Not many do it post-install
+17:12 <@coderanger> i.e. I think any legal defense on this is bullshit, I can get the code without agreeing to the license
+17:12 < tBunnyMan> I think having to acknowlage EVERY reconfigure seems excessive
+17:13 <@jtimberman> Getting the code vs using the product are different things.
+17:13 <@coderanger> If I just never run reconfigure ...
+17:13 < mmzyk> Once the .license.accepted file is in place you don’t have to ack it again.
+17:13 < mmzyk> The first reconfigure will put it in place for you, so it should only be a one time operation.
+17:13 < mmzyk> Sorry that wasn’t clear.
+17:13 < tBunnyMan> well if you never run reconfigure technically you are never actually enableing the software yes?
+17:13 <@coderanger> Yes, you could use the product without reconfigure, depending on the product.
+17:14 <@jtimberman> What is your actual objection to this coderanger?
+17:14 <@jtimberman> Is it that it's easy to work around? Or that it is being added?
+17:14 <@coderanger> Like I get that it seems convenient as an implementation, but I think this both sabotages UX and also isn't legally defensible.
+17:14 <@zts> Why does the community even get to object to what Chef's legal department decide Chef the company need to do with Chef's commercial products?  it's a nice head's up, but if it doesn't affect the open-source packages...
+17:15 <@zts> (whether or not it's a dumb idea seems immaterial)
+17:15 <@coderanger> zts: Because enough people install them that the install UX for Manage et al will be perceived as part of the Chef's overall UX
+17:15 <@coderanger> Obviously I can't veto the change, but I can point out what I think :)
+17:16 <@thom> coderanger: no-one here can change the policy, and you're being pretty antagonistic about how you're interacting with the messenger
+17:16 <@coderanger> This is why I led off with "why is legal not here?" :)
+17:16 <@thom> i don't think that excuses you
+17:17 <@thom> please be civil
+17:17 < mmzyk> Thoughts noted. I can say that lots of thought was given to the best way to ensure we met the legal requirements while trying to ensure the best experience possible.
+17:17 < adamedx> what, no product activation service mmzyk? :)
+17:18 < mmzyk> Given I am not legal, I can’t speak to that aspect of things.
+17:18 < mmzyk> adamedx Not yet. :)
+17:18 < mmzyk> That’s all I’ve got Thom, if there’s nothing more.
+17:19 <@thom> thanks mmzyk 
+17:19 <@thom> there's only one RFC to discuss today, and that's lamont_oc2's
+17:19 <@thom> https://github.com/chef/chef-rfc/pull/195
+17:20 < lamont_oc2> nobody has commented since last meeting, should we just whack merge?
+17:20 <@thom> i'm down
+17:20 <@coderanger> 👍
+17:20 < tBunnyMan> do it
+17:21 < clairem> +1
+17:21 <@thom> can y'all put dem thumbs on the PR :)
+17:21 <@thom> and then I approve
+17:21 <@thom> think that's a wrap, unless anyone has anything else?
+1
