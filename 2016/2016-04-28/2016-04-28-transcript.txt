@@ -1,0 +1,65 @@
+16:00 < nathenharvey> ***** MEETING STARTS *****
+16:00 < nathenharvey> Good day everyone!
+16:01 < tBunnyMan> Good day
+16:01 <@holoway> hi
+16:01 < nathenharvey> The agenda for today's meeting can be found here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-04-28-agenda.md
+16:02 < nathenharvey> we will have a few updates and then have 3 PRs on the list.
+16:02 < nathenharvey> I'll get us started with the community update
+16:03 < nathenharvey> It starts with a reminder about ChefConf ... naturally
+16:03 < dougireton> woot
+16:04 < nathenharvey> GotChef is the contributor discount code so please use that when you register.  There are a limited number of those tix available though.
+16:04 < nathenharvey> The conference is Monday, July 11 through Wednesday July 13.
+16:04 < nathenharvey> We are looking for a venue to host a hack day on Thursday the 14th and will announce that once we have something finalized
+16:05 < nathenharvey> the Community Celebration (aka, ChefConf Party) is being held Wednesday night so you'll want to be in Austin until Thursday morning at least.
+16:06 <@holoway> also: the bands are amazing
+16:06 < nathenharvey> Even if we don't end up having a hack day, I'm sure you'll find plenty of Chefs around on Thursday up for fun things to do in Austin
+16:07 < nathenharvey> So, be in town for the summit on Monday, stay through the party Wednesday night, and maybe through Thursday
+16:08 < Majost> For the adventurous BBQ seeker, a trek to Lockhart  is highly recommended.
+16:08 < nathenharvey> More schedule details, including many of the talks, should start showing up on the website early next week
+16:09 < nathenharvey> In other community news, we are investigating changing out how contributor license agreements work.
+16:10 < nathenharvey> We are not looking to change out the license of our projects or anything but are looking to make the contribution process easier for everyone
+16:10 < nathenharvey> Our plan is to adopt the Developer Certificate of Origin
+16:10 < nathenharvey> http://developercertificate.org/
+16:11 < nathenharvey> we are still working out some details and mechanics but wanted to let you know this change is coming.
+16:11 < Majost> Would that also apply to the corp version?
+16:11 < nathenharvey> This will remove the need for any individual to sign a contributor license agreement
+16:11 <@holoway> Majost: yes
+16:11 < nathenharvey> yes it will apply to both individual and corporate contributor license agreements
+16:12 <@holoway> Majost: the DCO puts the onus on the contributor to warrant where it comes from
+16:12 < Majost> Nice
+16:12 <@holoway> and the CCLAs were always the back-up-back-up form of assertion
+16:12 < nathenharvey> instead of needing to get agreement from your legal team once and then kind of forgetting about that, you assert that you are authorized to make the code commit with every commit
+16:13 < nathenharvey> ok, that's the community update for today.
+16:14 < nathenharvey> holoway: over to you for any chef company updates
+16:15 <@holoway> not a ton of corporate updates - if you're interesting in open source licensing, Jen Dumas is going to have a webinar, and she's a truly A+ corporate lawyer for OSS
+16:15 <@holoway> to you, adamed
+16:15 <@btm> Chef-DK 0.13 went out this week. The next Chef release is planned for Wednesday 5/11. Chef Server release ASAP, fixing some dependency issues right now.
+16:16 < nathenharvey> adamed is out on PTO
+16:16 < nathenharvey> thanks for the update btm!
+16:17 < nathenharvey> let's move on to our PRs for this week
+16:18 < nathenharvey> first up is 197 - do not deprecate exit code 3 - https://github.com/chef/chef-rfc/pull/197
+16:18 < nathenharvey> this is a PR against RFC-062, the chef-client exit codes
+16:21 < nathenharvey> The PR is less than 24 hours old.  Anyone have thoughts on it one way or the other at this point?
+16:22 <@holoway> I think I agree with lamont
+16:22 <@holoway> we might as well keep both sigint and sigterm
+16:23 <@holoway> but the stated use case feels off
+16:23 < Majost> How do they interfere with reboot signaling?
+16:23 <@holoway> since we're return 3 on SIGTERM, and that's not what he means
+16:24 < Majost> I am guessing that would be the only reason to deprecate them, is if they somehow prevented reboot signals entirely.
+16:25 <@holoway> lets let this one bake for comment
+16:25 < tBunnyMan> I would think if you SIGTERM the run you wouldn't want it to leap in and signal a reboot
+16:25 < Majost> very true
+16:26 < nathenharvey> I'll include this in next week's agenda.  Please comment in the PR in the meantime.
+16:27 < nathenharvey> That leaves 193 and 195 on our agenda.  Both have been previously approved and are waiting on the rfc-editors to merge
+16:28 < nathenharvey> So that is the entirety of today's agenda
+16:28 <@holoway> hugs to the room
+16:28 < nathenharvey> I'll open the floor for additional topics but raise your topic within the next 2 minutes, please
+16:29 <@thom> not really a topic, but if people have thoughts on https://e.chef.io/p/maintainers_dilemma we should discuss them next week
+16:30 < nathenharvey> Thanks, thom.  I'll put this on next week's agenda, too.
+16:31 < nathenharvey> let's adjourn for today and we'll see all of you at next week's meeting:  Thursday, May 5, 2016 9AM-9:50AM PDT - http://everytimezone.com/#2016-5-5,240,cn3
+16:31 < dougireton> any updates on moving IRC to Slack? Is that still the plan?
+16:31 < nathenharvey> dougireton: yes that's still the plan
+16:31 < nathenharvey> work is underway.  The first group that will beta test the migration will be this meeting
+16:32 < dougireton> k, thx
+16:32 < nathenharvey> you bet!
+16:32 < nathenharvey> ***** MEETING ENDS *****
