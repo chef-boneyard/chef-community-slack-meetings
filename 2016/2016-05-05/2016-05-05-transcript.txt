@@ -1,0 +1,91 @@
+11:00 < nathenharvey> ***** MEETING STARTS *****
+11:01 < nathenharvey> Our agenda for today's meeting is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-05-05-agenda.md
+11:01 < nathenharvey> we have a few updates, one PR, and some time to discuss the Maintainers Dilemmas etherpad.
+11:02 < nathenharvey> I'll start with the community update.  ChefConf schedule with most of the track sessions was launched today
+11:02 < nathenharvey> Check out https://chefconf.chef.io/ for all the details
+11:04 < nathenharvey> that's the quick community update for today
+11:04 < nathenharvey> I'll turn it over to adamedx for an update next
+11:04 < adamedx> Thanks
+11:04 < adamedx> Hello everyone
+11:04 < adamedx> We had a few people notice that last week's chef-dk release violated the convention of including the most recent stable chef-client release, 12.9.38; it actually included a slightly newer build, 12.9.41. To minimize confusion, we released 12.9.41 to stable earlier this week so the two are back in sync.
+11:05 < adamedx> That said, next Wednesday will have another chef-client release :), 12.10, in keeping with the cadence we've been working on
+11:05 < adamedx> Here's a peek at some of the changes in that release: https://github.com/chef/chef/compare/v12.9.38...master.
+11:05 < adamedx> And regarding chef-dk, I'm turning it over to @chip for an update on what's coming next there...
+11:06 < chip> Hi hi
+11:06 < chip> We've got a few changes in line for the next ChefDK.
+11:06 < chip> First is the inclusion of Cookstyle, which has already been announced on the mailing list. Lots more details there.
+11:06 < chip> In addition, we're including some new packages
+11:07 < chip> We're going to start bundling git into the ChefDK. It won't be linked into the $PATH by default, but will be available via chef shell-init.
+11:07 < chip> This should make life much easier for people running ChefDK on Windows.
+11:08 < chip> In addition, we're going to start shipping delivery-cli via the ChefDK, so that Delivery users don't have to download and update multiple packages.
+11:08 < chip> Finally, in much the same way that chef-client is included in the ChefDK but is largely inactive, we're going to start bundling the push-jobs client into the chefDK. We don't expect many people will need this, but it helps Delivery users have a much better experience.
+11:09 < chip> Are there any questions I can answer for you about these additions?
+11:10 < chip> Doesn't sound like it.
+11:10 < nathenharvey> ok.  let's move on then
+11:10 < chip> If anything comes up, feel free to ask me via whatever medium is most convenient to you.
+11:10 < nathenharvey> thanks chip and adamedx for the updates!
+11:10 <@btm> To be clear, going forward, we're going to only ship stable builds/release of chef client in the stable builds/release of Chef DK.
+11:10 < adamedx> thanks chip
+11:11 < nathenharvey> Next up is our PR for the day.  do not deprecate exit code 3  - https://github.com/chef/chef-rfc/pull/197
+11:11 < nathenharvey> we started discussing this last week but then left it for further discussion in the PR
+11:14 < nathenharvey> anyone care to weigh in with a +1 or -1?
+11:15 <@ssd7> I think the only outstanding thing is whether we also remove the deprecation from SIGINTs exit code?
+11:16 <@btm> I'm +1 for leaving SIGINT and SIGTERM.
+11:16 <@ssd7> Looks like everyone in the PR agrees that not deprecating specific exit codes for SIGINT and SIGTERM is the right thing to do, so I'm +1
+11:17 <@thom> yeah
+11:17 <@btm> We pushed for documenting everything rather than just writing what we needed for reboot so there was a standard for our tools, more than all those other uses were wrong.
+11:18 <@ssd7> So it sounds like "Accepted with revision", doesn't seem like there is must more to talk about
+11:19 < nathenharvey> thom: your the decider today...
+11:19 <@thom> oh yeah
+11:19 <@thom> right, agreed we should get sigint fixed. i'll comment as such
+11:20 < nathenharvey> thanks!
+11:21 < nathenharvey> Let's move on to the Maintainers' Dilemma discussion.  https://e.chef.io/p/maintainers_dilemma
+11:22 < nathenharvey> btm: I believe you started the doc so could you walk us through that please?  Has anyone had a chance to think much about the questions there?
+11:23 <@btm> The core here is there's a number of hard problems that we occasional run into and argue over specific situations. Maybe that's how we want it, but many of them come down to fundamentals that we disagree on.
+11:24 <@btm> For example, when some ChefInc maintainers made changes to mixlib libraries without using the chef-rfc process, there was disagreement over if the chef-rfc process covered those projects, and if rfc030 applied to those projects.
+11:26 <@btm> Some opinions exist that naturally all other chef related public projects fall under the whole umbrella, but even that isn't specific enough. I think that probably means all public projects that ChefInc maintains, not ALL public projects. test-kitchen for example is in the gray area, but what about projects that belong to other maintainers and not ChefInc?
+11:26 <@ssd7> Also, the extent to which chef-server falls under that has always been a bit up in the air.  We've done RFC for API changes, but not for some other fairly large features.
+11:27 <@btm> I think we'd be doing the future of the project a service to work through some of these questions and get the answers in writing. We may not all agree on the conclusions, but they will end up as the written policies of the project and we can refer contributors to them.
+11:28 <@ssd7> I am +1 on being more clear on (1) what projects follow the guidelines and also (2) what actually /needs/ and RFC.  For many features/changes I'd prefer "working code and rough consensus" where we can have concrete discussions to the RFC process.  IMO the RFC procress is best applied when a change would break cookbooks or common workflows.
+11:29 <@ssd7> s/and RFC/an RFC/
+11:29 <@btm> One path is forming a committee to get together and bring back an answer or a suggestions, which sounds a lot like the CGBG. Another would be someone spiking on an answer in a PR against something in chef-rfc (like maybe the README.md where it says that chef-rfc covers all public chef projects), and we debate in the PR.
+11:29 <@thom> the CBGB discussed exactly what was under the maintenance policy already, and that should've been in the board report
+11:30 < nathenharvey> https://www.chef.io/blog/2016/02/24/chef-board-of-governance-meeting-2/
+11:30 < nathenharvey> "Overall we are happy with the implementation of the policy for Chef, and the other projects that have joined under it. We would like to approach the maintainers of some major ecosystem projects to see if it would be beneficial to them to be part of the same maintenance structure."
+11:32 <@btm> So that sentence absolutely needs significant additional clarity.
+11:32 <@thom> hm, that doesn't really capture all the discussion. darn. So, essentially, the discussion started at the assumption that everything in the ChefDK that ChefInc owned was in the maint policy, got walked back for things like provisioning, tk which are separate,
+11:33 <@btm> thom: so the CGBG should open a PR against chef/chef-rfc/README.md to specify their decision.
+11:33 <@thom> both TK and Provisioning have their own maint policy, and so does Chef Server
+11:33 <@btm> Because it says "The repository for proposals for major changes to Chef, Chef Server, and related public projects.
+11:34 < Majost> What constitutes a major change?
+11:34 <@btm> Majost: that's another question on the list. https://e.chef.io/p/maintainers_dilemma
+11:35 <@btm> Majost: I acknowledge it's not specifically well worded there though.
+11:36 <@btm> Are theere any members of the CBGB present?
+11:40 < nathenharvey> seems not.  How about I take as an action item asking members the CBGB to be available at an upcoming IRC meeting and, in the meantime, to review the etherpad and the transcript from today's meeting.
+11:40 <@btm> Well. The CGBG isn't a "decision-making governance board" anyway. It's a convenient committee that could help. But maybe it's a little under-represented at the maintainer meeting.
+11:41 <@btm> nathenharvey: "the CBGB mailing list" doesn't exist, right?
+11:42 < nathenharvey> it does
+11:42 < nathenharvey> cbgb@chef.io
+11:42 <@btm> nathenharvey: private DL?
+11:42 < nathenharvey> nope
+11:42 < nathenharvey> anyone should be able to email that list
+11:43 <@btm> nathenharvey: I mean the archive of the DL is private, it's not a public google group?
+11:43 < nathenharvey> maintainers and LTs should also weigh in on the questions you've posed and help with the concerns.
+11:43 < nathenharvey> oh.  yeah, I don't believe it's a public google group.
+11:44 <@btm> I offered to open a PR and start discussion early on, but was encouraged instead to make a list that we would talk about. I'm still willing to do that.
+11:44 < nathenharvey> I think that's probably the best course of action, btm.  opening a pr.
+11:45 < nathenharvey> It seems the etherpad has had little traction and a pr might encourage further discussion
+11:45 < nathenharvey> let's do that as a next step and review as part of our regular meetings.
+11:45 <@btm> okay, I'll start with collecting feedback from folks about the scope of chef-rfc and spike on a PR againsted chef-rfc/README.md? coolio friends?
+11:45 < nathenharvey> +1
+11:46 < nathenharvey> ok, we've only a couple more minutes
+11:47 < nathenharvey> Majost: wanted to raise one other thing before we wrap...
+11:49 < nathenharvey> it was a reminder that we've moved off of packagecloud
+11:49 < thehar> I had a question.
+11:50 < nathenharvey> thehar: we're at time for today but what's the question?
+11:50 < thehar> Curious when some work will be done on provisioning? Or bug fixes.
+11:52 <@btm> thehar: tball is the LT for chef-provisioning. He's in a standup right now, but I'll ask him. AFAIK ChefInc does have work going on with provisioning in general.
+11:52 < thehar> btm: thank you :)
+11:52 < nathenharvey> OK, that's time.
+11:52 < nathenharvey> See everyone back here next week.  Thursday, May 12, 2016 9AM-9:50AM PST - http://everytimezone.com/#2016-5-12,240,cn3
+11:53 < nathenharvey> ***** MEETING ENDS *****
