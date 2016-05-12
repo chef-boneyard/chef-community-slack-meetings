@@ -1,0 +1,35 @@
+16:00 < nathenharvey> ***** MEETING STARTS *****
+16:00 < nathenharvey> Our agenda for today is pretty light.  https://github.com/chef/chef-community-irc-meetings/blob/master/2016-05-12-agenda.md
+16:01 < nathenharvey> we don't have any PRs to review today but will get some quick updates.
+16:01 < nathenharvey> I'll start with the Community update.
+16:02 < nathenharvey> I was in Austin earlier this week doing some ChefConf planning.  We're really excited about how the conference is shaping up.  The even it going to be awesome and Austin is a really fun town.
+16:02 < nathenharvey> Location is right in the city and there's a ton of stuff to do within walking distance.
+16:02 < nathenharvey> Really looking forward to seeing everyone there in July!
+16:03 < kierrr> which is good, given the uber/lyft sadness :(
+16:03 < nathenharvey> yeah...uber and lyft both stopped service in Austin on Monday after a vote
+16:04 < nathenharvey> maybe they'll have something figured out by July but we should be OK even if they don't.
+16:04  * kierrr crosses fingers
+16:04 < nathenharvey> the other thing you'll need to be prepared for is that it will be HOT.  It was 90 degrees / 32 C on Monday.  I imagine July will be in that range, too.
+16:05 <@jtimberman> average high 95F
+16:05 <@jtimberman> in july, http://www.intellicast.com/Local/History.aspx?location=USTX0057
+16:05 <@jtimberman> fwiw :)
+16:06 < nathenharvey> Be sure to plan your travel so you're in town for the community summit on Monday and able to stay for the community celebration on Wednesday night.  A hack day on thursday is still in the "we're looking for a host" phase of planning.
+16:06 < nathenharvey> That's the community update for today.
+16:06 < nathenharvey> adamedx: do you have an update on software for us this week?
+16:07 < adamedx> Tiny update: the next chef-client release will be pretty small since we just released one in the last few weeks
+16:07 < adamedx> last two weeks
+16:07 < adamedx> and next week there will be the new chef-dk that chip mentioned with several new additions to the toolset, including git on Windows
+16:07 < adamedx> that's it for me nathenharvey
+16:08 < nathenharvey> thanks, adamedx
+16:08 < nathenharvey> I don't believe holoway_ is here this morning nor do I believe he has anything to update us on.
+16:09 < nathenharvey> without any PRs to review, I'll open the floor for additional topics that you might like to discuss and give you 2 minutes to propose those topics.
+16:11 < martinb3_> Could you keep the community posted if you're looking for volunteers or any other conference help? :)
+16:11  * martinb3_ would like to contribute in any way possible.
+16:11 < nathenharvey> martinb3_: yes!  we are going to have a "community room" in addition to the summit.  That is a room that's set aside for the community to drive an agenda.
+16:12 < martinb3_> +1 sweet.
+16:12 < nathenharvey> Typically, it's been used as a hack space or just a place to meet for the "hallway track"
+16:13 < nathenharvey> Most other volunteer positions will be covered by Chef employees but we'll look at providing a way for others to pitch in.  The best way to do so is to act as an ambassador for the people around the conference.  Introduce yourself, make sure everyone feels welcome, etc.
+16:14 < nathenharvey> ok.  that's it for today, you may all have the rest of this meeting time back :)
+16:14  * martinb3_ will definitely do that.
+16:14  * martinb3_ waves.
+16:14 < nathenharvey> ***** MEETING ENDS *****
