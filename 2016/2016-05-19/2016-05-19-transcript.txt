@@ -1,0 +1,137 @@
+16:00 < nathenharvey> ***** MEETING STARTS *****
+16:00 < nathenharvey> Our agenda for today can be found here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-05-19-agenda.md
+16:01 < nathenharvey> we have a few updates and three PRs to review
+16:02 < nathenharvey> Very excited to see everyone at ChefConf.
+16:02 < nathenharvey> Remember the contributor discount code is GotChef if you still need to purchase a ticket.
+16:03 < nathenharvey> Feels like conference season is back in full swing so look for other community Chefs at the events you're going to.
+16:03 < nathenharvey> I'll turn it over to @thom for updates on Chef software.
+16:04 <@thom> Thanks Nathen. We released Chef 12.10.24 on Monday, and we released ChefDK 0.14 yesterday
+16:05 <@thom> i'm sorry, the pre-release of ChefDK yesterday
+16:05 <@thom> the release will be next week
+16:06 <@thom> In the next release of Chef, we'll be switching Chef Solo over to using local mode by default, as per RFC 31. We'd appreciate as much upfront testing of that as possible
+16:06 <@zts> \o/
+16:06 < mwrockx> we actually released chef-dk yesterday. The announcement is "imminent"
+16:07 <@jtimberman> \o/ on solo -> local :)
+16:07 <@thom> We also released push-jobs-client 2.1.0 this week
+16:07 <@thom> think that's it from me, nathenharvey
+16:07 <@thom> And foodcritic 6.3, in late breaking news
+16:08 < nathenharvey> great, thanks, thom!
+16:08 < stevenmurawski> There should be another test-kitchen release soon as well
+16:08 < thehar> woo
+16:08 < nathenharvey> holoway_ is out so thom, you're the decider for today as we go through our 3 prs.
+16:08 < stevenmurawski> probably early next week
+16:08 < mwrockx> test-kitchen 1.8.0 was released in yesterday's 0.14.25 chefdk release
+16:08 < nathenharvey> first up is 198 - add Ubuntu 16.04 - https://github.com/chef/chef-rfc/pull/198
+16:09 <@thom> i think we can get that merged?
+16:09 < lamont_oc2> there was actually a little bit of controversy around this since i think the server packages aren’t ready yet
+16:10 < lamont_oc2> (happened in private slack)
+16:10 < Majost> Seems like getting client out so people can chef up their server is a good idea, no?
+16:10 < joseph-chef> Hi there!  There was a bit of discussion around this yesterday.  We're currently working on getting 16.04 into our build pipelines for all the projects, and until then, I'd like to hold off on saying we officially support it.
+16:10 < lamont_oc2> ^ yep
+16:11 <@thom> Majost: not saying we officially support it doesn't stop us getting the bytes out there :)
+16:11 < lamont_oc2> so the question seems to be about the definition of “support”
+16:11 < Majost> good point
+16:12 < joseph-chef> Correct.  My opinion is that we don't have it on the 'supported platforms' page until we're testing on that platform - that's how I've always read that RFC.
+16:12 <@jtimberman> generally speaking i understand "support" as "You can contact our support team for help"
+16:12 < lamont_oc2> i think the document should be more like a setpoint rather than where we actually are
+16:12 <@jtimberman> as far as "officially supported"
+16:12 < joseph-chef> @jtimberman that's one aspect, but we're explicit in the document in a few other ways, which I feel are promises to our users.
+16:12 <@thom> i kind of lean towards Joseph's way of thinking here
+16:13 <@jtimberman> Right :)
+16:13 < lamont_oc2> so i’d like some kind of document which states what our policy is for new releases
+16:13 <@btm> support is always a painful word. I nominate joseph-chef write a PR against the platform support RFC to define it. :D
+16:13 <@jtimberman> lamont_oc2: I think that's okay for the RFC, but for the thing that actually is written on docs.chef.io, it should reflect where we are.
+16:13 < lamont_oc2> because i feel like we tend to fail every single time a new release comes out
+16:13 <@thom> this is probably the one of the few RFCs that is a statement of the current situation rather than a forward looking docuemnt
+16:13 <@thom> lamont_oc2: agreed
+16:14 <@thom> although the idea of an SLO for supporting new platforms is a little scary
+16:14 < lamont_oc2> so ideally somewhere i’d like to see a document that states that we /should/ support 18.04 the day it drops
+16:14 <@btm> thom: SLA? what's the O?
+16:14 <@jtimberman> objective
+16:14 < lamont_oc2> then if we don’t that’s a bug
+16:14 < lamont_oc2> or its a business deadline which we missed due to competing priorities or whatever...
+16:15 < joseph-chef> That's very interesting to me - the fact that folks feel that we are failing.  From my perspective, we are becoming gradually better at releasing closer to the day of a new version of a supported platform's release.
+16:15 < lamont_oc2> well the client got a lot better with yolo mode
+16:15 < lamont_oc2> so omnitruck just ships the bits from 12.04 and it all tends to work out fine
+16:16 <@btm> lamont_oc2: +1 that the ultimate goal is we support tier 0.5 platforms on new release.
+16:16 <@thom> joseph-chef: i think there's two things here - one, is that we release bits on time, which we're definitely getting better at. but the other is that we support the infrastructure the platform provides, like dnf on fedora, which we still rather suck at
+16:16 < joseph-chef> I'd actually state that for the past year, we have continued to shrink that delta from day of release to officially supported.  If there is an *ideal state* where we release same-day, I think that's great to have as an ideal, but with the current requirements around what 'officially supported' means - failure feels like a pretty strong word.
+16:17 < lamont_oc2> well i think we have a deadline we’re missing
+16:17 < lamont_oc2> that’s why i threw the deadline / business objective wording out there
+16:18 < joseph-chef> That's reasonable - and if that is the deadline, then we need to change the way we approach new releases.  I'd like to know if there is any variable, however - and is it different for different platforms?
+16:19 < schisamo> Also to say we fully 'support' a platform I think all distribution interfaces would need to be supported. That is to say Omnitruck, APT, YUM, downloads.chef.io etc. It is true you can install things in Omnitruck a little earlier but until all distirbution interfaces are supported there is much confusion.
+16:19 <@thom> i think this might be an internal-to-chef question that we need to conflab on a bit further
+16:19 < lamont_oc2> well i think we have two different bits of state, and we have one RFC document
+16:19 <@btm> schisamo: the "fully" part of that definitely feels like "support plus"
+16:20 <@jtimberman> does that internal discussion block the rfc being updated?
+16:20 < joseph-chef> Fair enough @thom - but I'd like to know how non-internal folks feel around how quickly they expect Chef to have our projects 'officially supported'.
+16:20 < lamont_oc2> @thom mentioned something earlier about having docs.chef.io reflect the current state
+16:20 <@jtimberman> < mentioned that too
+16:20 <@jtimberman> :D
+16:20 <@thom> lamont_oc2: utterly jtimberman :)
+16:20 <@thom> but we should do that
+16:21 < lamont_oc2> < woke up 25 minutes ago, still groggy
+16:21 <@btm> joseph-chef: there's definitely tier 1 platforms I wouldn't expect us to be testing new versions right away. AIX/Solaris/Routers. OTOH, testing Ubuntu before release would have high value.
+16:21 <@thom> btm: that.
+16:21 < lamont_oc2> AIX users aren’t quite so much “AIX 8 dropped we’re migrating the first day!”
+16:22 <@jtimberman> i wouldn't expect new versions of *those* platforms necessarily being available for testing with as much advance as we have for things like ubuntu and fedora.
+16:22 <@jtimberman> true story, lamont_oc2. solaris users either. hell, Windows users, too
+16:22 <@jtimberman> (Windows server, that is.)
+16:23 < joseph-chef> That's fine, as long as we're explicit.  If we do update the RFC, I'd like to make sure it's clear in the update that we've transitioned, and that we change the tenses and wording to reflect that.  So that our users know that if they need a source of truth, they should go to docs.chef.io.  Does that sound reasonable?
+16:23 <@btm> The situation I've seen is, "hey I just installed Ubuntu and chef doesn't work and I'm new to most of this." where Ubuntu is whatever the current version happens to be. Less about people upgrading their server farms to the latest ubuntu release zero-day.
+16:23 < lamont_oc2> anyway, i’m not really hearing anyone arguing on my side here…
+16:24 <@thom> ok, let's put the rfc on hold until we can give people all the bits
+16:24 < lamont_oc2> @btm there are folks that hae shown up in cookbook issues who are trying to kick off prod migrations on day 1 of 16.04
+16:24 < tas50> that's really what started this
+16:24 < Majost> lamont_oc2 : AIX vs Ubuntu is not an Apples to Apples com,parison
+16:25 < tas50> a lot of people have complained in the cookbooks that we've been slow to support 16.04
+16:25 <@jtimberman> lamont_oc2: trust me i'd love to have 18.04 "supported" (whatever that means) on April 20 (or whatever) 2018, and we have two years to make that feasible.
+16:25 < joseph-chef> I'm not necessarily against, @lamont_oc2.  Is there a middle ground - where we add to the RFC those platforms and versions that are currently in progress, with the current state?
+16:25 <@jtimberman> tas50: that, fwiw, is the whole reason why I always added that clause in READMEs, "This cookbook may or may not work on other platforms or platform versions with or without modification." While awkward wording (and verbose), quite precise ;).
+16:26 <@jtimberman> joseph-chef: I think the spirit of "The RFC reflects the ideal" and "Docs site reflects the current state" captures that, no?
+16:26 < lamont_oc2> yeah i was thinking that we asterix the server support for 16.04 with an approximate release date or something like that
+16:27 <@btm> joseph-chef: will you submit a PR against the RFC to define support in that document?
+16:27 < joseph-chef> if you pair on it with me, sir @btm <3
+16:27 <@btm> joseph-chef: okie dokie.
+16:27 < nathenharvey> and if there's a delta between rfc and docs, the rfc needs to link to the docs
+16:28 < nathenharvey> ok.  so, I move we table this PR and ask joseph-chef & btm to clarify the RFC.
+16:28 <@btm> FWIW. I don't have strong feelings about 198 since we don't have a definition of what correct is. It could go as is, or we could leave 16.04 off for server until that's in the pipeline.
+16:29 <@btm> so #200 seems fine to me.
+16:29 < nathenharvey> Let's move on to 200 - https://github.com/chef/chef-rfc/pull/200
+16:29 <@thom> yeah, 200 is good from my perspective
+16:30 < nathenharvey> ok, any objections to 200?
+16:30 < lamont_oc2> btm you good with the openbsd issue?
+16:30 <@btm> I do wish we had a magic answer for enabling other folks to push packages for other platforms. But I'd like some cake too.
+16:30 < lamont_oc2> yeah, okay
+16:31 < lamont_oc2> that’s my feeling as well
+16:31 <@btm> lamont_oc2: yeah, because T2 is technically the correct place given there are not packages.
+16:31 < lamont_oc2> i think the RFC should be the ideal state, but i don’t think it should have unfunded mandates and wishes and dreams in it
+16:31 < Majost> yeah, the unofficial support stuff from maintainers is something near and dear to me
+16:31 <@btm> s/T2/T3/ ? anyway.
+16:32 < Majost> if its something we want to explore, I wouldn't mind trying
+16:32 < ranjibd> i agree with lamont_oc2
+16:32 <@btm> Majost: start a chef-dev thread and we can at least raise the current situation.
+16:32 < nathenharvey> doesn't dropping support mean that Appendix 2: Timeline of Platform Addition/Removal needs updating as well?
+16:33 <@btm> yeah, good catch.
+16:34 < nathenharvey> outside of that, this looks good to go
+16:34 < lamont_oc2> yeah that’s weird
+16:34 < lamont_oc2> oh and to be clear, i don’t think we’re dropping support for openbsd/gentoo/arch, this just reflects what has always been their status..
+16:35 <@btm> the appendix is a nice place to put that context.
+16:35 < nathenharvey> lamont_oc2: can you update the appendix and then we can get this approved next week or async via the PR?
+16:37 < lamont_oc2> hm, okay, i’m misunderstanding, i just deleted them entirely from the appendix since we never supported them
+16:38 <@btm> lamont_oc2: if you add a line for this action, e.g. "dropped open* platforms because we never technically supported them per the definitions listed here." then someone could quickly understand why they're not on that list.
+16:38 < nathenharvey> you did change SUSE Linux Enterprise Server from "10, 11" to "11, 12" so was 10 supported?
+16:39 < lamont_oc2> yes, i see, i’ll fix that, we can move on…
+16:39 < nathenharvey> thanks!
+16:39 < nathenharvey> last up for today - "add some guidance about RFCs, update for reality, prep for scope definition" - add some guidance about RFCs, update for reality, prep for scope definition
+16:39 < nathenharvey> thanks for updating this, btm
+16:40 <@btm> yeah so chef-rfc platform scope comes next. once I thought about how I wanted to write that I realized I wanted it in a separate living RFC as we bring projects in/take them out of this umbrella.
+16:41 <@btm> since I was in there I did some tweaking and took a shot at answering the "when do I need a rfc" question.
+16:43 < nathenharvey> I'm :+1: on this change and agree we should have a separate place that lists the projects that are under the maintenance policy
+16:45 < nathenharvey> any objections to this one?
+16:45 < ranjibd> +1
+16:46 < nathenharvey> Great.  That's everything on our agenda for today then.
+16:47 < nathenharvey> Thanks everyone for participating!
+16:47 < thehar> :)
+16:47 < nathenharvey> Our next meeting is Thursday, May 26, 2016 9AM-9:50AM PST - http://everytimezone.com/#2016-5-26,240,cn3
+16:47 < nathenharvey> ***** MEETING ENDS *****
