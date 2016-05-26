@@ -1,170 +1,170 @@
-12:00 < nathenharvey> ***** MEETING STARTS *****
-12:02 < nathenharvey> Our agenda is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-05-26-agenda.md
-12:03 < nathenharvey> We'll start with a couple of updates and then on to 2 or 3 PRs
-12:03 < nathenharvey> I'll get us started with the community update.
-12:03 < nathenharvey> If you've not yet registered for ChefConf, you likely received an email from me today reminding / asking you to do so
-12:04 < nathenharvey> the contributor discount code is GotChef
-12:04 < nathenharvey> we hope you'll all be there
-12:04 < nathenharvey> I also wanted to let you know about all the other emails you may have received in the last 24 hours....from currybot
-12:05 < nathenharvey> Currybot is our bot that looks after PRs to be sure everyone participating in the PR has signed a CLA.
-12:05 < nathenharvey> We noticed yesterday that it was not keeping up with the main chef project https://github.com/chef/chef and hadn't actually processed any PRs since sometime in October
-12:06 < nathenharvey> we fixed the process but had to reprocess a bunch of PRs and that led to a bunch of Github notification emails going out.
-12:07 < nathenharvey> We're making changes on a number of fronts to make this less painful, or at least less of a surprise, in the future
-12:07 < nathenharvey> first if we need to do any reprocessing, we'll first post a message in the chef-dev category on discourse to give you a warning.
-12:07 <@coderanger> I think "a bunch of" is an understatement.
-12:08 <@coderanger> Why did someone not realize a flood was happening and shut down the bot?
-12:08 < nathenharvey> second, we're continuing the process of moving from the CLA to DCO so there will be changes associated to that
-12:09 <@jtimberman> coderanger: I can't speak for everyone but for myself, I disable email notification from GitHub entirely and use their webui notification system.
-12:09 < nathenharvey> coderanger: the PRs needed to be processed to ensure we had valid submissions so a decision was made to not stop the processing
-12:09 <@coderanger> jtimberman: That isn't a useful answer.
-12:09 < nathenharvey> I'm sorry that we filled your inbox
-12:10 <@jtimberman> It might explain why others didn't see them, if they do the same thing.
-12:10 <@coderanger> nathenharvey: This would have been a good time to send what you just said in an email yesterday rather than waiting until now.
-12:10 < nathenharvey> coderanger: indeed it would have been but we did not do that so I'm saying it now here.
-12:11 < nathenharvey> on a somewhat related topic around emails, coderanger noticed that discourse deployed an update that automatically switched everyone over to receiving daily digests instead of an email for each message.
-12:11 <@coderanger> There is an existing topic on Discourse if you would like to respond :)
-12:12 <@btm> I can add context there out of band.
-12:12 < nathenharvey> thanks, btm
-12:13 <@coderanger> nathenharvey: At least some people seem to still be getting stuff, but only a few :-/
-12:13 < nathenharvey> Discourse team is aware of the issue and working to fix it
-12:13 < nathenharvey> coderanger: you're still only seeing daily digests, right?
-12:14 <@coderanger> So they actually fixed it already, but they need to deploy it for us.
-12:14 < nathenharvey> right
-12:14 <@coderanger> And then we need to sort out if we can correct everyone that got broken.
-12:14 <@coderanger> Or if we need to send a site-wide broadcast to tell people to check their settings.
-12:14 < nathenharvey> right.  I'll take point on that with the discourse team.
-12:15 < nathenharvey> that's the community update for today.  I'll turn things over to adamedx for an update on chef
-12:15 < adamedx> thanks
-12:16 < adamedx> Not a lot here, but I'd like to highlight that the implementation of the exit codes rfc
-12:16 < adamedx> has been merged
-12:16 < adamedx> https://github.com/chef/chef-rfc/blob/master/rfc062-exit-status.md
-12:16 < adamedx> So if you're doing automation that involves invoking chef-client
-12:17 < adamedx> you have some nice new tools at your disposal
-12:17 < adamedx> particularly when dealing with distinguishing between audit mode and converge failure
-12:17 < adamedx> or when dealing with systems that like to reboot in the middle of a chef run due to config changes
-12:17 < adamedx> that's it for me
-12:18 < adamedx> nathenharvey back to you
-12:18 < nathenharvey> thanks, adamedx!
-12:18 < nathenharvey> holoway: any updates from your side today?
-12:18 <@btm> looks like 12.11.4 is in current and has rfc062 in it btw.
-12:18 < adamedx> ah, thanks for checking that btm
-12:19 < holoway> nope!
-12:19 < nathenharvey> OK, let's move on to our first PR then.  Mode-Agnostic Data Collection - https://github.com/chef/chef-rfc/pull/201
-12:19 < nathenharvey> adamleff: give us a quick tl;dr on that, please?
-12:20 < adamleff> Of course. We’re looking to offer a way to export data on chef runs directly from the chef client or chef solo to a third-party server.
-12:20 < adamleff> This would allow users to collect data about their chef runs, including when a Chef Server is not used.
-12:20 < adamleff> And also opens the door for us at Chef to deliver some pretty awesome new offerings in the future as well. :)
-12:21 < adamleff> Thanks to those that provided feedback already, and I’m more than happy to answer any questions you might have.
-12:22 <@coderanger> So I don't understand why we want to make this an RFC at this point.
-12:22 < adamleff> coderanger: I’m not sure I understand. Can you elaborate?
-12:22 < holoway> coderanger: because we want to implement it and use it
-12:22 <@coderanger> It seems really unlikely that the details of the server-side component won't change at least something about the protcol.
-12:22 < holoway> and we want it to ship in the client, not as an add-on
-12:23 <@coderanger> Yes, but presumably you are working on some kind of server-side piece that corresponds to this?
-12:23 < adamedx> @coderanger it actually uses schemas that have been in place for a while
-12:23 < holoway> yes, but it will be proprietary
-12:23 < adamleff> If we change the server-side component, it’s totally on us to update the schemas (and the corresponding version numbers so those receiving these messages can handle accordingly).
-12:23 < holoway> so sure, we could merge it in to the client without an RFC
-12:24 < adamleff> But, the point is anyone can implement their own server-side component.
-12:24 < holoway> but that's obviously backwards
-12:24 < holoway> and we want anyone to be able to implement their own server-side based on the schema
-12:24 <@coderanger> adamedx: Okay, as long as you know that you'll be blocked on future schema changes until you get RFC approval.
-12:24 < holoway> because social contracts :)
-12:24 <@coderanger> er, adamleff ^^
-12:24 < adamedx> right, the server could support multiple versions, and the client would support the different versions
-12:25 < holoway> so it's an RFC because we develop major features in the open, and this is major enough to need an RFC
-12:25 < adamleff> If we think that’s a concern, I’m more than happy to publish the schemas in a different location and instead update the RFC to point to those locations. But I don’t see that as a major concern at this point.
-12:25 <@coderanger> I would recommend putting a compliance test to make sure no one accidentally adds extra fields to the JSON or whatnot because that would seem very natural over the scope of developing a new product but you'll be unable to do so in this case.
-12:26 <@btm> coderanger: your concern is more that the schemea is alpha/not settled/not complete, right?
-12:26 < holoway> coderanger: I feel like you're being a pedant both on process  and implementation
-12:26 <@coderanger> Yes, and that people will evolve it and not update the RFC, leading to this being largely unhelpful.
-12:27 < holoway> either it's an RFC and we talk about it in public
-12:27 < holoway> or we do it in private, don't document it, don't talk about it, and then not worry about updating the RFC (because it doesn't exist)
-12:27 < holoway> at which point we're in the bad old days again
-12:28 <@coderanger> holoway: I'm trying to give the people developing a new product some wiggle room that are likely going to want, I appreciate the gesture of working on the schema in the open but if there isn't some level of asserting compliance with the spec then it's going to get out of date quickly.
-12:28 < holoway> I'm saying we can just give them the wiggle room
-12:28 <@btm> yeah, it doesn't sound to me that coderanger doesn't want an RFC, or is arguing this shouldn't be an RFC at all.
-12:28 < adamleff> Another option is to publicize a repo where these schemas will be kept, along with a file mapping what version of Chef is using what schema versions, and update the RFC to point to that location as well. I’m personally OK with either option, and definitely don’t mind using the RFC process accordingly. In fact, we’re likely to add additional schemas in the future, but I am agnostic to the mode in which we communica
-12:28 < adamleff> that to our awesome community.
-12:29 < holoway> ie: we can work with them to update the RFC
-12:29 <@coderanger> I think you might just be being a bit early given where this is in a development lifecycle.
-12:29 < adamedx> yeah, that's reasonable adamleff
-12:29 < adamedx> in that case coderanger, we would end up taking the hit
-12:29 < adamedx> as in
-12:29 < adamleff> coderanger: I bet if I didn’t include at least a sample schema, some people would’ve complained. :)
-12:29 < holoway> I would've :)
-12:29 <@coderanger> holoway: If we accept this, this becomes version 1.0 of the schema/protocol forever, it will be a thing in the wild.
-12:29 < adamedx> we would be delayed in making changes until rfc updates are approved
-12:29 <@coderanger> Which means you'll need to support it for a while at least.
-12:29 < holoway> which we will need to do anyway
-12:29 < adamedx> which is ok with us
-12:29 < holoway> because I'm going to ship it
-12:30 <@coderanger> Any new fields or whatever will need to be a new version, server will need to accept old version, etc.
-12:30 < adamedx> yes
-12:30 < holoway> coderanger: yes, I understand
-12:30 <@coderanger> Okay, if you think you are in a place you can commit to that, go for it :)
-12:31 < holoway> what is smart
-12:31 < holoway> is that we should provisionally approve the RFC
-12:31 < holoway> and when the PR lands for v1, we'll update the RFC and finalize it
-12:31 < adamleff> I can 100% commit to that.
-12:32 <@btm> where is the version of the schema kept?
-12:32 <@coderanger> That seems better, delay a formal 1.0 of this protocol until the product as a whole is closer to launch so we don't end up with as much compat cruft. But again, if adamleff thinks there isn't going to be compat cruft then this is all for nothing.
-12:32 <@btm> properties["message_version"] ?
-12:32 < adamleff> As coderanger already saw, I’ve begun work on the implementation on our side already but have not submitted any PRs until this RFC discussion was completed. So I’m quite confident where will be very few changes between now and when the first version of this is in stable.
-12:32 < holoway> ie: it's 👍, but rather than have a cycle of tweak/approval/process, just finish v1, update the rfc. I'm fine with either choice of keeping the schema in the RFC, or keeping the schema elsewhere. We certainly don't have all our schema in RFCs
-12:32 < adamleff> btm: that’s correct. the schema version is transmitted in the payload as “message_version"
-12:33 < adamleff> I’ll propose that if we end up having a lot of schema churn, we publish them via a different manner where it’s easy to know what version of Chef is using what schema, and the RFC is updated to reflect that new method of schema communication.
-12:33 < adamleff> Until then, keeping the RFC updated feels like an easy win for everyone.
-12:33 < adamleff> We’re kept honest, the community is involved, and there’s no mystery of the intentions.
-12:33 <@btm> could me accept this with a version <1 until we merge something that produces/consumes it to handle that concern?
-12:33 <@coderanger> Works for me, I would maybe add an explicit note that the schema is pre-1.0 and so compat is promised.
-12:34 <@coderanger> er, isn't.
-12:34 < adamleff> I’ll be happy to update the schema versions to 0.2.0 until we release.
-12:34 <@coderanger> Words, how do they  work.
-12:35 <@coderanger> 👍
-12:35 < nathenharvey> ok.  sounds like the RFC is ready for approval with some changes around the fluidity of the schema until release and a commitment to update the RFC with the final, shipped schema (either directly in the RFC or by way of a pointer).
-12:36 < adamleff> That sounds right to me. I’m updating the schema versions right this moment.
-12:36 <@btm> adamleff: whatever we merge, can we have a test that verifies we don't transmit data that doesn't match the schema, e.g. different versions of the scheme are included in the tests as separate versionined files?
-12:36 < adamleff> btm: I already started writing acceptance tests for this, so I’m happy to add that in.
-12:37 < adamleff> btm: it will be easier to implement once we have more than one schema version.
-12:38 < adamleff> Short of hacking chef in-line, the best we can do is ensure all the keys we expect to be there are there with no more, no less. That’s a fine first-step acceptance test we can add for sure.
-12:38 <@btm> adamleff: thanks. it will be useful to have them be separate files so we can have some assurance someone down the road isn't just changing the tests to pass without updating the official schema in chef-rfc.
-12:38 < adamleff> btm: agreed.
-12:39 < nathenharvey> holoway: weigh in here?  approved with the mentioned edits?  or should we revisit next week after the edits are in place?
-12:39 < adamleff> Schema versions updated to 0.2.0 in the RFC.
-12:39 < holoway> approved with the mentioned edits, but wait on merging until the schema is final
-12:39  * btm will be super pleased when this replaces existing undocumented reporting bits.
-12:40 < holoway> at which point just update the RFC and merge
-12:40 <@btm> is lamont_oc2 not here? he had some questions.
-12:40 < lamont_oc2> i’m here
-12:40 <@btm> lamont_oc2: you're quiet sir.
-12:40 < lamont_oc2> i mostly got all my questions answered offline with adamleff
-12:41 <@btm> cool. +1 then.
-12:41 < lamont_oc2> i posted the one question that i’ve still got about the authn/z
-12:41 < adamleff> In the interest of transparency, for what we plan to ship, I expect the schemas will be finalized no later than next week, so we’ll plan to update and merge “Real Soon Now"
-12:42 < nathenharvey> great, let's move on to our next PR then,
-12:42 < nathenharvey> 198 - adding Ubuntu 16.04 - https://github.com/chef/chef-rfc/pull/198
-12:43 <@coderanger> ♪┏(・o･)┛♪┗ ( ･o･) ┓♪
-12:43 < nathenharvey> btm was going to work with joseph smith to add words about what "supported" means.  I don't think that happened so this should just be moved to next week.
-12:43 <@coderanger> nathenharvey: I think we should probably do that in another PR
-12:43 <@coderanger> We support 16.04 to any useful degree of that term.
-12:43 <@btm> ooooh yeah. I had vacation and a root canal. my bad.
-12:44 < nathenharvey> sounds fun and terrible
-12:44 <@btm> so we don't have 16.04 in manhattan (internal CI) yet, FWIW.
-12:45 < nathenharvey> all the more reason to delay acceptance by another week then
-12:45 < lamont_oc2> we have it in travis:
-12:45 < lamont_oc2> https://github.com/chef/chef/blob/master/.travis.yml#L149-L165
-12:45 <@btm> someone should add words about what "supported" means. :p
-12:47 < nathenharvey> ok, we've only got about 3 minutes left.  Let's use it to get PR 200 approved.
-12:47 < nathenharvey> Drop support for platforms we don't support  - https://github.com/chef/chef-rfc/pull/200
-12:48 <@coderanger> +1
-12:48 < nathenharvey> the thing we were waiting on for 200 was updates to the appendix.  those have been made and I think we're ready to approve and merge this one
-12:49 <@btm> yeah, stamp a fat +1 on 200.
-12:50  * martinb3_ claps.
-12:50 < holoway> do it
-12:50 < nathenharvey> OK, great!
-12:50 < nathenharvey> next meeting:  Thursday, May 26, 2016 9AM-9:50AM PST
-12:50 < nathenharvey> oops...that's today :)
-12:50 < nathenharvey> next meeting:  Thursday, June 2, 2016 9AM-9:50AM PST
-12:50 < nathenharvey> we'll see you back here then.
-12:50 < nathenharvey> ***** MEETING ENDS *****
+16:00 < nathenharvey> ***** MEETING STARTS *****
+16:02 < nathenharvey> Our agenda is here - https://github.com/chef/chef-community-irc-meetings/blob/master/2016-05-26-agenda.md
+16:03 < nathenharvey> We'll start with a couple of updates and then on to 2 or 3 PRs
+16:03 < nathenharvey> I'll get us started with the community update.
+16:03 < nathenharvey> If you've not yet registered for ChefConf, you likely received an email from me today reminding / asking you to do so
+16:04 < nathenharvey> the contributor discount code is GotChef
+16:04 < nathenharvey> we hope you'll all be there
+16:04 < nathenharvey> I also wanted to let you know about all the other emails you may have received in the last 24 hours....from currybot
+16:05 < nathenharvey> Currybot is our bot that looks after PRs to be sure everyone participating in the PR has signed a CLA.
+16:05 < nathenharvey> We noticed yesterday that it was not keeping up with the main chef project https://github.com/chef/chef and hadn't actually processed any PRs since sometime in October
+16:06 < nathenharvey> we fixed the process but had to reprocess a bunch of PRs and that led to a bunch of Github notification emails going out.
+16:07 < nathenharvey> We're making changes on a number of fronts to make this less painful, or at least less of a surprise, in the future
+16:07 < nathenharvey> first if we need to do any reprocessing, we'll first post a message in the chef-dev category on discourse to give you a warning.
+16:07 <@coderanger> I think "a bunch of" is an understatement.
+16:08 <@coderanger> Why did someone not realize a flood was happening and shut down the bot?
+16:08 < nathenharvey> second, we're continuing the process of moving from the CLA to DCO so there will be changes associated to that
+16:09 <@jtimberman> coderanger: I can't speak for everyone but for myself, I disable email notification from GitHub entirely and use their webui notification system.
+16:09 < nathenharvey> coderanger: the PRs needed to be processed to ensure we had valid submissions so a decision was made to not stop the processing
+16:09 <@coderanger> jtimberman: That isn't a useful answer.
+16:09 < nathenharvey> I'm sorry that we filled your inbox
+16:10 <@jtimberman> It might explain why others didn't see them, if they do the same thing.
+16:10 <@coderanger> nathenharvey: This would have been a good time to send what you just said in an email yesterday rather than waiting until now.
+16:10 < nathenharvey> coderanger: indeed it would have been but we did not do that so I'm saying it now here.
+16:11 < nathenharvey> on a somewhat related topic around emails, coderanger noticed that discourse deployed an update that automatically switched everyone over to receiving daily digests instead of an email for each message.
+16:11 <@coderanger> There is an existing topic on Discourse if you would like to respond :)
+16:12 <@btm> I can add context there out of band.
+16:12 < nathenharvey> thanks, btm
+16:13 <@coderanger> nathenharvey: At least some people seem to still be getting stuff, but only a few :-/
+16:13 < nathenharvey> Discourse team is aware of the issue and working to fix it
+16:13 < nathenharvey> coderanger: you're still only seeing daily digests, right?
+16:14 <@coderanger> So they actually fixed it already, but they need to deploy it for us.
+16:14 < nathenharvey> right
+16:14 <@coderanger> And then we need to sort out if we can correct everyone that got broken.
+16:14 <@coderanger> Or if we need to send a site-wide broadcast to tell people to check their settings.
+16:14 < nathenharvey> right.  I'll take point on that with the discourse team.
+16:15 < nathenharvey> that's the community update for today.  I'll turn things over to adamedx for an update on chef
+16:15 < adamedx> thanks
+16:16 < adamedx> Not a lot here, but I'd like to highlight that the implementation of the exit codes rfc
+16:16 < adamedx> has been merged
+16:16 < adamedx> https://github.com/chef/chef-rfc/blob/master/rfc062-exit-status.md
+16:16 < adamedx> So if you're doing automation that involves invoking chef-client
+16:17 < adamedx> you have some nice new tools at your disposal
+16:17 < adamedx> particularly when dealing with distinguishing between audit mode and converge failure
+16:17 < adamedx> or when dealing with systems that like to reboot in the middle of a chef run due to config changes
+16:17 < adamedx> that's it for me
+16:18 < adamedx> nathenharvey back to you
+16:18 < nathenharvey> thanks, adamedx!
+16:18 < nathenharvey> holoway: any updates from your side today?
+16:18 <@btm> looks like 12.11.4 is in current and has rfc062 in it btw.
+16:18 < adamedx> ah, thanks for checking that btm
+16:19 < holoway> nope!
+16:19 < nathenharvey> OK, let's move on to our first PR then.  Mode-Agnostic Data Collection - https://github.com/chef/chef-rfc/pull/201
+16:19 < nathenharvey> adamleff: give us a quick tl;dr on that, please?
+16:20 < adamleff> Of course. We’re looking to offer a way to export data on chef runs directly from the chef client or chef solo to a third-party server.
+16:20 < adamleff> This would allow users to collect data about their chef runs, including when a Chef Server is not used.
+16:20 < adamleff> And also opens the door for us at Chef to deliver some pretty awesome new offerings in the future as well. :)
+16:21 < adamleff> Thanks to those that provided feedback already, and I’m more than happy to answer any questions you might have.
+16:22 <@coderanger> So I don't understand why we want to make this an RFC at this point.
+16:22 < adamleff> coderanger: I’m not sure I understand. Can you elaborate?
+16:22 < holoway> coderanger: because we want to implement it and use it
+16:22 <@coderanger> It seems really unlikely that the details of the server-side component won't change at least something about the protcol.
+16:22 < holoway> and we want it to ship in the client, not as an add-on
+16:23 <@coderanger> Yes, but presumably you are working on some kind of server-side piece that corresponds to this?
+16:23 < adamedx> @coderanger it actually uses schemas that have been in place for a while
+16:23 < holoway> yes, but it will be proprietary
+16:23 < adamleff> If we change the server-side component, it’s totally on us to update the schemas (and the corresponding version numbers so those receiving these messages can handle accordingly).
+16:23 < holoway> so sure, we could merge it in to the client without an RFC
+16:24 < adamleff> But, the point is anyone can implement their own server-side component.
+16:24 < holoway> but that's obviously backwards
+16:24 < holoway> and we want anyone to be able to implement their own server-side based on the schema
+16:24 <@coderanger> adamedx: Okay, as long as you know that you'll be blocked on future schema changes until you get RFC approval.
+16:24 < holoway> because social contracts :)
+16:24 <@coderanger> er, adamleff ^^
+16:24 < adamedx> right, the server could support multiple versions, and the client would support the different versions
+16:25 < holoway> so it's an RFC because we develop major features in the open, and this is major enough to need an RFC
+16:25 < adamleff> If we think that’s a concern, I’m more than happy to publish the schemas in a different location and instead update the RFC to point to those locations. But I don’t see that as a major concern at this point.
+16:25 <@coderanger> I would recommend putting a compliance test to make sure no one accidentally adds extra fields to the JSON or whatnot because that would seem very natural over the scope of developing a new product but you'll be unable to do so in this case.
+16:26 <@btm> coderanger: your concern is more that the schemea is alpha/not settled/not complete, right?
+16:26 < holoway> coderanger: I feel like you're being a pedant both on process  and implementation
+16:26 <@coderanger> Yes, and that people will evolve it and not update the RFC, leading to this being largely unhelpful.
+16:27 < holoway> either it's an RFC and we talk about it in public
+16:27 < holoway> or we do it in private, don't document it, don't talk about it, and then not worry about updating the RFC (because it doesn't exist)
+16:27 < holoway> at which point we're in the bad old days again
+16:28 <@coderanger> holoway: I'm trying to give the people developing a new product some wiggle room that are likely going to want, I appreciate the gesture of working on the schema in the open but if there isn't some level of asserting compliance with the spec then it's going to get out of date quickly.
+16:28 < holoway> I'm saying we can just give them the wiggle room
+16:28 <@btm> yeah, it doesn't sound to me that coderanger doesn't want an RFC, or is arguing this shouldn't be an RFC at all.
+16:28 < adamleff> Another option is to publicize a repo where these schemas will be kept, along with a file mapping what version of Chef is using what schema versions, and update the RFC to point to that location as well. I’m personally OK with either option, and definitely don’t mind using the RFC process accordingly. In fact, we’re likely to add additional schemas in the future, but I am agnostic to the mode in which we communica
+16:28 < adamleff> that to our awesome community.
+16:29 < holoway> ie: we can work with them to update the RFC
+16:29 <@coderanger> I think you might just be being a bit early given where this is in a development lifecycle.
+16:29 < adamedx> yeah, that's reasonable adamleff
+16:29 < adamedx> in that case coderanger, we would end up taking the hit
+16:29 < adamedx> as in
+16:29 < adamleff> coderanger: I bet if I didn’t include at least a sample schema, some people would’ve complained. :)
+16:29 < holoway> I would've :)
+16:29 <@coderanger> holoway: If we accept this, this becomes version 1.0 of the schema/protocol forever, it will be a thing in the wild.
+16:29 < adamedx> we would be delayed in making changes until rfc updates are approved
+16:29 <@coderanger> Which means you'll need to support it for a while at least.
+16:29 < holoway> which we will need to do anyway
+16:29 < adamedx> which is ok with us
+16:29 < holoway> because I'm going to ship it
+16:30 <@coderanger> Any new fields or whatever will need to be a new version, server will need to accept old version, etc.
+16:30 < adamedx> yes
+16:30 < holoway> coderanger: yes, I understand
+16:30 <@coderanger> Okay, if you think you are in a place you can commit to that, go for it :)
+16:31 < holoway> what is smart
+16:31 < holoway> is that we should provisionally approve the RFC
+16:31 < holoway> and when the PR lands for v1, we'll update the RFC and finalize it
+16:31 < adamleff> I can 100% commit to that.
+16:32 <@btm> where is the version of the schema kept?
+16:32 <@coderanger> That seems better, delay a formal 1.0 of this protocol until the product as a whole is closer to launch so we don't end up with as much compat cruft. But again, if adamleff thinks there isn't going to be compat cruft then this is all for nothing.
+16:32 <@btm> properties["message_version"] ?
+16:32 < adamleff> As coderanger already saw, I’ve begun work on the implementation on our side already but have not submitted any PRs until this RFC discussion was completed. So I’m quite confident where will be very few changes between now and when the first version of this is in stable.
+16:32 < holoway> ie: it's 👍, but rather than have a cycle of tweak/approval/process, just finish v1, update the rfc. I'm fine with either choice of keeping the schema in the RFC, or keeping the schema elsewhere. We certainly don't have all our schema in RFCs
+16:32 < adamleff> btm: that’s correct. the schema version is transmitted in the payload as “message_version"
+16:33 < adamleff> I’ll propose that if we end up having a lot of schema churn, we publish them via a different manner where it’s easy to know what version of Chef is using what schema, and the RFC is updated to reflect that new method of schema communication.
+16:33 < adamleff> Until then, keeping the RFC updated feels like an easy win for everyone.
+16:33 < adamleff> We’re kept honest, the community is involved, and there’s no mystery of the intentions.
+16:33 <@btm> could me accept this with a version <1 until we merge something that produces/consumes it to handle that concern?
+16:33 <@coderanger> Works for me, I would maybe add an explicit note that the schema is pre-1.0 and so compat is promised.
+16:34 <@coderanger> er, isn't.
+16:34 < adamleff> I’ll be happy to update the schema versions to 0.2.0 until we release.
+16:34 <@coderanger> Words, how do they  work.
+16:35 <@coderanger> 👍
+16:35 < nathenharvey> ok.  sounds like the RFC is ready for approval with some changes around the fluidity of the schema until release and a commitment to update the RFC with the final, shipped schema (either directly in the RFC or by way of a pointer).
+16:36 < adamleff> That sounds right to me. I’m updating the schema versions right this moment.
+16:36 <@btm> adamleff: whatever we merge, can we have a test that verifies we don't transmit data that doesn't match the schema, e.g. different versions of the scheme are included in the tests as separate versionined files?
+16:36 < adamleff> btm: I already started writing acceptance tests for this, so I’m happy to add that in.
+16:37 < adamleff> btm: it will be easier to implement once we have more than one schema version.
+16:38 < adamleff> Short of hacking chef in-line, the best we can do is ensure all the keys we expect to be there are there with no more, no less. That’s a fine first-step acceptance test we can add for sure.
+16:38 <@btm> adamleff: thanks. it will be useful to have them be separate files so we can have some assurance someone down the road isn't just changing the tests to pass without updating the official schema in chef-rfc.
+16:38 < adamleff> btm: agreed.
+16:39 < nathenharvey> holoway: weigh in here?  approved with the mentioned edits?  or should we revisit next week after the edits are in place?
+16:39 < adamleff> Schema versions updated to 0.2.0 in the RFC.
+16:39 < holoway> approved with the mentioned edits, but wait on merging until the schema is final
+16:39  * btm will be super pleased when this replaces existing undocumented reporting bits.
+16:40 < holoway> at which point just update the RFC and merge
+16:40 <@btm> is lamont_oc2 not here? he had some questions.
+16:40 < lamont_oc2> i’m here
+16:40 <@btm> lamont_oc2: you're quiet sir.
+16:40 < lamont_oc2> i mostly got all my questions answered offline with adamleff
+16:41 <@btm> cool. +1 then.
+16:41 < lamont_oc2> i posted the one question that i’ve still got about the authn/z
+16:41 < adamleff> In the interest of transparency, for what we plan to ship, I expect the schemas will be finalized no later than next week, so we’ll plan to update and merge “Real Soon Now"
+16:42 < nathenharvey> great, let's move on to our next PR then,
+16:42 < nathenharvey> 198 - adding Ubuntu 16.04 - https://github.com/chef/chef-rfc/pull/198
+16:43 <@coderanger> ♪┏(・o･)┛♪┗ ( ･o･) ┓♪
+16:43 < nathenharvey> btm was going to work with joseph smith to add words about what "supported" means.  I don't think that happened so this should just be moved to next week.
+16:43 <@coderanger> nathenharvey: I think we should probably do that in another PR
+16:43 <@coderanger> We support 16.04 to any useful degree of that term.
+16:43 <@btm> ooooh yeah. I had vacation and a root canal. my bad.
+16:44 < nathenharvey> sounds fun and terrible
+16:44 <@btm> so we don't have 16.04 in manhattan (internal CI) yet, FWIW.
+16:45 < nathenharvey> all the more reason to delay acceptance by another week then
+16:45 < lamont_oc2> we have it in travis:
+16:45 < lamont_oc2> https://github.com/chef/chef/blob/master/.travis.yml#L149-L165
+16:45 <@btm> someone should add words about what "supported" means. :p
+16:47 < nathenharvey> ok, we've only got about 3 minutes left.  Let's use it to get PR 200 approved.
+16:47 < nathenharvey> Drop support for platforms we don't support  - https://github.com/chef/chef-rfc/pull/200
+16:48 <@coderanger> +1
+16:48 < nathenharvey> the thing we were waiting on for 200 was updates to the appendix.  those have been made and I think we're ready to approve and merge this one
+16:49 <@btm> yeah, stamp a fat +1 on 200.
+16:50  * martinb3_ claps.
+16:50 < holoway> do it
+16:50 < nathenharvey> OK, great!
+16:50 < nathenharvey> next meeting:  Thursday, May 26, 2016 9AM-9:50AM PST
+16:50 < nathenharvey> oops...that's today :)
+16:50 < nathenharvey> next meeting:  Thursday, June 2, 2016 9AM-9:50AM PST
+16:50 < nathenharvey> we'll see you back here then.
+16:50 < nathenharvey> ***** MEETING ENDS *****
