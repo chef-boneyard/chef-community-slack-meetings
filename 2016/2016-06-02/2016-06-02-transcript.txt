@@ -1,0 +1,103 @@
+12:00 < nathenharvey> ***** MEETING STARTS *****
+12:00 < nathenharvey> Our agenda for today can be found on GitHub here:  https://github.com/chef/chef-community-irc-meetings/blob/master/2016-06-02-agenda.md
+12:00 < nathenharvey> we will have the usual updates and then move on to three PRs to discuss.
+12:01 < nathenharvey> I'll get us started with the community update.
+12:01 < nathenharvey> We are all getting really excited for ChefConf and hope you are, too.  If, for some reason, you haven't registered yet, please remember the GotChef discount code is available for all contributors.
+12:02 < nathenharvey> Yesterday, we pre-announced some big news...well, we announced that we'll be announcing some big news, anyhow
+12:02 < nathenharvey> https://bignews.chef.io/
+12:02 < nathenharvey> there will be a live stream on June 14 at 8:30AM PDT if you'd like to tune in.
+12:03 < nathenharvey> If you happen to be in or near Seattle on June 14th, please join us at our office there to celebrate starting at 4:30PM PDT
+12:04 < nathenharvey> In other community news, we're making some progress on the slack set-up and are on target to have these meetings start happening there before chefconf.
+12:04 < nathenharvey> that's the community update for today.
+12:04 < nathenharvey> adamedx: over to you for an update on Chef
+12:04 < adamedx> Thanks
+12:05 < adamedx> Just a small note that the May update of chef-client in the stable channel is next week
+12:05 < adamedx> followed by a chef-dk release the week after
+12:05 < adamedx> that's it for me nathenharvey
+12:05 < nathenharvey> holoway: do you have any updates for us today?
+12:07 < nathenharvey> either he doesn't or they so long that he's not yet done typing.  we can circle back if necessary :)
+12:07 < stevenmurawski> On the test-kitchen front 1.9.0 shipped last week and 1.9.1 with a few updates is due out this afternoon
+12:07 < nathenharvey> let's move on to our first PR for today:  Add Chef Run ID to DataCollector node object - https://github.com/chef/chef-rfc/pull/203
+12:07 < nathenharvey> oh, thanks, stevenmurawski!
+12:08 < adamleff> As was accurately predicted in last week’s meeting, we decided to update the node update schema with an additional field we feel will be valuable to tie a node’s state to the converge run that updated it. So, this RFC updates the schema’s published last week with that new field.
+12:08 < adamleff> It looks like we got some +1s on it already, so thanks to those that took the time already to review! I’m happy to answer any questions.
+12:09 <@btm> yay for having a documented format/api for reporting-ish things.
+12:09 < Majost> looks good to me
+12:09 < nathenharvey> ok, what questions, concerns, or objections do you have on 203?
+12:10 < nathenharvey> looks like only +1s so I'll move that we approve and accept this.
+12:10 <@thom> approved
+12:10 < ssd7_> That node idea opens up a lot of interesting uses. (i.e only update if the current id is the same as the previous id)
+12:11 < adamleff> ssd7_: indeed!
+12:11 <@thom> nathenharvey: approved and merged
+12:12 < nathenharvey> OK, let's move on to our next PR.  This is a new PR so it may take a minute for people to get caught up
+12:12 < nathenharvey> Update RFC021 to clarify support  - https://github.com/chef/chef-rfc/pull/204
+12:12 < nathenharvey> btm: joseph-chef - can you give us a quick update on this, please?
+12:13 <@btm> joseph-chef wrote most of this and I did the PR with a couple changes. the big thing is we stop using the word support and focus on platforms + packages, and also we clarify that what was T1 is now pretty much platforms + versions we have in chef-test.
+12:13 < joseph-chef> Sure thing! This PR gives us a bit more flexibility in how we talk about where Chef runs, and it also gives us space to talk about scenarios like Lamont described two weeks ago -
+12:14 < joseph-chef> where we've done *some* testing, and we want folks to know about it, but we're not ready to fully sign off - because a platform version isn't fully integrated into our ci/cd pipelines.
+12:16 <@btm> I removed AIX 7.2 from foundational because we're not testing AIX 7.2. scott hain already pointed out it could go in secondary platforms, which indicates to me we're not as clear as we could be there.
+12:16 < lamont_oc2> i thought we were adding a section for things that were “in flight” — so AIX 7.2 and Ubuntu 16.04?
+12:17 <@btm> I want to avoid changing this document to add a new release of every platform to seconday just because it happens and should continue to work.
+12:17 < joseph-chef> Yes, that will probably go in next week.
+12:17 <@btm> lamont_oc2: I think that's joseph-chef's idea with secondary.
+12:17 <@btm> or not.
+12:17 <@btm> secondary is weird. we should make it more clear.
+12:17 < joseph-chef> Time ran out this week, and I wanted the main themes to get reviewed.
+12:18 < lamont_oc2> well secondary is generally more permanent.  Ubuntu 16.04 is aimed at foundational, we just don’t have all the work done.
+12:19 <@btm> what's the value of documenting inflight?
+12:19 <@btm> is it something people often ask and we want to reduce the asks?
+12:19 < lamont_oc2> we’ll constantly get ping’d about it, i also think it looks terrible that we’re 2 months past when 16.04 is released and we seem to not support it at all
+12:20 < lamont_oc2> when the client works fine
+12:21 < lamont_oc2> and i think we technically do currently support 16.04 — if we got a critical bug into chef/chef/issues about 16.04, we’d fix it — if support got a ticket about it, similarly we’d fix it.
+12:21 < joseph-chef> My intent was that things like work in flight and things that generally worked would fit into the 'other' category - where Eng Services would make updates to this document when things changed status.
+12:22 < ssd7_> I think there are a number of issues around how we manage new platform support that we could talk about, but it is unclear whether we want to have those discussions as part of this PR.
+12:22 < joseph-chef> @lamont_oc2 - I have the same understanding.
+12:22 <@btm> lamont_oc2: you're trying to redefine support, which we're explicitly moving away from.
+12:22 < lamont_oc2> we’re stuck on a beurocratic definition of ‘supported’ there which is that we must have it tested in jenkins and that work hasn’t been done yet
+12:23 < lamont_oc2> i think that’s the definition of supported that our customers care about
+12:23 < lamont_oc2> they don’t actually care about the state of our jenkins cluster
+12:23 < ssd7_> I think this is one of our /weirder/ RFCs since as it currently stands only Chef, Inc employees can do the work of making something "supported" so this RFC is oddly tied up in how various internal teams do work
+12:24 <@btm> lamont_oc2: that definition of support isn't this document and customers shouldn't have to go to an RFC to find out if Ubuntu 16.04 will work with Chef or not.
+12:25 < joseph-chef> @lamont_oc2 some do - that's part of why we are disambiguating here.  By splitting the things apart we have room for 'other' things to be added.  Before, there wasn't space for us to represent the current state of 16.04 (or AIX 7.2) - now that the space is there, we can add the details around those platforms.
+12:25 <@btm> This isn't the list of platforms that Chef Software, Inc. will give support to it's customers on and it shouldn't be.
+12:25 <@thom> ssd7_: yeah, i was thinking that
+12:26 < nathenharvey> does the RFC list where a reader of the RFC can go to find the "list of platforms that Chef Software, Inc. will give support to it's customers on"?
+12:26 <@thom> i wonder if we should rethink the existence of this as an RFC, rather than something on our website
+12:26 < lamont_oc2> yeah, i don’t even know what to say to that…  if thats the purpose of this RFC then it should be on the internal wiki site...
+12:27 < lamont_oc2> since its public, i’d argue that your idea of what its purpose is has to be wrong.
+12:27 < ssd7_> Given that it doesn't related to Chef Software support, then what is this RFC other than a description of what is currently tested in jenkin?
+12:27 <@btm> nathenharvey: sort of, I think joseph-chef intends to make changes to the document here: "The current Supported Platforms document is listed here: https://docs.chef.io/supported_platforms.html"
+12:28 < ssd7_> It doesn't feel like there is much "policy" here and that it'll basically always be in some form of out-of-dateness
+12:28 < joseph-chef> it's an accurate representation of what we are doing to validate our software on different platforms.
+12:28 < joseph-chef> because we don't treat all the platforms and versions the same - and I think it's fair and reasonable to disclose to our users exactly how we treat them.
+12:29 <@btm> ssd7_: just non-chef-inc maintainers can't add platforms to jenkins doesn't mean we shouldn't share with them what is in jenkins. it describes what platforms have omnibus packages available and are being tested, something that's difficult or impossible for someone outside of chef software to find themselves.
+12:29 < ssd7_> I'm +1 on the diff in that RFC, I just think that this RFC in general still raises more questions than answers for me.
+12:29 < joseph-chef> As a user, if we onboard a new platform and I want to see whether Chef will run on that platform, I want to come to this page and know what level of confidence and safety I can have running on that platform - how wary do I need to be?  Is it built and tested there?
+12:30 < joseph-chef> Has it been manually validated to some degree?  Or is it completely unknown and at my own risk?
+12:30 < lamont_oc2> yeah so i’m +1 on the PR, but i’m still very -1 on what the RFC is supposed to be
+12:30 < nathenharvey> I agree that it's important for contributors and maintainers have some visibility into how we are testing various platform versions.  It would be great to actually give visibility into the pipelines but this is a good step towards increasing the visibility.
+12:31 < nathenharvey> since this PR is so fresh, I move that we continue these discussions on the PR itself and revisit next week for approval.
+12:31 < joseph-chef> OK.  My understanding is that the changes proposed are reasonable, but the overall meta-purpose of the RFC is in question - so we need to get to a better level of detail there at some point in the future.  Is that a correct understanding?
+12:32 <@btm> joseph-chef: yeah, and that should drive what we do with secondary platforms / inflight platforms / we think so platforms.
+12:32 <@thom> joseph-chef: yep
+12:32 < lamont_oc2> so i think the vast majority of customers don’t care about #is_jenkins_tested?  they care about #downloadable_from_omnibus?  and #support_will_fix_my_problems? — the status of jenkins is mostly an internal API.   and as our one public document about our support level it frustrates me greatly that this RFC only answers the least useful question for external customers.
+12:32 < joseph-chef> Is it reasonable to approve the changes and then do a review of the overall RFC next week?  Unless there are objections?
+12:33 < lamont_oc2> but yes +1 to merge and move on
+12:34 < nathenharvey> joseph-chef: my only concern with approving today is the age of the PR.  It's only an hour old and there may be people unable to attend today who would like to provide input.
+12:34 < joseph-chef> that's a good point, @nathenharvey.  Fair enough.
+12:34 < nathenharvey> but...I will defer to thom as he's the "decider" today in holoway's absence
+12:35 <@btm> we're clearly not done, which could argue either for waiting or treating this as interative development.
+12:35 <@thom> yeah, I'm not comfortable merging this right now given the amount of discussion
+12:35 < nathenharvey> great.  it's on the agenda for next week and we can continue the discussion between now and then
+12:36 < nathenharvey> I like to recommend that we put PR-198 add Ubuntu 16.04 on hold until we agree on and merge in 204.
+12:36 < nathenharvey> https://github.com/chef/chef-rfc/pull/198
+12:37 <@btm> sure +1
+12:37 < lamont_oc2> +1
+12:38 < nathenharvey> OK.  I'll update 198 to reflect that decision.
+12:38 < nathenharvey> That is the last item on our agenda today so I'll open the floor for other topics...
+12:39 < troyready> Just curious if the move of this meeting to Slack will change it's availability? Is it the sort of thing that community members will 'apply' to be a part of?
+12:39 < ssd7_> Reminder to core maintainers that the implementation of the data collector stuff is out for review: https://github.com/chef/chef/pull/4973
+12:40 < nathenharvey> troyready: nope, we'll have a public slack team.  you'll have to "join" but the application process will be something akin to: give your email and set a password
+12:41 < troyready> Ah, cool -- thanks!
+12:42 < nathenharvey> ok, thanks everyone!  our next meeting is Thursday, June 9, 2016 9AM-9:50AM PST (http://everytimezone.com/#2016-6-9,240,cn3)
+12:42 < nathenharvey> ***** MEETING ENDS *****
