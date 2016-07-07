@@ -1,0 +1,192 @@
+12:01 pm (adamleff) waves
+12:01 pm (adamleff) Good day, all! And welcome.
+12:01 pm (adamleff) Shall we get things started?
+12:01 pm (adamleff) **** MEETING STARTS ****
+12:01 pm (adamleff) Welcome all to this week’s Chef Developers’ IRC Meeting.
+12:01 pm (adamleff) Our agenda is here: https://github.com/chef/chef-community-irc-meet...
+12:02 pm (adamleff) Our usual illustrious crew of thom, nathen, and adam can’t be with us today… so btm and I will get things going.
+12:02 pm (adamleff) In place of Nathen, I’ll give a quick community update, and it is this: ChefConf is coming!
+12:02 pm (adamleff) We’d love to see you all there. Register if you haven’t yet!
+12:02 pm (adamleff) The agenda and speakers continue to look awesome. We look forward to seeing you there.
+12:03 pm (adamleff) btm: do you have any client/server updates for us this week?
+12:04 pm (btm) we're still on plan to ship chef next week, a week "early" from the schedule we've been using, so some people can get their stuff out before ChefConf. We're targeting Wednesday 7/6.
+12:04 pm (btm) it was discovered yesterday that delivery-cli in the chef-dk has a bug around tokens, so we're mulling a chef-dk release next week as well. TBD. If you're affected by this, grab ChefDK 0.16.17 from current. Otherwise the next ChefDK target is 7/20.
+12:05 pm (btm) adamleff: that's it.
+12:05 pm (adamleff) Thanks btm!
+12:05 pm (adamleff) Looking back at the transcript from last week, I do not believe there are any action items from last meeting.
+12:05 pm (adamleff) Please speak up in the next 30 secs if you disagree before we move on to PRs.
+12:06 pm (adamleff) Alrighty - moving on to PRs.
+12:07 pm (adamleff) We appear to have a single PR on the docket for this week, which happens to be submitted by yours truly: https://github.com/chef/chef-rfc/pull/208
+12:08 pm (adamleff) TL;DR - this is further iteration over the Data Collector schemas previously submitted and excepted to include the JSON representation of the node object on the run_converge message so users that receive run_converge messages can more easily filter them by node properties, such as envrionment or attributes, etc. without having to piece it together from other messages.
+12:08 pm (adamleff) Thank you to btm for already looking through it and providing feedback. The floor is open for any discussion on this PR.
+12:09 pm (btm) I'm a bit concerned that we're making signifcant changes to the schema on a regular basis to suit development, rather than coming up with a flexible schema that could be more stable. It's going to make it hard for other people to use this schema if it's regularly changing to benefit one project.
+12:09 pm (coderanger) Indeed, that's why I recommended against moving forward with this RFC originally.
+12:10 pm (coderanger) But at this point we don't really have a choice.
+12:10 pm (adamleff) Understood, and valid. I wouldn’t consider the addition of a key a “significant change” to this schema though.
+12:10 pm (adamleff) And this was a risk we agreed to when we initially proposed the RFC in the first place so we’re developing in the open vs. behind the curtain.
+12:11 pm (adamleff) Speaking solely as a developer working on this project, it’s our hope that after the initial launch of Chef’s product that consumes the Data Collector output that these changes are few and far between. No guarantees, but that’s our expectation. And if changes are necessary, we continue to wish to do them in the open.
+12:11 pm (btm) The specific use case, being able to filter on data that comes from the node object, could just as easily be done by matching the run end message with an action message that contains the node object. Why not do that work in the UI?
+12:14 pm (adamleff) You’re correct - that can be done today. The intention is to reduce the amount of query overhead that the UI has to do in order to piece those messages together to make the product more snappy.
+12:14 pm (coderanger) And that's a protocol change for the benefit of a single product.
+12:14 pm (coderanger) Understandable, but that isn't what you signed up for when you opted to go with a solidified data protocol like this. Just be careful.
+12:14 pm (adamleff) True. I make no qualms about this being a self-serving RFC… but most are. :)
+12:14 pm (coderanger) You need to Waterfall it up a lot more than you normally would.
+12:15 pm (adamleff) or at least start that way.
+12:15 pm (coderanger) I don't think btm is arguing that this particular change shouldn't happen, just that you need to retool your approach to protocol design a bit and that this is a sign of trouble ahead.
+12:16 pm (adamleff) Yup, that’s all completely fair feedback.
+12:17 pm (adamleff) Striking a balance between making a change to Chef (the open-source product) in order to benefit a commercial offering we’re working on is a tough nut to crack. I’ll be the first to admit it. :)
+12:18 pm (libsysguy) indeed
+12:18 pm (coderanger) It means taking a bunch of time away from the product to sit and consider a lot more use cases for the data collector system.
+12:18 pm (adamleff) so I’d propose we discuss if this change is detrimental to Chef as a product right now or in the near future, let’s discuss that and ways to correct it.
+12:19 pm (coderanger) Which I'm sure you've done some of, but the time it would take to come up with a truly generic protocol that works great for everyone is going to be big :)
+12:19 pm (adamleff) I’m not currently aware of any implementations of this Data Collector reporting mechanism other than Chef’s own, so that complicates matters, but if there ARE users of it, getting their feedback is super-important here too.
+12:19 pm (btm) the "significant change" isn't the single key, it's that the node object can be huge and it's going to be required. so it's the size of the message that becomes significant.
+12:19 pm (adamleff) btm: we were already sending that node object, just in a different message. We’re reducing message count and even reducing payload a bit too.
+12:19 pm (adamleff) There was no situation in which we’d send one without the other. We just want to consolidate.
+12:19 pm (libsysguy) this ^^
+12:20 pm (libsysguy) it was already going over the wire so it is actually less overhead to combine them
+12:21 pm (btm) adamleff: yeah, you/we are in your specific use case, which makes this not feel like an product-agnostic schema.
+12:21 pm (coderanger) summed up my feelings though. I'm fine with the change, but it's evidence we're doing something wrong.
+12:22 pm (coderanger) But even if we are, the best we can do is adapt in the future
+12:22 pm (coderanger) for now I think we need to +1 this change to unblock product changes
+12:23 pm (coderanger) (even as someone that doesn't actually need to care about y'alls products :)
+12:23 pm (btm) I think there were community hopes that we'd take the existing reporting/analytics/whatever hooks and end up with a single reporting schema here that any project could use.
+12:23 pm (lamont_oc2) i +1’d it already
+12:23 pm (btm) yes, I'm +1 with the change.
+12:23 pm (lamont_oc2) i agree that this discussion is healthy, don’t have any better ideas, don’t have enough coffee yet…
+12:24 pm (adamleff) I, and the others on this team working on this feature, are greatly appreciative of this feedback.
+12:24 pm (adamleff) It will definitely be taken into consideration the next time we iterate on this.
+12:25 pm (btm) alright, given consensus, by the powers entrusted in me by an agenda on github, I deciderate we take the change.
+12:25 pm (adamleff) Alright, it sounds like we have some +1s, and btm as the decider this week, appears fine with this change.
+12:25 pm (adamleff) Thank you, btm.
+12:26 pm (adamleff) OK, that’s the only PR we had on the docket for today.
+12:26 pm (coderanger) There is mine too
+12:27 pm (adamleff) Is anyone aware of any old PR business we need to discuss? We have nothing else on the agenda.
+12:27 pm (coderanger) Let me get the link
+12:27 pm (coderanger) https://github.com/chef/chef-rfc/pull/209
+12:27 pm (adamleff) Sorry coderanger - I didn’t see a PR to add your PR to today’s agenda.
+12:28 pm (adamleff) We still have time today, so even though it’s not included, let’s discuss! Want to give us a TL;DR coderanger?
+12:28 pm (lamont_oc2) there’s another PR as well
+12:28 pm (coderanger) Basically solidifying the de facto policy of using name prefixes on Supermarket in lieu of real-er namespaces
+12:28 pm (coderanger) So a team/org can get exclusive control over a prefix, like poise- in my case
+12:29 pm (adamleff) Lines like “will be the only ones allowed to register new cookbooks or tool with that prefix” concern me as there’s no way to enforce that and feels like we’d be signing up the Supermarket maintainers to be in the middle of disputes that may arise.
+12:32 pm (coderanger) adamleff: This was worked out in conjunction with Nell so I think they are on board
+12:32 pm (coderanger) For now it will have to be handled reactively by removing/renaming cookbooks in the existing admin tools
+12:32 pm (nellshamrell) we are definitely open to it, but would need to work out details on the implementation/governance
+12:32 pm (robbkidd) That's my interpretation of the implementation of the Short Term bit of the current RFC. Then there would be the to-be implemented Long Term "registration of prefixes" within the system.
+12:32 pm (robbkidd) Yea. I like the idea, there just devils to find in the details.
+12:32 pm (nellshamrell) I'm also on board with the high level idea
+12:32 pm (nellshamrell) and the beauty of an rfc is we can discuss the details :)
+12:32 pm (lamont_oc2) yeah the long term bit is a bit more interesting to me, i just threw a point of discussion on that into the RFC
+12:32 pm (coderanger) Having prefix registration go through RFC PRs for now should keep abuse down.
+12:32 pm (nellshamrell) +1
+12:33 pm (robbkidd) I feel like some quality time in front of a white board at ChefConf would do wonders for devil finding.
+12:33 pm (btm) I'm poking around, we haven't previously accepted any RFC that talks about namespacing, right?
+12:33 pm (nellshamrell) That is correct
+12:33 pm (coderanger) This is kind of like namespaces-lite
+12:33 pm (lamont_oc2) i believe we’ve had several biksheds on it, and closed them all
+12:33 pm (nellshamrell) We have bikeshed it extensively
+12:34 pm (btm) yeah, all of that sounds right --^
+12:34 pm (nellshamrell) TLDR: Adding namespaces to Supermarket itself would be very straightforward. Coordinating the four different dependency resolvers people would use to be aware of namespacing would not be.
+12:34 pm (tas50) ^
+12:34 pm (robbkidd) ^^^^^^^
+12:34 pm (nellshamrell) While I think that is something we should consider in the future, it's not something the Supermarket team has the resources to do at this time
+12:34 pm (btm) nellshamrell: what, namespacing?
+12:35 pm (robbkidd) This is a step towards managing our flat namespace instead of adding a layer to the namespace and updating all the things to handle the new layer.
+12:35 pm (nellshamrell) I think this rfc would be a good intermediate step
+12:35 pm (coderanger) lamont_oc2: Yeah, if/when we move to something more automated for registering prefixes we'll have to add a lot of checks to ensure safety, but I'm content to call that another RFC because I don't want to sign the supermarket folks up for that soon. This just gives something to point to when reacting to prefix squatting
+12:35 pm (coderanger) because that came up recently.
+12:35 pm (lamont_oc2) okay
+12:35 pm (nellshamrell) @btm correct
+12:35 pm (lamont_oc2) i’d just like to make sure we keep moving on making the long-term thing happen
+12:35 pm (coderanger) Fortunately in the current squatting case the user was cool with renaming even without official policy in place
+12:35 pm (coderanger) but it seemed like a good idea to solidify it :)
+12:35 pm (robbkidd) Yey decent humans.
+12:36 pm (nellshamrell) +1!
+12:36 pm (btm) nellshamrell: gotcha. yeah, agree with coderanger and all this is namespacing-lite, I think it's a nice compromise.
+12:36 pm (robbkidd) Ja.
+12:36 pm (nellshamrell) massive thanks to coderanger for coming up with the idea!
+12:36 pm (lamont_oc2) there seems to be a ton of chef_ cookbooks that aren’t owned by chef, i guess we can’t really claim that one like i’d like to...
+12:36 pm (coderanger) lamont_oc2: Grandfathering in all existing stuff would be possible.
+12:37 pm (robbkidd) @lamont_oc2 It's how the author lets you know the cookbook works with Chef.
+12:37 pm (coderanger) Like there are three poise- cookbooks that aren't mine, but were named with my explicit permission/guidance.
+12:37 pm (adamleff) robbkidd: lol
+12:37 pm (coderanger) But I agree a chef- or chef_ prefix would be less useful given the noise :)
+12:37 pm (coderanger) Maybe use opscode_ ;-)
+12:38 pm (btm) do we believe chefconf discussion of detail implementation will be added to this RFC? are we +1 on this idea, and want to accept, but expect a patch in a few weeks so other people understand how to make it work?
+12:41 pm (robbkidd) ponders
+12:41 pm (adamleff) How about a tentative approval pending a write-up on the procedure the community will use to resolve conflicts?
+12:41 pm (nellshamrell) I support that
+12:41 pm (robbkidd) I thiiink the Short Term bit in the RFC makes things actionable today.
+12:41 pm (adamleff) and it sounds like ChefConf might be the perfect venue for such a conversation to start.
+12:41 pm (lamont_oc2) oc_ =)
+12:41 pm (nellshamrell) and also support scheduling a whiteboard session at ChefConf
+12:41 pm (coderanger) I think for now it's okay to say "abuse and conflicts will be handled by the humans looking at future prefix PRs"
+12:41 pm (robbkidd) Then there can be a post ChefConf followup specifying the flow of the Long Term prefix registration in Supermarket.
+12:41 pm (coderanger) +bigint
+12:41 pm (robbkidd) is gonna reserve hab_
+12:41 pm (nellshamrell) so…accepted?
+12:41 pm (btm) I don't see a place in here that explicitly says, "reserve a prefix today by opening a PR against this RFC and then work with supermarket admins by opening issues in github for enforcement issues"
+12:41 pm (coderanger) Established prefixes can be added to this RFC by pull request.
+12:41 pm (coderanger) I can expand that though
+12:41 pm (btm) yeah, got it.
+12:42 pm (robbkidd) ^^
+12:42 pm (adamleff) Agree with btm: I’d love to see that explicitly stated in the PR for people that discover this.
+12:42 pm (btm) yeah I missed that, so I'm +1 but would like another sentence there as coderanger offered.
+12:42 pm (robbkidd) Maybe repeat that within the #Prefixes section?
+12:42 pm (coderanger) Yeah, I'll add a few more words :)
+12:43 pm (btm) everyone else throw up some votes on accepting with that condition?
+12:43 pm (adamleff) +1 pending the update discussed here. Will comment on PR
+12:43 pm (robbkidd) Yarp. +1
+12:44 pm (nellshamrell) +1
+12:44 pm (coderanger) nellshamrell: What should I put as the right way to contact y'all for a prefix conflict/rename/whatever?
+12:44 pm (raccoon_ops) been listening…. Coderanger’s point taken. Is the general feeling that naming is the right place for uniqueness and it so what level of naming…. cookbook level? Seems like this is really a mix of human search and workflow automation on a name …. Would seem a place for a Namespace UUID to assure uniqueness for automation…. Some sort of key-value at the highest level of the Software object…. Namespaces ar
+12:44 pm (raccoon_ops) not a new idea but are rehashed all the time in a DSL like chef the ecosystem…
+12:44 pm (coderanger) supermarket@chef.io, or maybe support@chef.io?
+12:45 pm (nellshamrell) hmm…I'm leaning toward opening an issue on the Supermarket github
+12:45 pm (coderanger) Okay, that works :)
+12:46 pm (btm) in my experience everytime I talk to the supermarket people on slack they send me to github issues. :)
+12:47 pm (nellshamrell) that's so we can keep track of them in one place :)
+12:49 pm (nellshamrell) cool!
+12:49 pm (robbkidd) Open Source Issue Tracking
+12:49 pm (nellshamrell) that said, if someone prefers to remain anonymous, they are welcome to email support@chef.io
+12:49 pm (btm) raccoon_ops: there's a long, long, history of discussion about cookbook namespacing that leads into this. I can help you find some of that later if you like.
+12:49 pm (robbkidd) Allow me to sing you the song of cookbook namespacing according to our people's skaldic traditions ...
+12:49 pm (nellshamrell) lol
+12:49 pm (adamleff) Alrighty.
+12:49 pm (nellshamrell) a rose by any other name...
+12:49 pm (robbkidd) Well, not poise-rose without coderanger's permission.
+12:49 pm (nellshamrell) :)
+12:49 pm (btm) as they say, if there's no other matters to come before this meeting, I'll entertain a motion to adjourn.
+12:49 pm (adamleff) Though not on the agenda, 207 is open to add j^2 as the reddit advocate
+12:49 pm (j^2) yay!
+12:49 pm (adamleff) Seems like a quick one to review if anyone has any feedback.
+12:49 pm (adamleff) I’m +1 on it
+12:49 pm (robbkidd) +1
+12:49 pm (btm) +1
+12:49 pm (coderanger) Not a PR but if anyone wants to review https://gist.github.com/coderanger/ee6d8e6eb254... is the in-progress copy for slack.chef.io landing page
+12:49 pm (btm) like a lamb to the slaughter.
+12:49 pm (j^2) btm: :salute:
+12:49 pm (adamleff) Any ney-sayers on 207?
+12:49 pm (coderanger) Trying to move the needle forward on the slack migration
+12:50 pm (adamleff) btm: you cool to approve 207?
+12:50 pm (btm) is there a process somewhere that specifies requirements for advocates?
+12:50 pm (btm) like n maintainers or something?
+12:51 pm (coderanger) Not specifically, Nathen gets final say there.
+12:51 pm (coderanger) But I'm sure he would be fine with it, as a co-mod for the reddit I'm +1 :)
+12:53 pm (btm) RFC020 "Community Advocates must be agreed on by the community: a simple majority of other advocates must approve."
+12:53 pm (adamleff) As there are no advocates for Reddit currently, and we have some concensus here, it feels right to approve :)
+12:53 pm (btm) nellshamrell: you +1 on jj+reddit?
+12:53 pm (coderanger) Yeah, this is more analogous to creating a new Subsystem in Chef's maintainers policy
+12:53 pm (nellshamrell) btm: Fine by me
+12:53 pm (raccoon_ops) @coderanger - It is surprising that Check Community Slack doesn’t allready exist…. We have danced in other Slack teams and channel with Chef focus…. Thank you for this..
+12:53 pm (adamleff) Thank you for volunteering, j^2!
+12:53 pm (j^2) yay!
+12:55 pm (adamleff) OK - it’s that time. Any additional material to discuss before we adjourn?
+12:55 pm (adamleff) 30 secs to answer...
+12:56 pm (adamleff) That wraps it up for today.
+12:56 pm (nellshamrell) ty, everyone!
+12:56 pm (adamleff) Thank you to everyone for attending and participating. Next meeting it currently scheduled for July 7, same time.
+12:56 pm (adamleff) **** MEETING ENDS ****
+12:56 pm (adamleff) Thank you btm for filling in as deciderator.
+12:57 pm (robbkidd) ^5 btm
