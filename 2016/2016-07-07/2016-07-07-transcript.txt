@@ -1,0 +1,296 @@
+nathenharvey [12:01 PM]
+Welcome to our weekly Chef Developers’ Meeting.  This is our first meeting held in this shiny new :slack: team!
+
+nshamrell [12:01 PM]
+:smile_cat:
+
+nathenharvey [12:01 PM]
+We have a fairly short agenda for today which should leave us some time to discuss how and when we roll out this team to the community.
+
+[12:02]
+Here’s the agenda:  https://github.com/chef/chef-community-irc-meetings/blob/master/2016-07-07-agenda.md
+ GitHub
+chef/chef-community-irc-meetings
+chef-community-irc-meetings - Agendas, minutes, and action item from the Chef Community IRC Meetings
+
+[12:02]
+Really only one RFC to cover after we get through the updates.
+
+nathenharvey [12:02 PM]
+I’ll start off with the Community Update.  We are really excited to see everyone next week in Austin for ChefConf!
+
+nathenharvey [12:03 PM]
+It’s going to be our best ChefConf yet.  Let me walk quickly through the events of the week and other must know items.
+
+coderanger [12:03 PM]
+Or tomorrow for some especially cool people :slightly_smiling_face:
+
+nathenharvey [12:04 PM]
+Monday starts with a Community Summit and a bunch of training workshops.
+
+nathenharvey [12:04 PM]
+The community summit will kick-off at 10AM and will be a day of open spaces.  I’ll be there to help organize the schedule of topics in the morning and then we’ll get into discussion groups and talk about the topics most important to everyone in attendance.
+
+[12:05]
+Monday wraps up with a welcome reception.
+
+[12:05]
+Tuesday opens with a video...I’ve just previewed a close to final edit and am excited to share that with you!
+
+[12:05]
+from there we go into keynote presentations and then 7 different breakout tracks in the afternoon
+
+[12:06]
+There’s a happy hour to close out the official events for Tuesday and then you’ll have time to explore some of the restaurants and other awesome things Austin has to offer
+
+[12:07]
+Wednesday opens with @holoway's keynote followed by more keynotes and another round of breakout sessions.
+
+[12:07]
+We’ll gather as a group at the end of Wednesday for the Awesome Community Chef awards and then head over to the Empire Control Room for a community celebration.
+
+[12:08]
+Our musical guests for Wednesday night include local bands Otis the Destroyer and Purple.  There will also be board games, a DJ, food trucks, and more!
+
+nathenharvey [12:09 PM]
+Thursday we have a hack day planned for anyone who’s still around.  Likely timing of that is 10 - 3:30 but we’re still finalizing the details on that.
+
+nathenharvey [12:10 PM]
+If you’re coming, please download the ChefConf app from wherever you get apps for your phone as that will have all of the latest updates on schedule, etc.  It also includes maps, the code of conduct, ways to reach out to other attendees, and more.
+
+[12:10]
+There will also be a :habitat: corner as well as 3 talks on Habitat throughout the conference
+
+tas50 [12:11 PM]
+the app is quite pretty looking :slightly_smiling_face:
+
+nathenharvey [12:11 PM]
+And...a community room on Tuesday and Wednesday afternoon.  This room is meant as a place for folks to gather and have impromptu talks, discussions, hacking, etc.  Think:  hallway track in a room...not that you can’t or shouldn’t hallway track (as a verb) in the hallway or anything :wink:
+
+btm [12:12 PM]
+hallways are for coffee carts!
+
+nathenharvey [12:12 PM]
+we will be live streaming the key note presentations on Tuesday and Wednesday so even if you’re not able to attend you can still watch
+
+[12:12]
+all track sessions will be recorded, too.
+
+[12:13]
+if you’re not coming and now regretting that decision, remember that the contributor discount code is `GotChef` :slightly_smiling_face:
+
+[12:14]
+ok, enough about ChefConf (for a minute at least)...I wanted to share one other awesome bit of community news.
+
+[12:15]
+The Supermarket team launched the initial release of cookbook quality metrics yesterday.  It’s a small step forward but puts us on a path to be able to more easily start quantifying the quality of cookbooks you’ll find there.  Read more about the release discourse and join me in congratulating @nshamrell, @logan, and @robbkidd on getting that out!
+
+stevenmurawski [12:16 PM]
+https://discourse.chef.io/t/supermarket-2-8-0-release-notes-introducing-quality-metrics/8867
+Chef Mailing List
+Supermarket 2.8.0 Release Notes: Introducing Quality Metrics
+Features Quality Metrics v1: In Supermarket 2.7.4, Fieri -- a cookbook criticizer that runs FoodCritic -- got a new home within the Supermarket install. Now Fieri will run two metrics - Foodcritic and a Collaborator count. These are drawn from https://github.com/chef-cookbooks/cookbook-quality-metrics - a repo where the community can suggest quality metrics to be run on cookbooks. For this release, we have implemented two of these, the rest will come in future releases. In this latest relea...
+
+adamedx [12:16 PM]
+:clap:
+
+nathenharvey [12:16 PM]
+OK, that’s it from me.
+
+[12:16]
+@adamedx: over to you for an update
+
+adamedx [12:16 PM]
+hey :slightly_smiling_face:
+
+[12:16]
+I actually don't have a lot of news, other than an upcoming chef-dk release
+
+[12:17]
+take a look here for changes: https://github.com/chef/chef-dk/compare/v0.15.16_release...v0.16.22
+ GitHub
+chef/chef-dk
+chef-dk - A streamlined development and deployment workflow for Chef platform.
+
+[12:17]
+@btm, anything you'd like to add to that? We've also seen recent updates to chef-client in the past week
+
+btm [12:19 PM]
+as ya'll would have seen on discourse, the Chef 12.12 release went out along with a special ChefDK 0.15.16 patch release to fix a delivery-cli issue. The upcoming regularly scheduled ChefDK is still targeting 7/20 (after chefconf). There's a lot of love coming in there in terms of helping create a standard cookbook development workflow, feedback level should be high.
+
+adamedx [12:21 PM]
+thank you @btm
+
+[12:21]
+that's it for me @nathenharvey
+
+nathenharvey [12:21 PM]
+anyone else have software / release updates they’d like to share before we move on to our one PR?
+
+[12:23]
+OK.  Let’s move on to https://github.com/chef/chef-rfc/pull/206
+
+[12:23]
+​*Move platform support policy to docs.chef.io*​ (edited)
+
+thom [12:23 PM]
+cool. I added a basic list of platforms we have support for, based on the previous contents of the RFC. I also fixed some words, courtesy of @btm
+
+coderanger [12:24 PM]
+shipit dot gif
+
+lamont [12:25 PM]
+so Ubuntu 16.04 should go into this list based on the text?
+
+thom [12:25 PM]
+i might just take the ubuntu versions out
+
+lamont [12:26 PM]
+oh arch and omnios are there (edited)
+
+coderanger [12:26 PM]
+Maybe just say "all versions under upstream support"?
+
+lamont [12:27 PM]
+we actually support a bunch more as well by this definition
+
+[12:27]
+although i guess they’d fail the LT or maintainer definition...
+
+thom [12:27 PM]
+```If not specified, chef works with all versions of a given
+platform that the manufacturer supports.
+```
+
+coderanger [12:28 PM]
+:+1:
+
+lamont [12:28 PM]
+yeah i’m thinking like cumulus linux, cloud linux, etc now...
+
+thom [12:29 PM]
+i think we can probably add more stuff later, but shall we get this merged as is?
+
+btm [12:29 PM]
+the "product lifecycle" line still bugs me as being not clear, so it should be removed unless we make it more clear.
+This RFC does ​*not*​ address the product lifecycle of Chef Software, Inc's software, i.e. when **something happens**, you can get that answer from **where ? opening a support ticket?**. (edited)
+
+lamont [12:29 PM]
+yeah i think its fine as-is, i was just trying to understand the definition
+
+tball [12:30 PM]
+joined #developer-meetings
+
+thom [12:30 PM]
+btm: i think that is a question better answered on docs.chef.io , no?
+
+lamont [12:30 PM]
+yeah we need a better page on docs.chef.io
+
+btm [12:30 PM]
+@thom probably? 'product lifecycle' is like 'supported' methinks. in any case, I wouldn't block merging this, but I'd like to consider that a bug still.
+
+lamont [12:30 PM]
+The [chef docs site](https://docs.chef.io/) has [details of the platforms Chef Software, Inc validates for release](https://docs.chef.io/platforms.html).
+
+[12:31]
+it should go there
+
+btm [12:32 PM]
+"validates for release and the product lifecycle" then those :chef: people can fix their website. :wink:
+
+lamont [12:32 PM]
+of course now this just pushes the argument over Ubuntu 16.04 to what the text of that docs.chef.io page should read
+
+thom [12:33 PM]
+lamont: yeah, well. that's a whole different set of people :slightly_smiling_face:
+
+[12:33]
+btm: hm
+
+[12:33]
+not sure that actually adds any clarity
+
+[12:33]
+:slightly_smiling_face:
+
+btm [12:35 PM]
+thom: it doesn't add clarity here, it moves the need for clarity on something we're explicitly calling chef software's responsibility (and not the communities) to the chef website, in a similar way to what lamont was just observing.
+
+[12:36]
+thom: I'm still totally cool with just removing that line, btw.
+
+thom [12:36 PM]
+i think i'm just going to burn the product lifecycle line with :fire:
+
+[12:37]
+gone
+
+btm [12:37 PM]
+yeah, if we ever feel the need to describe what a product lifecycle is somewhere, we could.
+
+nathenharvey [12:37 PM]
+Shall we :+1: / :-1: this then.  Feels like it’s ready for merge now.
+
+[12:37]
+https://github.com/chef/chef-rfc/pull/206
+
+[12:38]
+(my :-1: is just so you have something to click)
+
+[12:38]
+@holoway: deciderize this?
+
+holoway [12:39 PM]
+ship it
+
+thom [12:40 PM]
+roger that!
+
+nathenharvey [12:40 PM]
+awesome!
+
+[12:41]
+ok that’s it for the agenda today then.
+
+[12:42]
+with the 8 minutes we have left, I wanted to mention that we’ve hooked up Slack Archive to this team.
+
+[12:42]
+http://chefcommunity.slackarchive.io/developer-meetings/ has this channel, for example.
+
+thom [12:42 PM]
+great slacking, everyone!
+
+coderanger [12:43 PM]
+@thom: We should chat more on Monday about next steps for this :slightly_smiling_face:
+
+nathenharvey [12:43 PM]
+would be a great topic for the summit!
+
+lamont [12:43 PM]
+why is slackarchive upside down?
+
+thom [12:43 PM]
+yepyep
+
+coderanger [12:45 PM]
+@lamont: ｃｏｍｐｕｔｅｒｓ
+
+nathenharvey [12:45 PM]
+upside down because it goes backwards in time.  it’s an archive...it’s also weird though.
+
+btm [12:46 PM]
+i don't even get websites anymore.
+
+jtimberman [12:46 PM]
+¿ǝʇᴉs qǝʍ ɐ sᴉ uǝʌǝ ʇɐɥʍ
+
+nathenharvey [12:46 PM]
+We will NOT have a developers’ meeting here next week because of ChefConf.  Our next meeting is scheduled for Thursday, July 21, 2016 9AM-9:50AM PST - http://everytimezone.com/#2016-7-21,240,cn3
+
+[12:47]
+Hope to see all of you in Austin!
+
+[12:47]
+Meeting adjourned!
