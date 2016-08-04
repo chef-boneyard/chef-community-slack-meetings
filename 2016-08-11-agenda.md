@@ -11,10 +11,10 @@ Secretary:  Nathen Harvey (nathenharvey)
 ### Agenda
 * Agenda Review, speaker Nathen Harvey (nathenharvey): 2 minutes
 * Updates: 15 minutes max.
-  * Community Update, speaker Nathen Harvey (nathenharvey): 5 minutes
-  * Chef Software Update, speaker Adam Jacob (holoway): 5 minutes
-  * Chef Client and Server Update, speaker Adam Edwards (adamedx): 5 minutes
-* Review action items from last meeting (holoway): 5 minutes
+  * Community update, speaker Nathen Harvey (nathenharvey): 5 minutes
+  * Chef company update, speaker Adam Jacob (holoway): 5 minutes
+  * Software update, speaker - various people: 5 minutes
+* Review action items from last meeting (nathenharvey): 5 minutes
 * Review PRs:  35 minutes
   * Review new PRs and/or PRs deferred during last meeting
   * Review PRs previously discussed

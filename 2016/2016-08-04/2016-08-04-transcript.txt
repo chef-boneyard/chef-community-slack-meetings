@@ -1,0 +1,306 @@
+Meeting Starts*​
+
+[12:00]
+Today’s agenda can be found in github at https://github.com/chef/chef-community-irc-meetings/blob/master/2016-08-04-agenda.md
+ GitHub
+chef/chef-community-irc-meetings
+chef-community-irc-meetings - Agendas, minutes, and action item from the Chef Community IRC Meetings
+
+[12:01]
+One change to the agenda:  @holoway is on vacation so I don’t expect him to be here.  @thom will act as the decider for any decider-y things that come up.
+
+[12:02]
+We’ll start with updates and then have a few PRs to review.
+
+[12:02]
+I’ll get us started with the Community Update.
+
+[12:02]
+The Community Summits have been scheduled and I hope to see all of you at one, the other, or both of the summits.
+
+[12:02]
+https://summit.chef.io/
+
+[12:03]
+The first Summit will be in London on 12 & 13 October.
+
+[12:03]
+Registration is currently open and we are seeking a few sponsors for the event.
+
+nathenharvey [12:04 PM]
+On the sponsor front, we are really trying to find someone who can sponsor a hack day for us on 14 October.  So please do let us know if your company might be interested or if you know one who might be.
+
+[12:05]
+The London Summit will be a mix of presentations, demos, and open spaces.  One thing we’re going to try this year is a time for community-led demos.
+
+[12:06]
+We’d love to see what you’ve been up to and will arrange for 5-10 minute demos from various community members during the summit.  Come show off some of the awesome things you’ve been doing.
+
+[12:06]
+The second Summit will be in Seattle on 26 & 27 October.
+
+[12:07]
+Registration is not yet open for that summit as we are still working out some details.  Those details include some planning for a smaller Habitat Summit on the 25th and a hack day on the 28th.
+
+[12:09]
+The 26 & 27 in Seattle will be primarily open spaces.
+
+[12:09]
+Hope to see you at one or both of these events.
+
+[12:10]
+The other things we’ve been working on from a community perspective are moving our projects from a CLA to the developer certificate of origin.  We’re currently targeting 1 October 2016 as the cutover date but that is subject to change.  We’ll have blog and discourse posts describing and announcing the updates as we finalize everything and get closer to the cutover date.
+
+[12:11]
+We’re also just about ready to call this :slack: ready for the entire community.  This week we invited all Chef employees to join us here.
+
+[12:11]
+That’s it for the community update.
+
+[12:12]
+Let me open it up to anyone with an update on software we’ve recently shipped or are planning to ship soon.
+
+nathenharvey [12:12 PM]
+realizes the other agenda update is that Adam Edwards won’t be making Chef Software Updates
+
+btm [12:13 PM]
+The next Chef Client release should be out on schedule next week. @jkeiser and others are working on getting us to a reasonable version of Ruby in that build. We'll talk about that more later, but an updated Ruby is not shipping this month. (edited)
+
+chip [12:13 PM]
+Push Jobs Server 2.1 should ship late this week or early next. The code is more or less final, documentation updates are finalizing.
+
+nshamrell [12:14 PM]
+Supermarket 2.8.2 will be going out shortly
+
+[12:15]
+https://github.com/chef/supermarket/blob/master/CHANGELOG.md for details
+ GitHub
+chef/supermarket
+supermarket - Chef's community platform
+
+tas50 [12:15 PM]
+We’re currently marching towards Ruby 2.3 in ChefDK and as part of that we’re updating the various tools in the Chef ecosystem to run on Ruby 2.3.  You’ll notice a lot of Berkshelf dependencies shipping with the requirement of Ruby 2.1+
+
+thom [12:17 PM]
+we're also in the process of bringing berkshelf into the fold, in general. it's been loved deeply but intermittently for some time but hopefully from now that love will be more consistent
+
+nathenharvey [12:19 PM]
+that feels like a good set of updates!  any more updates before we move on to the PRs ready for review?
+
+[12:20]
+OK, on to our first PR then.
+
+[12:20]
+update Ruby RFC to be more general - https://github.com/chef/chef-rfc/pull/211
+ GitHub
+update Ruby RFC to be more general by lamont-granquist · Pull Request #211 · chef/chef-rfc · GitHub
+The practical background here: Pinning activesupport to ~> 4.0 and rack to ~> 1.0 is creating a fairly substantial workload to run around and touch every gem in our world and update them all and w...
+
+[12:21]
+Looks like there is mostly agreement on the RFC but the question remains of whether this should be a new RFC that gets adopted or a rewrite of the previous RFC.
+
+lamont [12:21 PM]
+yeah, i don’t super care
+
+kallistec [12:22 PM]
+I think I'm the only one complaining and I'm not willing to veto over it
+
+lamont [12:22 PM]
+it made sense in my brain because before it was an RFC about dropping support for a specific verison with some general language that was unclear to some, and now its just general with language that is hopefully more clear
+
+[12:22]
+but my brain is odd
+
+btm [12:23 PM]
+I get the concern, but I wouldn't want there to be like 3 RFCs that talk about Ruby version deprecation. In that case we'd need to update the old ones still to tell people they're superseded (although we have a pattern for that).
+
+thom [12:24 PM]
+i think getting rid of the old rfc is the correct thing to do because it's bizarre, as lamont says. i'd prefer just to have one that we can update, and so i think the PR as it stands is goodness
+
+coderanger [12:24 PM]
+:+1:
+
+lamont [12:24 PM]
+we could add a little section for a timeline as we add and drop support
+
+[12:25]
+i don’t know where that should live
+
+thom [12:25 PM]
+maybe we can do that when you add future ruby support
+
+lamont [12:25 PM]
+mostly i’m thinking about that because i included language that we “may” drop support for rubies when they are in their security maintenance phase
+
+[12:26]
+and by that i mean we need to drop support for 2.1.x right now because everyone else is
+
+kallistec [12:26 PM]
+Yeah, the old RFC was just saying we'd do the thing we said we would do here: https://github.com/chef/chef-rfc/blob/master/rfc015-chef-12.md#supported-ruby-versions
+ GitHub
+chef/chef-rfc
+chef-rfc - Public RFCs for Chef and related projects
+
+lamont [12:26 PM]
+its becoming a gem-pin-a-thon to old versions to get 2.1.x support (rack, activesupport, ruby_dep, and listen among others)
+
+thom [12:27 PM]
+i'm happy to deciderate at this point, unless anyone has tuppence ha'penny they'd like to throw in
+
+kallistec [12:27 PM]
+That RFC might need a generalizing update, too
+
+lamont [12:27 PM]
+yeah that chef-12 rfc is also kinda weird
+
+[12:27]
+its a mix of chef-12 specific stuff and general policy
+
+kallistec [12:28 PM]
+IMO we should at least fix that line that I linked. I'm :+1: to pre-approve
+
+[12:28]
+> Ruby version bumps only happen at the time of Chef major version bumps.
+
+^^ delete that
+
+lamont [12:28 PM]
+"Ruby version bumps only happen at the time of Chef major version bumps.” got explicitly superseded tho
+
+[12:28]
+totes
+
+thom [12:28 PM]
+yep
+
+kallistec [12:29 PM]
+yeah, whatever the correct thing is
+
+thom [12:29 PM]
+fix that (probably with `dd` in the world's favourite editor) and then i'm pre-decidering that we can roll
+
+lamont [12:29 PM]
+that was written at a time when ruby was going 1.8.7 to 1.9.2/1.9.3 to 2.0 and my understanding was that “ruby version bumps” meant major releases, so 2.0->2.4 wasn’t covered by that, but its all too vague now… .  anyway...
+
+kallistec [12:31 PM]
+deciderated?
+
+thom [12:31 PM]
+@nathenharvey: i think we're done with that RFC
+
+[12:31]
+yes, deciderated
+
+lamont [12:31 PM]
+:+1:
+
+nathenharvey [12:31 PM]
+sweet.
+
+[12:32]
+Next up - https://github.com/chef/chef-rfc/pull/212
+ GitHub
+Restrict Solaris 10 minor version support to latest by jkeiser · Pull Request #212 · chef/chef-rfc · GitHub
+Solaris 10 support is presently set at 10u7 and above. This change clarifies that 10u11 is the minimum minor version of Solaris 10 supported. This is important because IPv6 and networking support ...
+
+lamont [12:32 PM]
+this will let us have nice things...
+
+nathenharvey [12:32 PM]
+There seem to be no objections and enough :+1:s to approve this
+
+btm [12:33 PM]
+@chip is cool with this, which makes me :+1:
+
+thom [12:33 PM]
+yeah, i see no reason not to just deciderate this
+
+[12:33]
+make it so
+
+lamont [12:33 PM]
+yeah it seems that our customers that were stuck on old versions have managed to become un-stuck
+
+nathenharvey [12:34 PM]
+Alright, our final PR for today is https://github.com/chef/chef-rfc/pull/210
+ GitHub
+Add draft supermarket release RFC by danielsdeleo · Pull Request #210 · chef/chef-rfc · GitHub
+:construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: Add RFC for release channels in supermarket. There is still a lot of implementation detail to be decided.
+
+kallistec [12:34 PM]
+I pushed an update this morning with feedback from the last meeting
+
+[12:35]
+I think @robbkidd specifically wanted your thoughts, @nathenharvey
+
+[12:35]
+and there is at least one "TODO" in there still
+
+coderanger [12:35 PM]
+@kallistec: What changed? It looks like you squashed things so hard to tell.
+
+nathenharvey [12:35 PM]
+I’m :+1: on this
+
+[12:36]
+I’m not sure the one remaining todo requires any doing as part of the RFC.
+
+nshamrell [12:36 PM]
+I am :thumbsup: with setting the expectation that this will need to be coordinated with the Supermarket team’s current slate of work (which is not small)
+
+kallistec [12:36 PM]
+@coderanger: added section about UI being basically TBD, and incorporated language about how channels are determined to exist based on your discussion w/ Robb
+
+coderanger [12:37 PM]
+:+1:
+
+thom [12:37 PM]
+yeah, i think that covers all the things we discussed last week
+
+kallistec [12:37 PM]
+Okay, so I should change the TODO (here: https://github.com/chef/chef-rfc/blob/42ed11d00a6ddb20516796f99a60531bb28a4be9/new/supermarket-release-channels.md#artifact-versions-and-channels ) to be "TBD" and call it good?
+ GitHub
+chef/chef-rfc
+chef-rfc - Public RFCs for Chef and related projects
+
+thom [12:40 PM]
+so i think we can probably deciderate that one too
+
+kallistec [12:40 PM]
+ok, just updated
+
+[12:41]
+and didn't squash this time
+
+thom [12:41 PM]
+:+1:
+
+nathenharvey [12:42 PM]
+alright, 3 PRs approved!
+
+[12:42]
+we’ve 8 minutes left.  any additional topic you’d like to bring up?
+
+coderanger [12:42 PM]
+https://github.com/chef/chef-web-docs/issues/96 someone should poke that
+ GitHub
+No docs for 12.11 or 12.12 · Issue #96 · chef/chef-web-docs · GitHub
+or, more important, no release notes. Would be good to sync, though we should probably sort out how we ended up so far behind.
+
+[12:43]
+especially with a 12.13 brewing, I'm guessing we missed some steps on the release checklist, or should revise it :slightly_smiling_face:
+
+btm [12:44 PM]
+Our main docs person has been out on parental leave, so the other person probably missed it. I'll check in.
+
+coderanger [12:45 PM]
+:+1:
+
+nathenharvey [12:45 PM]
+thanks!
+
+[12:46]
+ok.  I’d like to give everyone 4 minutes back on their calendar :slightly_smiling_face:
+
+[12:46]
+​*Meeting Ends*​
