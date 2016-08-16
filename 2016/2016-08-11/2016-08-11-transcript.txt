@@ -1,166 +1,166 @@
-thom [12:02 PM]
+thom [16:02 PM]
 hello, and welcome to the Developer's meeting for the 11th of August
 
-[12:02]
+[16:02]
 Nathen and Adam are both on holiday this week
 
-[12:02]
+[16:02]
 We've got one RFC to look through; the agenda is just above here
 
-[12:03]
+[16:03]
 in terms of community updates, not much has changed. Tickets for the London summit are on sale, https://summit.chef.io
 
-[12:04]
+[16:04]
 Seattle summit will be four days, with a habitat day and a hack day, so get that in your calendar
 
-[12:06]
+[16:06]
 that's it for community updates. We've done a bunch of releases recently; Chef and the Push Jobs client yesterday, and also the Push Jobs server last week
 
-[12:07]
+[16:07]
 anyone got any further updates they'd like to share?
 
-3dinfluence [12:07 PM]
+3dinfluence [16:07 PM]
 joined #developer-meetings
 
-jkeiser [12:07 PM]
+jkeiser [16:07 PM]
 We released Chef 12.13.30 yesterday. Up for download at the usual places.
 
-[12:07]
+[16:07]
 Big change there is Ohai .18
 
-[12:07]
+[16:07]
 With lots of nice OS/X stuff
 
-[12:07]
+[16:07]
 We've also announced that as of Chef 12.14, Solaris 10u11 will be the only Solaris 10 version supported.
 
-[12:08]
+[16:08]
 This buys us nice things, including full IPv6 support.
 
-[12:09]
+[16:09]
 No other client release info :slightly_smiling_face:
 
-thom [12:09 PM]
+thom [16:09 PM]
 we'll also be moving to ruby 2.3, right?
 
-jkeiser [12:09 PM]
+jkeiser [16:09 PM]
 Yeah, I have a change in the pipeline now, if it passes we’ll be on Ruby 2.3 in Chef soon.
 
-[12:10]
+[16:10]
 Next week we’ll release ChefDK with Ruby 2.1.9 (matching Chef), and after that we’ll be weapons-free on Ruby 2.3
 
-thom [12:10 PM]
+thom [16:10 PM]
 :+1:
 
-maxs [12:10 PM]
+maxs [16:10 PM]
 joined #developer-meetings
 
-jkeiser [12:10 PM]
+jkeiser [16:10 PM]
 We’ll send an announcement and would love people to pay special attention to this one—download, try, tell us if there are issues
 
-[12:10]
+[16:10]
 Ruby sometimes throws curveballs in minor releases
 
-thom [12:12 PM]
+thom [16:12 PM]
 cool, thanks john. let's move on to our one RFC of the day, which is about moving away from using CLAs to using the Developer Certificate of Origin
 
-lamont [12:12 PM]
+lamont [16:12 PM]
 also note that going to ruby 2.3 also pretty much pulls in deprecating ruby 2.1 — berkshelf 5.0.0 is staged on master and will drop support for 2.1 and add support for 2.3/2.4
 
-thom [12:13 PM]
+thom [16:13 PM]
 https://github.com/chef/chef-rfc/pull/213
  GitHub
 Developer Certificate of Origin (DCO) by nathenharvey · Pull Request #213 · chef/chef-rfc · GitHub
 Chef's open source projects will no longer require a contributor license agreement (CLA) or corporate contributor license agreement (CCLA). A developer certificate of origin (DCO) will be required...
- 
 
-[12:14]
+
+[16:14]
 as mentioned Nathen's not here, but I think the RFC does a good job of explaining why we're doing this
 
-[12:14]
+[16:14]
 and how we'll do it
 
-[12:15]
+[16:15]
 why do we not have the tumbleweed emoji in here
 
-chip [12:16 PM]
+chip [16:16 PM]
 nobody signed the emoji certificate of origin
 
-ssd [12:16 PM]
+ssd [16:16 PM]
 The only comment on the PR that isn't directly addressed is from @coderanger:
 > As a way to make life simpler for and keep commits a little less cluttered, can we write this in such a way that all commits from maintainers count as good?
 
-robbkidd [12:16 PM]
+robbkidd [16:16 PM]
 I think that _was_ addressed.
 
-ssd [12:16 PM]
+ssd [16:16 PM]
 Oh, was it?
 
-thom [12:16 PM]
+thom [16:16 PM]
 @ssd i think i addressed that right after?
 
-[12:17]
+[16:17]
 or rather robb did and i agreed
 
-robbkidd [12:17 PM]
+robbkidd [16:17 PM]
 My comment was that exempting official maintainers makes the automation around verifying commits difficult.
 
-ssd [12:18 PM]
+ssd [16:18 PM]
 Ah, OK. Yes, I failed my reading test for today. (edited)
 
-[12:18]
+[16:18]
 :smile:
 
-robbkidd [12:18 PM]
+robbkidd [16:18 PM]
 I wish git CLI had a config file option for "--sign-off" instead of requiring it as a switch.
 
-[12:18]
+[16:18]
 But that's what shell aliases are for.
 
-thom [12:18 PM]
+thom [16:18 PM]
 i mashed in a commit template
 
-tas50 [12:19 PM]
+tas50 [16:19 PM]
 aliases
 
-[12:19]
+[16:19]
 alias gc="git commit -v -S"
 
-robbkidd [12:19 PM]
+robbkidd [16:19 PM]
 `-s -S` for sign and gpg-sign.
 
-ssd [12:20 PM]
+ssd [16:20 PM]
 Well, git aliases aside, I think this one is good to go then?
 
-thom [12:20 PM]
+thom [16:20 PM]
 needs more +1s
 
-[12:21]
+[16:21]
 but yes, once the votes are in we're gravy
 
-tas50 [12:21 PM]
+tas50 [16:21 PM]
 just keep in mind we’re gonna need some nice docs on cleaning up commits for new users. This is going to cause a lot of confusion for first time committers that have 5 commits missing the signature
 
-thom [12:21 PM]
+thom [16:21 PM]
 so i'm gonna wrap up here unless there's any other business?
 
-[12:21]
+[16:21]
 yeah
 
-robbkidd [12:21 PM]
+robbkidd [16:21 PM]
 I'll kinda miss maintaining a thing named "curry." Can we name the DCO bot that? :smile: (edited)
 
-thom [12:22 PM]
+thom [16:22 PM]
 i was gonna call it daal
 
-[12:23]
+[16:23]
 but anyway
 
-[12:23]
+[16:23]
 thanks everyone
 
-lamont [12:24 PM]
+lamont [16:24 PM]
 can we setup a homu bot and start using it for more than DCO but also for workflow?
 
-thom [12:25 PM]
+thom [16:25 PM]
 yeah, we'll probably get homu too at some point
