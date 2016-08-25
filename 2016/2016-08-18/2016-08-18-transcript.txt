@@ -1,0 +1,533 @@
+nathenharvey [12:00 PM]
+***** MEETING STARTS *****
+
+[12:00]
+Welcome to the weekly Chef developers’ meeting
+
+[12:00]
+Agenda for today is here:  https://github.com/chef/chef-community-irc-meetings/blob/master/2016-08-18-agenda.md
+ GitHub
+chef/chef-community-irc-meetings
+chef-community-irc-meetings - Agendas, minutes, and action item from the Chef Community IRC Meetings
+
+[12:01]
+One change to the agenda:  @holoway is unavailable so @thom will play the role of decider
+
+[12:01]
+We’ll start with updates and then move on to one PR that requires additional discussion.
+
+[12:02]
+*Community Update*
+
+Summits are coming!  Purchase tickets for London now, mark your calendar for Seattle.
+
+[12:02]
+https://summit.chef.io
+
+[12:03]
+there will be a Habitat summit the day before the Seattle summit and we’re arranging for a hack day following both the London and Seattle summits.  Please plan accordingly :slightly_smiling_face:
+
+[12:04]
+That’s the community update for today.
+
+stevenmurawski [12:04 PM]
+One minor thing - PowerShell when OSS today and @mwrockx will have one of the first PRs in to it.
+
+nathenharvey [12:05 PM]
+Next up on the agenda is Software Updates.  What’s been shipped lately / what’s going to be shipped soon?
+
+[12:05]
+@stevenmurawski @mwrockx that’s awesome!
+
+[12:06]
+@tas50 I know you’ve recently shipped some stuff?
+
+coderanger [12:07 PM]
+ChefDK 0.17 went out yesterday
+
+thom [12:07 PM]
+We're in the process of moving Chef and ChefDK on to ruby 2.3.1, and testing of Chef especially right now would be appreciated
+
+tas50 [12:07 PM]
+I shipped chef_nginx 2.8 and 2.9 which is the chef maintained fork of the community nginx cookbook. 3.0 should ship hopefully today or tomorrow
+
+thom [12:07 PM]
+https://discourse.chef.io/t/chef-12-14-will-be-on-ruby-2-3-1/9206
+Chef Mailing List
+Chef 12.14 will be on Ruby 2.3.1!
+Hi everyone, We're proud to announce that when Chef 12.14 is released next month, it will contain Ruby 2.3.1! This Ruby version is faster and more stable by miles. As part of this upgrade, Chef 12.13 (released August 10th) will be the last version of Chef to support Ruby 2.1 and below. That said, new Ruby versions can sometimes cause issues. We're putting it through a rigorous testing regimen at Chef, but we could use your help! Please run Chef with Ruby 2.3 against your infrastructure and...
+
+tas50 [12:07 PM]
+Also Foodcritic 7.1 shipped
+
+[12:08]
+and along the same lines as the migration to Ruby 2.3, both Foodcritic and Chefspec are going Chef 12+ in their next major releases. Those changes have landed on master so expect them in the near future
+
+chip [12:09 PM]
+As part of the Ruby 2.3.1 move, Ruby 2.1 support will be dropping. Chef 12.13 and ChefDK 0.16 are the last releases to support Ruby 2.1.
+
+[12:09]
+(Already shipped)
+
+[12:10]
+Repeating from last week, Solaris support in September's Chef 12.14 release will only be 10u11 and higher.
+
+[12:10]
+Chef 12.13 is also the last version to support Solaris 10u7 - 10u10.
+
+nathenharvey [12:12 PM]
+OK, thanks!
+
+[12:12]
+Let’s move on to our PR for today:  https://github.com/chef/chef-rfc/pull/213
+ GitHub
+Developer Certificate of Origin (DCO) by nathenharvey · Pull Request #213 · chef/chef-rfc · GitHub
+Chef's open source projects will no longer require a contributor license agreement (CLA) or corporate contributor license agreement (CCLA). A developer certificate of origin (DCO) will be required...
+
+
+
+[12:12]
+there has been a bunch of discussion in the PR itself.
+
+coderanger [12:12 PM]
+Yo
+
+nathenharvey [12:13 PM]
+And some alternative solutions have been proposed.
+
+[12:13]
+There are big concerns over the impact to contributors’ workflow.
+
+coderanger [12:14 PM]
+I feel like I've very stated my objections on the ticket, happy to not repeat them if peoples want to read it there.
+
+nathenharvey [12:14 PM]
+one proposed alternative is that any sign-off anywhere in the history of the project should be sufficient.
+
+ssd [12:15 PM]
+I think the proposed alternatives are hard for us to address without input from someone who has a good understanding of the legal requirements.
+
+nathenharvey [12:15 PM]
+My feeling on this is that it’s not in keeping with part of the intent of attesting that each contribution is under the terms of the license..
+
+ssd [12:15 PM]
+That is also my feeling
+
+coderanger [12:16 PM]
+I agree, but it is in keeping with the intent of reduced contributor friction while still setting up some level of explicit contract.
+
+ssd [12:16 PM]
+(at the very least it feels like the legal wording would need to change)
+
+coderanger [12:16 PM]
+So it's potentially legally workable
+
+[12:17]
+And I don't think our legal requirements are so high that we should massively reduce contributor UX because of them.
+
+[12:17]
+Like staying with the current CLA process seems objectively better than DCO
+
+thom [12:17 PM]
+it definitely does not
+
+ssd [12:18 PM]
+`massively ` I feel like we keep using really strong adjectives to express how much worse it'll be.  But to be honest, I'm still not convinced it is "massively" worse.
+
+robbkidd [12:18 PM]
+I dunno about "objectively."
+
+thom [12:18 PM]
+and i think we're making statements about legality with no actual legal background, so let's try not to do that :slightly_smiling_face:
+
+coderanger [12:18 PM]
+A workflow that results in the majority of new contributors having to rewrite the history of a branch is a workflow I don't want.
+
+nathenharvey [12:18 PM]
+I do think the contributor friction is most likely when a contribution with multiple commits comes in without a sign-off on each commit.  Asking a contributor (especially a new one) to rebase, rewrite history, etc.  I don’t think we have any understanding of how often that’s likely to happen.
+
+ssd [12:19 PM]
+For nearly all contributions when we say "rewrite the history" we are talking about asking them to `git commit -s --amend`
+
+thom [12:19 PM]
+the workflow we have results in a fair proportion of new contributors not being able to contribute *at all*.
+
+ssd [12:19 PM]
+since most PRs we get from new people should probably be single commits anyway,
+
+coderanger [12:19 PM]
+@thom I have a legal background, I just don't have final say over Chef Software's legal dept.
+
+[12:20]
+@thom I think I can say that clicking some buttons to log in to GitHub is a lot less work than learning how to use filter branch or otherwise rewriting a whole PR
+
+[12:21]
+The only attraction on the user side to DCO seems to be shorter legal text
+
+[12:21]
+Which we can do without adopting DCO, I just need someone at Chef to sign off on what the requirements actually are
+
+ssd [12:21 PM]
+I still think we are drastically overstating the work required to add a DCO after-the-fact for the large majority of PRs
+
+thom [12:21 PM]
+@ssd: yes
+
+ssd [12:21 PM]
+Like, I can't even think of why I would need filter-branch for that
+
+[12:21]
+I'm pretty sure I would not
+
+[12:21]
+I've never needed more than an interactive rebase in the worst case (edited)
+
+coderanger [12:22 PM]
+@ssd I don't think that's substantively less complex
+
+ssd [12:22 PM]
+I'll note that I *regularly* ask and help contributors improve their commits messages which is basically the same level of git complexity
+
+coderanger [12:22 PM]
+Not to mention that rebase -i will break PR commenting
+
+ssd [12:22 PM]
+Only a few have trouble with it and those that do are usually happy to learn a bit more about git
+
+[12:23]
+Re PR comments, I feel like I've used rebase -i a ton and have not had a big problem with it
+
+coderanger [12:23 PM]
+Can I ask why y'all think DCO is a good idea in the first place? No one seems to have answer that in its entirety.
+
+[12:23]
+I said what I think is the argument, but I would like to un-strawman that
+
+ssd [12:23 PM]
+(but most people who comment on my PRs do line-by-line, not commit-by-commit)
+
+nathenharvey [12:24 PM]
+*DCO is a much lower barrier to entry than CLA*
+
+coderanger [12:24 PM]
+@ssd When you rebase and change a commit object, all line comments get marked as Outdated
+
+chip [12:24 PM]
+It should be possible to set objective metrics to measure the impact the adoption of DCO has, if any.
+
+coderanger [12:24 PM]
+@ssd As opposed to normal commits where it checks if that actual line get changed
+
+[12:24]
+@chip No, we can't A/B test the world.
+
+ssd [12:24 PM]
+@coderanger: Maybe they do, I typically only rebase at the end when all the code commenting is done
+
+[12:25]
+That is: I believe you are right and I am probably just mistaken :smile:
+
+coderanger [12:25 PM]
+@nathenharvey And why do you think that, because it's definitely not based on the amount of work involved in the CLA, is it the legal text of the CLA?
+
+lamont [12:25 PM]
+i think the point is that the CLA can become a complete legal barrier to some contributors — no matter how much they’d like to contribute their legal team says ‘no’ and that becomes final.  while the DCO is a technical hurdle that is a rebase+force-push barrier that doesn’t involve their legal department.
+
+nathenharvey [12:26 PM]
+I say that because I believe it is absolutely based on the amount of work involved in the CLA process.
+
+ssd [12:26 PM]
+I like the shorter legal text of the DCO (as in, I have no legal training and I feel like I can read that text and be more confident asserting the things it asks me to assert).  As a person who worries about whether we are in compliance with licenses, I also like the per-contribution nature of it. (edited)
+
+coderanger [12:26 PM]
+@lamont Anyone committing to Chef on company time would have to get their legal dept to agree to the DCO text, it's not less of a structural problem
+
+[12:26]
+It's just shorter
+
+chip [12:27 PM]
+When you interact only with the set of people who have passed the CLA hurdle, it's easy not to see the CLA as a barrier. Everyone who quits when encountering the CLA before writing a single line of code becomes invisible.
+
+coderanger [12:27 PM]
+Anyone in a Work For Hire situation has likely assigned copyright to their employer, they are not able to sign off on the DCO text without permission
+
+nathenharvey [12:27 PM]
+The DCO is also better because it’s a way to reaffirm with each commit as opposed to “I signed the CLA 5 years ago”  It reminds the committer what they’ve agreed to.
+
+coderanger [12:27 PM]
+@nathenharvey Why do you think that's a good thing?
+
+[12:28]
+Legally the CLA has no expiration so Chef as both a company and a project is safe
+
+[12:28]
+Someone forgetting they signed the CLA doesn't seem like a problem per se.
+
+[12:29]
+Having to reaffirm on every commit is a lot more work for no additional legal safety, or at least not much.
+
+nathenharvey [12:29 PM]
+I disagree with the statement that it’s “a lot more work"
+
+zts [12:29 PM]
+I've worked places where my manager could say "yep, go ahead and push that upstream", but signing the CCLA involved the legal department working through everything from first principles.  And driving git was a lot easier than wrangling legal.
+
+ssd [12:29 PM]
+I think we need to separate the legal discussion from the UX discussion if possible.
+
+[12:30]
+As in, most of the people who are deciders here /don't/ have legal backgrounds so it doesn't feel productive to use the time we have together to try to sort out things we aren't qualified to.
+
+coderanger [12:30 PM]
+So on the legal side, DCO will either have much the same impact as the CLA in terms of being a blocker or people will be signing it without understanding the impact and it will not be valid.
+
+[12:30]
+The main advantage is that "CLA" has become a dirty word for a lot of companies
+
+jtimberman [12:30 PM]
+```[alias]
+commit = commit -s```
+
+[12:31]
+^ solves "having to remember to sign every commit," i think? (edited)
+
+coderanger [12:31 PM]
+@jtimberman Not if you don't use the git command line
+
+lamont [12:31 PM]
+there’s also the UX issues that contributors have and the “UX” issues that maintainers and maintainers of currybot have
+
+ssd [12:31 PM]
+@coderanger: I understand that you personally don't use it.  But do you agree that the large majority of our contributors probably do?
+
+[12:32]
+I've given out lots of git help and rarely have I heard: "I'm not using the git command line"
+
+coderanger [12:32 PM]
+@ssd Yes, but I don't want a workflow that mandates that level of what tools to use?
+
+lamont [12:32 PM]
+i’m mostly looking forwards to not having currybot been failed for weeks and having to worry about accidentally merging PRs because i don’t that the lack of a big unapproved-contributors-in-this-thread banner in the PR is just cuz currybot is dead
+
+jtimberman [12:32 PM]
+@coderanger: i think that's a strawman, most git software can be configured such that it adopts the git CLI options
+
+coderanger [12:32 PM]
+I agree it's a lesser impact, but it's still a reason DCO is bad.
+
+[12:33]
+@jtimberman The main counter example is the github web editor, and that's a big one.
+
+jtimberman [12:33 PM]
+i haven't read out contributing document recently, but i'm pretty sure it outlines what we recommend as a way to do contributions using a command line tool.
+
+coderanger [12:33 PM]
+especially for doc edits
+
+jtimberman [12:33 PM]
+the UX of DCO is WAY nicer than the CLA.
+
+[12:34]
+and if someone forgets, we tell them to repush their branch with a signed commit.
+
+ssd [12:34 PM]
+This discussion isn't feeling productive to me.  "This is easier". "No it isn't it is much harder". "No it isn't"
+
+coderanger [12:34 PM]
+Indeed
+
+[12:34]
+Clearly we have opinions
+
+jtimberman [12:34 PM]
+https://chefcommunity.slack.com/archives/developer-meetings/p1471537457000507
+ nathenharvey
+*DCO is a much lower barrier to entry than CLA*
+Posted in #developer-meetingsAug 18th at 12:24 PM
+
+coderanger [12:35 PM]
+I think what we need at this point is someone that can speak with authority on what legal requirements Chef Software and Chef as a project have
+
+[12:35]
+Without that I can't say anything useful without the counter of "but it's not DCO"
+
+chip [12:36 PM]
+We understand that you feel the UX when requiring signatures on each commit is objectionable, but DCO is a much lower barrier to entry than CLA.
+
+coderanger [12:36 PM]
+If someone really says they feel we can't safely accept contributions without per-commit licensing, I'll disagree but I can't back that up with legal weight.
+
+[12:36]
+@chip You think it is, that's neither objective nor useful at this point.
+
+[12:36]
+The only objective way it's easier is that it's not called a CLA and thus won't raise as much ire.
+
+ssd [12:37 PM]
+That isn't the only way I think.
+
+chip [12:37 PM]
+I hear that you feel that's not an objective statement, but that doesn't change the fact that DCO is a much lower barrier to entry than CLA.
+
+ssd [12:37 PM]
+It is also completed using a tool `git` that is part of many people's work flow anyway
+
+[12:37]
+and which you will need to use to contribute
+
+[12:37]
+so we can give all the instructions on what to do in the readme
+
+coderanger [12:37 PM]
+Again, the CLA is about 3 clicks of a web form.
+
+ssd [12:37 PM]
+and a person can follow all of those instructions
+
+[12:37]
+without leaving their terminal/dev environment
+
+[12:38]
+I also have to sign up on supermarket I think right?
+
+coderanger [12:38 PM]
+The overhead of the CLA is more often getting legal sign-off to agree to it, something DCO doesn't fix.
+
+thom [12:38 PM]
+ok, we're just going in circles here
+
+nathenharvey [12:38 PM]
+I’d like to propose that I review this with legal counsel at Chef with the specific intent of outlining how we’d handle a batch of commits that don’t each have a signed-off-by line.  Would we be able to accept a group of changes where there is at least one commit that signs-off on all of the commits in that particular PR or Change request.
+
+coderanger [12:38 PM]
+@ssd Fair
+
+ssd [12:38 PM]
+and then read the text there, and hook it up to my github
+
+coderanger [12:39 PM]
+@nathenharvey I would like to be on that call too, if possible.
+
+chip [12:39 PM]
+It's clear that you feel the CLA is easy enough to sign, but DCO is a much lower barrier to entry than CLA.
+
+coderanger [12:39 PM]
+@chip Please stop saying that, it feels like you're trying to antagonize at this point
+
+[12:39]
+Clearly I disagree on that point :stuck_out_tongue:
+
+chip [12:40 PM]
+There's no intention to antagonize anyone. However, whether you can see the arrow in the FedEx logo or not, the arrow is still there.
+
+coderanger [12:40 PM]
+To rephrase, this _is_ a CLA, just a different one with a different mechanism to accept the contract.
+
+[12:40]
+And that's cool, but I think we can do better on the acceptance front.
+
+chip [12:41 PM]
+And the DCO is a much lower barrier to entry than CLA.
+
+coderanger [12:41 PM]
+@chip Again, this is a CLA
+
+[12:41]
+Just a different one
+
+nathenharvey [12:41 PM]
+OK.  Let’s hold a vote on this PR until next week.  In the meantime, I will work with legal counsel at Chef to see what alternatives would be acceptable in the case where not every commit in a change request / pr is signed.
+
+ssd [12:41 PM]
+@coderanger: To make sure this isn't wasted time, do agree that a process that required a single commit per PR to be signed is not too onerous? (edited)
+
+nathenharvey [12:42 PM]
+@coderanger if we had agreement that if 1 commit out of X in the same PR has the signed-off-by line would be sufficient, would that satisfy your objections to the RFC?
+
+ssd [12:42 PM]
+:smile:
+
+nathenharvey [12:42 PM]
+(or what @ssd said)
+
+coderanger [12:43 PM]
+That would be better, we would end up with a single file with a lot of zero-line edits but I don't specifically object to that. Bonus points if we can provide the text in a way that works with the web editor (i.e. "paste this in to your commit message")
+
+[12:43]
+Like we are using the "Signed-Off ..." text because it's easy, but I don't think DCO requires that.
+
+[12:43]
+Any affirmative acceptance should be enough
+
+ajeba99 [12:43 PM]
+left #developer-meetings
+
+thom [12:44 PM]
+we're using Signed-Off because it's consistent with other projects using DCO, which is a factor that shouldn't be underestimated
+
+coderanger [12:44 PM]
+If we are doing once-per-PR it would nicer UX to do it as PR comments, but that's probably too far to go on the legal side since those comments don't end up in the repo
+
+[12:44]
+@thom I mean that git doesn't need to generate that text, the bot can tell people the full string to add.
+
+nathenharvey [12:45 PM]
+we are using “Signed-off-by” because that’s the default when you sign off your commits in git.  Easy enough to tell people to use either `-s`, the ‘Sign Off’ button in your GUI, or include the following text in you commit message `Signed-off-by: <NAME> <email>`
+
+coderanger [12:45 PM]
+Yes, that
+
+jtimberman [12:46 PM]
+ya, what Thom said - we're using DCO and "Signed-off by" in Habitat. It's nice.
+
+coderanger [12:46 PM]
+With or without once-per-PR I would also like to check with Legal about whitelisting maintainers.
+
+nathenharvey [12:46 PM]
+I don’t think it matters how the text gets added.  It only matters that the text exists in your commit.  And we’ll see if legal can sign off on a minimum of one ‘Signed-off-by’ per PR
+
+ssd [12:46 PM]
+Some food for thought.  I think the text of the DCO would also technically allow the person who merges it to add the Sign-Off to the merge commit provided they were willing to affirm the contents of the DCO.
+
+thom [12:46 PM]
+i think we should in no way have a whitelist. we make a single experience for everyone
+
+coderanger [12:46 PM]
+But maintainers are also not the ones I'm worried about re: weird UX stuffs.
+
+nathenharvey [12:47 PM]
+I’m with @thom and strongly in opposition to a whitelist for anyone
+
+coderanger [12:48 PM]
+Okay, I would support that too, just a thing we should check on with legal I think.
+
+[12:48]
+If the process was something more like `git commit --allow-empty -s` at the end of a PR, that seems better on most fronts at least.
+
+[12:49]
+Still not great for web editing, but better
+
+nathenharvey [12:49 PM]
+OK.  I will schedule a meeting with legal, will check with their comfort level on whether or not that can be an open conversation.  If so, I’ll report back here with time and date for a live conversation.
+
+coderanger [12:50 PM]
+Writing an offline verifier for that will be tricky though
+
+[12:50]
+because git commits don't know what branch they come from and PRs don't show up in the history at all. Would probably have to fudge things a bit.
+
+nathenharvey [12:50 PM]
+we are at time though for today’s meeting.
+
+ssd [12:51 PM]
+> PRs don't show up in the history at all
+
+nathenharvey [12:52 PM]
+Thanks everyone.  will report back here later today and we’ll continue this conversation in the PR over the next week and move to a vote on this next week.
+
+ssd [12:52 PM]
+What do you mean by this? The merge commit definitely does show up in the history
+
+nathenharvey [12:52 PM]
+***** MEETING ENDS *****
+

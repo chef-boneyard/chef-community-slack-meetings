@@ -1,0 +1,4 @@
+commits from maintainers count as good
+one sign off anywhere in the history of a project
+per-repo automatic sign-off should be feasible with a proper git configuration, specifically a commit template.
+
