@@ -1,0 +1,104 @@
+[12:00]  
+***** MEETING STARTS *****
+
+[12:01]
+Agenda for today’s meeting is linked above.
+
+[12:01]
+I’ll get us stared with Community Updates.
+
+[12:02]
+The Summits are coming.  Tix on sale now for London and will be on sale soon for Seattle.  http://summit.chef.io
+
+[12:03]
+We also have a new opening on my team.  I’m looking for a Technical Community Advocate for Habitat.  If you know someone who might be interested, please send them to https://www.chef.io/careers/.  Of course, there a number of other positions listed there, too.
+ Chef
+Careers | Chef (31KB)
+
+
+[12:04]
+That’s it for the community update today.
+
+[12:04]
+I don’t see @holoway here so we’ll skip over the Chef company updates.
+
+[12:04]
+Let’s move on to Software Updates.
+
+[12:05]
+I know @jkeiser has some updates and there may be others of you here with news about software that is about to ship or has recently shipped.  Take it away....
+
+jkeiser [12:06 PM]
+The Chef and ChefDK `current` channel is now running Ruby 2.3.1! Ruby 2.1 is no longer supported (it’s EOL and many rubygems have dropped support).
+
+[12:06]
+Try them and let us know if you have issues.
+
+[12:07]
+Also, we’re releasing new major versions of other gems to allow us to pick up later versions of json, rack, and other things which don’t support 2.1 at all. If you have unconstrained references in your Gemfile and start getting “ruby version >= 2.2.2 required”, either upgrade Ruby or constrain to the previous major version, and you will be fine
+
+[12:07]
+cheffish, chef-zero, and many others are already moved over and released, and we’re working on many others
+
+[12:08]
+That’s it for that. Let us know if you have issues!
+
+[12:08]
+Back to you, @nathenharvey
+
+nathenharvey [12:09 PM]
+Thanks, @jkeiser!
+
+[12:10]
+Anyone else have software updates?
+
+jtimberman [12:10 PM]
+`yum check-update` says everything is updated
+
+robbkidd [12:11 PM]
+Supermarket 2.8.3 released with an upgrade to Rails to address a CVE. https://github.com/chef/supermarket/releases/tag/2.8.3 (edited)
+
+tas50 [12:11 PM]
+Chefspec 5 is out with additional marchers and support for Chef 11 has been dropped
+
+[12:11]
+Matchers
+
+nathenharvey [12:14 PM]
+thanks!
+
+[12:14]
+anyone else with updates?
+
+ryanh [12:14 PM]
+joined #developer-meetings
+
+nathenharvey [12:15 PM]
+OK.  Our one outstanding PR this week is PR-213 - Developer Certificate of Origin (DCO) - https://github.com/chef/chef-rfc/pull/213
+ GitHub
+Developer Certificate of Origin (DCO) by nathenharvey · Pull Request #213 · chef/chef-rfc · GitHub
+Chef's open source projects will no longer require a contributor license agreement (CLA) or corporate contributor license agreement (CCLA). A developer certificate of origin (DCO) will be required...
+
+
+(edited)
+
+[12:16]
+The update on that PR is that I’m working with Chef’s legal counsel on whether or not we can move forward with a single sign-off in a collection of commits that make up the same change / pr.  And for other options that make the user experience a bit more friendly to contributors. (edited)
+
+[12:17]
+While they’re looking into that, there’s not much point to discuss that PR further here so I’m going to add it to next week’s agenda and work to get some better direction from them before that meeting.
+
+coderanger [12:17 PM]
+:+1:
+
+nathenharvey [12:19 PM]
+that covers everything on today’s agenda.  I’ll open the floor for any additional items that you’d like to discuss...
+
+sntxrr [12:20 PM]
+joined #developer-meetings
+
+nathenharvey [12:21 PM]
+OK, seems there are not additions to the agenda so we’ll adjourn the meeting.  Our next meeting is Thursday, September 1, 2016 9AM-9:50AM PST - http://everytimezone.com/#2016-9-1,240,cn3
+
+[12:21]
+***** MEETING ENDS *****
