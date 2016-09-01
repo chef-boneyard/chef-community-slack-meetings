@@ -1,0 +1,434 @@
+12:00]
+***** MEETING STARTS *****
+
+[12:00]
+Welcome to this week’s developer meeting.
+
+[12:00]
+The agenda for today can be found on github:  https://github.com/chef/chef-community-irc-meetings/blob/master/2016-09-01-agenda.md
+GitHub
+chef/chef-community-irc-meetings
+chef-community-irc-meetings - Agendas, minutes, and action item from the Chef Community IRC Meetings
+
+nathenharvey [12:01 PM]
+we’ll start with updates and then on to the one RFC we have to review.
+
+[12:01]
+@holoway had a conflict come up so won’t be able to attend.
+
+[12:02]
+I’ll get us started with the community updates.
+
+[12:03]
+Chef Summits are coming.  https://summit.chef.io has all the details.  London is Oct 12-13, Seattle Oct 26-27.
+
+[12:03]
+Tickets are available now for London and more details about Seattle including registration will be available next week.
+
+[12:04]
+I can tell you now that the Summit in Seattle will have two events on either side of it:
+
+• Habitat Community Summit on the 25th
+• Hack day on the 28th
+
+[12:04]
+London should also have a hackday on the 14th
+
+lnxchk [12:05 PM]
+(maybe. stay tuned)
+
+nathenharvey [12:06 PM]
+The other community update is that we are currently interviewing candidates for the Habitat Community Advocate position https://www.chef.io/careers/detail/?jobId=oznL3fwu.  So if you’ve delayed applying for that, don’t delay any longer
+Chef
+Careers | Chef (31KB)
+
+
+sntxrr [12:07 PM]
+:thumbsup:
+
+nathenharvey [12:07 PM]
+OK, that’s it for community update for this week.  Let’s move on to Software Updates
+
+[12:08]
+Please share information you have about software that’s shipped recently.
+
+lamont [12:08 PM]
+oh berkshelf 5.0
+
+[12:08]
+released as a gem, it’ll be in the next chef-dk
+
+[12:08]
+mostly that is support for ruby 2.3/2.4 and deprecation of 2.1 and a handful of little fixes
+
+tas50 [12:10 PM]
+chef provisioning and the various provisioning drivers have been released. These are mostly to better support Ruby 2.3 in the next release of ChefDK, but some other fixes / improvements were also shipped as well
+
+[12:10]
+and an improved version of vagrant-omnibus
+
+nathenharvey [12:10 PM]
+• Chef Compliance 1.4.10 released - https://discourse.chef.io/t/chef-compliance-1-4-10-released/9279
+
+• Supermarket 2.8.3 released - https://discourse.chef.io/t/supermarket-2-8-3-released/9264
+Chef Mailing List
+Chef Compliance 1.4.10 Released
+Chef Compliance 1.4.10 is now available from the Chef downloads site. This is a minor release update which is recommended for all users of Chef Compliance. Here are the enhancements and bug fixes included in this release: Enhancements: Added paginations for the Reports page Single and bulk reports delete via the API and WebUI WebUI reports prefix all tests with Success/Failure/Skipped Include InSpec 0.32.0 with numerous improvements and fixes Add new ssl core resource to InSpec InSpec port ...
+Chef Mailing List
+Supermarket 2.8.3 released
+Supermarket 2.8.3 was released this week. This was primarily a security release to resolve CVE-2016-6316. For more details about the changes in this and other releases, see the Supermarket changelog. Also, this release marks the transition of Supermarket to an Automate Workflow pipeline. Releases following 2.8.3 will very likely not have contiguous, sequential PATCH numbers, but will follow BUILD versioning as described in the Chef Release Process. We're still working out what the changelog ...
+
+[12:11]
+thanks @lamont and @tas50!  Anyone else have releases to share?
+
+ssd [12:12 PM]
+Inspec 0.32.0 was released last friday: https://github.com/chef/inspec/releases/tag/v0.32.0 (edited)
+
+[12:12]
+That releases every week more or less, so the changeset is small
+
+robbkidd [12:12 PM]
+A Supermarket 2.8.15 is looming today, too.
+
+stevenmurawski [12:14 PM]
+^^ sounds ominous
+
+nathenharvey [12:14 PM]
+OK, thanks!
+
+[12:14]
+let’s move on to our PR for today - https://github.com/chef/chef-rfc/pull/213
+GitHub
+Developer Certificate of Origin (DCO) by nathenharvey · Pull Request #213 · chef/chef-rfc · GitHub
+Chef's open source projects will no longer require a contributor license agreement (CLA) or corporate contributor license agreement (CCLA). A developer certificate of origin (DCO) will be required...
+
+
+
+[12:15]
+Thank you to everyone who has participated in the discussion on the PR, on twitter, and elsewhere.
+
+[12:16]
+the latest update is that I’ve confirmed with our legal department that maintainers may sign-off on contributors’ commits on behalf of the contributors.
+
+[12:17]
+This should not be the normal flow, people should be signing off on their own commits.  But maintainers can pick up some of the git hygiene when a contributor is unwilling to or unsure about rewriting their commit messages.
+
+[12:18]
+I would love to hear from some people who are :-1: on whether or not this changes your view on accepting this PR.
+
+coderanger [12:19 PM]
+As I said in private, this reduces the bad but I think overall this is at best a lateral move.
+
+[12:20]
+The same issues with lack of user understanding (vs. a web-flow CLA) and the fact that no one has written (IMO) acceptable user-facing history rewrite scripts (though I have no strong reason to suspect they are impossible)
+
+[12:23]
+So yes changes my view, but still not a +1
+
+nathenharvey [12:23 PM]
+@coderanger as a maintainer, you’d be able to rewrite the history on behalf of a contributor.
+
+coderanger [12:24 PM]
+Yes, but if that's not going to be the default flow for anyone that doesn't have sign off on a PR, we need something to show to users
+
+chip [12:24 PM]
+Fortunately we have access to a vibrant community of software developers who are adept at solving problems such as git history rewrite, if they turn out to be real issues and not YAGNI. And in the meantime the DCO is a much lower barrier to entry for new contributors than the current CLA process.
+
+ssd [12:24 PM]
+@nathenharvey To understand what we are doing today: Did holoway delegate decider power to annyone or is our goal here to further the discussion for a decision down the road?
+
+coderanger [12:24 PM]
+"Please run X or if you are unsure how to do so please let us know in a comment"
+
+chaos [12:24 PM]
+I thought we are voting on this, can concluding the fate of this RFC
+
+nathenharvey [12:25 PM]
+@ssd my plan is to bring this to a :+1: / :-1: vote on this but Adam will make the final decision
+
+mike [12:25 PM]
+Are the people here the right representative quorum for this kind of vote?
+
+thom [12:26 PM]
+@coderanger i think we've demonstrated exactly that numerous times in the discussion, but it would be very easy to write in our instructions: "For one commit, simply utter `git commit -s --amend`" and go from there
+
+ssd [12:26 PM]
+My reading of RFC 000 is that there is a Decider who can delegate decision making power.
+
+[12:26]
+Everything else is advisory
+
+coderanger [12:26 PM]
+@thom And for multiple commits?
+
+ssd [12:26 PM]
+Like votes to leave the EU and such
+
+[12:26]
+Anyway, back to the DCO:
+
+nathenharvey [12:26 PM]
+As he’s said in his comments on the PR, he will consider the will of the community.  A majority of :+1: or :-1: here won’t necessarily be the final answer.  Adam will decide within the next 24 hours
+
+ssd [12:26 PM]
+@coderanger A number of people in this discussion have participated in DCO-using projects and have not yet found the process of managing the git-flow onerous. I acknowledge that we are biased towards cli-based git workflows, but /most/ of our contributors use the git cli. Do you have experience in a DCO-using project where it became a serious barrier to entry?
+
+chip [12:26 PM]
+Parliamentary dictatorship at its finest.
+
+coderanger [12:27 PM]
+@thom Such a script can almost certainly be written, but no one has so I have to vote based on what's in front of me.
+
+chip [12:27 PM]
+Fortunately we have access to a vibrant community of software developers who are adept at solving problems such as git history rewrite, if they turn out to be real issues and not YAGNI. And in the meantime the DCO is a much lower barrier to entry for new contributors than the current CLA process.
+
+mike [12:27 PM]
+I think we’re seeing “what might be” instead of “here’s what we have in front of us, and what we do already”.
+
+coderanger [12:27 PM]
+And no, UX is not a place where you get to use YAGNI as a shield due to selection bias.
+
+[12:27]
+@chip Intentional copy-paste?
+
+mike [12:27 PM]
+Personally, my first DCO with docker was “the build failed and told me why and what to do next"
+
+[12:28]
+And it was pleasant from there on.
+
+nathenharvey [12:28 PM]
+I believe it is unreasonable to implement the entire UX prior to approval of an RFC.
+
+coderanger [12:28 PM]
+@nathenharvey In this case, I disagree.
+
+chip [12:28 PM]
+Intentional copy paste.
+
+nathenharvey [12:28 PM]
+@coderanger cool
+
+coderanger [12:28 PM]
+Given that it is almost exclusively a question of UX in either direction.
+
+[12:30]
+@chip What you said was seen the first time, copy-pasting a whole paragraph because you feel it needs to be said again doesn't seem helpful.
+
+thom [12:30 PM]
+@coderanger https://github.com/docker/docker/pull/26031#issuecomment-242639038 would be prior art for exactly this
+GitHub
+update a pull command information by fukuda-naoto · Pull Request #26031 · docker/docker · GitHub
+- What I did Update a information of pull command. - How I did it Modified docker/docs/tutorials/dockerimages.md. - How to verify it To check "docker pull centos" command. Signed-off-by:fukuda...
+
+
+
+[12:30]
+I think we can steal exactly those words and have an experience that demonstrably works
+
+coderanger [12:31 PM]
+@thom Docker's recommended script solution for multi-commit PRs involves `git rebase -i` which I don't think is good enough. I would want to see something non-interactive (or at least that only prompts "are you sure you want to agree to the DCO?" or similar.
+
+robbkidd [12:31 PM]
+Then that can be written.
+
+thom [12:32 PM]
+I think if that proves not to be good enough, then we write a script.
+
+coderanger [12:32 PM]
+Indeed, it probably can, but given the very large contingent of "if it works for Docker it's good enough" I have little reason to think such concerns will be addressed.
+
+[12:32]
+Case in point, that
+
+mike [12:33 PM]
+On the `multi-commit` topic, Considering the ease of GitHub’s Squash Your Commits feature, wouldn’t this be simpler to show a single commit with the DCO from the contributor? Ref: https://github.com/blog/2141-squash-your-commits (edited)
+
+robbkidd [12:33 PM]
+I'm :+1: on a "lateral move" in process that can be incrementally improved upon.
+
+coderanger [12:33 PM]
+Saying "we could" immediately followed by "but I don't think we need to" doesn't lead me to believe this change will _overall_ be better for users
+
+thom [12:33 PM]
+you don't seem to have any *evidence* that it's not good enough
+
+coderanger [12:34 PM]
+@mike That does a merge+squash, would need to apply DCO signoff before that
+
+chip [12:34 PM]
+I understand that you don't feel the tooling for rewriting git history is particularly friendly, but the DCO is a much lower barrier to entry for new contributors than the current CLA process.
+
+ssd [12:34 PM]
+> Saying "we could" immediately followed by "but I don't think we need to" doesn't lead me to believe this change will _overall_ be better for users
+I think this assumes bad faith on the part of the people saying that problems will be addressed if we hit them.
+
+mike [12:34 PM]
+@coderanger If the contributor applied to a single one in their stack of multiple commits, that’s good enough in this context.
+
+coderanger [12:34 PM]
+@thom I can't A/B test reality so actual proof is not possible. That would require running both in parallel and showing DCO causes more confusion than the CLA causes dropouts.
+
+ssd [12:34 PM]
+Those people are saying "if" because the evidence points to it not becoming an issue (edited)
+
+coderanger [12:35 PM]
+@mike Yes, but the GitHub UI doesn't support that.
+
+nathenharvey [12:35 PM]
+We definitely have a track record of improving the process over time.  I’m sure some of us here had to send a signed CLA via *fax*.
+
+coderanger [12:36 PM]
+@chip You keep saying that, but I point out again that web forms have a very low barrier to entry too. It's a difference in kind. DCO involves more unknown tools/options/flags while the CLA involves more steps and more complex legal-stuffs.
+
+thom [12:36 PM]
+@nathenharvey yes indeed
+
+chip [12:36 PM]
+I faxed.
+
+coderanger [12:37 PM]
+I mean I can personally improve the UX if I feel it's lacking so to at least that degree, I would have only myself to blame. But I feel the baseline expectations of the +1 crowd are far enough out of balance to make me very worried about it.
+
+ssd [12:37 PM]
+The tools involved in the DCO are already part of our workflow and most of our contributors are technical people who I think will appreciate (1) the simplified legal text and (2) the fact that they only need to learn a few new features of a tool they are already using.
+
+coderanger [12:37 PM]
+It means I think there is a more fundamental disconnect about the Chef community than just familiarity with `git`.
+
+robbkidd [12:37 PM]
+There are at least two barriers to entry: the legal beagle process and the technical UX of agreeing. People keep referring to "the barrier" as though there is only one. (edited)
+
+dreamnite [12:37 PM]
+Howdy. I have a question related to the whole process, regardless of CLA or DCO:
+Should I sign an agreement, or sign-off on the DCO, What does this really do legally for Chef? If my employer figures out years later that I contributed super-awesome-feature rewrite or bug fix and decides to assert the position that all of my code was not legally on the up and up for whatever reason, isn't Chef still in the same position?
+
+coderanger [12:38 PM]
+@dreamnite In other projects when that has happened they have to remove the offending code, but have been legally protected as it was accepted in good faith.
+
+thom [12:38 PM]
+@coderanger the "+1" crowd, as you call us, are generally the people who actually have to deal with the angst of contributors not being able to sign CLAs.
+
+[12:38]
+and exactly what @robbkidd just said
+
+coderanger [12:39 PM]
+@thom Indeed, and I'm one that deals with a lot of the front-line users, we see different parts of the community.
+
+chip [12:39 PM]
+Chefdk ships git and wraps git already. Not worried about our ability to fix workflow there if needed.
+
+coderanger [12:39 PM]
+Or at least different ratios of personas
+
+thom [12:40 PM]
+yes. the ones we're discussing here are *in general* the ones who make it to contributing to us via git
+
+chip [12:40 PM]
+And in the meantime the DCO is a much lower barrier to entry for new contributors than the current CLA process.
+
+ssd [12:40 PM]
+I continue to think that the concern over UX is selling our contributor community a bit short in terms of being able to use a few git features.  Maybe I just have too much survivor bias to see it.
+
+dreamnite [12:40 PM]
+How is this different than an overall "CONTRIBUTING" file that contains blanket language on "If you choose to commit to this project, we are accepting in good faith that you have the rights described below, and you agree that you do have those rights"? How would that be different legally then the "Distribution" clause of the GPL or other licenses?
+
+coderanger [12:40 PM]
+This is part of why I went and recruited some "ordinary users" (i.e. non-maintainers) to comment on the PR, I don't think those views are as rare as many maintainers think.
+
+thom [12:40 PM]
+@ssd this
+
+ssd [12:40 PM]
+But figuring out our gem management bs has to be a few orders of magnitude harder than this, so I don't really see the DCO becoming the limiting reagent in terms of contributing to chef
+
+robbkidd [12:41 PM]
+I submit that the maintainers are open to making the technical UX of amending commits pleasant. I doubt that something to make it easier is YAGNI, but we don't necessarily know yet what to build.
+
+coderanger [12:41 PM]
+@ssd Most users that I've walked through contributing _don't_ figure out gem management :stuck_out_tongue:
+
+[12:41]
+So putting that as a bar is already too high.
+
+chaos [12:41 PM]
+we should time box this discussion.. its not getting anywhere
+
+nathenharvey [12:41 PM]
+@dreamnite The DCO or CLA are both just attestations that the code you’re submitting to the project follow the terms of the Apache license
+
+coderanger [12:41 PM]
+Indeed, I've made my case as best as I feel I am able to.
+
+lamont [12:42 PM]
+also we already set a higher bar because we expect PRs to contain rspec code and the contributor needs to have some rudimentary knowledge of unit testing.   we regularly block or toss contributions which users contribute which don’t have tests and we can’t come up with the time to rescue the PR.  that makes this hypothetical user who contributes code via the webui something of a unicorn.
+
+coderanger [12:42 PM]
+@lamont Travis runs tests so I don't have to, amrite?
+
+nathenharvey [12:42 PM]
+We’ve less than 10 minutes left in today’s meeting so I move that we take this to a :+1: / :-1: vote and then hand this conversation over to Adam for a final decision.
+
+chip [12:43 PM]
+Seconded.
+
+robbkidd [12:43 PM]
+Yea. Web UI submissions probably fall under the Obvious Fix Clause and could be signed-off by a maintainer as falling under such.
+
+nathenharvey [12:43 PM]
+OK, please react to this message with either a :+1: in favor of moving our project to the DCO or a :-1: in favor of keeping the current CLA in place.
+
+Reactions:
+  14 for - robbkidd, chip, ryan, thom, chaos, ssd, lamont, stevenmurawski, fnichol, nolan, troyready, tas50, pwelch, and mike
+  2 against - coderanger and dreamnite
+
+coderanger [12:43 PM]
+And yeah, wether or not my GitHub stats were 100% accurate, I agree that this is unlikely to have a radical effect on the project in either direction.
+
+ssd [12:43 PM]
+Optimizing a process for Web UI submissions is missing the forest for the trees.
+
+lamont [12:43 PM]
+about all i can think of would be doc fixes, which we can merge under the obvious fix policy
+
+troyready [12:44 PM]
+:thumbsup: on the change now, given the reality of megacorp CLA avoidance. I’d prefer there was some way to attest to the DCO without a generic ‘-s’ flag (something with the proper legal dogwhistle of ‘I’m sigining something’), but since there’s precedent it seems good enough to me
+
+nathenharvey [12:46 PM]
+4 more minutes to weigh in on the vote above
+
+robbkidd [12:46 PM]
+This gets into the improvements bits, but it's conceivable that the DCO bot could be configured to comment on PRs to reiterate the contributor's agreement.
+
+[12:47]
+Bot: "Hi, Euphemia! We've received your contribution and see that you have agreed that you have shared your code according to [the DCO](linky)."
+
+coderanger [12:47 PM]
+@robbkidd I would take that as a given that it would be part of the bot's spiel on un-signed-off PRs, or at least a link to it.
+
+ssd [12:48 PM]
+@robbkidd I like that.  Definitely having ways to surface that text would be good
+
+robbkidd [12:48 PM]
+Ya, it could be the positive response.
+
+nathenharvey [12:49 PM]
+I am very grateful for everyone who has weighed in on this change.  Given the amount of issues we’ve seen over the years with the CLA process, I figured this would be a simple decision.  The conversation here and on the PR have been a really nice demonstration of how our community works.
+
+cwebber [12:50 PM]
+Hey all, as a final note, the registration for the Seattle Summit is now up! https://summit.chef.io/seattle
+
+robbkidd [12:50 PM]
+Nice bookend, @cwebber
+
+nathenharvey [12:51 PM]
+Thank you all for participating in today’s meeting.  Watch the PR for words and a decision on how we move forward from Adam.
+
+[12:51]
+Our next meeting is Thursday, September 8, 2016 9AM-9:50AM PDT
+
+[12:51]
+Additional comments may be left here or in the PR.
+
+[12:51]
+***** MEETING ENDS *****
