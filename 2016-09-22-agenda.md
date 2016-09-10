@@ -18,6 +18,7 @@ Secretary:  Nathen Harvey (nathenharvey)
 * Review PRs:  35 minutes
   * Review new PRs and/or PRs deferred during last meeting
   * Review PRs previously discussed
+  * Review status of currently accepted RFCs for accuracy
 
 ### Next Meeting
 
