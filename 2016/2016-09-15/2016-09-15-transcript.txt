@@ -1,0 +1,50 @@
+[16:01]
+MEETING STARTS
+
+[16:02]
+hi, as just discussed, we've got no RFCs to discuss. But there are some announcements, so I'll just go through those, and then if there's any other business, we can take that
+
+[16:03]
+Community Summits: registration is open for both London and Seattle summits; see https://summit.chef.io for details and to buy tickets (edited)
+
+[16:04]
+There are definitely updates on software…
+
+robbkidd [16:05 PM]
+Supermarket 2.8.25 released with security updates upgrading the embedded PostgreSQL https://github.com/chef/supermarket/releases/tag/2.8.25 (edited)
+
+thom [16:05 PM]
+we released Chef 12.14.60 yesterday; we know of a couple of regressions and are targetting a new release to correct those for Monday. The regressions are around the yum_repository resource (as compared to the cookbook), the user resource (manage_home behaves a little differently in some situations), and systemd_unit
+
+[16:06]
+I've been generating the RFCs as html, and they're available on the internets at http://chef.github.io/chef-rfc/ ; hopefully it's a bit easier to see what's going on there
+
+[16:07]
+Please everyone review your RFCs and update them with tracking urls or changes of status if required
+
+tas50 [16:07 PM]
+chefspec 5.1.0 has been released with new dsc_script and yum_repository matchers plus fixes to the examples
+
+[16:07]
+and fauxhai 3.9.0 with new platforms for chefspec
+
+robbkidd [16:08 PM]
+(for the logs, correction: Supermarket 2.8.25 released)
+
+thom [16:10 PM]
+does anyone have Any Other Business?
+
+liz-ux [16:11 PM]
+joined #developer-meetings
+
+btm [16:11 PM]
+I'm presuming we'll put the next ChefDK on hold until at least we get another Chef 12.14 release out. Some Chef folks are investigating a possible ChefDK regression in current right now too.
+
+[16:12]
+(normally we'd cut a ChefDK pre-release tomorrow)
+
+thom [16:20 PM]
+ok, that looks like that's it. Thanks everyone
+
+[16:20]
+**** MEETING ENDS ****
