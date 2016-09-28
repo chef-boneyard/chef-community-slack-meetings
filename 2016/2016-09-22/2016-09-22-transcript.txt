@@ -1,0 +1,527 @@
+[16:00]  
+***** MEETING STARTS *****
+
+[16:01]
+Welcome to our weekly developer meeting
+
+[16:01]
+Our agenda for today is here - https://github.com/chef/chef-community-slack-meetings/blob/master/2016-09-22-agenda.md
+ GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+
+
+[16:01]
+we’ll have some updates from around the community and then have six PRs to discuss
+
+[16:02]
+I’ll get us started with an update on the community
+
+[16:03]
+Please plan to join us for one or more of our upcoming Community Summits
+• London - Oct 12-13 - https://summit.chef.io/london/
+• Habitat in Seattle - Oct 25 - https://www.cvent.com/c/express/ded174e7-ed28-4f43-bf8a-642c782dc05f
+• Chef Community Summit in Seattle - Oct 26-27 - https://summit.chef.io/seattle/
+
+[16:04]
+There were a couple of important posts to the blog this week, too.
+
+• Adopting the DCO - https://blog.chef.io/2016/09/19/introducing-developer-certificate-of-origin/
+• CBGB update - https://blog.chef.io/2016/09/21/chef-board-governance-meeting/
+Chef Blog
+Introducing Developer Certificate of Origin - Chef Blog
+Effective October 3, 2016, Chef is adopting the developer certificate of origin ("DCO") used by several other projects and overall smart people.
+Sept 19th at 8:43 AM
+
+
+Chef Blog
+Chef Board of Governance Meeting - Chef Blog
+The Chef Board of Governance (CBGB) held its second meeting of 2016 on Wednesday, September 7. Eight members of the board attended the meeting. Nathen Harvey and Thom May from Chef Software were also there to observe and advise. Katherine Daniels, a corporate contributor, Charity Majors, a user / contributor, and Seth Vargo and Jon …
+Sept 21st at 9:31 AM
+
+
+
+[16:05]
+@coderanger also noticed that mail sent directly to discourse at chef@lists.opscode.com was being dropped on or after June 13.
+
+[16:06]
+We worked with the team at Discourse and that has been resolved.  I know many of you know that because you’ve responded to the message I sent as a test :slightly_smiling_face:
+
+[16:06]
+Those are the community updates for today
+
+[16:07]
+it seems @holoway is unable to join us so I’d like to open the floor for updates on recent software releases
+
+[16:07]
+please share what you’ve released recently or what may be coming very soon.
+
+[16:07]
+One thing is InSpec should be at 1.0 in the next week or so.
+
+tas50 [16:08 PM]
+Chefspec 5.2 has been released with the ability to modify the node object before the converge and a fix for the yum_repository matcher
+
+stevenmurawski [16:09 PM]
+habitat 0.9.3 was released Friday and the habitat depot was updated over the last few days.  Also, windows builds of the hab command are moving along
+
+lamont [16:10 PM]
+chef 12.14.77 got released, but the fix to the systemd regression was still regressing, so there will be another follow-on release to fix that
+
+mm [16:10 PM]
+Chef Server 12.9 is expected to be released today. Final piece is just ensuring the upgrade testing passes.
+
+lamont [16:10 PM]
+there may also be openssl festivities
+
+nathenharvey [16:12 PM]
+OK, with no other software updates, let’s move on to the RFC PRs.
+
+[16:12]
+Actually, before we do that I wanted to remind everyone of the RFC site @thom put together - https://chef.github.io/chef-rfc/
+
+[16:13]
+and ask that you review the status of your RFC to see if updates are necessary.
+
+[16:13]
+ok...now on to the PRs.
+
+[16:13]
+first up - https://github.com/chef/chef-rfc/pull/218
+ GitHub
+CBGB meets twice a year. by nathenharvey · Pull Request #218 · chef/chef-rfc · GitHub
+Quarterly is not required. Signed-off-by: Nathen Harvey nharvey@chef.io
+
+
+
+[16:14]
+I think this is just ready for merge as the CBGB agreed to this during their meeting and they have the ability to make such changes in how they work
+
+coderanger [16:15 PM]
+:+1:
+
+kallistec [16:15 PM]
+worksforme
+
+nathenharvey [16:15 PM]
+Next is https://github.com/chef/chef-rfc/pull/221
+
+[16:15]
+Generate GitHub pages for RFC
+
+ssd [16:16 PM]
+not really an RFC, maybe the editors should just review and +1 that in the way code maintainers would in other projects?
+
+coderanger [16:16 PM]
+:+1: We can tweak formatting over time
+
+ssd [16:16 PM]
+:+1:
+
+nathenharvey [16:17 PM]
+Great, moving on then to https://github.com/chef/chef-rfc/pull/222
+ GitHub
+Adding Google to allowed prefixes by nelsonjr · Pull Request #222 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects
+
+
+
+coderanger [16:17 PM]
+Not ready for discussion, next.
+
+[16:17]
+Also not an RFC
+
+stevenmurawski [16:17 PM]
+I think that was pending an update yet
+
+coderanger [16:18 PM]
+:slightly_smiling_face:
+
+[16:18]
+(supermarket prefixes are under the control of the supermarket admin team so far)
+
+nathenharvey [16:18 PM]
+indeed!  (I just got caught up on comments)
+
+[16:18]
+https://github.com/chef/chef-rfc/pull/225
+ GitHub
+Update rfc062-exit-status.md by tas50 · Pull Request #225 · chef/chef-rfc · GitHub
+Add an exit code for chef upgrades. This would initially be used by the omnibus_updater cookbook when the client exits so that users an write kitchen configs which expect that code and run again. T...
+
+
+
+tas50 [16:18 PM]
+This one is specifically for the omnibus_updater PR listed in the comments
+
+[16:19]
+so we can do it correctly with a dedicated exit code
+
+coderanger [16:19 PM]
+Seems fine as long as it works :+1:
+
+lamont [16:19 PM]
+i’m distracted by trying to figure out how 213 was picked…  but :+1:
+
+tas50 [16:19 PM]
+that’s the goal :wink:
+
+[16:19]
+a play on easy as 123
+
+[16:20]
+it was available. There’s a small list of available codes
+
+stevenmurawski [16:20 PM]
+:thumbsup:
+
+coderanger [16:20 PM]
+That will make a good question for Chef Trivia Night in 5 years
+
+nathenharvey [16:21 PM]
+This PR has only been open for 2 days so we should not vote on it today based on recommendation from CBGB that we allow comments for 2 weeks.
+
+[16:21]
+the same will be true for the remaining PRs as well but this is a good time for some more synchronous discussion.
+
+[16:22]
+Anyone else have feedback or comments on 225 (edited)
+
+[16:22]
+Let’s move on then.
+
+[16:22]
+https://github.com/chef/chef-rfc/pull/226
+ GitHub
+Calendar Versioning for Chef by coderanger · Pull Request #226 · chef/chef-rfc · GitHub
+Okay, let's lead off with some disclaimers: I'm way over quota on pending RFCs, sorry everyone. But this is less about work I want to do and more that we need to at least discuss this so should b...
+
+
+
+coderanger [16:23 PM]
+Wordsssss
+
+[16:24]
+tl;dr I think Chef should move to rolling deprecation windows based on severity and a date-based version number.
+
+lamont [16:24 PM]
+i think one way or another we need to have an established tempo of breaking change releases
+
+coderanger [16:24 PM]
+Yeah, basically I think the options are this or do major revs every 6 months.
+
+chip [16:25 PM]
+Potentially useful data point: Right now Chef & ChefDK are on a monthly release cadence. (edited)
+
+[16:25]
+Our customers asked us to please not be more frequent than that.
+
+[16:26]
+It's been floated, mostly speculatively, that moving at least Chef Server to a quarterly release cadence and calendar version scheme would be useful.
+
+[16:26]
+(Which I agree with)
+
+tas50 [16:26 PM]
+I don’t think we’re suggesting we release more frequently. We’re really discussing how we go about doing breaking changes. Right now we’ve pushed everything to Chef 13, without a clear path to actually releasing 13. It’s become such a monster breaking release that I think it would cause a lot of harm in the community. We need to avoid that kind of thing
+
+chip [16:26 PM]
+Keeping the "Chef" major tied to the language version seems useful.
+
+lamont [16:26 PM]
+i’d actually be okay with major breaking releases every year
+
+chip [16:26 PM]
+No real opinion on the client version.
+
+[16:27]
+Before going too far down this path, I'd suggest that we survey everyone who's still on Chef 11 and find out *why* they're still on Chef 11 in 2016.
+
+coderanger [16:27 PM]
+Yearly major revs would be workable and better than what happened with Chef 13, but 11->12 was a year and that was still a big transition
+
+lamont [16:27 PM]
+i think 11->12 was actually 18 months IIRC
+
+[16:28]
+at least thats the number that stuck in my head
+
+tas50 [16:28 PM]
+12.0 was released Dec 2014 also just to put the lag in upgrades in perspective
+
+lamont [16:30 PM]
+oh it was about a year, nm
+
+sigje [16:30 PM]
+I think what we’re saying here is, we need to identify the problem clearly before we identify solutions.
+
+chip [16:30 PM]
+Also: Is there a comprehensive list of breaking changes that are stored up waiting for a major?
+
+coderanger [16:30 PM]
+@chip The list of GH issues on the Accepted Major milestone is a good start
+
+chip [16:31 PM]
+I'm not going to go compile it
+
+sigje [16:31 PM]
+because it feels like there are multiple problems
+
+coderanger [16:31 PM]
+@sigje I mean the problem is pretty self-evident, breaking changes tend to build up in a SemVer release/stability cycle.
+
+chip [16:31 PM]
+A breaking change is essentially removing value from the product for a set of the userbase, and if it's not replaced with equal or greater value, then that's a problem.
+
+lamont [16:31 PM]
+i’m still very unclear what makes 11->12 a big transition other than the major version bumps so it triggers people’s internal processes and turns it into a Thing
+
+chip [16:31 PM]
+Attribute changes.
+
+lamont [16:31 PM]
+we’ve never done a breaking change that we didn’t think would be of greater aggregate value
+
+sigje [16:32 PM]
+To you the problem may be self-evident but I don’t feel like the RFC clearly articulates what we are trying to solve.
+
+kallistec [16:32 PM]
+Related to this, I would like a way that when a contributor comes with a breaking change that we want to accept, we can change the response from "we'll let this go stale for a long time" to "we can merge it if you do X"
+
+lamont [16:32 PM]
+although not necessarily to the existing userbase — simplification can help with capturing and onboarding new customers (edited)
+
+chip [16:33 PM]
+Aggregate value != evident value.
+
+[16:33]
+I'm 100% for re-optimizing this community toward new users.
+
+coderanger [16:33 PM]
+To be clear, I'm not suggesting we either 1) change the release cycle or process or 2) change how we deprecate code
+
+[16:33]
+This is _specifically_ about how code goes from deprecation to removal and what our version number looks like
+
+chip [16:33 PM]
+But being clear about the value we're delivering or removing, and who we're delivering it to / removing it from, is important.
+
+[16:33]
+Which goes back to what the RFC is trying to do
+
+tas50 [16:34 PM]
+chip: There is no such thing as a product that doesn’t introduce breaking change. We’re not suggesting breaking changes for fun here. We’re saying that we’ve stuck our heads in the sand and chosen to ignore the problem. How do we do breaking changes in a way that is responsible to our user base and has the least impact possible.
+
+chip [16:35 PM]
+Nobody's advocating against shipping breaking changes.
+
+tas50 [16:35 PM]
+So somehow we have to create a process for doing them, because at the moment we have none
+
+coderanger [16:35 PM]
+We have a process now, but that process is "wait until some nebulous time in the future"
+
+chip [16:35 PM]
+I'd caution against shipping many at once just because we unlock a "major" bump though.
+
+coderanger [16:36 PM]
+Which is getting to be unmanageable for the maintainer team I think
+
+[16:36]
+@chip Yes, roling deprecation windows help that a bunch because we can space things out
+
+chip [16:36 PM]
+More suggesting that we should trickle them out rather than a bunch at once, because the userbase will just stay behind.
+
+[16:36]
+Many people stayed behind on Chef 11 --> Chef 12.
+
+[16:36]
+We should know *why*.
+
+coderanger [16:36 PM]
+@chip That is exactly what I'm proposing, yes :slightly_smiling_face:
+
+chip [16:36 PM]
+But I don't think anyone here does.
+
+kallistec [16:36 PM]
+yes, I think for Chef 13 we should not do all of the things
+
+lamont [16:36 PM]
+so the problem is that we have a certain velocity of major breaking changes that we need to make, and the longer it goes the more it piles up and we need to ship them.  trying to constrain how many we ship just means the logjam increases.
+
+chip [16:37 PM]
+And that information should inform the decision we make about breaking changes going forward.
+
+lamont [16:37 PM]
+i’m very :-1: on setting up some kind of metric on how much we can break
+
+tas50 [16:37 PM]
+A bit part of the whole process it he ambiguity of it all. If we decided today we were ready for Chef 13 would we warn people and wait another year or just ship it next month? Not giving our customers a timeline hurts them. They can’t foresee the work and plan the resources for it
+
+sigje [16:37 PM]
+so is part of the challenge with breaking changes from customer point of view that it means if you don’t accept the breaking change you might end up with folks worrying about diverging support?
+
+chip [16:37 PM]
+Is anyone suggesting dogma?
+
+lamont [16:37 PM]
+and i think everyone is in agreement that we are very careful about doing things of the magnitude of the 10->11 attributes changes — and that we both can’t measure that kind of issue objectively but we’re all aware of that issue
+
+coderanger [16:38 PM]
+I think we should definitely look in to why people stay on 11, but that should inform what _kinds of_ breaking changes we do, not how we handle them.
+
+lamont [16:38 PM]
+and we have many breaking changes that might or might not affect anyone.  we’d have to assess the impact to the customer base.  and plenty of our major breaking changes i think are breaking changes due to us thinking way too hard about the problem.
+
+coderanger [16:39 PM]
+The flow of rolling vs cliff deprecations is going to be an issue no matter what the answer to that survey is
+
+nathenharvey [16:39 PM]
+FWIW the CBGB did make recommendations about Chef 13
+
+>>>The CBGB recommends we start planning for version 13 of Chef. That planning should include automatic testing plans and paths for the upgrade. The plan should also include listing and freezing all breaking change that are in-scope for Chef 13 at least three months in advance of release date.
+
+chip [16:39 PM]
+That said
+
+[16:39]
+de-coupling the version of the language, the server, and the client, if done right, could lead to greatly reduced confusion in the userbase.
+
+[16:40]
+Part of what holds us back is that chef 12 client has to run chef 12 language and talk to chef 12 server, no matter the minor.
+
+[16:41]
+A breaking change in the server (such as the enterprises as first class entities in chef server 12, vs. the easier one-enterprise oss 11) can lead to reduced adoption of the lang.
+
+lamont [16:42 PM]
+i’m really not wild about freezing the list of things we break 3 months in advance
+
+nathenharvey [16:42 PM]
+We have ten minutes left and cannot decide this issue today.  I propose we continue the discussions in the PR *and* plan for some discussions about this topic during the upcoming summits.
+
+ssd [16:42 PM]
+From the server side, I think we view new server features that would break compatibility as only worth it if the client needs them and even then there are so few of those I think we would use API versioning to keep supporting the old version for a while.  Because Chef Server is used in Hosted, we can’t realistically drop support for older clients anyway.
+
+lamont [16:42 PM]
+because that is waterfall, and because we often don’t know about how tractable problems are until we’re neck deep in fixing them
+
+ssd [16:42 PM]
+(as in, I wouldn’t worry about the server at all for this discussion)
+
+lamont [16:42 PM]
+and i don’t really see what kind of value that gives the community
+
+tas50 [16:43 PM]
+PR 227 deals with the deprecation process here and regardless of how we decide to move forward with versioning is very applicable
+
+chip [16:43 PM]
+API versioning in the server is certainly useful.
+
+lamont [16:44 PM]
+it’d be more useful to have an interative process where breaking changes need to get RFC’d and need to get brought up here and discussed, and have the 2 week discussion period before voting, etc.  then just do that continually while N+1 is under development.
+
+coderanger [16:44 PM]
+I think that might be overkill for all breaking changes, just given how we tend to develop things.
+
+[16:45]
+But #227 is closer to that :slightly_smiling_face:
+
+tas50 [16:45 PM]
+227 introduces the process, but not as heavy
+
+[16:45]
+a process of proposing a change, communicating it, and documenting it for users
+
+coderanger [16:45 PM]
+Add a more formal process around breaking changes so we have to document them and communicate them to users in a more unified fashion
+
+lamont [16:46 PM]
+yeah, i’m basically 10000% :-1:  on what the CBGB just agreed to with the 3 month advance notice and freeze period and kind of pissed off that it got agreed to and i had no input
+
+coderanger [16:46 PM]
+@lamont That's a recomendation only, not gospel
+
+lamont [16:46 PM]
+‘k
+
+[16:46]
+lets please not do that
+
+coderanger [16:46 PM]
+Basically 227 describes how a breaking changes goes in to the code, and 226 describes what happens after that.
+
+tas50 [16:48 PM]
+As a past users that’s taken a few servers from 10 -> 11 and 11 -> 12 the lack of documentation on the upgrade and what would break was problematic. How can I evaluate my 11 environment to see what’s going to happen? Where can I find a list of breaking changes and how to resolve those changes?
+
+[16:48]
+That has to change if you want 13
+
+[16:48]
+it can’t just be a vague blog post you hope people find a year later
+
+lamont [16:49 PM]
+i don’t think the 10->11 blog post was vague, it had some pretty detailed fixes
+
+[16:49]
+the problem is that 11->12 was mostly a bunch of “this shouldn’t affect you much but if it does…” kinds of things
+
+tas50 [16:49 PM]
+it should be in our docs though
+
+[16:49]
+12 was vague and I think part of that was it wasn’t very breaking, but the version scared people
+
+lamont [16:49 PM]
+there actually weren’t a lot of breaking changes in 11->12 that we expected that everyone would need to deal with
+
+tas50 [16:49 PM]
+3 12 upgrades and no problems for me
+
+lamont [16:49 PM]
+so what should we have documented?
+
+ssd [16:50 PM]
+I feel like most of the active maintainers working in the code base are in favor of rolling deprecations in some form, or am I worng there?
+
+nathenharvey [16:50 PM]
+we are at time for today’s meeting.
+
+lamont [16:50 PM]
+there was the changelog, and any of them might have been breaking changes that affected someone
+
+tas50 [16:50 PM]
+the minor changes should have been documented outside a blog post. In the docs page.
+
+lamont [16:50 PM]
+okay
+
+[16:50]
+i’ll agree to that, but we need to have a standard on what a breaking change is or isn't
+
+kallistec [16:50 PM]
+@ssd I am certainly in favor, I just think we need more work on the making it better for people to deal with them
+
+[16:51]
+and I would very much want something that allows us to merge changes from less-active contributors instead of letting their PR rot until we're at the major bump time
+
+ssd [16:51 PM]
+Right, I would like to see more words about how we address the stability and upgrade concerns (edited)
+
+lamont [16:52 PM]
+the problem is that i think that the breaking change document can become a cover-your-ass kind of document where software devs list everything that /might/ break a user — but to end users that becomes useless because if there’s 30 things that only affect 0.1% of users they’ll miss the one or two that really matter
+
+nathenharvey [16:52 PM]
+Thanks everyone for joining the meeting today.
+
+ssd [16:52 PM]
+I feel like if we can do that, then it becomes a matter of discussing the details of waht the rolling windows look like
+
+coderanger [16:52 PM]
+@lamont severity buckets helps with that, but yeah :confused:
+
+nathenharvey [16:53 PM]
+

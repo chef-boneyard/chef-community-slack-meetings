@@ -1,0 +1,141 @@
+12:00]
+***** MEETING STARTS *****
+
+[16:00]
+Welcome to our weekly Chef Developers’ meeting
+
+[16:01]
+Our agenda for today can be found in github here - https://github.com/chef/chef-community-slack-meetings/blob/master/2016-09-08-agenda.md
+ GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+
+
+[16:01]
+We don’t have any new PRs to review but do have a few updates for everyone this week.
+
+[16:02]
+I’ll get us started with the community update.
+
+[16:02]
+As you’ve probably seen by now, the Chef Summit tickets are now on sale.
+
+[16:02]
+I really hope you’ll be able to join us in London, Seattle, or both.
+
+[16:02]
+All the details and ticket purchases are available at summit.chef.io
+
+[16:03]
+The Summits are much different than ChefConf and really provide a more intimate setting for you to get to know and work with some really great folks from our community.
+
+mh [16:05 PM]
+joined #developer-meetings
+
+nathenharvey [16:05 PM]
+Yesterday the Chef Board of Governance (CBGB) met.  We’ve not yet written up the results of that meeting but I would like to share some of the highlights with you before we wrap up today.
+
+[16:05]
+But let’s do the CBGB update towards the end of today’s meeting and move into software updates next.
+
+[16:06]
+I invite anyone who has info on software recently or soon to be released to share those updates now.
+
+tas50 [16:07 PM]
+We released Ohai 8.20 with support for networking on Windows Nano and new system information polling on systemd hosts
+
+[16:08]
+We’ve also started the process of pushing community cookbooks that require Chef 12.1+ including a few big ones such as windows and yum. These will all get major version bumps so you can pin to the existing versions if this is going to cause you problems
+
+nathenharvey [16:10 PM]
+thanks, @tas50 any other updates?
+
+thom [16:11 PM]
+ChefDK is on track for next week with ruby 2.3.1 last I heard
+
+nathenharvey [16:12 PM]
+OK, thanks!
+
+[16:12]
+I’ll provide the quick tl;dr from the CBGB meeting.  Members here who were there yesterday should feel free to fill in any additional details.
+
+[16:13]
+We’ll provide a full write-up on the Chef Blog within the next couple of days.
+
+[16:14]
+The CBGB is interested in assessing the health of our community and we will be putting together a very brief survey to help with that.  It will likely be only 3-5 questions and we’d really appreciate your participation when that is released
+
+[16:15]
+The state of documentation was discussed and some ideas about how we, as project contributors and maintainers, can do our part to help keep those in better shape.  There are some recommendations that came out of that like lowering the barriers to simple doc changes.
+
+[16:17]
+Some changes to the RFC process and these weekly meetings were discussed.  Updates to the current process will be made via updates to the existing RFC that outlines the process but the CBGB will be recommending that anyone who proposes an RFC take on some additional marketing efforts for the RFC in an effort to raise visibility of the changes within the community.   They’ve also recommended that we add a ‘review period’ for each RFC such that it may not be accepted until 14 days after the PR is opened.
+
+[16:18]
+The other change around RFCs that was recommended was to add a standing agenda to this meeting where we ask if there are any accepted RFCs who’s status needs to be updated.
+
+[16:19]
+The idea is to raise the visibility of proposed changes and clarify the status of those proposals over time
+
+[16:20]
+Finally, the CBGB will recommend a move to Chef 13 and has some suggestions about how we plan for that, how we announce and track breaking changes, etc.
+
+coderanger [16:20 PM]
+Another thing that came up was a request that we as maintainers push a little harder on people using `DOC_CHANGES.md`
+
+[16:21]
+In an effort to make sure new features are doc'd in a reasonable amount of time
+
+nathenharvey [16:21 PM]
+As I said at the onset of this wall of text, a more complete write up will be provided via the Chef Blog and shared with everyone in the community.
+
+ssd [16:21 PM]
+It might nice if the 14 day review period weren't mandatory but something that an RFC-editor could add to an RFC as they see it come in.  I'm thinking of the long tail of RFCs that the active maintainers are often writing that address relatively small details that only a few people know the impact of anyway (i.e. John, Lamont, and Noah sorting out how some esoteric API should work).
+
+[16:21]
+(just a thought, obvs. we will discuss via the RFC process in more detail) (edited)
+
+nathenharvey [16:22 PM]
+I’d also like to thank the members of the CBGB who joined us for the meeting!
+
+coderanger [16:22 PM]
+@ssd Even then, sometimes one of us isn't around for a week
+
+lamont [16:22 PM]
+hrm
+
+[16:22]
+do we have a big problem with RFCs that are controversial being approved faster than in 14 days?
+
+ssd [16:22 PM]
+@coderanger True.  As I said, just a thought, 14 days works well for me. I would like it a lot better. (edited)
+
+coderanger [16:24 PM]
+@lamont The concern was around a lack of end user knowledge that RFCs are happening. The requirement that new ones get posted to the ML and Slack was the more important bit, the waiting period is just in support of that.
+
+nathenharvey [16:25 PM]
+Yep!  And none of those changes will be made without updates to the RFC Process itself https://github.com/chef/chef-rfc/blob/master/rfc000-rfc-process.md
+ GitHub
+chef/chef-rfc
+chef-rfc - Public RFCs for Chef and related projects
+
+
+
+ssd [16:27 PM]
+@nathenharvey Re the doc changes, it might be nice if your blog posts or some comments made it clear what the scope for improvements we are free to make are.  As in, the chef-docs repo currently is a pretty....bespoke process.  Some big improvements to making it easier to contribute might involve changing that substantially, which means a change for Chef Software employees that work on that repo.
+
+nathenharvey [16:28 PM]
+@ssd yep, no doubt.
+
+kallistec [16:29 PM]
+about the 14 day waiting period, there was one RFC recently about enabling the move to ruby 2.3 that we wanted to get through pretty quickly because otherwise we would have had to start doing a lot of work to stay on 2.1. So I'd like there to be a fast track option for stuff that's urgent, but I feel the 14 day waiting period is okay for the 90%+ of cases (edited)
+
+nathenharvey [16:32 PM]
+OK.  That’s everything on today’s agenda.  (and a bit more)
+
+[16:32]
+We’ll see everyone next week!
+
+[16:32]
+***** MEETING ENDS *****
