@@ -1,0 +1,249 @@
+stevenmurawski [16:00]
+***** MEETING STARTS *****
+
+[16:01]
+Welcome everyone to the developer slack meeting for September 29th, 2016
+
+[16:01]
+Today's agenda is https://github.com/chef/chef-community-slack-meetings/blob/master/2016-09-29-agenda.md
+
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+[16:02]
+we've got a few updates, then we'll get to the RFC PRs
+
+[16:02]
+First off, with a community update,
+
+[16:03]
+We're seeing pretty light registration for the community summit and early bird registration ends tomorrow.  If you aren't coming to the community summit, I'd love to know why not (feel free to direct message me if you don't want to drop it in the channel)
+
+[16:04]
+We've got the London summit coming up from Oct 12 - 13 - https://summit.chef.io/london/
+
+[16:04]
+The Habitat Summit in Seattle on Oct 25 - https://www.cvent.com/c/express/ded174e7-ed28-4f43-bf8a-642c782dc05f
+
+[16:04]
+and the Seattle Summit from Oct 26 to 27 - https://summit.chef.io/
+
+[16:05]
+These events are about our community, so I'd love to know what might keep you from coming.
+
+sntxrr [16:05]
+I’m self funding on a limited budget
+
+stevenmurawski [16:05]
+I'll leave a couple of minutes for a response, but DM me anytime
+
+sc [16:07]
+vain response here: my birthday is that week
+
+stevenmurawski [16:07]
+For the company update, not much to announce other than recent releases
+
+[16:07]
+Thanks @sntxrr and @sc :slightly_smiling_face:
+
+[16:08]
+Do we have any software updates? (edited)
+
+tas50 [16:08]
+We released and updated Chef DK with the new inpec and test kitchen releases
+
+[16:09]
+And we released Inspec 1.0
+
+[16:09]
+Also we have an updated compat_resource cookbook that matches the latest Chef 12.14 release
+
+sigje [16:09]
+We have a public postmortem for the Learn Chef Tutorials outage due to the httpd cookbook tomorrow at 10am via Google Hangouts.
+
+stevenmurawski [16:10]
+The habitat team has been doing some rebuilds of the core packages due to the recent openssl updates. (anything that depended on openssl)
+
+btm [16:11]
+chef/chefdk releases on schedule are still planned for october.
+
+robbkidd [16:11]
+Supermarket release upcoming with updated OpenSSL as well.
+
+stevenmurawski [16:12]
+And Chef Server 12.9.1 is out to deal with openssl too (edited)
+
+[16:12]
+Any other software updates?
+
+[16:14]
+Ok, moving on
+
+[16:14]
+We've got a nice table of the currently accepted RFCs - please feel free to review at your leisure - https://chef.github.io/chef-rfc/
+
+[16:15]
+The first RFC up for review is PR 227 - Add deprecation RFC - https://github.com/chef/chef-rfc/pull/227
+
+Add deprecation RFC by tas50 · Pull Request #227 · chef/chef-rfc · GitHub
+There's still details here that need to be filled in after discussion, but I think it's nice to break this out from the CalVer discussion. It's similar, but different. This focuses specifically on ...
+
+[16:16]
+This is still in the review period (until the next meeting), but do we have any further comments?
+
+[16:18]
+Next up PR 225 - Update rfc062-exit-status - https://github.com/chef/chef-rfc/pull/225
+
+Update rfc062-exit-status.md by tas50 · Pull Request #225 · chef/chef-rfc · GitHub
+Add an exit code for chef upgrades. This would initially be used by the omnibus_updater cookbook when the client exits so that users an write kitchen configs which expect that code and run again. T...
+
+[16:18]
+Also still in the review period until next week.  Comments?
+
+chaos [16:20]
+"Breaking changes will no longer be reserved for major version bumps"
+
+[16:20]
+do we mean that we'll introduce the changeset in minor version bump, and break on major
+
+[16:21]
+so from introduction -> next major version user have time to update
+
+[16:21]
+frequency of update on user's end dictate the amount of risk they'll incur during updates
+
+stevenmurawski [16:21]
+@chaos is this for PR 277?
+
+chaos [16:21]
+yeah 227
+
+lamont [16:22]
+is there some way we can start to differentiate different buckets of breaking changes?
+
+tas50 [16:22]
+The goal here is to give people more predictability for when breaking changes land
+
+lamont [16:22]
+because i feel like part of the problem of all of the discussions surrounding breaking changes is that we consider all of them equally
+
+[16:22]
+when they’re really not
+
+tas50 [16:22]
+give you a paper trail of breaking changes that will allow you to plan upgrades better
+
+chaos [16:23]
+that would be awesome. divide the components in buckets .
+
+tas50 [16:23]
+I think there’s different thoughts on how the versioning would work and perhaps I can reword some of this to reflect that
+
+lamont [16:23]
+not components, severity
+
+tas50 [16:23]
+The idea would be to give you say a year warning and deprecation warnings before we flip the switch so you have a long time to update your code
+
+[16:23]
+vs. right now where we could technically release chef 13 tomorrow and break the world
+
+[16:23]
+that would follow semver
+
+chaos [16:23]
+severity like if it fails chef run vs if it run successfully but does something different
+
+tas50 [16:24]
+but not help customers
+
+lamont [16:25]
+so there’s chef-11 attributes changes level of “breaking changes” vs. deprecating node.set vs. this guy who was using recipe_eval_with_update_check directly:  https://github.com/chef/chef/issues/4053
+
+Chef12 alternative to InlineResources::ClassMethods#recipe_eval_with_update_check ? · Issue #4053 · chef/chef · GitHub
+The InlineResources::ClassMethods#recipe_eval_with_update_check method seems to have disappeared at some point between chef 12.4.3 and chef 12.5.1. Since the method is quite useful (especially whe...
+
+[16:26]
+and i’m currently starting a few possible “breaking changes” in node attributes that are more like the later — i’d like to break the constructor API for ImmutableMash and drop Chef::Node#root and Chef::Node#top_level_breadcrumb out of the API that have been in there since 12.0
+
+[16:27]
+and i’d argue those are all implementation details of the attribute deep merge cache, that have never been documented and not covered by semver
+
+[16:27]
+nobody should be touching them
+
+[16:27]
+but same goes for the old recipe_eval_with_update_check that we “broke” in 12.5 for at last one person
+
+[16:28]
+and we constantly get people playing “gotcha” with changes where if anything breaks them, it is by definition a “breaking change"
+
+[16:28]
+no matter how silly or undocumented or just wrong the thing is that they were doing
+
+[16:29]
+and xkcd/1172
+
+[16:29]
+and that seems to be missing from all of these discussions
+
+[16:30]
+we all assume that we understand what “breaking change” means, and i’m not sure there’s really agreement on it
+
+[16:30]
+and this actually creates code bugs
+
+[16:31]
+the yum provider perf issue that phil fixed
+
+[16:31]
+https://github.com/chef/chef/pull/5258
+
+Fix flush_cache issues in yum_package by jaymzh · Pull Request #5258 · chef/chef · GitHub
+Fixes #4691. I hope.
+
+[16:32]
+that bug was introduced due to john thinking way way way too hard about a possible edge case that might have been breaking to someone somewhere in the world, so he tried really hard to be backcompat, and in the process introduced a really bad bug that bit everyone that called flush_cache because the code got much more complicated to reason about
+
+[16:36]
+i’d really like to be able to bucked things into “low, medium and high” levels of breaking changes and ship low things ongoing in minor version releases without warning where expect the impact to be “zero or one persons” — which really does fit with semver in that you’re supposed to document your whole API, but the entire public API of Chef and everything that everyone does with it is difficult to document.   but there does need to be some process around if it really does impact more than one persons it escalates to medium and we need to treat it as a regression (the user provider manage_home stuff recently probably falls in this category where it was difficult to understand what the purpose of all that was until the breaking change got shipped and it became obvious how people were actually using it…)
+
+stevenmurawski [16:37]
+Thanks @chaos @tas50 @lamont !
+
+[16:38]
+We've got about 13 minutes left and one more RFC to add to the mix.
+
+[16:38]
+PR 226 - Calendar Versioning for Chef - https://github.com/chef/chef-rfc/pull/226
+
+Calendar Versioning for Chef by coderanger · Pull Request #226 · chef/chef-rfc · GitHub
+Okay, let's lead off with some disclaimers: I'm way over quota on pending RFCs, sorry everyone. But this is less about work I want to do and more that we need to at least discuss this so should b...
+
+lamont [16:38]
+^ same comments as above :smiley:
+
+stevenmurawski [16:38]
+coderanger mentioned that he wouldn't be around today, but would check back for comments later
+
+[16:39]
+This is still in the review period as well, however given the scope, we'll likely have this open through the community summits to give folks a chance to talk in person about this as well.
+
+[16:39]
+Comments today in this meeting are welcome too though.
+
+chip [16:41]
+Agree that in-person discussion on this seems best.
+
+lamont [16:41]
+there will definitely be a session at the summit
+
+tas50 [16:42]
+I will definitely be talking about this at summit. I wanted to get it out there before summit so we could all noodle on it and come up with some ideas
+
+stevenmurawski [16:43]
+With that, we've hit the end of today's agenda.  I'll leave the last few minutes to open the floor to other topics
+
+[16:47]
+if there are no further topics, we can call this meeting done.
+last announcement - Habitat will be participating in Digital Ocean's Hacktoberfest - https://forums.habitat.sh/t/habtoberfest-is-here/225
