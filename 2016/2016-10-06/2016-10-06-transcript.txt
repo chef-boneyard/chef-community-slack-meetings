@@ -1,0 +1,294 @@
+nathenharvey [16:00 PM]  
+***** MEETING STARTS *****
+
+[16:00]
+Hello, everyone!
+
+thom [16:00 PM]
+hello!
+
+nathenharvey [16:00 PM]
+Agenda for today’s meeting - https://github.com/chef/chef-community-slack-meetings/blob/master/2016-10-06-agenda.md
+ GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+
+
+[16:01]
+we have three PRs on the list and updates
+
+[16:01]
+I’ll get us started with the community updates
+
+[16:01]
+The London Summit is next week!  https://summit.chef.io/london/
+
+thom [16:02 PM]
+whoop!
+
+nathenharvey [16:02 PM]
+Hoping to see a bunch of you there.  We are at full capacity so if you’ve delayed in purchasing a ticket but still want to attend you might need to reach out directly to me for help getting in.
+
+[16:02]
+And I’ll totally help as best I can to make that happen for you :wink:
+
+[16:03]
+Summit in Seattle is about 3 weeks out and there are still plenty of tickets for that but please do grab yours soon.  https://summit.chef.io/seattle
+
+[16:04]
+I’d love to hear from you if you’re going to miss the summit this year.  I’m interested in knowing the reason(s) you’ll miss so we can make sure we put the best events into our 2017 planning.
+
+[16:05]
+This week we also switched from requiring CLA for contributions.  The DCO is now required for all PRs.
+
+[16:05]
+• Blog - https://blog.chef.io/2016/09/19/introducing-developer-certificate-of-origin/
+• CONTRIBUTING.md - https://github.com/chef/chef/blob/master/CONTRIBUTING.md
+Chef Blog
+Introducing Developer Certificate of Origin - Chef Blog
+Effective October 3, 2016, Chef is adopting the developer certificate of origin ("DCO") used by several other projects and overall smart people.
+Sept 19th at 8:43 AM
+
+
+  GitHub
+chef/chef
+chef - A systems integration framework, built to bring the benefits of configuration management to your entire infrastructure.
+
+
+
+[16:05]
+other doc and bot updates are ongoing, too.
+
+[16:06]
+We’re watching how this transition goes and expect to keep iterating on the automation around this based on your feedback.
+
+[16:07]
+@tas50 created an awesome screen cast on creating custom resources - https://www.youtube.com/watch?v=M6ufSxfFyvY
+ YouTube Chef
+Fresh New Stuff Episode 1 - Custom Resources because LWRPs are very 2009
+
+
+[16:07]
+OK, those are all of the community updates for today
+
+[16:07]
+Let’s move on to Software Releases for the last week.  Who has some to share?
+
+tas50 [16:08 PM]
+We released new Bento images (2.2.9) with fixes and updated versions of all the VM tools
+
+robbkidd [16:09 PM]
+New version of the Market That Is Super is out with an OpenSSL update. https://discourse.chef.io/t/supermarket-2-8-27-released (edited)
+
+nathenharvey [16:09 PM]
+• Chef Compliance 1.6.8 - https://discourse.chef.io/t/chef-compliance-1-6-8-released/9606/1
+• Chef Automate 0.5.270 - https://discourse.chef.io/t/chef-automate-release-0-5-370/9597/1
+Chef Mailing List
+Chef Compliance 1.6.8 Released
+Chef Compliance 1.6.8 is now available from the Chef downloads site. This is a minor release update which is recommended for all users of Chef Compliance. Here are the enhancements and bug fixes included in this release: Enhancements: Added additional CIS profiles for Windows 7, 8, 10, 2012, 2012R2, translated from SCAP content. Includes InSpec 1.1.0 with numerous improvements and fixes. Blog post detailing the InSpec 1.0 release. This provides dependency management, which supports profile ...
+Chef Mailing List
+Chef Automate Release 0.5.370
+We are delighted to announce release 0.5.370 of Chef Automate. The release is available for download from https://downloads.chef.io/automate. GitHub Integration This release is an update to 0.5.346, based on input from customer evaluation of the release. An error was found in GitHub migration and this has been corrected. This release completes the beta of the enhanced GitHub integration and is the final release before the feature will be made generally available. With this release, yo...
+
+tas50 [16:10 PM]
+InSpec 1.1.0 https://github.com/chef/inspec/blob/master/CHANGELOG.md
+ GitHub
+chef/inspec
+inspec - InSpec: Auditing and Testing Framework
+
+
+
+nathenharvey [16:11 PM]
+ok.  that’s a nice list for this week :wink:
+
+tas50 [16:11 PM]
+Oh also a new version of knife-openstack
+
+btm [16:11 PM]
+next chef release is scheduled for RC on Friday, so you know, get all your features in that will work in production.
+
+nathenharvey [16:13 PM]
+Please take a minute to review the current list of accepted RFCs.  Do any of them require status or other updates?  https://chef.github.io/chef-rfc/
+
+sntxrr [16:14 PM]
+tis a lovely list of updates :slightly_smiling_face: :party_chef:
+
+nathenharvey [16:14 PM]
+OK, on to our PRs for this week...
+
+[16:14]
+First up - https://github.com/chef/chef-rfc/pull/225
+ GitHub
+Update rfc062-exit-status.md by tas50 · Pull Request #225 · chef/chef-rfc · GitHub
+Add an exit code for chef upgrades. This would initially be used by the omnibus_updater cookbook when the client exits so that users an write kitchen configs which expect that code and run again. T...
+
+
+
+[16:14]
+This has been open for > 2 weeks so we are at a point where we can decide on it today
+
+[16:15]
+Please :+1: or :-1: here.
+
+[16:15]
+or, of course, type words that you’d like to share:  concerns, etc.
+
+thom [16:16 PM]
+:tumbleweed:
+
+nathenharvey [16:16 PM]
+@thom without @holoway around today, you’re the decider
+
+thom [16:16 PM]
+i'm happy to merge that one
+
+btm [16:16 PM]
+surprise!
+
+martinisoft [16:16 PM]
+Dealing with weirdness in chef client upgrades, I am so :+1: on this to help improve that :slightly_smiling_face:
+
+tas50 [16:16 PM]
+That’s the plan
+
+nathenharvey [16:17 PM]
+approved!  thanks, everyone
+
+tas50 [16:17 PM]
+Thanks
+
+martinisoft [16:17 PM]
+Thank you @tas50 :heart:
+
+nathenharvey [16:17 PM]
+Our two remaining PRs for today are in a similar state.  They’ve been open for > 2 weeks but probably warrant some live discussions at the upcoming summits.
+
+[16:17]
+https://github.com/chef/chef-rfc/pull/226
+ GitHub
+Calendar Versioning for Chef by coderanger · Pull Request #226 · chef/chef-rfc · GitHub
+Okay, let's lead off with some disclaimers: I'm way over quota on pending RFCs, sorry everyone. But this is less about work I want to do and more that we need to at least discuss this so should b...
+
+
+
+[16:17]
+https://github.com/chef/chef-rfc/pull/227
+ GitHub
+Add deprecation RFC by tas50 · Pull Request #227 · chef/chef-rfc · GitHub
+There's still details here that need to be filled in after discussion, but I think it's nice to break this out from the CalVer discussion. It's similar, but different. This focuses specifically on ...
+
+
+
+thom [16:18 PM]
+the former definitely warrants in person fisticuffs^Wdiscussion
+
+nathenharvey [16:18 PM]
+I move that we push off deciding those until the November 3 meeting
+
+[16:18]
+In the meantime, words should be added to the PRs and spoken at the summits
+
+tas50 [16:19 PM]
+I’m looking forward to a nice debate on my RFC there at the Summit. We’ll have a session
+
+lamont [16:19 PM]
+orders some boxing gloves from amazon prime...
+
+thom [16:19 PM]
+i actually own boxing gloves #prepared
+
+lamont [16:20 PM]
+lol
+
+[16:20]
+so meanwhile this RFC PR can probably be closed:   https://github.com/chef/chef-rfc/pull/143
+ GitHub
+DRAFT: RFC for Resource#current_value by jkeiser · Pull Request #143 · chef/chef-rfc · GitHub
+CC @coderanger @danielsdeleo @someara @lamont-granquist @jaym Until we've worked through the use cases @coderanger has brought up (I haven't had time this week), this is on hold.
+
+
+
+nathenharvey [16:20 PM]
+ok, absent any other business, we have covered everything in the agenda for today.  I’ll open the floor for additional topics....
+
+chaos [16:21 PM]
+We should vote on #227 , i think we can move ahead with it
+
+thom [16:21 PM]
+i think we can move ahead with the technical bits, but there's some question of release cadence and how SemVer do we feel
+
+lamont [16:22 PM]
+there’s a thought it my head based on the words i wrote up last week that we need a way of assigning breaking changes into buckets
+
+[16:24]
+and we actually need a ‘trivial’ or ‘low’ breaking change bucket which is a behavior change we expect will have an impact of like zero or 1 people, and i think we should be able to announce those in the changelog of minor releases
+
+thom [16:27 PM]
+hm
+
+[16:29]
+in principle i agree but i'd not like to be that 1 person
+
+lamont [16:30 PM]
+the problem is that we’re always smart enough to figure out how 1 person out there might be affected by any given change
+
+thom [16:31 PM]
+yes
+
+lamont [16:32 PM]
+so here’s a canonical example of a “one person” getting broken by 12.5:  https://github.com/chef/chef/issues/4053
+ GitHub
+Chef12 alternative to InlineResources::ClassMethods#recipe_eval_with_update_check ? · Issue #4053 · chef/chef · GitHub
+The InlineResources::ClassMethods#recipe_eval_with_update_check method seems to have disappeared at some point between chef 12.4.3 and chef 12.5.1. Since the method is quite useful (especially whe...
+
+
+
+martinisoft [16:32 PM]
+Someone will always be affected by a change despite best efforts to avoid that.
+
+thom [16:32 PM]
+let's roll this in to the calver/semver/incrver discussion at summit
+
+lamont [16:33 PM]
+and there’s this horrible bug that affected a lot of people:
+
+[16:33]
+https://github.com/chef/chef/issues/4691
+ GitHub
+slow performance in yum_package provider in 12.7.x through 12.9.x · Issue #4691 · chef/chef · GitHub
+Description running chef-solo from the chef11 gem completes in roughly 14 seconds running chef-solo from the chef12 gem completes in over 2 minutes Chef Version 11.8.2 -> 12.8.1 Platform Vers...
+
+
+
+[16:33]
+which was caused by an attempt to avoid one of those N=[0,1] edge cases that might have affected someone
+
+[16:35]
+https://github.com/chef/chef/blob/b743fcdbd172862386d172b42bbbc31cfe2f4239/lib/chef/resource/yum_package.rb#L30-L41
+ GitHub
+chef/chef
+chef - A systems integration framework, built to bring the benefits of configuration management to your entire infrastructure.
+
+
+
+nathenharvey [16:36 PM]
+OK.  feels like we’re not ready to vote / decide on this so I say we end the meeting, give everyone back some time and pick-up the discussion at the summits
+
+thom [16:37 PM]
+:+1:
+
+robbkidd [16:37 PM]
+yey time!
+
+lamont [16:37 PM]
+yep
+
+nathenharvey [16:37 PM]
+We won’t have one of these meetings next week since the London summit will be happening
+
+[16:37]
+Next meeting in here will be Thursday, October 20, 2016 9AM-9:50AM PDT
+
+[16:37]
+***** MEETING ENDS *****
