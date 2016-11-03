@@ -1,0 +1,443 @@
+thom [12:00 PM]  
+***** MEETING STARTS *****
+
+[12:00]
+welcome, everyone, to the 20th of October and our regularly scheduled developer's meeting
+
+[12:00]
+Nathen's out today so I've got the keys
+
+[12:02]
+Next week are the Chef Summit and the first ever Habitat summit. We'd love to see you in Seattle, https://summit.chef.io/seattle/
+
+[12:03]
+Last week's London Community Summit was a great success - we had some great talks and some really productive open spaces, and as ever it was great to see everyone
+
+[12:03]
+So, on to release announcements
+
+tas50 [12:03 PM]
+ChefDK 0.19 was just pushed to stable
+
+[12:03]
+that includes an updated delivery CLI
+
+[12:04]
+and new inspec
+
+tduffield [12:04 PM]
+Expect a Discourse announcement later today with the full release notes once downloads.chef.io has been updated :smile:
+
+tas50 [12:04 PM]
+ChefSpec 5.3 will ship in the next 10 minutes. It includes all the missing matchers for chef-client resources
+
+[12:04]
+expect a discourse announcement there too
+
+robbkidd [12:05 PM]
+Supermarket 2.8.30 out with a quality metrics refactor and fix for the API endpoint broken by the refactor. :innocent:
+
+thom [12:05 PM]
+I'm expecting to have a Chef Vault 3.0 release candidate out today or tomorrow, with a release after summit
+
+[12:06]
+any more for any more?
+
+tas50 [12:07 PM]
+oh yes Foodcritic 8.1 will be released today
+
+red888 [12:07 PM]
+joined #developer-meetings
+
+tas50 [12:07 PM]
+minor update with 12.15 metadata
+
+thom [12:07 PM]
+On the RFC front,  both https://github.com/chef/chef-rfc/pull/226 and https://github.com/chef/chef-rfc/pull/227 are in flight; we're expecting to have at least one session on them at Summit so won't be voting on them today but do read them, comment on them and let us know what you think
+ GitHub
+Calendar Versioning for Chef by coderanger · Pull Request #226 · chef/chef-rfc · GitHub
+Okay, let's lead off with some disclaimers: I'm way over quota on pending RFCs, sorry everyone. But this is less about work I want to do and more that we need to at least discuss this so should b...
+
+
+  GitHub
+Add Chef Major Version Release and Deprecation Policy by tas50 · Pull Request #227 · chef/chef-rfc · GitHub
+This gets us on a predictable schedule for shipping major releases and gives our customers large amounts of warning before we introduce major breaking changes. Signed-off-by: Tim Smith tsmith@chef.io
+
+
+
+[12:08]
+would anyone like to discuss them currently?
+
+martinisoft [12:10 PM]
+We did have a discussion on 227 at the London summit. Not sure if we took any notes :x
+
+tas50 [12:11 PM]
+227 was updated after the conversation at the summit
+
+[12:11]
+the releases every month with breaking changes were scrapped
+
+[12:11]
+in favor or a major release with breaking changes every year
+
+[12:11]
+the process for communicating deprecations is the same
+
+[12:11]
+so it’s release + deprecation now
+
+[12:11]
+so if you haven’t read it in the last week take a look
+
+[12:12]
+I suspect we’ll have further conversations this next week on that
+
+martinisoft [12:15 PM]
+I imagine so. Seattle summit is always a lively one.
+
+thom [12:15 PM]
+i think actually now the two rfcs are pretty close in intent
+
+ryanh [12:15 PM]
+yeah
+
+thom [12:15 PM]
+but we can figure that out as we go
+
+ryanh [12:15 PM]
+They both seem to share the same long term goal
+
+[12:16]
+so its really just a discussion of which one fits best for everyone
+
+tas50 [12:16 PM]
+I think the deprecation process applies regardless of calver / semver
+
+[12:16]
+it just turns out people wanted a release commitment along with the process for communicating deprecations
+
+afiune [12:17 PM]
+joined #developer-meetings
+
+martinisoft [12:17 PM]
+I wanted to avoid painting a bike shed on versioning and wanted there to just at least be a goal to hit for changing version numbers.
+
+[12:19]
+I’ll promise to have my RFC that I wrote at the London summit up after this meeting for early feedback. :+1:
+
+thom [12:20 PM]
+cool. I think this is a legitimate time to call for any other business
+
+ryanh [12:21 PM]
+There is going to a slight change to release cadence,  where we shift the pre-release announcement and the official announcement day of the week.
+
+[12:22]
+We intend to targer the 1st Wednesday of the month for the pre-release of Chef, and third Wednesday of the month for ChefDK
+
+[12:23]
+And release on the following Monday instead of wednesday.
+
+ssd [12:24 PM]
+I feel like I’m losing the plot a bit on these versioning PRs.  I won’t be at the Seattle summit, but I would suggest that for these changes the *motiviation* sections should be worked on a bit more. (edited)
+
+[12:25]
+Right now they are really thin and to me most of the discussion is confusing because we have lots of different reasons for wanting these changes and lots of different user demands. (edited)
+
+lamont [12:26 PM]
+yeah i very much feel like they’re focused on the voices of people who want stable upgrades, and not on software devs or users that want their bugs fixed
+
+tas50 [12:27 PM]
+we can certainly add “as a user I want this thing fixed that is blocked due to the breaking nature of the change"
+
+[12:27]
+there seems to be a few of those
+
+[12:27]
+those are mostly leftover from the deprecation procedure nature of the original RFC
+
+[12:28]
+which very much was around giving people predictability
+
+[12:28]
+I think we confuse stability and predictability a lot
+
+lamont [12:28 PM]
+i pointed out how we can’t predict our own changes though
+
+ssd [12:28 PM]
+Hrm.  I think I would recommend us sitting down and just listing the people we think have a problem with the current process.  Who they are and what they value.  But do it as more than just an rspec like thing.
+
+tas50 [12:29 PM]
+I think a lot of users are ok with things changing, they just want to know when. That’s not to say that we won’t accidentally cause plenty of breaks. That happens since we’re all human. It just means when we purposefully break something we communicate it well so people can plan to work to upgrade their code if they need to.
+
+[12:30]
+that seems worth doing @ssd
+
+ssd [12:30 PM]
+Because at the end of the day we are always going to have at least: (1) person who has a bug they need fixed, (2) person who will be broken by the fix.  And until we can think more clearly about how to make decisions in those cases, I dont’ see any process helping users that much.
+
+thom [12:30 PM]
+yeah, i think some stories would be useful
+
+lamont [12:30 PM]
+thing is i can noodle on things and come up with possible edge cases that might break someone that are somewhat unlikely to ever break someone
+
+[12:31]
+and i can point at the yum flush_cache bug as a real bug that affect many people that was introduced by thinking too hard about and edge case that we’ve now shown doesn’t seem to break anyone
+
+tas50 [12:31 PM]
+I think you’re overthinking it a bit lamont
+
+[12:31]
+we’re not saying “we never break things outside the major release"
+
+[12:31]
+we’re just saying “don’t deprecate things outside the major release"
+
+[12:31]
+node.set going away would be a major release
+
+lamont [12:32 PM]
+if we’re going to have a “deprecation warnings must go in X months in front of a major release” i want to have an understanding of what requires that
+
+tas50 [12:32 PM]
+if we introduce a bug by mistake that breaks something. Well that just happens. Obviously we’d like to avoid it, but the mental thought necessary to do that isn’t always possible
+
+lamont [12:32 PM]
+because i’d really like fix the formatter-vs-logger issue in Chef 13 and we haven’t put in a deprecation warning anywhere
+
+tas50 [12:32 PM]
+that’s entirely why I’m bringing up this conversation
+
+[12:33]
+ideally we’d have all these warnings in a year ago
+
+lamont [12:33 PM]
+and there’s a very long list of other things we’d like to get done, some of which have very minor impacts, and i don’t want to play “gocha! no deprecation!  slips to 14!"
+
+tas50 [12:33 PM]
+the window on the first release might be a little more forgiving
+
+[12:33]
+that might be worth mentioning
+
+[12:33]
+because otherwise nothing goes in 13
+
+lamont [12:33 PM]
+i really think we need to define a severity level to breaking change
+
+tas50 [12:34 PM]
+which defeats the purpose
+
+lamont [12:34 PM]
+because not every deprecation is deprecating node.set which i think is where you’re picking the use cases which are actually more uncommon as your example use case
+
+[12:34]
+that’s focusing on the really big deprecations, and missing handling all the little ones
+
+tas50 [12:34 PM]
+there are certainly things out there that have a minor impact for a small subset of users
+
+lamont [12:35 PM]
+and there’s ones where we noodle on it and argue about it and then ship it and we get nobody showing up in issues complaining about it
+
+[12:36]
+then there’s ones where get completely blind-sided by what people have been doing.
+
+martinisoft [12:36 PM]
+I would argue that any change has the potential to break the current contract of the code with it’s users no matter the number of them so a severity doesn’t feel like a friendly choice.
+
+coderanger [12:36 PM]
+While technically true, that's not a useful guideline
+
+lamont [12:37 PM]
+yeah
+
+martinisoft [12:37 PM]
+It also puts a strange… subjective spin on changes.
+
+lamont [12:37 PM]
+that is actually precisely the kind of thinking that led to the yum flush_cache bug
+
+[12:37]
+looking at an edge case of the existing code too hard and trying to maintain it, while cleaning up the code, and creating code that was overly complicated and had side effects and caused real (and real bad) bugs
+
+thom [12:38 PM]
+this feels like we're going in circles a bit
+
+ssd [12:38 PM]
+Yes, hence why I kinda want to start with fact finding
+
+lamont [12:38 PM]
+actually i’d ague that the “current contract of the code” is flat-out awful because the code in many cases is awful, and has edge conditions nobody intended to write, and largely nobody uses
+
+[12:38]
+the docs is a better starting point, which is what SemVer uses
+
+[12:39]
+at the same time the `supports manage_home: true` thing had bad docs
+
+[12:39]
+if you think there’s a useful and obvious ‘rule’ here, you’re in general probably wrong
+
+martinisoft [12:39 PM]
+True. When the contract isn’t even clear then you have no guarantees that you aren’t changing someone’s expectations and causing a break.
+
+onlyhavecans [12:41 PM]
+That sounds like an argument for “Never change the code"
+
+lamont [12:41 PM]
+there’s also that example of how we refactored the internal guts of how use_inline_resources is implemented in 12.5 and then broke someone who was calling directly into the guts
+
+[12:41]
+in ruby you can basically do anything you want
+
+ssd [12:41 PM]
+Another small example, I wrote this comment when trying to fix a bug.  I had to write the comment just to try to not break anyone when fixing the bug, and I’m pretty sure I still broke someone: https://github.com/chef/chef/blob/master/lib/chef/resource/remote_file.rb#L41-L48 (edited)
+
+martinisoft [12:41 PM]
+I think the overall goal should be to help with release confidence because there seems to be a lot of shakiness around it right now. When in doubt, make every change a breaking one which some projects have resorted to doing to simplify things.
+
+[12:42]
+Or as it’s been proposed, calendar based versioning. Avoid the unease of figuring out which part of semver to use for a given change.
+
+coderanger [12:42 PM]
+The main user story for 226 is basically "As a Lamont ..."
+
+lamont [12:42 PM]
+and @onlyhavecans  that’s the problem i have with most of these proposals, is that they almost sound like “never change the code” — but i can point at users screaming at us in issues to change code because its broken and affecting them (and why hasn’t some issue been open for 12-24 months and not been fixed, etc…)
+
+[12:43]
+lol
+
+tas50 [12:43 PM]
+@lamont this will never catch everyone or eliminate upgrade pains for everyone. That’s not the goal here. The goal here is just to make it better. I’d hate for us to shoot down better in search of something perfect.
+
+[12:43]
+if we find out later we broke something we can add it to the list
+
+[12:43]
+then people know
+
+[12:43]
+oops
+
+lamont [12:43 PM]
+i think it would just be better to come up with a halfway useful definition of what a major breaking change was
+
+thom [12:43 PM]
+but you've just spent the last half hour arguing that we can't :slightly_smiling_face:
+
+lamont [12:44 PM]
+and we can look at past major breaking changes as a guideline
+
+jtimberman [12:44 PM]
+one of the biggest problems i see with breaking changes is that people then get fearful of ever upgrading, even for bug fixes that affect them. because they have to refactor their cookbooks every time there's a release (real or not, that'll be their perception), which in some cases may be more painful than the bug fixes they were going to get.
+
+ssd [12:44 PM]
+I guess we can have it out at summit, but I would love to do a google hangout or something with those interested to just flesh out the exact problem we are trying to solve.  I feel like that might be useful for ya’ll to have before summit anyway.
+
+coderanger [12:44 PM]
+@jtimberman: I think that expectation can change
+
+[12:45]
+We just need a track record of clearly communicating breaks
+
+[12:45]
+"Just" being maybe the wrong word there
+
+lamont [12:45 PM]
+also i’d argue that rubocop autofix rules on the day a major version drops would be more useful than having mandatory 6 months advance notice
+
+thom [12:45 PM]
+it's clear that we have to have infrastructure around releases to make it easy for people to reason about them
+
+martinisoft [12:45 PM]
+As much as I love jkeiser, I’d love to stop including `compat_resource` compulsively some day this decade :+1:
+
+lamont [12:46 PM]
+the advance notice rule really feels like its designed to punish me and not really help users that much
+
+tas50 [12:46 PM]
+I’m going to come up with a few more words on what we sort of “guarantee” for users. I put “guarantee” in quotes because I would never use that word. I think this will help things a bit here. I think people expect things they would find in the docs or community cookbooks to work. I don’t want to get into a world where we guarantee every ondocumented method will work forever. If you’re mucking with Chef internals you’re on your own
+
+ryanh [12:46 PM]
+@martinisoft That's going to be a hard one to undo since its in the wild already. =/
+
+thom [12:46 PM]
+i think the current situation punishes you far harder than a predictable release cycle, lamont
+
+lamont [12:46 PM]
+oh yeah
+
+onlyhavecans [12:46 PM]
+I think one of the problems is we are not defining the difference between “I changed code and that means something could be broken” which is every time you change code, and “I am changing this standardized and exposed `api` or `resource` in a way that is incompatible with the old way of using it, requiring downstream changes
+
+martinisoft [12:46 PM]
+@ryanh Yeah, though it’s a symptom of this problem we’re discussing at this very moment.
+
+ryanh [12:47 PM]
+Indeed
+
+lamont [12:47 PM]
+12 months major version release cycle is win
+
+thom [12:47 PM]
+since right now you don't know that you'll ever get to do this work, whereas what @tas50 is aiming for gets us a step that way
+
+[12:47]
+my honest feeling is that we should just suck it and see, on the basis that it can't *possibly* be worse than what we have right now
+
+martinisoft [12:48 PM]
+Yeah, I personally want to start with a “lets draw a line in the sand. when we cross it, new major version"
+
+jtimberman [12:48 PM]
+clear communication and documentation about internal APIs vs user-facing user APIs for cookbooks, and what changes can affect those is a strong step IMO. Of course for cookbook authors that are working on idiomatic custom resources that mimic the behavior of others (say, a new package resource), those APIs can get muddied because of what Lamont said, "You can do anything in Ruby"
+
+martinisoft [12:48 PM]
+Relieves the burden, gives us a goal to talk about and schedule.
+
+coderanger [12:48 PM]
+2 minutes until time, if anyone else has a different topic
+
+jtimberman [12:48 PM]
+but as far as i can remember, we've never really had super detailed documentation about which APIs are "external" or "user facing"
+
+tas50 [12:49 PM]
+https://github.com/chef/chef/pull/5402
+ GitHub
+Add myself as a Maintainer on debian, ubuntu, suse, test tools and core by tas50 · Pull Request #5402 · chef/chef · GitHub
+Signed-off-by: Tim Smith tsmith@chef.io
+
+
+
+[12:49]
+do these need to be discussed here?
+
+martinisoft [12:49 PM]
+@jtimberman That is a very fair point
+
+lamont [12:49 PM]
+there’s also that old chef-issue on override run_lists and node.save and the creation of the -r —run_list option where its just not that ruby is abusable, but our APIs themselves can be abused in ways we don’t understand
+
+ryanh [12:50 PM]
+@tas50 Got my :+1: -- I think that we need to update the maintainers section for a few of those groups.
+
+jtimberman [12:50 PM]
+i have more words to say but not really coherent and it appears we're out of time for that discussion :laughing:
+
+thom [12:51 PM]
+we are indeed at time
+
+martinisoft [12:51 PM]
+@tas50 Gave my :+1: on it
+
+jtimberman [12:51 PM]
+not that i can't keep typing things into my computer across the internet.
+
+coderanger [12:51 PM]
+Next ye^Wweek in Jeru^WSeattle
+
+thom [12:52 PM]
+** MEETING ENDS **
