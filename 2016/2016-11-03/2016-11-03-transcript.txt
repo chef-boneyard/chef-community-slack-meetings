@@ -1,0 +1,486 @@
+
+nathenharvey [12:00 PM]
+***** MEETING STARTS *****
+
+[12:00]
+hello everyone!
+
+[12:00]
+The agenda for today's meeting is linked just above, thanks, @thom!
+
+[12:00]
+We'll have some updates and then on to a few PRs for review
+
+[12:01]
+I'll get us started with the community update...
+
+[12:01]
+Thank you all for participating in the recent community summits.  I think they were both quite successful!
+
+[12:01]
+Notes from Seattle, please add or update your notes - https://e.chef.io/p/!-2016-Seattle-Summit-Master
+
+[12:01]
+Notes from London - https://e.chef.io/p/2016SummitLondonMasterList
+
+[12:02]
+Some immediate outcomes of the summits include generating some more interest around the #chef-brigade
+
+[12:02]
+And a great blog post from @michael on Policyfiles - http://hedge-ops.com/policyfiles/
+ hedge-ops.com
+hedge-ops | Policyfiles
+Recently at the Chef Community Summit, I proposed a topic on Policyfiles. Policyfiles are a new way to handle dependency and change management for your Chef ...
+
+michael [12:02 PM]
+joined #developer-meetings by invitation from @nathenharvey
+
+nathenharvey [12:03 PM]
+There were also very good discussions about some of the PRs we have on our agenda for today.
+
+[12:04]
+In other community-related news, the ChefConf CFP is now open.  Please share your stories or nominate a topic or presenter you'd like to see.  http://chefconf.io
+
+[12:04]
+That's it for the community update so let's move on to recent and upcoming software releases....
+
+[12:04]
+what do you have to share?
+
+tas50 [12:05 PM]
+ChefSpec 5.3 has been released with matchers for all core chef resources
+
+[12:05]
+Fauxhai 3.10.0 has been released with a pile of new platform releases
+
+nathenharvey [12:06 PM]
+Chef Server 12.10.0 was recently released - https://discourse.chef.io/t/chef-server-12-10-0-released/9803
+Chef Mailing List
+Chef Server 12.10.0 Released
+Ohai Chefs, Today we've released Chef Server 12.10.0. This release moves Chef Server to OpenSSL 1.0.2 and updates the default cipher suite used for HTTPS to match the current "modern" recommendation from Mozilla. This release also includes bug fixes in opscode-expander, chef-server-ctl reindex, and Chef Server's LDAP support. See the RELEASE_NOTES[0] and CHANGELOG[1] for full details. Finally, we've reduced the size of the Chef Server packages by rougly 40%. Cheers, Steven Danna Softw...
+
+[12:06]
+Chef Manage 2.4.4, too - https://discourse.chef.io/t/chef-manage-2-4-4-released/9775
+Chef Mailing List
+Chef Manage 2.4.4 Released
+Hi, Chef Manage 2.4.4 is out and available from the Chef Manage downloads page. This release contains the latest OpenSSL (1.0.2j), a fix for a bug that would make the loading spinner not disappear after resetting your key, and a few other internal improvements. Thanks for using Chef Manage!
+
+[12:07]
+And be sure you read up on the pending end-of-life for Chef Software Inc’s Bintray account.  https://discourse.chef.io/t/end-of-life-announcement-for-chef-software-inc-s-bintray-account/9807
+Chef Mailing List
+End-of-life announcement for Chef Software Inc’s Bintray account
+Chef Software Inc will cease publishing to Bintray on December 30th, 2016. We will also delete all existing artifacts from https://bintray.com/chef on this date. Why are you doing this? When we completed our work to migrate to Bintray, we realized that we had done a significant amount of the work necessary to internalize and manage a much greater slice of our deployment infrastructure. This ownership enables us to more smoothly integrate our processes, business requirements, and security nee...
+
+[12:07]
+any additional software releases you'd like to share?
+
+coderanger [12:08 PM]
+Being that its the first week of the month, we should be prepping the 12.16 RC this week
+
+[12:08]
+So watch for that
+
+nathenharvey [12:09 PM]
+OK, a quick reminder for everyone to please take a moment to review the status of existing RFCs and update as appropriate - https://chef.github.io/chef-rfc/
+
+[12:10]
+and let's move on to our first PR for today - Supermarket cookbook testing indicator - https://github.com/chef/chef-rfc/pull/231
+ GitHub
+Supermarket cookbook testing indicator by martinisoft · Pull Request #231 · chef/chef-rfc · GitHub
+Im proposing this RFC in an effort to help educate and inform the community about cookbook testing and hopefully improving overall quality of publicly consumed cookbooks. For several years now I've...
+
+
+
+[12:10]
+@martinisoft want to give everyone here the quick tl;dr?
+
+martinisoft [12:11 PM]
+Sure. So this is my proposal to get an additional indicator into the supermarket to help drive overall quality for the public cookbooks out there.
+
+[12:12]
+Though since Supermarket can also be installed behind the firewall, it could be a way to drive quality internally too.
+
+[12:13]
+From the discussions at the summit, it sounds like folks in general want to have more confidence in public cookbook quality and this RFC is another step in that direction.
+
+tas50 [12:13 PM]
+There’s some issues we've discussed with build status indicators. They hold true for the readme as well. The indicator is for master and not the actual build you’re downloading. That can go either way. Things could have been broken and have since been fixed, or they’re broken since the release. It’s nice to see the indicator to know that people care enough to test their cookbooks, but I think it provides minimal value to show the status of master (edited)
+
+martinisoft [12:13 PM]
+So TL;DR we wanna show a badge (at least) for folks who use Continuous Integration to test their cookbooks.
+
+[12:14]
+And have some way to show it off on the supermarket
+
+coderanger [12:14 PM]
+I think this would be best rolled in to the CI reporter functionality that @robbkidd and I discussed a bit at the summit
+
+tas50 [12:14 PM]
+This subject came up a lot when we talked about cookbook quality.
+
+coderanger [12:14 PM]
+Since we don't want Fieri to actually run tests (or at least aren't going to build it)
+
+[12:14]
+If you have Travis or similar running tests you could at least push status data a la how Github shows build status
+
+[12:15]
+But that can live inside the existing Fieri structure maybe?
+
+sf [12:15 PM]
+joined #developer-meetings
+
+martinisoft [12:15 PM]
+Fieri could be taught to look for tests or even build status. That is one proposal from the supermarket team.
+
+[12:15]
+Think @robbkidd talked about that
+
+robbkidd [12:15 PM]
+Not entirely certain Fieri would be the place to implement that, but maybe.
+
+[12:16]
+_Something_ could be taught how to trace a versioned cookbook artifact to a CI build job, but we'll need to partner with the CI services on how to use and/or update their APIs to perform the lookup.
+
+nathenharvey [12:16 PM]
+in case you're unfamiliar with Fieri, it's the component of the Supermarket where we are implementing the cookbook quality metrics that are described here - https://github.com/chef-cookbooks/cookbook-quality-metrics
+ GitHub
+chef-cookbooks/cookbook-quality-metrics
+cookbook-quality-metrics - Measurements of quality for cookbooks in the Chef Supermarket
+
+
+
+coderanger [12:17 PM]
+@robbkidd  I would imagine push based stuff would be easier, like an output plugin for Kitchen that "phones home" (with a configurable endpoint for behind the firewall folks)
+
+robbkidd [12:17 PM]
+Yes. "Passing tests" could be one measure in the suite of quality measurements.
+
+martinisoft [12:18 PM]
+So RFC wise I’d still like some feedback on it to see if it’s something we’d like to adopt since there hasn’t been much discussion on the PR. I promise to champion this if accepted and have been talking with the Supermarket team on supporting this.
+
+robbkidd [12:18 PM]
+Maybe. There is also a :chicken: / :egg: problem with the test run occurring before a versioned artifact has been uploaded to Supermarket for the test run to annotate.
+
+coderanger [12:18 PM]
+Basically I agree that this should be a thing but I'm not sure that @martinisoft is signing up to do the full impl given the relevant complexity
+
+damacus [12:18 PM]
+Just champion it?
+
+martinisoft [12:18 PM]
+@coderanger Yeah. I’ll definitely ask for some help depending on how far we go with the scope.
+
+[12:19]
+I’m not kidding when I say I’ve been asking for this for 3 years. I think I’ve asked at every summit I’ve been to.
+
+[12:19]
+So, RFC it is to see if I’m crazy for still asking this question :slightly_smiling_face:
+
+nathenharvey [12:19 PM]
+We have adopted a two-week review period for RFCs so we really shouldn't be deciding on this one until next week at the earliest.
+
+thom [12:20 PM]
+i’m kind of unsure how we’ll get people to do this if they don’t already add badges to their readmes, which seems like the easy route.
+
+martinisoft [12:20 PM]
+@nathenharvey Yeah, I’d want some more discussions going there. We had some at the Seattle summit. :+1:
+
+robbkidd [12:21 PM]
+No, you're not crazy. It's a solid feature request. It's a lift across multiple services that will probably require cookbook authors to follow an opinionated release workflow.
+
+martinisoft [12:21 PM]
+@thom This could be basic education materials or prompts. Have a negative indicator that points you to a chef doc about how to make it better?
+
+damacus [12:21 PM]
+`kitchen test —push results` ?
+
+martinisoft [12:22 PM]
+Much like we link to a presentation about partner cookbooks for the partner cookbook badge.
+
+robbkidd [12:22 PM]
+I don't think "push result from the test run" solves the problem. I don't believe the versioned artifact should be expected to exist in Supermarket before the test run completes. Why release it before you know the tests pass?
+
+damacus [12:22 PM]
+or test kitchen outputs the current branch, revision etc to .awesome-mertrics. supermarket just reads that. So it’ll have a version number and test output?
+
+[12:23]
+and you can’t `stove publish` or whatever, until you have that file on disk?
+
+coderanger [12:23 PM]
+@robbkidd At least with Github, usually I tag and release in one action so travis builds the tag after the release finishes.
+
+martinisoft [12:23 PM]
+So the RFC discussion isn’t really about how we’ll make that indicator work. I just wanna know, do people care to have one?
+
+robbkidd [12:23 PM]
+Cookbook version -> GitHub tag -> git commit -> search Travis build jobs for matching git commit is a conceivable first pass.
+
+coderanger [12:24 PM]
+@martinisoft I think everyone would say yes, but to be accepted as an RFC it needs some impl suggestion at least to guide what we're talking about.
+
+damacus [12:24 PM]
+I care about knowing tests pass. In general.
+
+coderanger [12:24 PM]
+If nothing else there are just too many forms this could take to talk generally other than to say "tests == good"
+
+martinisoft [12:24 PM]
+@coderanger Yeah, just trying not to get into the weeds or bike sheds
+
+coderanger [12:25 PM]
+Another possible first pass would be to have some kind of macro replacement on readmes to allow using shields.io
+
+[12:25]
+Since that allows you to drop in a tag name for most services
+
+nathenharvey [12:25 PM]
+OK, I move that we continue the conversation in the PR and revisit next week.  Thanks for opening this, @martinisoft.
+
+robbkidd [12:25 PM]
+I absolutely care about making test status more visible and to encourage more testing. I'm pro more discussion, especially to suss out the detail devils with the two major CI services that have been mentioned.
+
+jrose [12:26 PM]
+joined #developer-meetings
+
+martinisoft [12:26 PM]
+Agreed, please bring these points over to the PR
+
+nathenharvey [12:27 PM]
+OK, let's move on to our next PR then.  Release cadence RFC  - https://github.com/chef/chef-rfc/pull/232
+ GitHub
+Release cadence RFC by coderanger · Pull Request #232 · chef/chef-rfc · GitHub
+Split out the release cadence bits from #227 and add a bit more specific bits. Short and sweet.
+
+
+
+tas50 [12:28 PM]
+hey noah since this got split out from mine you wanna change the author back?
+
+coderanger [12:28 PM]
+So this is a combo of two things, one is making public what has been tribal knowledge for a bit, and then also agreeing that we're doing major releases in April
+
+[12:28]
+@tas50 Back?
+
+tas50 [12:29 PM]
+to me
+
+coderanger [12:29 PM]
+I mean if you want, I think there's only one sentence in there from the 227 PR
+
+thom [12:30 PM]
+authors can be an array, why not do that
+
+coderanger [12:30 PM]
+:+1:
+
+[12:30]
+But that aside, I think the content is pretty uninteresting :slightly_smiling_face:
+
+[12:30]
+(other than the April bit)
+
+[12:31]
+Just good to get it out there so people can plan
+
+thom [12:31 PM]
+yeah, this was the result of considerable discussion at the summit. For those that were not there, i wrote:
+```I think the summary of our sessions at the London and Seattle summits is that most of our users are much more comfortable with a single, "big bang" hit of deprecations on a well known schedule, rather than a rolling deprecation set. The big bang approach is also much less scary from a security/bug fix perspective since you do not have to be concerned that the critical security fix you need also contains a bunch of deprecations.
+```
+(edited)
+
+coderanger [12:32 PM]
+Yeah, related, the CalVer proposal has been closed
+
+[12:32]
+Just too difficult to make it work with the way companies allocate resources for upgrades
+
+lamont [12:32 PM]
+there was also a lot of agreement that 2 years was too long and the major release cycle should be a year, and april was decided
+
+coderanger [12:33 PM]
+If someone has a major issue with April as the target rollover month, I'm not married to it
+
+[12:33]
+But it seems as good as anything else and avoids some major Bad Times™
+
+lamont [12:33 PM]
+i tried to argue for january but apparently the world is too hungover that month
+
+coderanger [12:34 PM]
+Yeah, also the southern hemisphere is on summer vacation then
+
+lamont [12:34 PM]
+ah, lol, that might be a better reason
+
+[12:34]
+anyway april matches ubuntu which makes it easy to remember
+
+thom [12:35 PM]
+yeah
+
+[12:35]
+I think :shipit:
+
+nathenharvey [12:36 PM]
+ok, we should let this sit for another week to satisfy our two-week review period but this feels ready for approval next week
+
+martinisoft [12:36 PM]
+Agreed :+1:
+
+coderanger [12:36 PM]
+:+1: from me
+
+nathenharvey [12:37 PM]
+OK.  on to chef run - https://github.com/chef/chef-rfc/pull/233
+ GitHub
+chef run by jjasghar · Pull Request #233 · chef/chef-rfc · GitHub
+This is a rfc that helps design a new feature for our ChefDK. The ability to run "one off" recipes and have a tool chest of system administrative scripts will make chef for admins more delightful. ...
+
+
+
+[12:37]
+@jdizzle give us the tl;dr?
+
+coderanger [12:38 PM]
+If he isn't on I can try to summarize :slightly_smiling_face:
+
+[12:38]
+Basically trying to sort out how to use Chef for some bits of runbook automation
+
+lamont [12:38 PM]
+i’m kinda feeling like someone should just write a knife plugin to POC this and skip the RFC and the unfunded mandate
+
+coderanger [12:38 PM]
+Because why have two systems when you can have one
+
+[12:38]
+But the devil is in the details
+
+jdizzle [12:39 PM]
+I'm mobile family stuff took over my life this morning. :( can we postpone till next week
+
+nathenharvey [12:40 PM]
+knife-solo and knife-zero do similar stuff already, right?  so those might be the POCs you're looking for.
+
+[12:40]
+@jdizzle no problem.  this will be on next week's agenda, too.  do you family stuff :slightly_smiling_face:
+
+jdizzle [12:40 PM]
+Thanks
+
+lamont [12:40 PM]
+so pull knife-solo and knife-zero into core?
+
+thom [12:41 PM]
+my feeling is that this is way too high level as it stands, and i don’t think knife plugins are the right answer
+
+coderanger [12:41 PM]
+I think we need to define scope and UX before we talk about impl on this
+
+lamont [12:41 PM]
+i wrote up the epic wishlist of everything we’d like to be able to do run-book style:
+
+[12:41]
+https://github.com/chef/chef-dk/issues/452
+ GitHub
+Design a new 'chef run' command for ad-hoc jobs · Issue #452 · chef/chef-dk · GitHub
+This should at a minimum: use pluggable transports (ssh, pushy, or anything else) should have good behavior when servers are crashed or hung and have logic around handling quorums and concurrency,...
+
+
+
+[12:41]
+this feels like a lot less than that
+
+thom [12:42 PM]
+yeah, i agree we shouldn’t get to implementation right off, but i don’t think we’re at the point of having a UX that we can reason about
+
+coderanger [12:42 PM]
+Like if people feel there is enough of a call for "single recipe with only core resources" then that's going to be a very different beast than what I've counter-proposed.
+
+[12:43]
+Also to throw it out there, IMO procedural service manipulation is one of Chef's weak points so using "stop a service" as an example is probably the wrong place to begin.
+
+[12:44]
+Or at least confuses the use case :slightly_smiling_face:
+
+thom [12:45 PM]
+the stuff phil and i mention are more interesting to me, but yeah, crikey
+
+chip [12:45 PM]
+I'd like to know what implementing this in core would do that the third-party `knife solo`, `knife zero`, and `knife ssh` projects can't do
+
+nathenharvey [12:46 PM]
+I propose we flesh out the scope and UX a bit more during the next week and revisit this at next week's meeting.
+
+coderanger [12:46 PM]
+@chip I mean if we come up with a good thing, runbook automation is something basically everyone has to do at some point, so might as well make it easier by being in ChefDK's installer
+
+nathenharvey [12:46 PM]
+We have 5 minutes left and one more PR to review.
+
+chip [12:46 PM]
+And also, it's worth discussing if this is something Chef should charge money for, vs implementing in OSS.
+
+coderanger [12:46 PM]
+But I agree this might be bike-sheddy enough to do outside of core for now
+
+chip [12:46 PM]
+twirls moustache
+
+thom [12:47 PM]
+yeah, let’s move on before we fall down that rabbit hole :slightly_smiling_face:
+
+nathenharvey [12:47 PM]
+OK.   so, as @coderanger mentioned, PR 226 - Calendar Versioning for Chef was closed without merging.
+
+coderanger [12:47 PM]
+RIP
+
+nathenharvey [12:47 PM]
+and our final PR for today is Add deprecation RFC - https://github.com/chef/chef-rfc/pull/227
+ GitHub
+Add Chef Major Version Release and Deprecation Policy by tas50 · Pull Request #227 · chef/chef-rfc · GitHub
+This gets us on a predictable schedule for shipping major releases and gives our customers large amounts of warning before we introduce major breaking changes. Signed-off-by: Tim Smith tsmith@chef.io
+
+
+
+thom [12:48 PM]
+this last PR needs to get the bits that have gone in #232 removed, and will then just be deprecation related (edited)
+
+coderanger [12:48 PM]
+:+1:
+
+thom [12:49 PM]
+with that said, i’m in favour of all the deprecation work here
+
+coderanger [12:49 PM]
+Vote now to merge it sans release policy bits?
+
+martinisoft [12:49 PM]
+In agreement there too. I like to know what could break on me :slightly_smiling_face:
+
+nathenharvey [12:49 PM]
+@coderanger I agree
+
+[12:50]
+For 227 :+1:  or :-1:
+
+[12:50]
+my :-1: is simply there to give you something to click on
+
+[12:50]
+@thom you're decider today
+
+thom [12:51 PM]
+yeah, decided once those bits are out
+
+nathenharvey [12:51 PM]
+great, thanks everyone!  See you next week.  November 10, 2016 9AM-9:50AM PST - http://everytimezone.com/#2016-11-10,240,cn3
+
+shain [12:51 PM]
+joined #developer-meetings
+
+nathenharvey [12:51 PM]
+***** MEETING ENDS *****
