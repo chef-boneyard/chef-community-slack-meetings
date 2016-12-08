@@ -1,0 +1,699 @@
+
+thom [11:59 AM]  
+45 second warning
+
+[12:00]  
+***** MEETING STARTS *****
+
+[12:00]  
+good day, Chefs, and welcome to your regularly scheduled developer meeting
+
+[12:00]  
+The agenda is at https://github.com/chef/chef-community-slack-meetings/blob/master/2016-11-17-agenda.md
+ GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings 
+ 
+ 
+
+[12:00]  
+and there’s quite a lot in it!
+
+[12:01]  
+The CFP for ChefConf is open, and Austin in May is a lot less ridiculous than Austin in July. So get your submissions in!
+
+[12:01]  
+The CFP for ConfigMgmtCamp is also open, until tomorrow
+
+[12:02]  
+That’s it from me. Software updates, @here ?
+
+coderanger [12:02 PM]  
+Sever released a new rev, 12.10 I think?
+
+thom [12:03 PM]  
+Chef Server released 12.11
+
+tduffield [12:03 PM]  
+Per the discussion at community summit, ChefDK is now 1.0! ChefDK 1.0.3 should be promoted to stable later this morning, and available on downloads.chef.io this afternoon.
+
+chip [12:03 PM]  
+Also a new release of Reporting, picking up an openssl update.
+
+thom [12:04 PM]  
+Any more?
+
+chip [12:04 PM]  
+Should also be a new release of Automate any second now, with lots of good stuff.
+
+[12:05]  
+Will let the release announcement handle what's in there.
+
+thom [12:05 PM]  
+OK, let’s roll. We realised that the maintainer policy, as it stands, is making it hard to get code reviews on ChefDK: https://github.com/chef/chef/pull/5557
+ GitHub
+Remove the Dev Tools component by stevendanna · Pull Request #5557 · chef/chef · GitHub
+This PR removes the Dev Tools component. All responsibilities of Dev Tools would thus be handled by the Core Maintainers. As part of this change, I propose that Steven Danna, and Joshua Timberman ... 
+ 
+ 
+
+[12:05]  
+Subsequent discussion revealed some unhappiness with how components are working out
+
+coderanger [12:06 PM]  
+Also worth mentioning https://github.com/chef/chef-dk/pull/1079
+ GitHub
+Add MAINTAINERS seperate from the Chef project. by rhass · Pull Request #1079 · chef/chef-dk · GitHub
+Description Chef Software Inc. has an internal pool of developers on rotation whom are responsible for maintaining ChefDK. We want to ensure we can allow these maintainers to merge and approve PRs ... 
+ 
+ 
+
+[12:06]  
+Not sure if that's an "instead of" or "in addition to"
+
+jtimberman [12:06 PM]  
+oh my name is on this
+
+[12:06]  
+i'm :thumbsup_all:
+
+thom [12:07 PM]  
+Personally, I do not believe they work as intended, mostly due to the relatively small number of active developers on chef. I think we’d be better served by having a simple list of maintainers, and some effort to automatically request appropriate reviewers
+
+coderanger [12:07 PM]  
+Yeah, probably worth keeping the platform teams just so we know who to ask about rarer platforms though
+
+[12:08]  
+Not as a formal distinction, but at least a record of expertise
+
+thom [12:08 PM]  
+Yeah, that’s fair, but that should be out of the maintainer policy and into something more mutable i think
+
+coderanger [12:08 PM]  
+Yeah, same idea but less official-y.
+
+thom [12:09 PM]  
+It was also pointed out that there’s no way in the current policy to *remove* components
+
+[12:10]  
+which seems annoying but not insurmountable
+
+jtimberman [12:10 PM]  
+is there a way to add them?
+
+btm [12:10 PM]  
+if we remove the platforms as components, we'll need to revisit rfc021-platform-support-policy too.
+
+coderanger [12:11 PM]  
+Maybe just combine all non-platform components for now and tackle reforming the platform process later?
+
+[12:11]  
+I think that part isn't the current squeaky wheel at least
+
+thom [12:12 PM]  
+i would quite happily do s/Lieutenant/Platform Expert/ on that file. Y’all can’t pronounce Lieutenant anyway :wink:
+
+[12:12]  
+but yeah, that seems a lesser concern
+
+jtimberman [12:12 PM]  
+"expert"
+
+[12:12]  
+Platform Advocate?
+
+thom [12:12 PM]  
+sure
+
+cheeseplus [12:12 PM]  
+leftenant
+
+jtimberman [12:12 PM]  
+I love some macOS, but I don't know if I'd call myself an expert :wink:
+
+btm [12:13 PM]  
+@jtimberman you can call yourself whatever you want as long as you fix all the bugs :smile:
+
+jtimberman [12:13 PM]  
+@btm :open_mouth:
+
+thom [12:13 PM]  
+OK. I’ll produce a PR to chef
+
+jtimberman [12:13 PM]  
+but in seriousness, I think "Platform Advocate" captures the intent.
+
+thom [12:14 PM]  
+OK.
+
+[12:14]  
+Would anyone like to say anything about our currently accepted RFCs? (edited)
+
+[12:15]  
+Otherwise, I’d like to move on to our first PR of the week; @lamont’s https://github.com/chef/chef-rfc/pull/238
+ GitHub
+Attributes dot Next by lamont-granquist · Pull Request #238 · chef/chef-rfc · GitHub
+This builds out a new API in parallel with the old API, with slightly different simplified semantics, emits deprecation warnings for cases where the semantics differ, and then gradually deprecates ... 
+ 
+ 
+
+jtimberman [12:16 PM]  
+"3+ year project" :open_mouth:
+
+tas50 [12:16 PM]  
+chef 14 :wink:
+
+coderanger [12:17 PM]  
+I think the design is the right way to go, but don't love the API specifics.
+
+lamont [12:17 PM]  
+that one seems to be on the “nuclear reactor” side of “nuclear reactor vs. bikeshed"
+
+jtimberman [12:17 PM]  
+I like the motivation section
+
+coderanger [12:17 PM]  
+I had talked to @lamont about repurposing `node.read` instead of `attr` as a pseudo-global method
+
+lamont [12:18 PM]  
+so here’s the prior art as well:
+
+[12:18]  
+https://github.com/chef/chef-rfc/pull/77/files
+ GitHub
+Attribute API 2 by danielsdeleo · Pull Request #77 · chef/chef-rfc · GitHub
+NOTE: This RFC is incomplete, the specification of the new feature is TBD. This RFC describes a new attributes API to be added alongside the current one. The goals of this new API are: Separate de... 
+ 
+ 
+
+coderanger [12:19 PM]  
+But the overall split is the way to move forward IMO: attributes, ohai data, and node-specific persistent data
+
+[12:19]  
+And never the three shall meet
+
+thom [12:19 PM]  
+yeah, I’m definitely :heavy_plus_sign: on the design
+
+[12:21]  
+feels like we can bikeshed the verbs we use in the PR, and move on for now? (edited)
+
+jtimberman [12:21 PM]  
+i have a lot of thoughts on this :slightly_smiling_face:
+
+[12:21]  
+i'll grab my bucket of paint for later.
+
+coderanger [12:21 PM]  
+Getting `ohai` in as an accessor seems like a good, modular first step?
+
+lamont [12:21 PM]  
+yeah i actually wanted that, so i wrote the whole RFC
+
+thom [12:22 PM]  
+yeah
+
+ssd [12:22 PM]  
+Also :+1: on the overall split.  It is what I've wanted for a long time as a cookbook author.
+
+thom [12:23 PM]  
+i just made a serious old fart joke on the PR, so I definitely think we should move on
+
+lamont [12:23 PM]  
+exhume?
+
+thom [12:24 PM]  
+( `bury` and `disinter` kind of reflect my feelings on normal attributes)
+
+[12:24]  
+moving on, https://github.com/chef/chef-rfc/pull/239 .
+ GitHub
+Shipping audit controls by thommay · Pull Request #239 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects 
+ 
+ 
+
+[12:24]  
+This one is mine but also @chris-rock’s, who is somewhere in america currently
+
+[12:25]  
+the intention is to provide an implementation neutral way of writing audit controls
+
+[12:25]  
+Christoph’s comment in the RFC is pretty much the thing
+
+lamont [12:25 PM]  
+yeah i think that’s what i wanted originally :+1:
+
+jtimberman [12:25 PM]  
+this replaces the existing audit-mode?
+
+thom [12:26 PM]  
+@jtimberman the intention is that it would be back compat
+
+[12:26]  
+but yes
+
+jtimberman [12:26 PM]  
+yeah i don't see language in the rfc text that it removes "audit-mode"
+
+[12:27]  
+just chris's comment
+
+[12:27]  
+will this have any kind of interaction with a compliance server?
+
+[12:27]  
+how is this different than testing cookbooks using inspec in the `test` directory?
+
+thom [12:28 PM]  
+I think you could move the current mode to an audit handler and ship that with chef and it’d be fine
+
+[12:28]  
+compliance -> through visibility/reporting/etc , yes
+
+[12:28]  
+or any other report handler
+
+coderanger [12:29 PM]  
+If this can be the final gorram nail in the coffin of cookbook segments :+1:
+
+thom [12:29 PM]  
+different -> the same as audit mode is different now; you’re running controls on the server, not testing your cookbooks
+
+ssd [12:29 PM]  
+I was just thinking about that, this will need a little bit of server work I think
+
+thom [12:29 PM]  
+@coderanger this and ohai plugins, yes
+
+[12:29]  
+@ssd yes
+
+ssd [12:29 PM]  
+Still +1, just a note for implementation
+
+thom [12:29 PM]  
+hopefully https://github.com/chef/chef-rfc/blob/master/rfc067-cookbook-segment-deprecation.md has that covered
+ GitHub
+chef/chef-rfc
+chef-rfc - Public RFCs for Chef and related projects 
+ 
+ 
+
+jtimberman [12:29 PM]  
+test kitchen verify isn't testing the cookbook, it's assessing the end state of the node
+
+ssd [12:29 PM]  
+oh duh, that was in the comment already
+
+coderanger [12:30 PM]  
+@thom  Something something unfunded mandates :smile:
+
+thom [12:30 PM]  
+something something i’m bloody well funding this one
+
+[12:30]  
+:slightly_smiling_face:
+
+lamont [12:30 PM]  
+something something after dnf provider
+
+coderanger [12:30 PM]  
+Yahr
+
+[12:31]  
+Proposal other than that seems relatively uncontroversial, basically the same as audit mode before reality ruined everyones hopes and dreams
+
+jtimberman [12:32 PM]  
+yeah i like the intent. I guess my concern is about testing/test kitchen use.
+
+[12:32]  
+RIP audit-mode.
+
+ssd [12:32 PM]  
+Right, so I think we need to really lean into making sure users of all existing modes have a nice experience and a clear direction of what they need to do
+
+[12:33]  
+That feels like something we can hash out in the actual implementation, not sure how much you want to put in the RFC
+
+thom [12:33 PM]  
+you can just add test/audit as a seperate inspec suite in your kitchen.yml , jtimberman
+
+[12:33]  
+@ssd implementation, yes
+
+lamont [12:33 PM]  
+could you pull test-kitchen test suites out of the test segment as well?
+
+jtimberman [12:33 PM]  
+i also worry about duplication of `verify` tests vs `audit`
+
+thom [12:34 PM]  
+lamont probably
+
+jtimberman [12:34 PM]  
+would the `audit` directory get shipped with the cookbook, e.g., to supermarket?
+
+thom [12:34 PM]  
+yes
+
+jtimberman [12:34 PM]  
+i think the RFC should reflect that.
+
+[12:34]  
+tools that manage cookbooks will probably need to know about the new directory.
+
+thom [12:35 PM]  
+please add a comment to the RFC
+
+[12:36]  
+any more for just now?
+
+[12:37]  
+Right, moving on to https://github.com/chef/chef-rfc/pull/240
+ GitHub
+Cookbook Metadata Lifecycle by charlesjohnson · Pull Request #240 · chef/chef-rfc · GitHub
+People have been running into more and more issues lately with cookbook sharing and distribution tools having different expectations around the presence of and preference for metadata.rb / metadata... 
+ 
+ 
+
+[12:37]  
+@chip you’re up
+
+chip [12:37 PM]  
+Cool
+
+thom [12:37 PM]  
+well, i guess I am too but yeah, go for it :slightly_smiling_face:
+
+chip [12:37 PM]  
+Can you kick off? I'm jugging attention.
+
+[12:37]  
+Finishing up a call right now
+
+thom [12:37 PM]  
+Sure
+
+lamont [12:38 PM]  
+@coderanger you’re more or less agreeing with me in your first comment about JSON being lossy?
+
+coderanger [12:38 PM]  
+Yeah
+
+chip [12:38 PM]  
+OK attention no longer divided.
+
+thom [12:38 PM]  
+So the concern here is that our story is *very* unsatisfactory as to when tools should use metadata.json or metadata.rb ; we should have a consistent process and this rfc is an attempt to provide it
+
+coderanger [12:38 PM]  
+I think the official policy should be to preserve the metadata.rb as a file everywhere, not try to regenerate it. But backcompat with existing artifacts :disappointed: :disappointed:
+
+lamont [12:39 PM]  
+yes
+
+chip [12:39 PM]  
+I added a comment at the bottom of the RFC that really sums up my priorities there.
+
+lamont [12:39 PM]  
+i feel that stripping metadata.rb was a mistake that needs to get rectified
+
+chip [12:39 PM]  
+If we agree that preserving the metadata.rb should be a priority let's add it to the list.
+
+nshamrell [12:39 PM]  
+I am also in favor of preserving the metadata.rb…but stove would need some changes
+
+lamont [12:39 PM]  
+gems don’t strip out gemspecs
+
+chip [12:39 PM]  
+That said, I don't understand why preserving it should be a priority.
+
+coderanger [12:40 PM]  
+@chip Because going from JSON->.rb is lossy, comments vanish, values that used to be dynamic aren't anymore, etc
+
+chip [12:40 PM]  
+Re-pasting priorities as I see them here, for easier reference:
+
+[12:40]  
+ ```- Humans don't have to care about the format of the metadata file in order to share and use cookbooks.
+- Humans never have to directly edit or create json documents.
+- Cookbook artifact repos should never interpret ruby metadata files to provide services.
+```
+(edited)
+
+coderanger [12:41 PM]  
+:+1: on the priorities as you wrote 'em
+
+tas50 [12:41 PM]  
+if we push a RFC that says “use the RB file” then stove will be changed. it’s that simple
+
+[12:41]  
+just use the RB file everywhere
+
+lamont [12:41 PM]  
+s/use/preserve/
+
+tas50 [12:41 PM]  
+stop doing magic in the RB file with includes that stove will fail to ship and life is good
+
+[12:41]  
+metadata.json is a horrible experience for humans
+
+coderanger [12:41 PM]  
+metadata.json should be an internal-ish API, in the same way that when you publish a gem it generates a YAML spec document, but you never see those
+
+chip [12:41 PM]  
+So, simplest thing that achieves those goals is what I'm after.
+
+tas50 [12:43 PM]  
+so maybe I’m underthinking this, but doesn’t most of the problem go away if we just make stove keep the .rb file?
+
+coderanger [12:43 PM]  
+I think Supermarket already correctly handles a cookbook with both a .rb and a .json, yes?
+
+lamont [12:43 PM]  
+berks as well
+
+coderanger [12:43 PM]  
+The reason stove set all this in motion was a bug confined to the old community-site AFAIK
+
+lamont [12:43 PM]  
+chef-client has done the right thing for a very long time now
+
+[12:43]  
+no, i think it was chef-client was favoring rb over json at one point
+
+tas50 [12:44 PM]  
+A lot of it had to do with includes in the metadata.rb and the opinion that you should be able to do magic in there
+
+lamont [12:44 PM]  
+this doesn’t stop you from doing dynamic things in metadata.rb
+
+tas50 [12:44 PM]  
+storing version in an external file that would be stripped by the whitelisting
+
+chip [12:44 PM]  
+I think the whole thing rolls back to roughly http://blog.vialstudios.com/the-importance-of-compiled-metadata/
+ Vial Studios
+The Importance of Compiled Metadata
+Metadata is extremely important. It tells our clients what to expect from the cookbook we're about to execute. Back in September of 2012 I opened a ticket regarding the name attribute not being required in a cookbook's metadata. The gist of the problem is that the name of a cookbook,
+Written by
+----------------
+Jamie Winsor
+
+Dec 17th, 2013 at 3:28 PM
+
+lamont [12:44 PM]  
+you still can, but once you’ve written the metadata.json consumers need to favor it
+
+coderanger [12:44 PM]  
+and I think they all do now, if we're all saying the same thing
+
+lamont [12:45 PM]  
+the problem was that stove and berks were trying to solve bugs in other downstream software around edge conditions in usages of metadata.rb
+
+thom [12:45 PM]  
+in summary: if json exists, use it. Otherwise, generate json from rb, then use it. Always ship both. ?
+
+chip [12:45 PM]  
+Anyway the "how we get there" in the existing RFC clearly sucks, and I'm open to wiping it and replacing it with what people deem appropriate. I'm just interested in the "where we get to."
+
+tas50 [12:46 PM]  
+I think a very simple RFC that just fancy-a-fies what @thom said would do wonders
+
+[12:46]  
+then we change stove
+
+[12:46]  
+this was prompted by users hitting stove created artifact correct?
+
+lamont [12:46 PM]  
+yes
+
+jtimberman [12:47 PM]  
+what thom said is exactly how i've understood it since metadata.{rb,json} were created.
+
+chip [12:47 PM]  
+The follow-up then is "What do we do with items on supermarket that only have .json files, and people are breaking?"
+
+jtimberman [12:47 PM]  
+that tooling didn't do that always confounded me
+
+chip [12:47 PM]  
+Which precipitated all of this.
+
+[12:47]  
+Have multiple support requests about it right now.
+
+lamont [12:47 PM]  
+there’s nothing much we can do
+
+jtimberman [12:47 PM]  
+i mean
+
+lamont [12:47 PM]  
+because of coderangers prior comment about json->rb being lossy
+
+jtimberman [12:47 PM]  
+we can't modify the artifacts on supermarket
+
+coderanger [12:47 PM]  
+I mean we could do a single pass, unpack every artifact and do the generation
+
+[12:48]  
+but this seems like a really bad idea
+
+jtimberman [12:48 PM]  
+we cannot do that.
+
+[12:48]  
+if someone is using policyfiles you just fucked up their locks.
+
+coderanger [12:48 PM]  
+Or at least would create a lot more problems than it solves
+
+lamont [12:48 PM]  
+yeah
+
+coderanger [12:48 PM]  
+Yeah
+
+jtimberman [12:48 PM]  
+never ever ever modify artifacts upstream.
+
+lamont [12:48 PM]  
+artifacts are artifacts, those cookbooks need new releases off a new version of stove
+
+coderanger [12:48 PM]  
+We could add a cookbook quality metric for "has an uploaded metadata.rb
+
+[12:48]  
+so people could at least see
+
+jtimberman [12:48 PM]  
+yes
+
+coderanger [12:48 PM]  
+And then tell people to do new releases
+
+[12:48]  
+(if they care)
+
+thom [12:48 PM]  
+the use case is that you download a cookbook from the public supermarket, and then wish to upload it to a private supermarket
+
+coderanger [12:49 PM]  
+Can't stove do that now?
+
+thom [12:49 PM]  
+it seems not unreasonable to do that just using the json
+
+[12:49]  
+no
+
+coderanger [12:49 PM]  
+Oh, yeah, we should def fix that
+
+jtimberman [12:49 PM]  
+if they won't/can't, or aren't working on that cookbook anymore, we can encourage them to deprecate to another, or otherwise steer consumers away
+
+[12:49]  
+nicely. with hugs
+
+thom [12:49 PM]  
+we’re at time
+
+tas50 [12:50 PM]  
+we can push all our cookbooks using new stove again. Not crazy
+
+thom [12:50 PM]  
+we can fix stove and friends to allow users to upload using just json, and then we can fix stove to upload both, and we’re good i think
+
+coderanger [12:50 PM]  
+@thom https://github.com/sethvargo/stove/pull/99
+ GitHub
+Support reading metadata from metadata.json by smurawski · Pull Request #99 · sethvargo/stove · GitHub
+Currently, if you try to publish a cookbook that you retrieved from the public supermarket via stove to an internal supermarket it fails. This PR adds support for hydrating the metadata from metad... 
+ 
+ 
+
+thom [12:51 PM]  
+ok, then there is something else that can't
+
+coderanger [12:51 PM]  
+I think that means supermarket tarball -> stove upload should work now
+
+thom [12:51 PM]  
+I’ll do some research and update the RFC accordingly
+
+coderanger [12:51 PM]  
+:+1:
+
+chip [12:51 PM]  
+Cool, thanks.
+
+coderanger [12:52 PM]  
+We should definitely fix this, I think its 90% the way there just need to _find_ the 10%
+
+thom [12:52 PM]  
+yeh
+
+[12:52]  
+OK? (edited)
+
+coderanger [12:52 PM]  
+grumbles about `-` in cookbook names and wanders off
+
+robbkidd [12:52 PM]  
+You _can_ upload with knife a metadata.json-only cookbook from Supermarket to private Supermarket if the metadata declares no version constraints. (edited)
+
+chip [12:52 PM]  
+I think you mean `_`
+
+[12:52]  
+:troll:
+
+jtimberman [12:52 PM]  
+:troll:
+
+thom [12:52 PM]  
+right, think we’re done
+
+[12:52]  
+Thanks everyone!
+
+chip [12:52 PM]  
+Thank you
+
+jtimberman [12:52 PM]  
+and on that note, :microphone: drop from thom!
+
+[12:52]  
+:wink:
+
+thom [12:53 PM]  
+***** MEETING ENDS ******

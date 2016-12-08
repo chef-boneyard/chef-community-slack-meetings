@@ -1,0 +1,546 @@
+
+thom [12:01 PM]
+I hope we can tear people away from the re:invent keynote
+
+tduffield [12:01 PM]
+thats why we all have N+1 screens :slightly_smiling_face:
+
+thom [12:01 PM]
+so, the agenda is at https://github.com/chef/chef-community-slack-meetings/blob/master/2016-12-01-agenda.md
+ GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+
+
+nshamrell [12:01 PM]
+:slightly_smiling_face:
+
+thom [12:02 PM]
+The ChefConf CFP continues to be open, and you should continue to submit talks
+
+[12:02]
+https://chefconf.chef.io/call-for-presentations/
+
+[12:02]
+I don’t think I have any other community updates
+
+[12:02]
+so let’s talk software!
+
+tduffield [12:03 PM]
+Push Jobs Client 2.1.4 has been released. This release addresses the bugs that would 1) cause some recent installations to fail due to gem conflicts and 2) jobs that had output that was too large would hang.
+
+tas50 [12:04 PM]
+Ohai 8.22.0 was released with fixes and a new haskell plugin
+
+coderanger [12:05 PM]
+New kitchen is up with caching for the chef installers under vagrant.
+
+chip [12:05 PM]
+A very nice update to Test Kitchen! Kitchen-vagrant VMs won't need to download chef-client on every run, saving time and bandwidth. Test Kitchen now supports local cache definitions in the driver, and the kitchen-vagrant plugin will use this to cache chef-client downloads. Other drivers will be able to specify their own cache locations if the authors choose to do so.
+
+[12:05]
+Heh. What @coderanger said.
+
+tduffield [12:07 PM]
+Also, expect a Chef 12.17 pre-release announcement next week!
+
+thom [12:07 PM]
+Any more for any more?
+
+chip [12:07 PM]
+If you're on Chef Analytics there should be an openssl security update in the very near future.
+
+[12:07]
+Also please hit me up, we should talk about why you're still using Chef Analytics and what I can do to help you migrate to Automate instead. :slightly_smiling_face:
+
+thom [12:07 PM]
+One of the actions from last week was to remove the maintainer tools groups, so here’s a PR: https://github.com/chef/chef/pull/5598 please provide thumbs
+ GitHub
+Remove Maintainer subsections by thommay · Pull Request #5598 · chef/chef · GitHub
+Besides the platfrom ones, which require some touch up to the maintenance policy. Per the developers' meeting last week, the subsections are not really working, so let's get rid of them. cc @adamhj...
+
+
+
+[12:08]
+I’ll be following up with a PR here to update the maint policy to talk about platform advocates
+
+[12:09]
+The first PR for discussion is @shortdudey123’s one https://github.com/chef/chef-rfc/pull/241
+ GitHub
+Add critical non-maintained cookbooks to RFC069 by shortdudey123 · Pull Request #241 · chef/chef-rfc · GitHub
+This adds provisions for transfering a cookbook on supermarket to a new owner in cases where the cookbook is major / critical and the owner is not reachable and not actively maintaining the cookbook.
+
+
+
+shortdudey123 [12:09 PM]
+Here for discussion :)
+
+jtimberman [12:11 PM]
+I have questions. "What is critical?" "By what criteria do we measure 'critical'?" "Who determines what is critical?" While it's possible to fork a cookbook if necessary, that can be an epic amount of work for people downstream depending on how the cookbook is used/implemented.
+
+coderanger [12:11 PM]
+My comments are on the PR but I don't think this belongs as Chef policy
+
+thom [12:11 PM]
+I think we can strongly argue that we as maintainers could decide criticality, but I agree that we should shouldn't
+
+shortdudey123 [12:12 PM]
+I was hoping for get feedback on the "critical" part
+
+coderanger [12:12 PM]
+We already allow forced transfers in cases of negligence or security issues, I don't think we should go beyond that as far as policy goes
+
+tduffield [12:13 PM]
+Was there a particular experience that motivated this RFC?
+
+shortdudey123 [12:13 PM]
+Main reason for submitting it is to make sure that cookbooks in the supermarket keep getting maintained after the author has gone completely out of communication for one reason or another
+
+[12:13]
+Mongodb cookbook
+
+coderanger [12:13 PM]
+But if someone wants to start a curated set of cookbooks I would totally support that
+
+[12:13]
+(And is part of the idea of the poise- prefix)
+
+shortdudey123 [12:14 PM]
+IMO at least cookbooks for main databases and system functions should be considered
+
+coderanger [12:14 PM]
+@shortdudey123: we do ensure that, in that the code is open and you can fork
+
+shortdudey123 [12:15 PM]
+True, if you fork a cookbook, update it, put it on another name on supermarket, how do people find it?
+
+chip [12:15 PM]
+Does this roll back up into being the namespace issue again?
+
+[12:15]
+What he said ^^^
+
+coderanger [12:15 PM]
+Which leads in to cookbook discovery
+
+shortdudey123 [12:15 PM]
+Partially
+
+coderanger [12:15 PM]
+More so discovery than namespacing I think
+
+shortdudey123 [12:16 PM]
+Yes
+
+tduffield [12:16 PM]
+I also have concerns about well-established cookbooks being separated from their original source.
+
+shortdudey123 [12:16 PM]
+Maybe there should be a mechanism for linking updated cookbooks in supermarket?
+
+coderanger [12:16 PM]
+Discovery on Supermarket is totally a problem, but this is not the solution imo
+
+tduffield [12:17 PM]
+I tend to agree. I think there's a discoverability / suggestion of a "more maintained cookbook" option that exists here
+
+coderanger [12:18 PM]
+I think if we push further on the quality metrics ideas, this will be vastly improved
+
+jtimberman [12:18 PM]
+Wait.
+
+coderanger [12:18 PM]
+If that isn't enough, then we could look at explicitly doing "see also"
+
+jtimberman [12:18 PM]
+What's the concern? Is it that "critical cookbooks" are unmaintained? Are they buggy/broken?
+
+[12:19]
+Are there open PRs for non-essential pet features that the maintainer isn't responding to / merging?
+
+shortdudey123 [12:19 PM]
+Very out dated (I.e installing and configuring stuff that is EOL)
+
+[12:19]
+Yes
+
+jtimberman [12:19 PM]
+I'd consider the cookbook to be EOL and to make a new one.
+
+shortdudey123 [12:20 PM]
+Possibly, but then that leads back to supermarket discovery :p
+
+robbkidd [12:20 PM]
+Alt solution: define quality metrics around automated measurements of cookbook project health. :warning: Tricky.
+
+jtimberman [12:20 PM]
+I agree with @coderanger this doesn't feel like Chef Maintenance Policy Type Stuff
+
+[12:20]
+so, discovery is an issue. Let's solve that.
+
+coderanger [12:21 PM]
+@robbkidd: we've already started down that path, like looking at number of maintainers
+
+jtimberman [12:21 PM]
+I think the cookbook adoption RFC as it stands covers the most serious issues of cookbooks being outdated/unmaintained.
+
+robbkidd [12:21 PM]
+Yup. I'm not discouraging the effort. Just ... there be dragons.
+
+nshamrell [12:22 PM]
+2 more metrics are in the Supermarket master branch (though will be released as admin only first for evaluation)
+
+shortdudey123 [12:22 PM]
+Which metrics are those? (On my phone and can't easily look)
+
+thom [12:22 PM]
+ok, I think we’ve covered this pretty thoroughly. This RFC is still in the two week discussion period, so we’ll have chance to come back to it next week
+
+[12:23]
+next up is @lamont with https://github.com/chef/chef-rfc/pull/238
+ GitHub
+Attributes dot Next by lamont-granquist · Pull Request #238 · chef/chef-rfc · GitHub
+This builds out a new API in parallel with the old API, with slightly different simplified semantics, emits deprecation warnings for cases where the semantics differ, and then gradually deprecates ...
+
+
+
+nshamrell [12:23 PM]
+@shortdudey123 will DM you
+
+shortdudey123 [12:23 PM]
+Thanks
+
+coderanger [12:24 PM]
+@lamont: any movement to discuss?
+
+lamont [12:24 PM]
+not really, still looking for feedback
+
+coderanger [12:25 PM]
+For those not in the US it's been a holiday week so not much happens :) (edited)
+
+thom [12:25 PM]
+yeah
+
+[12:25]
+technically we’re in voting period but due to turkeymassacre we should extend everything
+
+chip [12:26 PM]
+In the new attribute merge chart, there's no automatic?
+
+lamont [12:26 PM]
+yeah i’m okay with skipping this week on that one until we see if it can get some more feedback
+
+coderanger [12:26 PM]
+Yeah, Ohai becomes it's own API
+
+[12:26]
+More like facter
+
+thom [12:26 PM]
+@chip https://github.com/chef/chef-rfc/pull/238/files#diff-67e7e15fc5e1097c535fca5e33b8772dR85
+ GitHub
+Attributes dot Next by lamont-granquist · Pull Request #238 · chef/chef-rfc · GitHub
+This builds out a new API in parallel with the old API, with slightly different simplified semantics, emits deprecation warnings for cases where the semantics differ, and then gradually deprecates ...
+
+
+
+chip [12:27 PM]
+Reading it now, yes.
+
+lamont [12:27 PM]
+node.automatic is still going to be there for a very long time
+
+jtimberman [12:27 PM]
+will `node['foo']['bar']['baz']` et al stop working?
+
+coderanger [12:28 PM]
+No
+
+lamont [12:28 PM]
+not for a very long time
+
+coderanger [12:28 PM]
+:100: compat
+
+lamont [12:28 PM]
+well i’m murdering node.foo.bar.baz in chef 13 for orthogonal reasons…  but we’ve already got the deprecation warning in for that one...
+
+chip [12:29 PM]
+Will authors have to keep track in their head which attribute system they're using during the transition, or is it all magic'ed away for them?
+
+lamont [12:29 PM]
+it’ll be 'dual stack'
+
+[12:29]
+same backing store for both
+
+jtimberman [12:29 PM]
+oh i'm totally down with removing `node.foo.bar.baz` :wink:
+
+chip [12:30 PM]
+Cool!
+
+lamont [12:30 PM]
+`node.automatic['hostname'] = 'foo.example.com'` can be retrieved with `ohai('hostname')`
+
+chip [12:31 PM]
+A suggestion for readability: A "what happened to automatic attributes?" under the Merged precedence table changes would help alleviate knee-jerks like mine.
+
+jtimberman [12:31 PM]
+`node['hostname']` will work, and `ohai('hostname')` is the same?
+
+coderanger [12:31 PM]
+Yes
+
+jtimberman [12:31 PM]
+(just clarifying)
+
+[12:31]
+thanks
+
+chip [12:32 PM]
+The only thing I can see being a hard-sell is the last bit, moving to `something("foo, "bar", "baz")` over `something["foo"]["bar"]["baz"]`
+
+[12:32]
+Not because it isn't right
+
+coderanger [12:32 PM]
+That ship has sailed
+
+chip [12:32 PM]
+or right(er)
+
+coderanger [12:32 PM]
+:(
+
+lamont [12:32 PM]
+yeah
+
+jtimberman [12:33 PM]
+i don't know if i super like that syntax.
+
+lamont [12:33 PM]
+we argued that out here:
+
+[12:33]
+https://github.com/chef/chef-rfc/pull/77
+ GitHub
+Attribute API 2 by danielsdeleo · Pull Request #77 · chef/chef-rfc · GitHub
+NOTE: This RFC is incomplete, the specification of the new feature is TBD. This RFC describes a new attributes API to be added alongside the current one. The goals of this new API are: Separate de...
+
+
+
+chip [12:33 PM]
+But because the bracket chains feel like such a Chef thing.
+
+coderanger [12:33 PM]
+We haven't publicized it but node.read is already in
+
+jtimberman [12:33 PM]
+@chip my muscle memory for it is strong.
+
+lamont [12:33 PM]
+bracket chains are literally impossible to implement and fix the bugs that people care about
+
+[12:33]
+method chaining == trainwrecks
+
+[12:34]
+so on technical grounds that API is discarded with quite a bit of prejudice
+
+jtimberman [12:34 PM]
+as long as i can still use `node['foo']['bar']['etc']` i'm ok :wink:
+
+lamont [12:34 PM]
+26 votes : https://feedback.chef.io/forums/301644-chef-product-feedback/suggestions/8364522-more-descriptive-nomethoderror-undefined-method
+Chef Product Feedback Forums
+More descriptive "NoMethodError: undefined method `[]' for nil:NilClass"
+NoMethodError ------------- undefined method `[]' for nil:NilClass 45: file '/tmp/test' do 46>> content node['one']['two']['three']['four'] 47: mode '0600' 48: end This must be the most common chef-client(ruby) error I've seen in the field. It's caused by missing or incorrect attributes. This feedback request is to provide a more descriptive error message, like: NoMethodError ------------- undefined key 'three' for nil node['one']['two'] or NoMethodError ------------- node['one']['two'] is Show more...
+
+
+
+coderanger [12:34 PM]
+For a few years at least
+
+[12:34]
+But probably not forever
+
+jtimberman [12:35 PM]
+nods
+
+jtimberman [12:35 PM]
+that's fine
+
+thom [12:35 PM]
+OK, anything else here? We’re extending the comment period until next week
+
+jtimberman [12:35 PM]
+@tas50 is going to rewrite all my cookbooks anyway :troll:
+
+thom [12:35 PM]
+that NoMethodError is the most chef-fy thing i remember :stuck_out_tongue:
+
+chip [12:35 PM]
+HA!
+
+tas50 [12:36 PM]
+soon
+
+chip [12:36 PM]
+(Loud barking laugh that made my dog startle awake)
+
+jtimberman [12:36 PM]
+@chip same (edited)
+
+thom [12:36 PM]
+ok, let’s roll forwards. https://github.com/chef/chef-rfc/pull/239 is mine and @chris-rock
+ GitHub
+Shipping audit controls by thommay · Pull Request #239 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects
+
+
+
+lamont [12:36 PM]
+@jtimberman actually the plan is that cookstyle will rewrite all your cookbooks
+
+thom [12:36 PM]
+I updated this with the feedback from last week
+
+jtimberman [12:36 PM]
+@lamont :thumbsup:
+
+[12:37]
+pr 239, this replaces or enhances the existing "audit mode"?
+
+thom [12:37 PM]
+replaces
+
+jtimberman [12:37 PM]
+:thumbsup:
+
+thom [12:38 PM]
+we’ll ensure (chris et al will ensure) that existing audit mode stuff works with the addition of a cookbook, but it won’t be in core chef (edited)
+
+coderanger [12:39 PM]
+Because I can't help but be happy about it, ding dong the segments are dead
+
+thom [12:39 PM]
+i am literally erlang’ing in another terminal
+
+ssd [12:39 PM]
+I'm OK with the audit changes as proposed; however, I worry because the RFC doesn't have a lot of detail and the situation is already really confusing.  Let's be vigilant to make sure that the UX is REALLY clear around the new stuff.
+
+lamont [12:39 PM]
+:fuckyeah:
+
+thom [12:40 PM]
+yeah, i hate writing UX in an RFC; totally feels too soon.
+
+ssd [12:41 PM]
+Yup, RFC looks AOK
+
+lamont [12:41 PM]
+sometimes its kinda useful, sometimes its kinda bad
+
+coderanger [12:41 PM]
+:shipit:
+
+thom [12:41 PM]
+technically we’re still in comment period, but if y’all’d like to vote we can do that (edited)
+
+lamont [12:41 PM]
+as long as you can go “oops, that command line switch is already taken, lets submit a PR to the RFC to fix that” it is often fixable...
+
+thom [12:42 PM]
++1 or -1, please
+
+[12:43]
+OK, this feels approved
+
+[12:43]
+approving my own RFCs seems a bit naughty but hey, i’m gonna do it anyway
+
+lamont [12:44 PM]
+one announcement worthy thing before close :  i’ve got a working dnf_package provider i just need to put some finishing touches on
+
+[12:44]
+Soon(tm)
+
+[12:44]
+will probably miss next weeks release tho
+
+thom [12:44 PM]
+there’s also https://github.com/chef/chef-rfc/pull/240
+ GitHub
+Cookbook Metadata Lifecycle by charlesjohnson · Pull Request #240 · chef/chef-rfc · GitHub
+People have been running into more and more issues lately with cookbook sharing and distribution tools having different expectations around the presence of and preference for metadata.rb / metadata...
+
+
+
+chip [12:45 PM]
+This feels stalled out right now, we got into talking about a case that could lead to pain.
+
+[12:45]
+I'm not sure if the RFC as it stands improves the world but leaves that one case busted, and we should move on
+
+[12:45]
+or if that case should be addressed as well.
+
+[12:45]
+At the risk of doing nothing.
+
+thom [12:45 PM]
+which is chip and i. in summary, i tried the upload download upload dance. It works, besides when there are cookbook dependencies expressed in the JSON, and there’s a PR for that we should finish up and land
+
+[12:46]
+but yes, agree the PR should probably be abandoned
+
+lamont [12:46 PM]
+oh yeah, i have that chef/chef PR half rewritten
+
+chip [12:46 PM]
+If the problem is solved without the RFC PR, then I'm fine abandoning it. (edited)
+
+lamont [12:46 PM]
+well i have the PR rewritten and have half rewritten all the specs for that knife command
+
+thom [12:47 PM]
+nice, @lamont
+
+shortdudey123 [12:47 PM]
+Cool
+
+chip [12:47 PM]
+I'm not convinced the problem is solved, though.
+
+[12:48]
+Happy to chat about that in another venue.
+
+robbkidd [12:48 PM]
+IMO fixing the validation of dependencies-declared-in-JSON is minimum.
+
+thom [12:48 PM]
+@chip let’s chat
+
+chip [12:48 PM]
+Yep!
+
+thom [12:48 PM]
+and storyboard and do the good things :slightly_smiling_face:
+
+[12:49]
+anyway, we’re virtually at time
+
+[12:49]
+Any other business?
+
+jtimberman [12:49 PM]
+check out the new announcements from AWS Re/Invent :wink:
+
+thom [12:52 PM]
+Thanks everyone!
