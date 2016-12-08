@@ -1,0 +1,349 @@
+12:00]
+***** MEETING STARTS *****
+
+[12:00]
+Agenda for today's meeting can be found on GitHub - https://github.com/chef/chef-community-slack-meetings/blob/master/2016-12-08-agenda.md
+ GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+
+
+[12:01]
+We'll get started with some community updates, move on to software releases, and then to the open PRs in the repo that are ready for review.
+
+kgarmoe [12:01 PM]
+joined #developer-meetings
+
+nathenharvey [12:01 PM]
+The ChefConf CFP is currently open, tickets for the conference will be available in mid January
+
+[12:02]
+We'd love to hear from you.
+
+[12:02]
+In addition to submitting your presentation, you can also nominate a speaker or topic you'd like to hear from or about.
+
+[12:02]
+https://chefconf.chef.io/
+
+[12:02]
+As you may know this year's ChefConf is happening in May in Austin.  The CFP closes on January 18
+
+[12:04]
+We're looking for a variety of topics that are targeting a variety of skill and experience levels.  Tell us what you've learned, show us code from the internals, whatever you think makes a great story.
+
+[12:04]
+We still have a number of events that we're attending through the end of the year.  Maybe we'll see you at one of these?  https://www.chef.io/blog/events/
+
+[12:05]
+@holoway and I will be at DevOpsDays Tel Aviv next :wink:
+
+[12:06]
+That's the community update for today.  I'll open up the floor for people to share information about software that's recently been released or will be in the very near future.
+
+tduffield [12:06 PM]
+Yesterday we announced Chef 12.17.44 as the release candidate for this months Chef 12.17 release. Check out https://discourse.chef.io/t/pre-release-announcement-chef-12-17-44/9999 for more details. Barring any blockers, expect the full 12.17 release early next week.
+Chef Mailing List
+[Pre-release Announcement] Chef 12.17.44
+Ohai Chefs! We have selected 12.17.44 as our Chef v12.17 release candidate which is scheduled for release on Monday December 12, 2016. Release Highlights Highlighted enhancements for this release: Added msu_package resource and provider which supports the installation of Microsoft Update(MSU) packages on Windows. Example: msu_package 'Install Windows 2012R2 Update KB2959977' do source 'C:\Users\xyz\AppData\Local\Temp\Windows8.1-KB2959977-x64.msu' action :install end msu_pa...
+
+[12:06]
+We've also been working on an official chef/chef Docker image that you can use with kitchen-dokken. As of kitchen-dokken 1.0.9, the chef/chef image is the default image that will be used. You can check out https://hub.docker.com/r/chef/chef for more details on the image itself.
+
+jtimberman [12:07 PM]
+I want to share news about two cookbooks we've been working on here at Chef for Habitat. First is the `habitat` cookbook. This cookbook includes resources for managing Habitat installation, packags, and services. It will be extended over time to add more functionality related to habitat such as configuration files, gossip management, and more. It's published on Supermarket, source is on Github.
+
+https://supermarket.chef.io/cookbooks/habitat
+https://github.com/chef-cookbooks/habitat
+
+The second is the `habitat-build` cookbook. This is build cookbook for Chef Automate workflow to build habitat packages and publish them to a depot. It makes use of the `habitat` cookbook's resources :slightly_smiling_face:. It's available on Github.
+
+https://github.com/chef-cookbooks/habitat-build
+ GitHub
+chef-cookbooks/habitat
+habitat - Chef Cookbook for Habitat
+
+
+  GitHub
+chef-cookbooks/habitat-build
+habitat-build - Chef Delivery build cookbook for Habitat Plans
+
+
+
+[12:07]
+dat linking
+
+tduffield [12:08 PM]
+If you're a cookbook developer, you can use the `chef/chef:current` image in kitchen-dokken to test against the latest pre-release build from our current channel. Details on how to do that can be found here: https://discourse.chef.io/t/use-chef-chef-current-in-kitchen-dokken/10002
+Chef Mailing List
+Use chef/chef:current in kitchen-dokken
+Hey y'all! We've been doing some work behind the scenes to help improve your test experience with Kitchen. One of those improvements includes kitchen-dokken images fed directly from our release channels! Head over to chef/chef on the Docker Hub to check out these images. As of kitchen-dokken 1.0.9, the default image will be our chef:chef/latest image. This tag is tied to whatever version of Chef was most recently promoted to Stable. If you are using kitchen-dokken 1.0.9 today, no action is n...
+
+[12:09]
+By using the `chef/chef:current` image, you can help identify potential regressions or breaking changes before they are officially promoted to stable.
+
+tas50 [12:11 PM]
+We chatted about it here during the RFC process, but we now have a deprecations page up on the docs site. https://docs.chef.io/chef_deprecations_client.html will track all our deprecations going forward. We already have PRs flowing to add more for the Chef 13 release so keep an eye on the page
+
+nshamrell [12:12 PM]
+Supermarket 2.8.43 was released, details are here https://discourse.chef.io/t/supermarket-2-8-43-released/9983
+Chef Mailing List
+Supermarket 2.8.43 released
+Supermarket 2.8.43 was released today and is available for download at https://downloads.chef.io/supermarket. Enhancements Admin-Only Quality Metrics: In the effort to add new quality metrics to the system, metrics can now be flagged as only visible to Supermarket admins. As metrics are added and tested, they will start as admin-only. Toggling involves console commands as of this release and will become easier as this feature gets fleshed out! New Quality Metrics (set to admin-only by defa...
+(edited)
+
+nathenharvey [12:13 PM]
+rounding out the release announcements from the last seven days...
+
+• Chef Analytics 1.6.1 released - https://discourse.chef.io/t/chef-analytics-1-6-1-released/9966
+• Knife-ec2 0.14.0 released - https://discourse.chef.io/t/knife-ec2-0-14-0-released/9972
+• Push Jobs Server 2.1.1 Released - https://discourse.chef.io/t/push-jobs-server-2-1-1-released/9973
+• Chef Compliance 1.7.3 & InSpec 1.7.1 - https://discourse.chef.io/t/chef-compliance-1-7-3-inspec-1-7-1/9985
+• Chef Backend 1.2.5 released - https://discourse.chef.io/t/chef-backend-1-2-5-released/10001
+Chef Mailing List
+Chef Analytics 1.6.1 released
+Hello! Chef Analytics 1.6.1 has been released. It involves internal improvements to support OpenSSL 1.0.2j. Please note that we skipped the version number 1.6.0 (it was never released). You can find all Chef Analytics releases at https://downloads.chef.io/analytics/ Enjoy!
+Chef Mailing List
+Knife-ec2 0.14.0 released
+knife-ec2 0.14.0 release notes: This release of knife-ec2 contains minor bug fixes. Features added in knife-ec2 0.14.0 Added support to flavor list in json format using --format json option. --security-group-id option to specify security groups for the server. This opiton can be used multiple times when specifying multiple security groups. e.g. -g sg-e985168d -g sg-e7f06383 -g sg-ec1b7e88. Note: The --security-group-ids option will be removed in a future release. Use the new --security-...
+Chef Mailing List
+Push Jobs Server 2.1.1 Released
+Hi, Chef Push Jobs Server 2.1.1 has been released. It is available for download at https://downloads.chef.io/push-jobs-server/. This release contains the latest patched version of OpenSSL (1.0.2j) as well as various build, test, and development environment improvements. It also fixes a bug where messages that exceed the allowed message size would not be handled properly. Additional client fixes related to this bug are in Push Jobs Client 2.1.4.
+Chef Mailing List
+Chef Compliance 1.7.3 & InSpec 1.7.1
+Dear Compliance & InSpec friends, Chef Compliance 1.7.3 is now available from the Chef downloads site. This is a minor release update which is recommended for all users of Chef Compliance. Here are the enhancements and bug fixes included in this release: Enhancements: Ability to upload meta-profiles Includes InSpec 1.7.1 with improvements and fixes named below. Fixed bugs: Unable to install compliance on server with enabled LDAP Fix compliancestatus calculator when multiple profiles...
+Chef Mailing List
+Chef Backend 1.2.5 released
+Hello Chefs! We have a new release of Chef Backend for you that includes a number of performance tuning options and stability improvements. These improvements will help reduce the number of fail-over events in your environment that may occur due to transient network issues. All users of 1.1.2 and prior are encouraged to upgrade. You may find it at https://downloads.chef.io/chef-backend . Along with our new features, we have a number of tunable options. These flags are documented in detail ...
+
+[12:13]
+thanks for the link expansion, :slack: :disappointed:
+
+lamont [12:14 PM]
+yo dawg i heard you liked links…
+
+nathenharvey [12:14 PM]
+any other notable releases that anyone would like to link to?
+
+cheeseplus [12:15 PM]
+there was the kitchen-vagrant and test-kitchen releases to enable caching
+
+nathenharvey [12:16 PM]
+thanks everyone!
+
+[12:17]
+Please also take a few minutes to review the list of currently accepted RFCs.  Are any updates required?  https://chef.github.io/chef-rfc/
+
+[12:17]
+And we'll move into our PRs to review.  we have 2 new and 4 that have been previously discussed
+
+[12:17]
+we'll start with the new ones, first up:
+
+PR 244 - Test Kitchen Multi-Server Testing - https://github.com/chef/chef-rfc/pull/244
+ GitHub
+🚧 Test Kitchen Multi-Server Testing by coderanger · Pull Request #244 · chef/chef-rfc · GitHub
+Okay so remember how I said last time that I would stop writing new RFCs that I don't have the bandwidth to implement? Well I lied. But I think this is worth writing down at least so we can start t...
+
+
+
+[12:19]
+I don't see @coderanger online at the moment.  He's likely busy conferencing at LISA
+
+shortdudey123 [12:19 PM]
+The RFC is based on some chat at chef summit this year so i know several people are looking forward to it :slightly_smiling_face:
+
+nathenharvey [12:21 PM]
+indeed!  absent @coderanger at this meeting, I'd like to ask folks to review and comment on the PR and we'll move on to the next one on our agenda
+
+[12:21]
+PR 245 - RFC for removing unused metadata fields - https://github.com/chef/chef-rfc/pull/245
+
+jccastillocano [12:23 PM]
+joined #developer-meetings
+
+shortdudey123 [12:23 PM]
+Looks pretty straight forward and low impact
+
+cheeseplus [12:23 PM]
+I'm reading it through and looking at the implementation details we need to sort
+
+[12:23]
+(for 244 train internet is laggy)
+
+shortdudey123 [12:23 PM]
+i haven't seen any external tooling rely on those fields unless someone else has
+
+tas50 [12:24 PM]
+I’m fairly certain nothing has ever consumed those other than people reading the fields and hand uploading cookbooks
+
+[12:25]
+which “sorta” worked in 2009
+
+nathenharvey [12:25 PM]
+I also believe @thom is unavailable today and this PR is only 2 days old.  So, please review and comment in the PR itself if you have any additional feedback or concerns.
+
+[12:25]
+I'll make sure both are also on next week's agenda
+
+lamont [12:26 PM]
+people have attempted to use them fairly recently:
+
+[12:26]
+https://github.com/berkshelf/berkshelf/issues/1404
+ GitHub
+'berks update' does not resolve recursive dependencies · Issue #1404 · berkshelf/berkshelf · GitHub
+(Apologies if this is a dup of #1265.) When running berks update, I would expect all recursive dependencies to be resolved. I found that I had to run berks update more than one time for everything ...
+
+
+
+nathenharvey [12:26 PM]
+Moving on to PRs already discussed.  Added client-rb-logger.md  - https://github.com/chef/chef-rfc/pull/237/ is next up.
+ GitHub
+Added client-rb-logger.md by zfjagann · Pull Request #237 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects
+
+
+
+[12:27]
+I've missed a couple of these meeting so I'm not sure if we previously reached a conclusion on this one
+
+lamont [12:28 PM]
+no, i don’t think we’ve really discussed it
+
+[12:28]
+at least i don’t recall
+
+shortdudey123 [12:28 PM]
+Wasn't discussed here last week at least (edited)
+
+nathenharvey [12:31 PM]
+there is some discussion in the PR itself.  anyone have additional things they'd like to discuss here today on this one?
+
+lamont [12:31 PM]
+i just threw out the only comment i’ve got
+
+nathenharvey [12:32 PM]
+again, doesn't look like we have @jaymzh or Zeal here.  I don't think we actually have a decider here today either with @holoway, @thom, and @jonlives absent.
+
+jaymzh [12:32 PM]
+joined #developer-meetings from an invitation by @nathenharvey
+
+nathenharvey [12:32 PM]
+I'll push this to next week's agenda
+
+[12:33]
+PR 238 - Attributes dot Next - https://github.com/chef/chef-rfc/pull/238
+ GitHub
+Attributes dot Next by lamont-granquist · Pull Request #238 · chef/chef-rfc · GitHub
+This builds out a new API in parallel with the old API, with slightly different simplified semantics, emits deprecation warnings for cases where the semantics differ, and then gradually deprecates ...
+
+
+
+lamont [12:34 PM]
+mostly crickets on that RFC since last time
+
+nathenharvey [12:35 PM]
+yep, if nothing new, we'll just push to next week and hope to make a decision then
+
+[12:35]
+PR 240 - Cookbook Metadata Lifecycle - https://github.com/chef/chef-rfc/pull/240
+ GitHub
+Cookbook Metadata Lifecycle by charlesjohnson · Pull Request #240 · chef/chef-rfc · GitHub
+People have been running into more and more issues lately with cookbook sharing and distribution tools having different expectations around the presence of and preference for metadata.rb / metadata...
+
+
+
+lamont [12:36 PM]
+https://github.com/chef/chef/pull/5622 the issue that really kicked that off is closed now
+ GitHub
+Knife: cookbook site share doesn't work with some json metadata by lamont-granquist · Pull Request #5622 · chef/chef · GitHub
+rewrite of the specs on top of @andy-dufour's patch closes #4428 closes #3888
+
+
+
+nathenharvey [12:37 PM]
+reviewing some of the transcripts, it seemed like perhaps this was going to be addressed without the need for the PR?
+
+[12:38]
+@chip should this be closed?
+
+chip [12:38 PM]
+Thom & I had a conversation about it
+
+[12:39]
+I'm not personally convinced the issue has gone away. We've still identified cases where people have to think about the format of their metadata file, or might wind up with cookbooks that don't have a metadata.rb.
+
+[12:39]
+But it doesn't sound like there's a lot of momentum to fix it right now either
+
+[12:40]
+And I don't have time to invest until mid-q1
+
+[12:40]
+So I guess that means close, but unsatisfactory outcome. (edited)
+
+nathenharvey [12:41 PM]
+we can put it "on hold", too.  we've certainly a precedence for that.  perhaps someone else would want to pick-up advocating for this in the meantime?
+
+[12:42]
+That leaves us with 8 minutes and one more PR on our agenda.
+
+[12:42]
+PR 241 - Add critical non maintained cookbooks to RFC069 - https://github.com/chef/chef-rfc/pull/241
+ GitHub
+Add critical non-maintained cookbooks to RFC069 by shortdudey123 · Pull Request #241 · chef/chef-rfc · GitHub
+This adds provisions for transfering a cookbook on supermarket to a new owner in cases where the cookbook is major / critical and the owner is not reachable and not actively maintaining the cookbook.
+
+
+
+shortdudey123 [12:43 PM]
+I think the general consensus was this is a supermarket discovery issue and can probably be closed unless anyone has any further commends or questions
+
+[12:44]
+Would love to help figure out the discoverability side though :stuck_out_tongue:
+
+nathenharvey [12:44 PM]
+I'm generally :-1: on this change if only because I believe it's already covered by the existing RFC.  An RFC should be opened and would be handled on a case-by-case basis
+
+[12:44]
+the cookbook quality metrics (https://github.com/chef-cookbooks/cookbook-quality-metrics) are the first step in improving discoverability of better cookbooks
+ GitHub
+chef-cookbooks/cookbook-quality-metrics
+cookbook-quality-metrics - Measurements of quality for cookbooks in the Chef Supermarket
+
+
+
+[12:45]
+recommendation of and/or implementation of additional metrics would certainly be welcomed!
+
+lamont [12:46 PM]
+i remain skeptical of cookbook quality metrics, and feel that users are going to want a “frobnicator” cookbook that just works for “frobnicator” and not have to go looking for “frobnicator_ng2_simple_fixed_continued" — but, i think we’ve argued about it enough for this round and can move on...
+
+nathenharvey [12:46 PM]
+sounds like PR-241 can be closed without merging though.  Are you OK with that @shortdudey123?
+
+shortdudey123 [12:47 PM]
+Closed :slightly_smiling_face:
+
+lamont [12:47 PM]
+:+1:
+
+nathenharvey [12:47 PM]
+ok, that brings us to the end of our agenda for today as well.
+
+[12:48]
+I'll carry some of the PRs we discussed today forward to next week's agenda
+
+[12:48]
+Next week's meeting (Thursday, December 15, 2016 9AM-9:50AM PST) will be the final meeting of 2016
+
+[12:48]
+After that meeting, we will observe a Winter Break from our weekly meetings and resume on Thursday, January 19
+
+[12:48]
+Thank you!
+
+[12:49]
+***** MEETING ENDS *****
