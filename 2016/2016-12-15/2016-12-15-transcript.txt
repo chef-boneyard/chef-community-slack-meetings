@@ -1,0 +1,414 @@
+
+***** MEETING STARTS *****
+
+[12:01]
+The agenda for today's meeting:  https://github.com/chef/chef-community-slack-meetings/blob/master/2016-12-15-agenda.md
+ GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+
+
+[12:01]
+we'll have some updates and have a number of PRs to review
+
+[12:02]
+This will be our last developer meeting for 2016, we'll take a break and our next meeting will be January 19.
+
+[12:02]
+On the community front...
+
+[12:02]
+The ChefConf CFP is open now and we're really hoping to hear from you!
+
+vova [12:03 PM]
+joined #developer-meetings
+
+nathenharvey [12:03 PM]
+We're looking for a large variety of topics targeting various experience levels.
+
+[12:03]
+We also have a way for you to nominate a topic or speaker you'd like to be included in the program.  Please share your ideas with us!
+
+[12:04]
+Chef will be holding our annual company meeting in early January at our office in Seattle.  Most Chef employees will be in town for a week.
+
+[12:04]
+We will be hosting a game night on Tuesday, January 10 at our Seattle office and will open that up to the community.  If you are in town, please stop by!  Watch https://www.meetup.com/Chef-Meetup/ for more information later today.
+ Meetup
+Chef Meetup
+A community of Chef users in the Seattle area (and beyond) meeting to discuss a variety of Chef driven topics from Continuous Delivery to daily workflow issues.
+
+
+
+[12:05]
+Those are the community updates for today.  I'd like to open the floor for updates on software that's been released recently or will be released very soon.  What software releases would _you_ like to share?
+
+thom [12:07 PM]
+https://discourse.chef.io/t/pre-release-announcement-chefdk-1-1-16/10040
+Chef Mailing List
+[Pre-release Announcement] ChefDK 1.1.16
+Ohai Chefs! We have selected 1.1.16 as our ChefDK v1.1 release candidate which is scheduled for release on Monday December 19, 2016. Release Highlights New Inspec Test Location To address bugs and confusion with the previous test/recipes location, all newly generated cookbooks and recipes will place their Inspec tests in test/smoke/default. This placement creates the association of the smoke Workflow phase and the default Kitchen suite where the tests are run. Default Docker image in kit...
+
+nathenharvey [12:08 PM]
+Three things have been posted to the Release Announcements since our last meeting:
+
+• Chef 12.17.44
+• Cookstyle 1.0
+• knife-ec2 0.14.0
+
+https://discourse.chef.io/c/chef-release
+Chef Mailing List
+Chef Release Announcements
+This category is used to announce releases of Chef software and other projects related to Chef. Only Chef Staff and project maintainers can post in this category. All discussion related to the announcements should be posted in other categories. Release announcements will include information such as the list of new features, bug fixes, errata, contributor recognition, etc. Release announcements may also contain some brief feature descriptions, but in-depth feature spotlights will be posted on the Show more…
+
+[12:09]
+Any other releases we should mention?
+
+thom [12:09 PM]
+I don’t think so
+
+blooze [12:09 PM]
+joined #developer-meetings
+
+nathenharvey [12:10 PM]
+OK.  I'd like to ask everyone to review the current state of our RFCs and be on the lookout for any status changes that should be made.  https://chef.github.io/chef-rfc/
+
+[12:10]
+And then let's move on to our PRs for today.
+
+[12:11]
+First up is a request to Transfer mongodb cookbook on Supermarket to Sous Chefs org. - https://github.com/chef/chef-rfc/pull/246
+ GitHub
+Transfer mongodb cookbook on Supermarket to Sous Chefs org by shortdudey123 · Pull Request #246 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects
+
+
+
+thom [12:12 PM]
+i am dubious that this is the spirit of RFC 69
+
+shortdudey123 [12:12 PM]
+This came out of the RFC update PR i put in since this is the more specific reason for the update we had discussed previously
+
+[12:12]
+Can you elaborate?
+
+coderanger [12:13 PM]
+@shortdudey123: forced transfers are for major threats to the community, not just naming convenience
+
+thom [12:13 PM]
+well, because the “death of a contributor” paragraph was intended for literally that - where there is absolutely no recourse and inaction is harmful
+
+nathenharvey [12:14 PM]
+RFC 69 does state that "... a community member who wishes to take ownership of the cookbook (or see ownership transferred to someone else with their consent) is welcome to file an RFC."  and that we, the community, will decide these RFCs on a case-by-case basis.
+
+shortdudey123 [12:14 PM]
+@coderanger RFC069 allows it
+
+[12:15]
+I have been unable to verify that the people mentioned in the PR are in fact still alive (edited)
+
+nathenharvey [12:15 PM]
+I do not think a transfer is a thing that can or should be taken lightly.
+
+coderanger [12:16 PM]
+The "inaction is harmful" bit is important too
+
+[12:16]
+What harm is the current cookbook causing?
+
+shortdudey123 [12:16 PM]
+> I do not think a transfer is a thing that can or should be taken lightly.
+Agreed
+
+thom [12:16 PM]
+i think the correct thing to do is to mark the current cookbook as deprecated, create an `sc-mongodb` cookbook, and mark that as the replacement
+
+coderanger [12:16 PM]
+Yeah, a forced deprecation notice is a lot safer than a transfer
+
+nathenharvey [12:16 PM]
+I reached out to Markus Korn, the owner of the cookbook, via email today.  The email has not bounced but no response has been received yet.
+
+johnsnow [12:17 PM]
+joined #developer-meetings
+
+shortdudey123 [12:17 PM]
+> "inaction is harmful"
+People currently using the cookbook on supermarket are getting an EOS'd version and is not receiving security updates
+
+coderanger [12:17 PM]
+@shortdudey123 Okay, that's a more compelling reason :slightly_smiling_face:
+
+shortdudey123 [12:17 PM]
+@nathenharvey i can respond to the email i sent and CC'd you is you wish :slightly_smiling_face:
+
+[12:17]
+@coderanger yes, will update the PR after this meeting with that
+
+thom [12:18 PM]
+my feeling is that we should _never_ invoke RFC 69 clause 2 as written. but that’s just personal opinion and unbinding
+
+nathenharvey [12:20 PM]
+I'd like to propose the following steps in this particular case:
+
+1.  I continue to reach out to Markus via email and any other means people may have for reaching him over the next 3 months.
+2.  A Supermarket Admin marks the current mongodb cookbook as deprecated and encourages use of the sous-chef version of the cookbook on or after March 15, 2017
+
+Markus Korn, the current owner of the cookbook, may veto this change at anytime.
+
+thom [12:21 PM]
+i think the corollary to that is that we should ensure supermarket DTRT with deprecations to ensure that the replacement is properly returned
+
+coderanger [12:21 PM]
+@thom What do you mean by that?
+
+shortdudey123 [12:21 PM]
+I have tried to reach out to Markus on email and twitter, and jameson on twitter and linkedin
+
+thom [12:22 PM]
+ie, if you go to /cookbooks/mongodb it says deprecated and here’s the replacement
+
+nathenharvey [12:23 PM]
+@shortdudey123 I believe you and think it's in the best interest of everyone if a Supermarket Administrator is the one doing the outreach that may result in action after some period of time.
+
+shortdudey123 [12:23 PM]
+Sure :slightly_smiling_face:
+
+[12:23]
+just adding that here since its not in the PR :stuck_out_tongue:
+
+nathenharvey [12:23 PM]
+The supermarket would show a deprecation message similar to what is currently displayed for the Python cookbook - https://supermarket.chef.io/cookbooks/python
+
+thom [12:24 PM]
+cool
+
+coderanger [12:24 PM]
+Yeah, but notably you can still download the deprecated thang, and berks/policy/etc shows no warning
+
+[12:24]
+which maybe we should look at improving long term
+
+[12:24]
+but that's neither here nor there :slightly_smiling_face:
+
+thom [12:25 PM]
+it seems like it would be easy to add a deprecated field to universe
+
+[12:25]
+but yes
+
+nathenharvey [12:25 PM]
+I also think we should require a majority of the Chef Core maintainers to approve this forced deprecation
+
+lamont [12:25 PM]
+FWIW i’m still in favor of having a process for taking back cookbooks that have been long abandoned by authors so :+1: on the RFC
+
+coderanger [12:26 PM]
+@nathenharvey I would be happy if the Supermarket team held Decider-ing on it, as they do for prefixes
+
+nathenharvey [12:26 PM]
+I propose, for the purposes of today's meeting, that I add the steps I listed above as a commentary to the PR.  That will put the process in motion and the PR will be on hold until the outreach period has expired.  Markus being the only one with the capability to accelerate that process.
+
+nshamrell [12:27 PM]
+:thumbsup:
+
+shortdudey123 [12:27 PM]
+Works for me
+
+nathenharvey [12:27 PM]
+OK, let's move on to our next PR then.  https://github.com/chef/chef-rfc/pull/244
+ GitHub
+🚧 Test Kitchen Multi-Server Testing by coderanger · Pull Request #244 · chef/chef-rfc · GitHub
+Okay so remember how I said last time that I would stop writing new RFCs that I don't have the bandwidth to implement? Well I lied. But I think this is worth writing down at least so we can start t...
+
+
+
+coderanger [12:28 PM]
+:wave:
+
+[12:28]
+So this is a thing we should probably at least start planning to do given user demand :slightly_smiling_face:
+
+[12:29]
+I think the design hits all the needed bases at this point, but I still hate the name `supersuites`
+
+[12:29]
+`plans` is so far the best replacement I've heard
+
+[12:30]
+But if there are un-served use case, I would also love more eyes
+
+shortdudey123 [12:31 PM]
+I don't know of anything that would conflict with 'plans'
+
+coderanger [12:31 PM]
+@shortdudey123 Habitat
+
+shortdudey123 [12:31 PM]
+Oh, I haven't had a chance to use that yet so I wasn't aware :(
+
+coderanger [12:31 PM]
+But I think that's far enough to not be a huge concern :slightly_smiling_face:
+
+shortdudey123 [12:31 PM]
+True
+
+ramereth [12:31 PM]
+does supersuite conflict anywhere else?
+
+troyready [12:32 PM]
+`supersuites` is somewhat goofy, but I like the direct tie to existing suite concept
+
+coderanger [12:32 PM]
+@ramereth No, it's just silly sounding
+
+ramereth [12:32 PM]
+I agree but it fits with the current naming within TK
+
+btm [12:33 PM]
+ugh naming. `ubersuites`! I think provisioning called something like this a topology, as a point of reference.
+
+ramereth [12:33 PM]
+(I need to go but that was my $0.02)
+
+shortdudey123 [12:33 PM]
+Makes me think of the incredibles movie haha
+
+coderanger [12:33 PM]
+But all that said, if the biggest problem with this is coming up with a name, we can also worry about that later
+
+[12:33]
+:slightly_smiling_face:
+
+shortdudey123 [12:34 PM]
+Yup
+
+[12:34]
+Implementation detail
+
+nathenharvey [12:34 PM]
+`plans` are what we use to describe packaging in :habitat:, fwiw.  You define a habitat package in a `plan.sh`.
+
+robbkidd [12:34 PM]
+`deluxesuite`?
+
+nshamrell [12:35 PM]
+supersuite works for me
+
+coderanger [12:36 PM]
+I'm not agreeing to do the impl work (currently) so there is also no rush to approve this
+
+nathenharvey [12:37 PM]
+should this go on hold then until someone is interested in picking it up?
+
+coderanger [12:37 PM]
+@nathenharvey No, I think we should have a plan on the record
+
+[12:38]
+In the hopes that someone, either I find a client willing to put up $$ or Chef Software can aim some people at it, gets the cycles
+
+nathenharvey [12:39 PM]
+OK then I propose that we're ready to move to a vote on accepting this PR
+
+coderanger [12:40 PM]
+Are people cool with me picking a name post-acceptance via the magic of "because I say so"?
+
+[12:41]
+Cool, then +1 for voting
+
+nathenharvey [12:42 PM]
+OK, @thom you're decider today...
+
+thom [12:43 PM]
+yeah, i’m happy to deciderate this
+
+[12:43]
+:+1:
+
+[12:45]
+@nathenharvey i think we’re good to go
+
+nathenharvey [12:45 PM]
+great.  With that approved, we have 5 minutes left for our next PR -- https://github.com/chef/chef-rfc/pull/237/
+ GitHub
+Added client-rb-logger.md by zfjagann · Pull Request #237 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects
+
+
+
+[12:46]
+there was no material discussion on this PR last week and we had neither PR advocates nor deciders present in the meeting.
+
+[12:46]
+There has been no further action on the PR either so I suggest we're ready for a vote on this, @thom
+
+thom [12:47 PM]
+i think the RFC needs a lot of work just based on the commentary before it’s in a state that we could accept it
+
+lamont [12:47 PM]
+yeah needs at least some copyediting i think
+
+coderanger [12:47 PM]
+I think error behaviors need to be laid out more strongly
+
+thom [12:48 PM]
+i’d vote we put this on hold until at least the comments on the PR are resolved
+
+nathenharvey [12:48 PM]
+great!
+
+thom [12:48 PM]
+I’d also like an answer to my question at the top of the PR
+
+nathenharvey [12:48 PM]
+I think the final PR for today is still pretty active, too - https://github.com/chef/chef-rfc/pull/238
+ GitHub
+Attributes dot Next by lamont-granquist · Pull Request #238 · chef/chef-rfc · GitHub
+This builds out a new API in parallel with the old API, with slightly different simplified semantics, emits deprecation warnings for cases where the semantics differ, and then gradually deprecates ...
+
+
+
+[12:48]
+and we're down to having only 2 minutes
+
+lamont [12:49 PM]
+yeah i have a pile of edits on that one to get to
+
+nathenharvey [12:49 PM]
+oh, I skipped https://github.com/chef/chef-rfc/pull/245
+
+thom [12:49 PM]
+yeah :disappointed:
+
+coderanger [12:50 PM]
+:shipit:
+
+thom [12:50 PM]
+um, still in discussion period but given i’m working on vnext of the cookbook-version api in server, i think it’s a good time to get this done
+
+[12:50]
+I’m half thinking we should add `attribute` to this too
+
+coderanger [12:50 PM]
+This is low impact enough to accept now I think
+
+thom [12:50 PM]
+but that’s more controversial
+
+coderanger [12:51 PM]
+Anyone want to -0 or -1 this?
+
+nathenharvey [12:52 PM]
+That's time for today.  I'll make sure this one carries forward to our next agenda as well.
+
+thom [12:52 PM]
+yeah, i think we can just rubber stamp this after the holiday
+
+nathenharvey [12:53 PM]
+Our next meeting is Thursday, January 19, 2017.  Please have a safe, happy, and restful holiday season!  Thank you for being awesome!
+
+[12:53]
+***** MEETING ENDS *****
