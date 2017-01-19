@@ -1,0 +1,211 @@
+nathenharvey [12:00 PM]
+Hello everyone!
+
+[12:01]
+Happy New Year and welcome back to our regular cadence of weekly Chef Developer meetings
+
+
+slackbot BOT [12:01 PM] Only visible to you
+Pssst! I didn’t unfurl https://github.com/chef/chef-community-slack-meetings/blob/master/2017-01-19-agenda.md because it was already shared in this channel quite recently (within the last hour) and I didn’t want to clutter things up.
+
+nathenharvey [12:01 PM]
+As @thom mentioned above, our agenda for today can be found on GitHub - https://github.com/chef/chef-community-slack-meetings/blob/master/2017-01-19-agenda.md
+
+[12:01]
+We'll have a couple of updates and then work through some of the open PRs.
+
+[12:01]
+I'll get us started with the community update.
+
+[12:02]
+ChefConf is coming.  Tickets are on sale now.
+The CFP closed yesterday so now the committee has the task to go through the 200 or so talk submissions and select 30 or so that will end up creating the afternoon program for ChefConf.
+
+[12:03]
+You should have received an email earlier this week about tickets being on sale and that email should have included a discount for contributors.
+
+[12:04]
+ChefConf officially kicks off on Monday, May 22 with training workshops, a Chef Community Summit, and a Habitat Community Summit.  That's followed by two days of conferencing and we close out the week on Thursday with a hack day.
+
+[12:05]
+Really hope to see each of you there
+
+[12:05]
+Watch https://chefconf.chef.io/2017/ for all the details
+
+[12:05]
+including a fun "teaser" video
+
+[12:06]
+That's the community update for today.  Let's move on to software releases.
+
+[12:06]
+Who has some updates on that front to share?
+
+tduffield [12:06 PM]
+Chef 12.18 pre-release was announced yesterday: https://discourse.chef.io/t/pre-release-announcement-chef-client-12-18/10254. We hope to have the full release out early next week.
+Chef Mailing List
+[Pre-Release Announcement] Chef Client 12.18
+Hello Chefs! We have selected 12.18.39 as our Chef v12.18 release candidate which is scheduled for release on Monday January 23, 2017. Release Highlights Highlighted enhancements for this release: You can now specify the acceptable return codes from the chocolatey_package resource using the returns property. You can now enable chef-client to run as a scheduled task directly from the client MSI on Windows hosts. Highlighted bug fixes for this release: Fixed exposure of sensitive data of...
+
+nathenharvey [12:08 PM]
+From the Release Announcements on Discourse (https://discourse.chef.io/c/chef-release) we have:
+
+• Chef Automate Release 0.6.64
+• ChefDK 1.1.16
+• Improvements to docs.chef.io - content snapshots
+• Knife-windows 1.8.0
+Chef Mailing List
+Chef Release Announcements
+This category is used to announce releases of Chef software and other projects related to Chef. Only Chef Staff and project maintainers can post in this category. All discussion related to the announcements should be posted in other categories. Release announcements will include information such as the list of new features, bug fixes, errata, contributor recognition, etc. Release announcements may also contain some brief feature descriptions, but in-depth feature spotlights will be posted on the Show more…
+
+[12:08]
+Anyone else have software updates to share?
+
+tas50 [12:09 PM]
+Foodcritic 8.2 with new chef version metadata. It’ll be in the next ChefDK
+
+thom [12:09 PM]
+a couple of Berkshelf releases which’ll be in the next ChefDK
+
+afiune [12:10 PM]
+Also new features in the delivery-cli will be released in the next ChefDK :slightly_smiling_face: - Specifically to the `delivery local` command.
+
+nathenharvey [12:11 PM]
+OK!  thanks
+
+[12:12]
+I'd like to remind everyone to take a few minutes to review the current status of our accepted RFCs - https://chef.github.io/chef-rfc/
+
+[12:12]
+Send PRs for any changes that need to be made, please
+
+[12:12]
+Our first PR for today is https://github.com/chef/chef-rfc/pull/236
+GitHub
+Add Sous Chefs to reserved prefixes by josephholsten · Pull Request #236 · chef/chef-rfc · GitHub
+This is a proposal to add Sous Chefs to the registered prefixes. Chef Brigade has agreed to do this, so we're ready to merge.
+
+
+[12:13]
+@robbkidd @nshamrell if y'all are OK with that one, I believe it's ready for merging
+
+coderanger [12:13 PM]
+That doesn't really need to be discussed unless someone objects, just needs supermarket team approval
+
+nshamrell [12:13 PM]
+:thumbsup:
+
+nathenharvey [12:13 PM]
+@coderanger yep.  Also good to mention it here so everyone see it being approved.
+
+[12:14]
+Our next PR is similarly uncontroversial (famous last words) - https://github.com/chef/chef-rfc/pull/248
+GitHub
+Update RFC41 to reflect the reality of Chef Server by thommay · Pull Request #248 · chef/chef-rfc · GitHub
+The RFC specifies /server_api_version in some places and /server_api_versions in others. Chef Server implements the former endpoint, so let's use that consistently. cc @marcparadise @chef/chef-serv...
+
+
+[12:14]
+this looks ready for merging
+
+coderanger [12:14 PM]
+:+1:
+
+nathenharvey [12:15 PM]
+OK, moving along then to https://github.com/chef/chef-rfc/pull/237/
+GitHub
+Added client-rb-logger.md by zfjagann · Pull Request #237 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects
+
+
+coderanger [12:16 PM]
+I think this still needs a more detailed spec
+
+thom [12:16 PM]
+I’m unconvinced that this RFC actually is implementable in current form
+
+coderanger [12:17 PM]
+Good idea overall, but needs specifics to judge it on
+
+nathenharvey [12:18 PM]
+I move that we put this on hold then until such time as the spec is further fleshed out.
+
+[12:19]
+OK.  Next up:  https://github.com/chef/chef-rfc/pull/238
+GitHub
+Attributes dot Next by lamont-granquist · Pull Request #238 · chef/chef-rfc · GitHub
+This builds out a new API in parallel with the old API, with slightly different simplified semantics, emits deprecation warnings for cases where the semantics differ, and then gradually deprecates ...
+
+
+thom [12:20 PM]
+on hold
+
+nathenharvey [12:20 PM]
+oops...so it is :slightly_smiling_face:
+
+[12:20]
+on to  https://github.com/chef/chef-rfc/pull/245
+
+coderanger [12:20 PM]
+Lamont has been on a well deserved vacation so imagine not much has changed
+
+nathenharvey [12:21 PM]
+245 is an RFC for removing unused metadata fields
+
+coderanger [12:21 PM]
+If @thom is happy with 245 :+1: from me
+
+lamont [12:22 PM]
+yeah i haven’t touched 238, need to page back in some braincells that got written to disk down in MX
+
+thom [12:22 PM]
+i like ripping things out, and i’m currently mucking with the cookbook metadata stuff anyway, so this seems like a good time
+
+tas50 [12:22 PM]
+245 would be great to get in formally. We’ve sorta deprecated them already by removing docs, but we should do it for reals
+
+lamont [12:22 PM]
+already deprecated some of them in foodcritic
+
+tas50 [12:22 PM]
+that too
+
+thom [12:23 PM]
+@nathenharvey i think this is votable
+
+nathenharvey [12:23 PM]
+let's do it!  :+1:  or :-1:?
+
+[12:23]
+(my vote is just to give something clickable, not actually a :-1:) (edited)
+
+thom [12:24 PM]
+Since this is the last thing, I’d like to get maintainer votes on https://github.com/chef/chef/pull/5728 , which adds @tduffield as a chef maintainer
+GitHub
+Add myself as core maintainer by tduffield · Pull Request #5728 · chef/chef · GitHub
+Signed-off-by: Tom Duffield tom@chef.io Description Add myself as core maintainer (per discussion with @thommay at Rally) Check List New functionality includes tests All tests pass RELEASE_NOTE...
+
+nathenharvey [12:25 PM]
+245 is approved.  Let's get some thumbs on that PR from @tduffield
+
+afiune [12:26 PM]
+:tada:
+
+ssd [12:26 PM]
+:penguindance:
+
+nathenharvey [12:26 PM]
+yay!
+
+[12:27]
+we still have 23 minutes left ... any other business you'd like to bring up or discuss?
+
+tduffield [12:27 PM]
+:corn: :cow: :hash:
+
+nathenharvey [12:28 PM]
+nom nom nom
+
+[12:28]
+OK, let's call this meeting adjourned and we'll meet here again next Thursday, January 26, 2017 9AM-9:50AM PST.
