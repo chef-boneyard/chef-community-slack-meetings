@@ -1,0 +1,112 @@
+**** MEETING BEGINS *****
+
+thom [12:01 PM]
+Hi Nathen!
+
+nshamrell [12:02 PM]
+morning!
+
+cheeseplus [12:02 PM]
+hola
+
+nathenharvey [12:02 PM]
+Just lost home network. :(. Now on tiny keyboard
+
+[12:02]
+@thom take us through recent releases while I recover?
+
+[12:03]
+I'll be back with a community update soon.
+
+[12:04]
+Our agenda for today's meeting - https://github.com/chef/chef-community-slack-meetings/blob/master/2017-01-26-agenda.md
+GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+
+thom [12:04 PM]
+Chef Server is prepping for a release currently; ChefDK will be releasing next week, and I’d expect to see an RC today or tomorrow for that. We released what we expect to be the last 8.x Ohai release, and are now preparing for Ohai 13
+
+[12:05]
+Chef 12.18.31 was released 3 days ago: https://discourse.chef.io/t/chef-12-18-31-released/10275
+Chef Mailing List
+Chef 12.18.31 Released
+Hello Chefs! We're happy to announce the release of Chef v12.18! Release Highlights Highlighted enhancements for this release: You can now specify the acceptable return codes from the chocolatey_package resource using the returns property. You can now enable chef-client to run as a scheduled task directly from the client MSI on Windows hosts. The package provider now supports DNF packages for Fedora and upcoming RHEL releases Highlighted bug fixes for this release: Fixed exposure of se...
+
+[12:06]
+I’m expecting to release Chef-Vault 3.0 very soon; please test the last release candidate: https://discourse.chef.io/t/knife-vault-3-0-release-candidate-2/9982 (edited)
+
+[12:07]
+February’s Chef Client release will be the last feature release in the 12 series.
+
+[12:08]
+We expect March to only contain critical bug fixes, and then April will be Chef Client 13.0 . We have no plans currently to release Chef Server 13, since Chef Server 12 will be forward compatible with Chef Client 13
+
+[12:09]
+think i’m done
+
+nathenharvey [12:09 PM]
+great, and I'm back :slightly_smiling_face:
+
+[12:09]
+anyone else have software releases to report today?
+
+[12:11]
+OK.
+
+[12:11]
+let's move on to community update then
+
+[12:12]
+Early bird and contributor discount tickets are currently on sale for ChefConf
+
+[12:12]
+The conference will run May 22-25.  The first day is workshops and summits. The last day will be a hack day
+
+[12:13]
+We've been thinking about a significant change to the way the Chef Community Summits will work for 2017, too.
+
+[12:14]
+Our current plan has us running four different summits.
+
+• In Austin as part of ChefConf (one day)
+• In Seattle in the Fall (one day of summit, followed by a hack day)
+• Somewhere on the East Coast of the US (likely NYC, one day of summit, followed by a hack day)
+• In London in the Fall (two day summit, might be followed by a hack day)
+
+[12:16]
+We're switching to three different US-based summits to help keep travel costs and commitments down and also wanted to get this info to this group even before we have finalized dates and locations so that you can plan / budget accordingly
+
+momo [12:16 PM]
+joined #developer-meetings
+
+nathenharvey [12:17 PM]
+That's it for the community update for this week.
+
+[12:17]
+We have no open PRs for review today
+
+[12:17]
+I'll open the floor for additional topics or business.  What would you like to discuss?
+
+jtimberman [12:18 PM]
+I'd like to raise awareness for folks that we have a `habitat` cookbook that provides resources that can be used in recipes to manage habitat things - installation, packages, and services. It's available on supermarket, https://supermarket.chef.io/cookbooks/habitat
+
+[12:19]
+I don't know if I've spread that message wide, I'll post more to the chef discourse later.
+
+nathenharvey [12:19 PM]
+thanks, @jtimberman
+
+[12:20]
+any other topics _you_ would like to discuss?
+
+[12:22]
+ok.  thanks everyone!  We'll meet back here next week.
+
+[12:22]
+Thursday, February 2, 2017 9AM-9:50AM PST
+
+[12:22]
+***** MEETING ENDS *****
