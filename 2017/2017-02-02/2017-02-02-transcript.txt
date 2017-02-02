@@ -1,0 +1,66 @@
+nathenharvey [12:00 PM]
+Hello everyone!
+
+[12:00]
+**** MEETING STARTS ****
+
+[12:01]
+https://github.com/chef/chef-community-slack-meetings/blob/master/2017-02-02-agenda.md
+GitHub
+chef/chef-community-slack-meetings
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+
+[12:02]
+no prs to review today, so we'll run through our updates and then open to floor for other business
+
+[12:02]
+I'll get us started with the Community update
+
+[12:03]
+ChefConf talk acceptances went out yesterday.  Watch the website for updates to the schedule soon.
+
+[12:03]
+Really excited about the content we'll have but also saddened by the number of great talks we couldn't fit into the schedule.
+
+thom [12:04 PM]
+let’s have two a year! :wink:
+
+nathenharvey [12:04 PM]
+As with previous years, we are offering Diversity Scholarships to for people from underrepresented areas of our community.  More details here - https://chefconf.chef.io/2017/diversity-scholarship/
+
+[12:05]
+That's the Community update.  Now on to software releases....
+
+[12:05]
+What software updates would you like to share?
+
+tas50 [12:07 PM]
+Foodcritic 9.0 was released with a fix for templates not included in the default directory and changes to the default command line values that make it easier to use out of the box
+
+nathenharvey [12:08 PM]
+Other releases from the discussion forums - https://discourse.chef.io/c/chef-release
+
+• Chef Automate Release 0.6.136
+• Supermarket 2.8.61 released
+• Chef Server 12.12.0 Released
+• Chef 13 Announcement
+• ChefDK 1.2 Released (edited)
+
+[12:09]
+OK, seems we might not have any additional updates
+
+[12:10]
+with no PRs to review I'd like to open the floor for additional content.  What would you like to discuss?
+
+[12:13]
+OK, that's today's meeting.  Our next meeting is scheduled for next Thursday, February 9, 2017 9AM-9:50AM PST.  *HOWEVER* if we have no PRs to review we'll likely cancel because some of us, myself included, will be on-site at the :habitat: workshop following Configuration Management Camp - http://cfgmgmtcamp.eu/fringe.html#habitat
+
+[12:13]
+We will make a decision on Monday at the latest.
+
+[12:13]
+Thank you all!
+
+[12:13]
+**** MEETING ENDS ****
