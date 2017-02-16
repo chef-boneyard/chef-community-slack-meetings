@@ -1,0 +1,459 @@
+nathenharvey [12:02 PM]
+***** MEETING STARTS *****
+
+[12:02]
+Agenda for today's meeting - https://github.com/chef/chef-community-slack-meetings/blob/master/2017-02-16-agenda.md
+github.com
+chef-community-slack-meetings/2017-02-16-agenda.md at master · chef/chef-community-slack-meetings · GitHub
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+[12:02]
+we'll have some updates and have a PR to review, though not a PR for the RFC repo.
+
+[12:03]
+I'll get us started with the community updates.
+
+[12:03]
+ChefConf is the big update that I'll be pushing until mid-May :wink:
+
+[12:04]
+we do have diversity scholarships available again this year for anyone from an underrepresented community - https://chefconf.chef.io/2017/diversity-scholarship/
+
+[12:05]
+Those of you planning to be in Austin for the conference please try to be there Monday - Thursday for the Community Summit, the conference, and a Hack Day.
+
+
+[12:06]
+Another thing I'd like to mention is that @adamleff has joined the Community Engineering team within Chef Software, Inc.  His main focus will be around the InSpec project.  Join me in welcoming and congratulating Adam on this new role!
+
+
+[12:07]
+We had a great week last week in Europe with Configuration Management and three different Hands On Habitat workshops, too.  It was great to see some of you there.
+
+[12:09]
+Final community update is that we recently changed the way events are listed on the Chef website.  They're now at https://events.chef.io/.  If you are going to, speaking at, hosting, etc. andy event that has Chef, InSpec, Habitat, or anything else in our area as a topic, please let us know so we can get that event listed and do some promotion.
+events.chef.io
+Chef Events
+IT Automation for everything from configuration management to continuous delivery
+
+
+[12:09]
+With that, let's move on to software releases
+
+[12:10]
+Lots listed here since our last meeting:
+
+https://discourse.chef.io/c/chef-release
+
+• Supermarket 2.9.3
+• Chef Backend 1.3.2 Released
+• ChefDK 1.2.22 (hotfix)
+• ChefSpec 5.4 released
+• Kitchen-ec2 1.3.0
+• Kitchen-vagrant 1.0.1 Released
+• Kitchen-vagrant 1.0.2 (hotfix)
+• Knife-ec2 0.15 released
+• Chef Reporting 1.6.6 released (edited)
+
+[12:11]
+Any other software releases (or pending releases) *you* would like to share?
+
+coderanger [12:12 PM]
+I think he is in transit so I'll point out a big for Tim, build-essential released 8.0 which drops support before Chef 12.5 (edited)
+
+cheeseplus [12:12 PM]
+kitchen-ec2 1.3.1 hotfix is also incoming
+
+coderanger [12:12 PM]
+Stay tuned for updates if you stuck on one of those versions
+
+tas50 [12:13 PM]
+We're doing major releases of a lot of community cookbooks to remove compat_resource and instead require chef 12.5+
+
+[12:13]
+Expect a handful more today
+
+coderanger [12:14 PM]
+@tas50 we reeeeeally need to come up a standard for this
+
+tas50 [12:14 PM]
+It should also be noted that in the last week we've done releases of apt and yum that removed the repository resources since those are built into chef. That eliminates a pile of deprecations warnings on every run
+
+thom [12:15 PM]
+we’re supporting 12.5 up because it’s everything up to a year old, and also gives us custom resources (which was the whole point of compat_resource)
+
+[12:16]
+these are all accompanied by major version bumps, so if that causes trouble pinning cookbooks is the correct right thing.
+
+
+coderanger [12:16 PM]
+Sure, that standard just isn't written down anywhere and could change at any moment which makes it hard for community cookbook authors to coordinate
+
+[12:17]
+The version solver doesn't grok min chef version so pinning in another community cookbook risks frustrating collisions
+
+[12:17]
+For build essential it's an easy fork to fix it which I've meant to do for a while but I would rather not fork the whole world :)
+
+[12:18]
+Not saying 12.5 is an unreasonable place to draw a line, just that you're also basically forcing the rest of community cookbook authors to do the same without any discussion
+
+nathenharvey [12:21 PM]
+@tas50 could you make a post to discourse describing the current plan and the cookbooks that have already been released?  Maybe a weekly update summarizing those that have made it through the process?
+
+tas50 [12:21 PM]
+Sure
+
+lamont [12:21 PM]
+it would be nice to have written down some kind of sliding window of support for chef-client versions
+
+[12:21]
+like 6 or 12 months after introducing a chef-client feature we can use it and drop support for older client versions
+
+nathenharvey [12:22 PM]
+of course that message and the weekly summaries could be from anyone on the cookbook engineering team.  could be @sigje or @cheeseplus, needn't be exclusively from you, @tas50
+
+lamont [12:22 PM]
+because that’s the remaining piece of policy that we need to ensure that compat_resource does not happen again
+
+
+nathenharvey [12:23 PM]
+I'd recommend an RFC or update to our current support policy RFC that talks about how we treat Chef Software-managed cookbook releases
+
+coderanger [12:25 PM]
+I'm cool with something less formal than an rfc but just having something to justify what versions I test on would be nice (something more than"that's what chef does")
+
+nathenharvey [12:25 PM]
+written down somewhere you might expect to find it probably means in a README or an RFC
+
+[12:26]
+I've captured this as an action item for the cookbook engineering team
+
+coderanger [12:26 PM]
+:+1: thanky
+
+nathenharvey [12:26 PM]
+unless there are other software releases to announce, let's move on to the next item in our agenda
+
+[12:27]
+OK, next up:  please take a minute to review the current state of our RFCs and update as necessary - https://chef.github.io/chef-rfc/
+
+[12:28]
+And, next on our agenda is to make everyone aware of and, perhaps, have a discussion around https://github.com/chef/chef/pull/5811
+
+Bump the version of chef depending on the label associated with PR by tduffield · Pull Request #5811 · chef/chef · GitHub
+chef - A systems integration framework, built to bring the benefits of configuration management to your entire infrastructure.
+
+ssd [12:29 PM]
+Belated :+1: on getting a policy written down.  For example, I would be hesitant to force 12.5 support into the logrotate cookbook without a more clear community stance on it since just about any change to that cookbook breaks someone.
+
+thom [12:29 PM]
+https://github.com/chef/chef/pull/5811#issuecomment-280382686 are fundamentally the words i want to write on the above subject
+
+Bump the version of chef depending on the label associated with PR by tduffield · Pull Request #5811 · chef/chef · GitHub
+chef - A systems integration framework, built to bring the benefits of configuration management to your entire infrastructure.
+
+coderanger [12:29 PM]
+@thom am I reading it right that this will bump minor for each feature pr?
+
+thom [12:29 PM]
+yes
+
+coderanger [12:29 PM]
+That seems like a really bad thing
+
+tduffield [12:30 PM]
+Maintainers would be given the ability to decide which PR is worth a minor version bump
+
+coderanger [12:30 PM]
+It means Chef version numbers are effectively a monotonic rng
+
+thom [12:30 PM]
+why? It’s what we described in RFC47 and also exactly what semver calls for
+
+coderanger [12:30 PM]
+Because humans look at version numbers too
+
+[12:31]
+Like you know if your on 12.15 and the latest is 12.18 that you are reasonably up to sate
+
+lamont [12:31 PM]
+also it opens up the bikeshed as to what constitutes a patch or a minor version rev, which is totally unclear in both semver itself, and in practice
+
+coderanger [12:31 PM]
+If I said "I'm running 12.47" that would have effectively no meaning without looking it up in a table
+
+ssd [12:32 PM]
+Does this also imply a tag-per-merge?
+
+tduffield [12:32 PM]
+@ssd it doesn't have to, no
+
+lamont [12:32 PM]
+the PR that i submitted to fix the dnf provider for rhel7/python2 as a case in point, since that i’d consider a bugfix as far as users were concerned but there was an API exntention to the mostly-internal which API which you can noodle forever as to if that’s a minor or a patch release
+
+coderanger [12:32 PM]
+Like if this is the route you want to go I think we should revisit calver (without the rolling window)
+
+[12:32]
+That would at least give some hope of human relevant data
+
+lamont [12:33 PM]
+i’m also basically :-1: on semver and retroactively :-1: on RFC047 at this point
+
+robbkidd [12:33 PM]
+Would 12.15.3-12.15.20, 12.16.1-32, 12.17.1-45, 12.18.1 mean anything without a table?
+
+ssd [12:33 PM]
+I'm working on a project that basically does this.  It has been OKish.  Just don't do a tag-per-merge, that part is not fun.
+
+lamont [12:33 PM]
+so i’d like to know what actual problem this solves, because “fixes semver compliance” is not a problem to be solved
+
+coderanger [12:34 PM]
+@robbkidd People get annoyed at the patch rev auto-bumping, if thats what you mean, but releng insisted it was worth it
+
+thom [12:34 PM]
+montlhly calver requires an equal table, just for developers
+
+[12:34]
+@coderanger i’ve seen almost no-one get annoyed by that, fwiw
+
+coderanger [12:34 PM]
+You can make the same claim here, but I would again disagree and would back that up with feedback I get from the community on the last time we did this :stuck_out_tongue:
+
+thom [12:34 PM]
+@lamont we can’t do security releases
+
+coderanger [12:35 PM]
+@thom Then maybe we should revisit the autobump CD magic and have a more traditional release process
+
+thom [12:35 PM]
+that was a year ago, and as usual there was sturm and drang whipped up at the time and essentially nothing since, which i think is rather the point
+
+robbkidd [12:35 PM]
+How's the Supermarket Release list work for folks? https://github.com/chef/supermarket/releases
+Lots of point and occasional minor version bumps, but the _release_ milestones are marked as such with release notes. (edited)
+
+tduffield [12:35 PM]
+@coderanger the goal here was to bring the logic that happens in a traditional release process to our automation
+
+[12:35]
+the "does this PR constitute a version bump? Yes? Tag it"
+
+coderanger [12:35 PM]
+@tduffield Yes, but without the critical eye of a human we need to automate things that are currently manual
+
+lamont [12:36 PM]
+so the problem you’ve got with security releases is that you continue to add commits past master beyond where you pick a point to have an rc
+
+coderanger [12:36 PM]
+In this case it is coalescing multiple feature merges into a single minor bump
+
+[12:36]
+that's something we enforce via human logic at the moment
+
+lamont [12:36 PM]
+this work does not even really address that problem in my mind, and it would be simpler to just more aggressively bump the minor rev when you pick an rc
+
+tduffield [12:36 PM]
+right, and that human logic is applied via the tags
+
+[12:36]
+if we're going through PRs and see mutliple things that would warrant a bump, we only tag the last one we merge
+
+ssd [12:36 PM]
+I feel like if we want to go this route, we should drop semver, just do Maj.Minor versioning and a "release" would involve bumping M.N.P to M.N+1
+
+coderanger [12:36 PM]
+@tduffield So it will be possible to _not_ bump minor twice for two feature merges?
+
+[12:37]
+@tduffield Because I didn't see how
+
+tduffield [12:37 PM]
+The version is only bumped if you apply the tag. If you don't apply the tag, the version is not bumped
+
+lamont [12:37 PM]
+because i think you’re assuming that we pick an rc and then “only bugfixes” get merged after that point, so you “can do a patch-only release” afterwards, but thats still no guarantee of stability of the post-rc patches
+
+coderanger [12:37 PM]
+So which PR gets the `minor` tag? the last one of the month?
+
+lamont [12:37 PM]
+so honestly, i don’t see how this PR solves the problem AT ALL
+
+coderanger [12:38 PM]
+Basically anything which results in neighboring releases *not* being 12.N and 12.N+1 is a bad idea IMO
+
+tduffield [12:38 PM]
+@coderanger I would think you could apply the same logic you would apply in a manual version bumping process
+
+[12:38]
+@coderanger why?
+
+coderanger [12:38 PM]
+@tduffield Because humans need some level of understanding of what version numbers mean in relation to each other
+
+[12:38]
+we've already diluted that a whole bunch
+
+[12:38]
+this is too far
+
+lamont [12:39 PM]
+if you really want security releases you need to branch and cherry-pick anyway, which is manual work, but you’re going to have to do it.  and this seems like a bunch of ‘automation’ that doesn’t even really solve the problem at best, and and worst just leads to arguments over if something is patch or a minor bump.  or we just descend into bumping the minor rev on every single PR merge, and reserve patch bumps entirely for cherry-picks.
+
+coderanger [12:39 PM]
+This is reducing the workload of the releng team but vastly increasing the mental overhead for all users
+
+lamont [12:39 PM]
+and in that latter case we don’t need this whole process being proposed either
+
+coderanger [12:39 PM]
+And that is the opposite of how we should do things
+
+tduffield [12:39 PM]
+This really doesn't affect the releng team at all
+
+lamont [12:40 PM]
+(coderanger:  i actually disagree that it reduces anyones workload — i don’t think it actually does — i think it creates more work all around)
+
+coderanger [12:40 PM]
+Sure, I mean that it doesn't provide a benefit to end users, any benefits, if they exist, are for us as devs.
+
+[12:41]
+People have expectations of version numbers
+
+tduffield [12:41 PM]
+The way things current work, its almost impossible for us to do security releases
+
+lamont [12:41 PM]
+i would still like to see it written out how this enables security releases
+
+coderanger [12:41 PM]
+Okay, so again, then we should maybe think about how we are releasing and stop doing CD from master
+
+[12:42]
+and use a more traditional release flow like most FOSS software
+
+[12:42]
+I don't think we can dig our way out of this complexity hole with more complexity
+
+
+[12:43]
+See also: our dependency versioning system :slightly_smiling_face:
+
+
+jtimberman [12:44 PM]
+Why do people have expectations of version numbers? Like, why is that so important? If your environment requires a specific version of Chef, download and host the version you need, or pin the version you need in your bootstrap/provisioning system. If you need specific versions for your cookbooks, use the metadata that hints that. If you're maintaining open source cookbooks, I think the Chef cookbooks team is setting a great example as to how to manage it - assume latest version, provide compatibility layers where required, and deprecate old versions/features with clear communication.
+
+ssd [12:44 PM]
+When I am consuming software other people wrote
+
+coderanger [12:44 PM]
+@jtimberman Because Chef is a project used by a lot of people that aren't hip startups that just run things because it's the latest. Expectations exist because they are how FOSS has worked for decades now
+
+ssd [12:44 PM]
+I am asking myself "how screwed am I if I upgrade this today"
+
+[12:45]
+versions help give me a hint
+
+jtimberman [12:45 PM]
+See the first part of what I said, @coderanger. If you have a specific version use requirement, download and host the package yourself.
+
+[12:45]
+Pin versions of cookbooks you use.
+
+coderanger [12:45 PM]
+@jtimberman All the systems you mentioned are automatic, and I agree that automation doesn't care if its 5 or 15, humans however do
+
+ssd [12:45 PM]
+The cookbook policy talked about in the earlier part of this meeting means we are making it harder to stay on old versions
+
+jtimberman [12:46 PM]
+We have LOTS of capabilities built into the software and surrounding tools to allow this.
+
+coderanger [12:46 PM]
+@jtimberman Again, not talking about software
+
+ssd [12:46 PM]
+So, you then get stuck in a world where you get completely stuck on old everything (edited)
+
+jtimberman [12:46 PM]
+I'm gonna throw my hands up. It seems to me you're arguing for argument's sake.
+
+tduffield [12:47 PM]
+@coderanger I feel like you're making an argument against semver, which isn't really what we're talking about
+
+jtimberman [12:47 PM]
+If you need a specific version, get and install that version.
+
+tduffield [12:47 PM]
+if we want to move away from semver, thats a different discussion
+
+jtimberman [12:47 PM]
+I don't care if you do it manually, or with automation.
+
+tduffield [12:48 PM]
+the logic around how to bump the version in semver, which is what RFC-47 says we aim to follow, is clear about how we should bump versions, and what users can expet
+
+coderanger [12:48 PM]
+@tduffield I'm saying that technically SemVer doesn't care if release order is 12.20, 12.34, 12.97, but that that argument fails to capture the meaning humans read in to versions
+
+jtimberman [12:48 PM]
+I think it's more important to educate and shift the mental model away from caring about specific version numbers. Version numbers are meaningless.
+
+coderanger [12:48 PM]
+So yes, this is not in defiance of SemVer, but that isn't the whole story
+
+ssd [12:48 PM]
+I think we need to focus this discussion.  Maybe the thing to do is do a lengthier PR message which specifies more clearly what problem we have and how this solves it.  I'm not particularly against this, but I am just not seeing how it makes anything that much easier and the objections people are raising don't seem ridiculous to me. (edited)
+
+
+coderanger [12:48 PM]
+Version numbers are not meaningless unless we _make_ them meaningless
+
+[12:48]
+Right now, they have meaning :stuck_out_tongue:
+
+nathenharvey [12:49 PM]
+I need to step in here and let everyone know we only have 2 minutes left in this meeting.
+
+robbkidd [12:49 PM]
+Can't change the world without changing humans?
+
+nathenharvey [12:49 PM]
+I propose continuing the conversation in the PR and / or hosting a live meeting via google hangouts or zoom so that we can talk through this.
+
+coderanger [12:49 PM]
+@robbkidd Also can't have usable software without sometimes adapting to the needs of humans :slightly_smiling_face:
+
+lamont [12:49 PM]
+the fact that i’m getting so much resistance to having a more formally written down RFC which spells out the problems that it solves and how it solves them suggests to me that its not well thought out
+
+nathenharvey [12:50 PM]
+I will add this PR to next week's agenda, too so that we can revisit to see the then current status
+
+
+robbkidd [12:50 PM]
+@coderanger That, too.
+
+nathenharvey [12:51 PM]
+@tduffield are you good with @ssd's request above about a lengthier PR message?
+
+[12:52]
+clarify intent of the change, perhaps addressing some of the concerns raised here today.
+
+[12:52]
+We are at time.  This PR will be on our next agenda.  Next meeting is Thursday, February 23, 2017 9AM-9:50AM PST
+
+tduffield [12:53 PM]
+I can certainly try
+
+nathenharvey [12:53 PM]
+thanks!
+
+[12:53]
+***** MEETING ENDS ******
