@@ -1,0 +1,427 @@
+adamleff [12:00]  
+************* MEETING STARTS ****************
+
+[12:00]
+Hello, everyone! Welcome to this week’s edition of the developer / community meeting.
+
+
+[12:00]
+Nathen is off galavanting as Nathen does, so I’ll be filling in for him today.
+
+[12:00]
+Today’s agenda is here: https://github.com/chef/chef-community-slack-meetings/blob/master/2017-03-02-agenda.md
+github.com
+chef-community-slack-meetings/2017-03-02-agenda.md at master · chef/chef-community-slack-meetings · GitHub
+chef-community-slack-meetings - Agendas, minutes, and action item from the Chef Community Slack Meetings
+
+[12:01]
+We’ll do some quick updates, review some old business and some pending PRs, and then we have an item for open discussion toward the end.
+
+[12:01]
+I’ll do a quick community update.
+
+[12:01]
+As should not be a surprise to anyone, my primary update is about ChefConf, and we’d love to see you all there. :slightly_smiling_face:
+
+[12:02]
+May 22-24. And a HackDay is being planned for the day after. So hold the dates, register, and let us know if you have any questions.
+
+[12:02]
+And as a reminder, there are Diversity Scholarships available. So if you or someone you know is a fit, please have them swing by https://chefconf.chef.io/2017/diversity-scholarship/ for more information.
+
+[12:03]
+Also, if you’re out speaking at an event about Chef, Habitat, InSpec, etc. please reach out and let us know! We’d love to get it listed on our events.chef.io site and get you some airtime. :slightly_smiling_face:
+
+[12:03]
+I don’t believe Adam Jacob could be with us today, so we’ll skip the “Company Update” agenda item.
+
+[12:03]
+Onward to software updates.
+
+[12:04]
+InSpec 1.15 was released, and I’m planning on cutting a 1.16 release later today. Love the community contributions we’re getting, so thank you very much!
+
+[12:04]
+There were a couple of Chef updates too.  @lamont?
+
+stevenmurawski [12:05 PM]
+There's a Habitat release planned for today as well
+
+tas50 [12:05 PM]
+On the cookbook side we’ve released a giant pile of major version bumps that require Chef 12.5 now in order to remove the dependency on compat_resource. There’s also been a large number of cookbooks getting Chef 13 compatibile releases
+
+
+adamleff [12:05 PM]
+Also, the floor is open for anyone else with software updates - please speak up!
+
+tduffield [12:05 PM]
+Chefspec 6.0.0 is out with a huge speed/stability improvement for ServerRunner. If you use ServerRunner, 6.0.0 should give you a roughly 75% speed increase
+
+
+[12:06]
+We're also working on getting a ChefDK pre-release announced in the next couple of days.
+
+adamleff [12:06 PM]
+For Chef, I believe 12.19.33 went stable but introduced a regression, so 12.19.36 was released to correct it. Thanks to the community for identifying the issue.
+
+[12:07]
+Any other software updates before we move on to our next agenda item?
+
+[12:07]
+Alrighty.
+
+[12:07]
+@tas50 want to chat about your “thanks for the fish” discourse post?
+
+tas50 [12:09 PM]
+That was the above cookbook note
+
+adamleff [12:09 PM]
+https://discourse.chef.io/t/so-long-compat-resource-and-thanks-for-all-the-fish/10504
+Chef Mailing List
+So long compat_resource and thanks for all the fish
+You may have noticed over the last few weeks that we’ve been hard at work in the Cookbook Engineering Team prepping for the release of Chef 13. One of our Chef 13 goals for community cookbooks is the remove the dependency on the compat_resource cookbook. Compat_resource back ports many core chef-client resources from newer Chef releases, but it was originally conceived to backport the custom resource functionality to Chef 12.1 - 12.4. We’ve depended on compat_resource in a large number of cookbo...
+
+[12:09]
+OK - just wanted to give you the opportunity to talk more about it. if not, we can move on :slightly_smiling_face:
+
+tas50 [12:09 PM]
+The extra note there is that there won’t be another compat_resource release
+
+[12:09]
+we won’t be doing compat_resource for Chef 13
+
+[12:09]
+shipping more often makes it easier for us to just wait a year and then utilize all the new functionality
+
+adamleff [12:10 PM]
+The floor is open for anyone with questions, comments, etc. on this topic and the Discourse post.
+
+[12:10]
+Otherwise, we’ll move on to PR review.
+
+[12:11]
+Great! Let’s move on to PR review.
+
+[12:11]
+First up is: https://github.com/chef/chef-rfc/pull/249
+
+add support windows for cookbooks and ruby versions by lamont-granquist · Pull Request #249 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects
+
+[12:12]
+@lamont you around to discuss?
+
+coderanger [12:13 PM]
+It's pretty straightforward
+
+adamleff [12:13 PM]
+We don’t have a “decider” today, so this is a great opportunity for us to chat about it today, and look for any dissenting opinions now. We can approve this asynchronously.
+
+coderanger [12:13 PM]
+Goal is to have a standard for what versions of chef community cookbooks are expected to test against
+
+adamleff [12:13 PM]
+@coderanger other than your changes, are you +1?
+
+coderanger [12:14 PM]
+because for those of us that test against every version, it's getting untenable
+
+[12:14]
+And yes
+
+adamleff [12:14 PM]
+To the group: anyone :-1: on PR 249?
+
+tduffield [12:14 PM]
+one thing we may want to discuss is that the other RFC we want to discuss (PR-250) intends to replace 081 (edited)
+
+[12:14]
+which PR-249 modifies
+
+coderanger [12:15 PM]
+Yeah, if this is accepted, it will need to get folded in to that proposal
+
+[12:15]
+Or otherwise moved to its own thing
+
+[12:15]
+But the short version of the cookbook part is "community cookbook authors need to wait 6 months to use new features"
+
+tduffield [12:16 PM]
+That seems...difficult to enforce
+
+coderanger [12:16 PM]
+Sure, it's a voluntary thing
+
+[12:16]
+But that will be the standard
+
+ssd [12:16 PM]
+Seems like I could use the new feature as long as I remain backwards compatible with the existing feature set of my cookbook
+
+[12:16]
+and switch on Chef::VERSION or whatever
+
+
+sigje [12:17 PM]
+the word choice is a little difficult to parse in the cookbook support section .. "in May we will typically drop 14.1.0 and both 14.0 and 14.1 will be supported" .. We drop support, we drop releases?
+
+adamleff [12:17 PM]
+I read that as “typically drop” == “typically release version"
+
+sigje [12:18 PM]
+yep :slightly_smiling_face: We might want to say release rather than drop.
+
+
+adamleff [12:18 PM]
+A very reasonable suggestion :slightly_smiling_face:
+
+[12:18]
+especially given that we’re talking about when we “drop support” :slightly_smiling_face:
+
+[12:18]
+Oh, English...
+
+
+[12:19]
+I’d like to suggest we pause discussion on 249 and move on to 250… and then after completion of the discussion on 250, we can decide how to proceed with 249.
+
+
+[12:20]
+And so we shall!  Onward to https://github.com/chef/chef-rfc/pull/250
+
+Lifecycle and Release Policies document by tduffield · Pull Request #250 · chef/chef-rfc · GitHub
+chef-rfc - Public RFCs for Chef and related projects
+
+[12:20]
+Mr @tduffield - the floor is yours.
+
+tduffield [12:20 PM]
+So, 250 is a rewrite of 47 and 81 to clarify position on how different classifications of Chef OSS is versions and released. This came out of the discussion in the last developers meeting.
+
+[12:21]
+The goal of this document is to clear up what versions mean, what user impact a version bump might have, and to clarify terminology around different aspects of the release process for different software
+
+[12:22]
+The goal being that there are badges we can put on our OSS that we can link back to this document to let users know what type of release cadence and versioning they can expect for that software
+
+[12:22]
+and we can all use common terminology like "Stable Release", etc
+
+[12:22]
+_fin_
+
+adamleff [12:23 PM]
+Thanks, Tom!
+
+tduffield [12:23 PM]
+questions?
+
+adamleff [12:23 PM]
+@coderanger thanks for your review - do you have any additional feedback?
+
+coderanger [12:24 PM]
+Just that note about hotfix builds
+
+tduffield [12:25 PM]
+Sure, I will try to put some words around that
+
+adamleff [12:25 PM]
+Ok friends, anyone have any other suggestions, questions, or concerns? Or do we as a group feel we have enough support for this to recommend it for approval pending additional language about hot-fix builds?
+
+stevenmurawski [12:26 PM]
+:thumbsup:
+
+adamleff [12:26 PM]
+OK, I will add a note to the PR that we recommend that a ‘decider’ approves this.
+
+[12:27]
+and we’ll handle that approval and merge async after this meeting when a decider is available.
+
+[12:27]
+Back to 249 - what further changes or discussion needs to take place on that considering our tentative approval of 250?
+
+coderanger [12:27 PM]
+So the Ruby support policy bits should probably get copied over
+
+[12:28]
+And maybe the community cookbook support policy spun off to its own doc
+
+adamleff [12:29 PM]
+OK. I will add some notes to the comments of 249 suggesting those changes since Lamont couldn’t be with us today, and we’ll leave 249 open for further discussion. Once 250 is approved, we can review and accept additional PRs to modify whatever approved RFC that becomes.
+
+[12:29]
+Does that sound acceptable to folks?
+
+
+[12:30]
+Well, those are all the PRs we had for discussion. Before we move to our final topic, does anyone have any other RFC PRs that we missed?
+
+[12:31]
+Then we move to our final topic for today! @sigje would you like to discuss https://github.com/chef-cookbooks/cookbook-quality-metrics/issues/13 ?
+
+A mechanisim for announcing that the rules have changed · Issue #13 · chef-cookbooks/cookbook-quality-metrics · GitHub
+cookbook-quality-metrics - Measurements of quality for cookbooks in the Chef Supermarket
+
+sigje [12:32 PM]
+Sure. Thanks @adamleff
+
+[12:32]
+So Cookbook quality metrics is an ongoing project for us to be able to quantify the state of our cookbooks. One aspect of that is identifying the mechanism for which we will announce rule changes.
+
+[12:33]
+Currently we list the status of the rules in the Supermarket Quality Metrics file (SMQM.md) https://github.com/chef-cookbooks/cookbook-quality-metrics/blob/master/SMQM.md and announce on discourse.
+github.com
+cookbook-quality-metrics/SMQM.md at master · chef-cookbooks/cookbook-quality-metrics · GitHub
+cookbook-quality-metrics - Measurements of quality for cookbooks in the Chef Supermarket
+
+[12:34]
+Is this sufficient for now to inform folks of rule changes?
+
+robbkidd [12:35 PM]
+I'll add that a link to that repository of metric definitions should probably by included in the display of the results of quality metrics in the Supermarket.
+
+adamleff [12:36 PM]
+@robbkidd I agree. Anything we can do in the Supermarket UI itself to make our community members aware of the metrics and their definitions is “A Good Thing"
+
+robbkidd [12:36 PM]
+The thought of versioning, especially tied to Chef version, makes me a little light-headed.
+
+[12:36]
+But I'm open to suggestions.
+
+coderanger [12:37 PM]
+As a community cookbook author, I almost never visit Supermarket manually anymore
+
+robbkidd [12:37 PM]
+I wasn't suggesting Supermarket be the place to make the announcement of changes.
+
+[12:38]
+Between watching the repository and Discourse, I think announcements could be covered.
+
+adamleff [12:39 PM]
+We have two personas: community cookbook contributors/authors, and community cookbook consumers. The consumers who peruse Supermarket are interested in the metrics (as an indicator of hopefully high quality cookbooks), so having a link in the UI is probably great.
+
+As an author, an author needs to know when he/she might need to make changes to his/her cookbook as a result of a metric change.
+
+@coderanger do you feel that @sigje’s statement of how we’re currently announcing/publishing those changes is enough for you as an author?
+
+[12:39]
+And if not, do you have additional suggestions?
+
+coderanger [12:39 PM]
+Works for me, an discourse announcements are already reflected to Slack
+
+[12:40]
+@adamleff I mostly ignore the quality metrics system I'm an opinionated grumpball but probably good for normal people :slightly_smiling_face:
+
+adamleff [12:40 PM]
+I only will accept your self-identifying statement if you prove it with a business card.
+
+[12:41]
+@sigje do you feel you have the feedback you need to proceed? Is there anything else need to discuss related to this agenda item?
+
+coderanger [12:41 PM]
+In general I think we can mostly do what we want since we're not reeeeeally stressing on the quality metrics right now
+
+[12:41]
+In the future, if/when they are a bigger component in the UI, maybe worry more about release process there
+
+sigje [12:41 PM]
+Thanks @adamleff I think I'm good for this issue as is :slightly_smiling_face:
+
+[12:41]
+Appreciate the opportunity to discuss.
+
+adamleff [12:41 PM]
+@coderanger I agree with you on that. This is new, and I expect additional feedback received from the community over time will be helpful. But for now, “the status quo” feels good.
+
+tas50 [12:42 PM]
+there’s certainly going to need to be some documentation on the metrics at a minimum in the future as they become more important
+
+adamleff [12:42 PM]
+^^ my opinion only, not as the moderator
+
+[12:42]
+@tas50 want to elaborate a bit more on that so the context shared here?
+
+[12:42]
+i.e. what could we / should we doing better, and where?
+
+tas50 [12:43 PM]
+where’s the list of the metrics we’ve implemented outside of github?
+
+[12:43]
+docs site or supermarket page?
+
+robbkidd [12:43 PM]
+Where should they be outside of the github repo where they are defined?
+
+coderanger [12:44 PM]
+As we have a firmer set of metric (and corresponding recommendation) they should definitely be in the docs
+
+[12:44]
+and probably the Chef tutorials
+
+tas50 [12:44 PM]
+right on the quality tab
+
+
+[12:44]
+if you see a pass or a fail without context it doesn’t mean much right now (edited)
+
+sigje [12:45 PM]
+I think that's a separate issue that we should file on that repo.
+
+tas50 [12:45 PM]
+yep
+
+adamleff [12:45 PM]
+@robbkidd as the supermarket engineer present today, could I ask that you take this back for further consideration and start a github issue for discussion?
+
+robbkidd [12:46 PM]
+There's another related, but separate issue about how many measures should be implemented as distinct Supermarket checks and how many should just be style/lint checks.
+
+adamleff [12:46 PM]
+Once we have it fleshed out some more, we should totally bring it back to this forum for further community discussion.
+
+lamont [12:46 PM]
+oops, thursday
+
+adamleff [12:46 PM]
+@lamont :wave:
+
+[12:47]
+@robbkidd you good with that action item?
+
+[12:47]
+Feel free to say no :slightly_smiling_face:
+
+robbkidd [12:47 PM]
+Yes, and I'll be roping @tas50 into the considerating.
+
+adamleff [12:47 PM]
+The considerating will commence.
+
+[12:48]
+Alright friends, that brings us to the end of the agenda.
+
+robbkidd [12:48 PM]
+@tas50 Thank you for volunteering to be our stakeholder.
+
+
+adamleff [12:48 PM]
+Does anyone have anything else they’d like to bring up today?
+
+[12:48]
+Going once...
+
+[12:48]
+Going twice...
+
+[12:48]
+************** MEETING ENDS ****************
+
+[12:49]
+Thank you all for attending! Next meeting should be next Thursday, March 9. And if I’ve never met you before and you plan on going to ChefConf, please find me for a hug. :slightly_smiling_face: Have a wonderful day.

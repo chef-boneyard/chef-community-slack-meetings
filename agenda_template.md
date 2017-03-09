@@ -1,6 +1,6 @@
 # Chef Developers' Slack Meeting
 
-[Thursday, Month Date, 2017 9AM-9:50AM PST](http://everytimezone.com/#2017-4-14,240,cn3)
+[Thursday, Month Date, 2017 9AM-9:50AM PDT](http://everytimezone.com/#2017-4-14,240,cn3)
 
 developer-meetings channel of [chef-community.slack.com](http://chef-community.slack.com) - sign-up at [http://community-slack.chef.io](http://community-slack.chef.io)
 
@@ -22,4 +22,4 @@ Secretary:  Nathen Harvey (nathenharvey)
 
 ### Next Meeting
 
-[Thursday, Month Date, 2017 9AM-9:50AM PST](http://everytimezone.com/#2017-4-14,240,cn3)
+[Thursday, Month Date, 2017 9AM-9:50AM PDT](http://everytimezone.com/#2017-4-14,240,cn3)

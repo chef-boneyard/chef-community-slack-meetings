@@ -1,0 +1,417 @@
+nathenharvey [12:01]
+***** MEETING STARTS *****
+
+[12:02]
+Agenda - https://github.com/chef/chef-community-slack-meetings/blob/master/2017-03-09-agenda.md
+
+[12:03]
+We have a couple of open PRs, some updates, and a discussion of some supermarket cookbooks
+
+[12:03]
+I'll get us started with the community update.
+
+[12:04]
+We have a bunch of meetups, free hands-on workshop, and events that we'll be participating in and would love to see you at some of these.  https://events.chef.io/ has all the upcoming events.
+events.chef.io
+Chef Events
+IT Automation for everything from configuration management to continuous delivery
+
+
+[12:05]
+If you're going to or know of an event that's discussing Chef, InSpec, or Habitat, please let us know so that we can get that event listed here as well.
+
+[12:05]
+Of course, the big event coming up for our community is ChefConf which will include a Community Summit, workshops, typical conference stuff like keynotes and breakout sessions, a community celebration, a hack day, and, of course, *you*!
+
+
+[12:06]
+all the details about ChefConf can be found at https://chefconf.chef.io/2017/
+
+[12:06]
+Contributors get a discounted ticket ($750) using the code `GotChef17`
+
+[12:07]
+And we have a diversity scholarship that is available for anyone from an underrepresented community.  Applications for the scholarship are available at https://chefconf.chef.io/2017/diversity-scholarship/
+
+[12:08]
+I also wanted to highlight something from a release announcement for a recent version of InSpec:
+
+>>>A HUGE thank you to our amazing growing community! All four of the items listed above were contributed by members of the community, and for that, we are extremely grateful.
+
+
+[12:09]
+that was taken directly from the release announcement and is really something worth celebrating!  It's awesome to see so many contributions across our projects come from the community and really cool to watch the new contributions come in to InSpec, Habitat while we continue to see contributions to Chef.
+
+[12:10]
+All of us working together to make this a welcoming, friendly community helps new contributors join our projects.
+
+[12:10]
+THANK YOU :heart:
+
+
+[12:11]
+Y'all are fucking :awesome:!  OK.  enough gushing for a now. Let's move on to recent software releases
+
+[12:12]
+A number of release have been announced on discourse - https://discourse.chef.io/c/chef-release
+• InSpec 1.16.0
+• InSpec 1.16.1
+• Chef Automate 0.7.61
+• Fauxhai 4.0
+• Chef Compliance 1.8.12
+Chef Mailing List
+Chef Release Announcements
+This category is used to announce releases of Chef software and other projects related to Chef. Only Chef Staff and project maintainers can post in this category. All discussion related to the announcements should be posted in other categories. Release announcements will include information such as the list of new features, bug fixes, errata, contributor recognition, etc. Release announcements may also contain some brief feature descriptions, but in-depth feature spotlights will be posted on the Show more…
+
+coderanger [12:13 PM]
+Also a metric boatload of cookbooks, mostly dropping chef pre 12.5 compat and adding future compat with 13
+
+nathenharvey [12:13 PM]
+What other releases (imminent or recent) would you like to share?
+
+[12:13]
+YES.  #cookbook-engineering has been kicking out the jams
+
+tas50 [12:13 PM]
+chefspec 6.1 will probably ship today to bring in that new fauxhai
+
+thom [12:14 PM]
+As mentioned, we’re working pretty hard ripping out code for chef 13
+
+[12:15]
+this is a great time to get involved in core chef. https://github.com/chef/chef/issues?q=is%3Aopen+is%3Aissue+label%3A%22Type%3A+Jump+In%22 has all the bugs that we’d love to see fixed and think are great ways to get familiar with the code
+
+
+ryanh [12:16 PM]
+We finally dropped the long-standing omnibus and omnibus-software branch pinnings from Chef as of yesterday.
+
+
+[12:16]
+I need to make a post in the dev list.
+
+[12:18]
+We need to do more work internally to do this for Inspec and ChefDK, but they will happen :soon:
+
+nathenharvey [12:19 PM]
+any other updates to share?
+
+coderanger [12:19 PM]
+A bug in kitchen vagrants caching layer was found (edited)
+1 reply Today at 12:20 PM View thread
+
+coderanger [12:20 PM]
+Which is causing install errors
+
+[12:20]
+If you get weird errors about a bad libc then disable caching
+
+tas50 [12:21 PM]
+Seems to be hitting people on Debian 7
+
+[12:21]
+where glibc is wrong
+
+nathenharvey [12:21 PM]
+OK, thanks for that!
+
+[12:22]
+This is your weekly reminder to review https://chef.github.io/chef-rfc/ to see if updates are required.
+
+[12:22]
+next we'll move on to the two PRs we have open
+
+[12:22]
+First up:  https://github.com/chef/chef-rfc/pull/250
+
+[12:23]
+Lifecycle and Release Policies document
+
+[12:23]
+this was provisionally approved, pending a decider last week
+
+tduffield [12:23 PM]
+yep
+
+[12:23]
+I've addressed the comments from last week as well as some that came up via @thom
+
+nathenharvey [12:23 PM]
+a number of changes were requested on the PR since.  thanks for addressing those @tduffield
+
+adamleff [12:25 PM]
+So close… :slightly_smiling_face:
+
+robbkidd [12:25 PM]
+:one: was pretty meta there ...
+
+
+Simple Poll APP [12:26 PM]
+ready to merge?
+----------------
+:one: :+1:    `7`
+tduffield, coderanger, adamleff, nathenharvey, stevenmurawski, afiune, thom
+
+----------------
+:two: :-1:    `1`
+lamont
+
+
+
+ Simple Poll        Edit Settings
+
+nathenharvey [12:26 PM]
+yay, that worked a bit better
+
+nathenharvey [12:26 PM]
+'simple poll' is difficult
+ 2 replies Last reply today at 12:27 PM View thread
+
+nathenharvey [12:28 PM]
+OK, @thom seems it's to you for final approval as decider.
+
+[12:28]
+thanks @tduffield and everyone who's chimed in on this one.  I think it's better for all the review.
+
+lamont [12:29 PM]
+wait, can someone clarify what the RFC is referring to as “ad hoc builds” vs “hotfix”?
+
+coderanger [12:29 PM]
+Ad hoc is for projects with no actual release cycle
+
+[12:29]
+Like mixlib-log
+
+[12:29]
+We release when we feel like it
+
+lamont [12:30 PM]
+ah
+
+[12:30]
+oh
+
+[12:31]
+so “maintenence mode” is for stuff like vagrant-omnibus
+
+tduffield [12:31 PM]
+probably
+
+[12:31]
+i don't know the specific case of vagrant-omnibus
+
+lamont [12:32 PM]
+i think part of the problem is that you’re using “Chef OSS” rather than “A Chef OSS Project” so it reads oddly
+
+thom [12:32 PM]
+it is awful and must die, is the specific case of vagrant-omnibus. but that’s neither here nor there :slightly_smiling_face:
+
+lamont [12:32 PM]
+yeah so that might be even below “maintenance mode” and more like “deathwatch mode"
+
+tduffield [12:33 PM]
+I can plop a quick definition of what "Chef OSS" is at the beginning
+
+lamont [12:33 PM]
+but i didn’t want to say chef-provisioning and start that argument again...
+
+[12:33]
+thing is if you just drop the word “project” in there it immediately makes more sense as to what you’re referring to
+
+tduffield [12:34 PM]
+okay :slightly_smiling_face:
+
+[12:34]
+that I can do
+
+thom [12:34 PM]
+i’m happy to deciderate with some post-hoc wordsmithing around maintenance mode
+
+[12:34]
+let’s roll forward, @nathenharvey ?
+
+nathenharvey [12:34 PM]
+Our next PR is https://github.com/chef/chef-rfc/pull/249
+
+[12:35]
+add support windows for cookbooks and ruby versions
+
+[12:35]
+My reading of the transcript from last week was that we wanted to get 250 merged and then revisit this one.
+
+lamont [12:35 PM]
+okay i think that clarifies to me what 250 is about and it makes more sense
+
+[12:35]
+well i updated 249 a bunch
+
+nathenharvey [12:35 PM]
+ah, ok
+
+lamont [12:35 PM]
+and there’s now considerably less overlap
+
+coderanger [12:35 PM]
+This should probably just be merged as a new rfc (edited)
+
+lamont [12:36 PM]
+then the original RFC needs to get deleted, or else it becomes litter
+
+coderanger [12:36 PM]
+250 explicitly obsoletes it
+
+thom [12:37 PM]
+i’m writing words to say we need to mark the other two as obsoleted when we merge 250
+
+ 4 replies Last reply today at 12:40 PM View thread
+
+coderanger [12:37 PM]
+:+1:
+
+lamont [12:38 PM]
+we have git history, and the value of obsoleted text becomes negative over time
+
+thom [12:38 PM]
+#249 does feel like it’d be better as a new RFC tbh
+
+coderanger [12:38 PM]
+Ehhhh, stable links matter
+
+[12:38]
+But at a minimum big ol banners
+
+thom [12:39 PM]
+yeah, we should not delete RFCs once published, just mark them up appropriately
+
+lamont [12:40 PM]
+‘k
+
+nathenharvey [12:41 PM]
+OK.  So our status on this one is it will become a new RFC, replacing 047 and 081.  We'll revisit once that PR is ready for review.
+
+[12:41]
+Which leaves us with one agenda item:  the PRP (Poise Reclamation Project)
+
+coderanger [12:41 PM]
+I think we can vote now
+
+[12:41]
+Just know the new text will be a fresh rfc after merge
+
+thom [12:42 PM]
+i think for 249 we can vote and then lamont can twiddle it into a new rfc
+
+[12:42]
+yeah
+
+nathenharvey [12:42 PM]
+OK, let's vote!
+
+lamont [12:42 PM]
+yeah i’ll mostly just copypasta, i don’t have anything to add that i can think of
+
+
+Simple Poll APP [12:42 PM]
+PR-249
+----------------
+:one: :+1:    `6`
+coderanger, adamleff, lamont, thom, tduffield, sigje
+
+----------------
+:two: :-1:
+
+
+
+ Simple Poll        Edit Settings
+
+robbkidd [12:43 PM]
+Poise Reclamation Project (prepare for wall of text)
+
+[12:43]
+@coderanger has requested an administrative intervention on 10 cookbooks in the public Supermarket owned by @ldesiqueira[1]. The identified 10 cookbooks use coderanger's reserved `poise-` prefix. ldesiqueira's cookbooks were published prior to the reserved prefix RFC[2] and were in fact the catalyst for the RFC's proposal to make official a previously de facto policy. Coderanger performed appropriate due diligence the day of the RFC's submission (2016-06-29) with emails reaching out to ldesiqueira about the situation. ldesiqueira was at the time effusively amenable to removing his `poise-` prefixed cookbooks and publishing under a different name. A month later, ldesiqueira reported to coderanger that he was having trouble with renaming effort. Communications went a bit dark since then. (Update below!)
+
+No cookbooks in the public Supermarket other than ldesiqueira's depend upon ldesiqueira' `poise-*` cookbooks. We have no visibility into whether anyone has depended upon them privately.
+
+Proposed intervention: unshare all versions of ldesiqueira's `poise-` prefixed cookbooks
+
+Proposed steps to do so:
+:white_check_mark: Supermarket admins reach out to notify Luis that an intervention is coming and offer assistance to help him resolve naming issues and interdependencies between the cookbooks. (completed - @ldesiqueira approved)
+:white_medium_square: Supermarket admins perform the unshare intervention.
+:white_medium_square: ???
+:white_medium_square: Profit
+
+[1] https://supermarket.chef.io/users/luisfelipedesiqueira
+[2] https://github.com/chef/chef-rfc/blob/master/rfc078-supermarket-prefix.md
+supermarket.chef.io
+luisfelipedesiqueira - Chef Supermarket
+The Supermarket profile for luisfelipedesiqueira.
+
+ldesiqueira [12:43 PM]
+joined #developer-meetings by invitation from @robbkidd
+
+robbkidd [12:45 PM]
+Luis approved this morning as this meeting started, so there's not a whole lot to debate/discuss/vote upon.
+
+coderanger [12:45 PM]
+:+1:
+
+robbkidd [12:45 PM]
+But it did provide the first exercise of how we would handle a request under RFC78 to reclaim a reserved prefix.
+
+nshamrell [12:46 PM]
+:thumbsup:
+
+[12:46]
+ty for reaching out to him, @robbkidd!
+
+nathenharvey [12:46 PM]
+OK.  Also gives us an opportunity to be sure this is done in a transparent way.
+
+[12:47]
+Should we post a notice to discourse that gives folks an advance warning of $TIME_PERIOD before unsharing?
+
+[12:47]
+perhaps $TIME_PERIOD would be one week.
+
+robbkidd [12:48 PM]
+Makes sense. Also deprecate them at the beginning of that period. Any followers would get email notification.
+
+nathenharvey [12:49 PM]
+deprecate ftw
+
+coderanger [12:49 PM]
+Works for me, I'm in no specific rush, just was following up on my inbox :)
+
+robbkidd [12:50 PM]
+Also also, this maybe opens the question of how to detect usage of reserved prefixes by unauthorized cookbook authors. There is no engineering solution in place for that at the moment. It's all humans and policy.
+
+coderanger [12:50 PM]
+Some day it would be nice if it was built in to supermarket, but I'm not signing to implement it so I won't complain too hard :)
+
+
+robbkidd [12:51 PM]
+Not enough time today to delve into engineering solutions, but planting the seed for later ideas.
+
+nathenharvey [12:51 PM]
+OK.  we are actually at time but I think we have what we need here to move forward.  @robbkidd you're on the hook for doing the deprecations, discourse, and eventual un-share?
+
+robbkidd [12:51 PM]
+I am the hookie.
+
+nathenharvey [12:51 PM]
+OK, thanks everyone.  that's the end of today's meeting
+
+[12:51]
+our next meeting is Thursday, March 16, 2017 9AM-9:50AM PDT
+
+robbkidd [12:52 PM]
+$TIME_PERIOD will be 1 week and begin today.
+
+
+thom [12:52 PM]
+ttfn
+
+nathenharvey [12:52 PM]
+please note that the US will move to daylight savings time this weekend so that may shift the meeting time for you
+
+[12:52]
+***** MEETING ENDS ******
