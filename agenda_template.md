@@ -4,7 +4,7 @@
 
 developer-meetings channel of [chef-community.slack.com](http://chef-community.slack.com) - sign-up at [http://community-slack.chef.io](http://community-slack.chef.io)
 
-Moderator:  Adam Jacob (holoway)
+Moderator:  Thom May (thom)
 
 Secretary:  Nathen Harvey (nathenharvey)
 
@@ -12,7 +12,6 @@ Secretary:  Nathen Harvey (nathenharvey)
 * Agenda Review, speaker Nathen Harvey (nathenharvey): 2 minutes
 * Updates: 15 minutes max.
   * Community update, speaker Nathen Harvey (nathenharvey): 5 minutes
-  * Chef company update, speaker Adam Jacob (holoway): 5 minutes
   * Software update, speaker - various people: 5 minutes
 * Review action items from last meeting (nathenharvey): 5 minutes
 * Review PRs:  35 minutes
