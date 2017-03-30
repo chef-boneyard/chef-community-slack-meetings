@@ -1,0 +1,242 @@
+nathenharvey [12:00]  
+***** MEETING STARTS *****
+
+thom [12:00 PM]
+hello!
+
+nathenharvey [12:01 PM]
+Agenda for today - https://github.com/chef/chef-community-slack-meetings/blob/master/2017-03-23-agenda.md
+
+[12:01]
+Starting with the community update
+
+[12:02]
+It's all about ChefConf - Tickets are on sale, you should have a contributor discount code to use
+
+[12:02]
+Community Summit will happen at ChefConf on Monday, May 22 and we have a hack day scheduled for Thursday so we hope to see you all week :slightly_smiling_face:
+
+
+[12:03]
+And our Diversity Scholarship application process will be ending at the end of March - https://chefconf.chef.io/2017/diversity-scholarship/
+
+[12:03]
+That's the quick community update
+
+[12:04]
+let's move on to software releases.
+
+[12:04]
+what do *you* have to share?
+
+[12:05]
+https://discourse.chef.io/c/chef-release includes updates on:
+
+• Windows Cookbook 3.0
+• Chef Manage 2.4.5 Security Release
+• Stove 5.0
+• InSpec 1.17.0
+• Bento 2.3.4
+Chef Mailing List
+Chef Release Announcements
+This category is used to announce releases of Chef software and other projects related to Chef. Only Chef Staff and project maintainers can post in this category. All discussion related to the announcements should be posted in other categories. Release announcements will include information such as the list of new features, bug fixes, errata, contributor recognition, etc. Release announcements may also contain some brief feature descriptions, but in-depth feature spotlights will be posted on the Show more…
+
+[12:05]
+any other recent or pending software release of note?
+
+coderanger [12:06 PM]
+Loooots more cookbooks releases to prep for 13
+
+
+thom [12:06 PM]
+the first 13 nightlies landed in current a couple of days ago
+
+
+[12:06]
+for chef client
+
+tas50 [12:07 PM]
+Fauxhai 4.0.2
+
+nathenharvey [12:08 PM]
+OK, moving on in the agenda, this is a reminder to review the current status of our RFCs here - https://chef.github.io/chef-rfc/
+
+[12:08]
+O
+
+[12:08]
+K
+
+[12:08]
+:slightly_smiling_face:
+
+[12:08]
+Sorry ... our first PR to review is from @coderanger - https://github.com/chef/chef-rfc/pull/256
+
+coderanger [12:10 PM]
+So we don't actually have a status set up for this
+
+[12:10]
+But we should do sometbing
+
+[12:10]
+Because this isn't the only accepted rfc that is an unfounded mandate
+
+thom [12:10 PM]
+did we not have on hold? but yes, we should add something
+
+coderanger [12:10 PM]
+And users are getting confused
+
+nathenharvey [12:10 PM]
+The RFC workflow doesn't have "on-hold" https://github.com/chef/chef-rfc/blob/master/rfc000-rfc-process.md#rfc-review-and-workflow
+
+ryanh [12:11 PM]
+Or a backlog type status
+
+coderanger [12:11 PM]
+Happy to call it whatever :)
+
+ryanh [12:11 PM]
+Seems like it could be transferred to chef proper at some point if the status reflects appropriately.
+
+thom [12:12 PM]
+@ryanh we remain nervous about people using the RFC process to jam work on to chef’s backlog :slightly_smiling_face:
+
+
+nathenharvey [12:12 PM]
+The time between "accepted" and "final" could probably use 2 new stages.  "In process" and "On hold". (edited)
+
+thom [12:13 PM]
+but I think On Hold is a suitable addition to the workflow, and suitable description of the RFC in question
+
+[12:13]
+I think Accepted =~ In Process
+
+coderanger [12:13 PM]
+Yeah
+
+[12:13]
+Within the accuracy level of that field
+
+nathenharvey [12:13 PM]
+fair enough
+
+ryanh [12:13 PM]
+Maybe a clearer: `Accepted: On Hold` type thing (edited)
+
+coderanger [12:14 PM]
+We could also use Withdrawn
+
+[12:14]
+And have stuff that goes on hold transition back to Draft
+
+[12:14]
+So it has to be re accepted if thawed
+
+[12:14]
+But probably overkill
+
+ryanh [12:14 PM]
+Or `Accepted: Adopt Me`
+
+
+[12:14]
+heh
+
+thom [12:15 PM]
+hmm, i think that’s probably generalising from this specific case
+
+coderanger [12:15 PM]
+And all I care about here is not confusing people into thinking this feature exists
+
+damacus [12:15 PM]
+`Accepted: Not Implemented`
+
+thom [12:15 PM]
+but yeah, for right now, let’s just make in `On Hold` and get someone with some CSS chops to make the html put big red lines through it or something
+
+coderanger [12:16 PM]
+-1 for encouraging adoption, most of these things that should be on hold are that way because even people really familiar with chef internals couldn't figure out how to do them
+
+[12:16]
+Would be setting people up for pain
+
+robbkidd [12:16 PM]
+`Status: We Agree It Sounds Good, But Turns Out It's Hard`?
+
+
+nathenharvey [12:17 PM]
+• *On hold* - The RFC has been approved but is not currently being implemented.
+
+coderanger [12:17 PM]
+I'll write up some changes to rfc 0
+
+
+nathenharvey [12:18 PM]
+So I recommend we get rfc-0 updated to reflect the status but can provisionally approve this PR in the meantime.
+
+coderanger [12:18 PM]
+Works for me
+
+thom [12:18 PM]
+WFM
+
+nathenharvey [12:18 PM]
+great.  let's move on to https://github.com/chef/chef-rfc/pull/252
+
+[12:19]
+add some critical chef-sugar helpers
+
+thom [12:19 PM]
+(merged - we can cook up a separate RFC 0 change) (edited)
+
+
+[12:20]
+I think @lamont clarified his position greatly with https://github.com/chef/chef-rfc/pull/252#issuecomment-287167226
+
+[12:21]
+I also think that I’m happy to approve this RFC, given a vote
+
+coderanger [12:21 PM]
+:+1:
+
+
+nathenharvey [12:22 PM]
+OK, that's the end of our planned agenda, too.
+
+thom [12:23 PM]
+do we want to vote, or do i just smoosh the big red approved label?
+
+martinisoft [12:23 PM]
+I tossed in a vote on @coderanger’s vote
+
+thom [12:24 PM]
+works for me
+
+[12:24]
+thanks!
+
+shortdudey123 [12:25 PM]
+Can we discuss https://github.com/chef/chef-rfc/pull/246 since it is past March 15?
+
+
+nathenharvey [12:26 PM]
+YES!  Here's the status update:  It's on me to get some words written and the deprecation in place.  And on my schedule to complete tomorrow
+
+
+shortdudey123 [12:26 PM]
+Awesome sauce
+
+nathenharvey [12:27 PM]
+Any other topics?
+
+[12:28]
+OK, that's the end of our meeting today then.  See everyone next week - Thursday, March 30, 2017 9AM-9:50AM PDT
+
+
+[12:28]
+http://everytimezone.com/#2017-3-30,240,cn3
+
+[12:29]
+***** MEETING ENDS *****

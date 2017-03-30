@@ -1,0 +1,394 @@
+thom Mar 16, 2017 12:00 
+Ohai Chefs!
+today’s meeting is hosted by me, since Nathen is running a workshop
+We’ve got 3 RFCs in the queue, https://github.com/chef/chef-community-slack-meetings/blob/master/2017-03-16-agenda.md
+Of course, the big event coming up for our community is ChefConf which will include a Community Summit, workshops, typical conference stuff like keynotes and breakout sessions, a community celebration, a hack day, and, of course, *you*! all the details about ChefConf can be found at https://chefconf.chef.io/2017/ Contributors get a discounted ticket ($750) using the code GotChef17 And we have a diversity scholarship that is available for anyone from an underrepresented community. Applications for the scholarship are available at https://chefconf.chef.io/2017/diversity-scholarship/
+Software releases that I know about: * The windows cookbook has had a major overhaul * Foodcritic 10.0 * Supermarket 2.9.15 * Automate 07.85 * ChefSpec 6.1
+Anyone got anything else they’d like to share?
+
+stevenmurawski Mar 16, 2017 12:04
+Habitat 0.19.0 was released last week
+
+tas50 Mar 16, 2017 12:05
+Windows cookbook 3.0 which was a complete rewrite was released
+
+thom Mar 16, 2017 12:06
+Ok, thanks. Let’s move on then. Please take a moment to review the state of our current RFCs. I’ve now marked RFC46 and RFC81 as replaced
+
+cheeseplus Mar 16, 2017 12:06
+openldap cookbook 3.0 also a rewrite released
+
+thom Mar 16, 2017 12:08
+Right, our first RFC is PR 252 - add some critical chef-sugar helpers
+https://github.com/chef/chef-rfc/pull/252
+@lamont you’re up
+
+lamont Mar 16, 2017 12:08
+i was about to get more coffee
+
+thom Mar 16, 2017 12:09
+we can do 253 which ought to be pretty non-controversial
+
+lamont Mar 16, 2017 12:09
+oh we can do 252
+it seems like its reasonably non-controversial though
+
+thom Mar 16, 2017 12:10
+yeah, i think it’s really a slam dunk, since they’ve all been out there for some time
+
+lamont Mar 16, 2017 12:10
+i need to figure out a way to write words so that mac_os_x doesn’t get added to bsd_based? by someone being overly pedantic
+because that’s totally correct and totally useless
+
+thom Mar 16, 2017 12:11
+killing a dependency ++
+heh, yes
+i dislike fedora_based but other than that I’m down
+anyone else?
+
+cheeseplus Mar 16, 2017 12:11
+I too dislike fedora_based
+but agree on osx
+
+lamont Mar 16, 2017 12:12
+fedora_based is the one that i’ll use the most
+it is literally the most useful one of those
+
+thom Mar 16, 2017 12:13
+you know my concern about this one. I think maybe we should have helpers around these, but they maybe aren’t exposed to cookbook authors?
+
+lamont Mar 16, 2017 12:13
+that is literally driving this PR — because i can’t seem to ever get that with platform_family
+its totally useful for cookbook authors as ell
+
+cheeseplus Mar 16, 2017 12:13
+I can see it being useful, I just feel the association is weird and will be lost on most
+I almost always have to case for amazon by itself via platform ime
+but I'm sure it is useful
+
+lamont Mar 16, 2017 12:14
+uhm
+
+tas50 Mar 16, 2017 12:14
+it would be nice to avoid the amazon vs. rhel vs. fedora mess
+since amazon has basically made their own totally different distro at this point
+
+lamont Mar 16, 2017 12:14
+so pretty sure those all have /etc/sysconfig while suse and everything else doesn't
+
+tas50 Mar 16, 2017 12:14
+by not using systemd
+
+cheeseplus Mar 16, 2017 12:15
+suse has sysconfig
+March 16, 2017
+
+jtimberman Mar 16, 2017 12:15
+amazon doesn't use systemd?
+
+tas50 Mar 16, 2017 12:15
+nope
+
+jtimberman Mar 16, 2017 12:15
+switches everything to amazon :troll:
+
+cheeseplus Mar 16, 2017 12:15
+(opensuse leap at least cause I just implemented that)
+
+lamont Mar 16, 2017 12:15
+thing is that systemd-less amazon looks just like systemd-less fedora and rhel, its not a significant difference
+
+ssd Mar 16, 2017 12:15
+What is the main similarity that we are trying to capture with fdora_based?
+
+jtimberman Mar 16, 2017 12:15
+package manager?
+
+lamont Mar 16, 2017 12:15
+FFS
+i literally have no idea what planet you all are living on
+
+ssd Mar 16, 2017 12:18
+I'm +1 on this RFC. However, I don't think it unreasonable that people see this: > fedora_based? -- this will include the platform_family of rhel, fedora, and amazon and aren't sure on it since if you don't deal with that very day it doesn't make sense immediately.
+But, the RFC is useful enough that I'm fine if it goes in. It might be nice to have some guidance somewhere on "when should I used fedora_based?"
+
+lamont Mar 16, 2017 12:18
+amazon just isn’t that different from fedora and rhel when you care it to suse
+
+thom Mar 16, 2017 12:19
+but it is sufficiently different that you almost always have to special case it
+
+lamont Mar 16, 2017 12:19
+no you really don't
+
+troyready Mar 16, 2017 12:20
+No more than cases for Centos 5 vs 6 etc in my experience fwiw
+
+cheeseplus Mar 16, 2017 12:20
+I just did in a cookbook
+
+ssd Mar 16, 2017 12:20
+My problem isn't with a helper that is practically useful, my only worry is that it is semantically kinda confusing since it is basically an untrue statement.
+
+cheeseplus Mar 16, 2017 12:20
+because of sysconfig differences in vars
+
+thom Mar 16, 2017 12:20
+for example, they don’t even call their packages the same: https://github.com/chef-cookbooks/php/blob/877c38aed4e12c44a23a49fe215dbd7c32e2fa39/attributes/default.rb#L63
+
+lamont Mar 16, 2017 12:21
+sigh
+
+ssd Mar 16, 2017 12:21
+But, if there isn't a better name, I'm fine with a useful helper, let's just write the documentation clearly.
+
+lamont Mar 16, 2017 12:21
+that’s getting way into application-land
+
+cheeseplus Mar 16, 2017 12:21
+I'm with @ssd on +1 but sematnically confusing
+so make sure we doc it
+
+ssd Mar 16, 2017 12:22
+Can the doc say "cross-platform cookbooks are a lie, turn back now!"?
+
+jtimberman Mar 16, 2017 12:22
+they don't already?
+differences between platforms are subtle and nuanced, and oftentimes hard to predict.
+
+ssd Mar 16, 2017 12:22
+Are there any -1s?
+
+cheeseplus Mar 16, 2017 12:22
+*crazy smiling intensifies*
+
+thom Mar 16, 2017 12:23
+chef is way in application land. we’re trying to provide something for our users here, and i continue to be concerned that people will use fedora_based and then get pissed of because they still have to special case amazon, so they wind up doing when amazon_linux? ; when enterprise_linux?, fedora? ; end regardless
+
+jtimberman Mar 16, 2017 12:23
+is there anything specifically in chef-sugar that we're not bringing over that should be called out in the RFC that isn't?
+
+coderanger Mar 16, 2017 12:23
+Just my comment on macos but that's not a true -1 just something I think we should handle :)
+
+robbkidd Mar 16, 2017 12:23
+Do not meddle in the affairs of platforms for you are crunchy and taste good with ketchup.
+
+lamont Mar 16, 2017 12:24
+but if you have to special case things you have to handle unique cases for fedora? and rhel? and amazon?
+fedora_based? is for when you don’t have special cases
+chef_hostname won’t care and most of the providers internal to chef-client won’t care
+
+jtimberman Mar 16, 2017 12:25
+special cases like that are mainly package names, and to a lesser degree, service names, yes?
+as far as writing cookbooks goes
+
+lamont Mar 16, 2017 12:25
+and chef is not just an application deployment framework but also handles system configuration (and has its roots in system configuration)
+
+thom Mar 16, 2017 12:26
+package names, repo urls, service names, init scripts …
+
+lamont Mar 16, 2017 12:27
+so the consumer of fedora_based? is for system engineers managing those systems — where there’s considerable differences between SuSE and fedora-derived distros because of YaST, while if you stay away from application things like php and if you don’t get hung up on dnf-vs-yum and systemd-vs-init i’m going to approach amazon the same way i do rhel and fedora
+
+thom Mar 16, 2017 12:27
+anyway, i’m still +1 on this, i have reservations on the usefulness and the user-friendliness of fedora_based, and i’d like to see that helper, specifically, called out and documented so it’s used mindfully
+
+martinisoft Mar 16, 2017 12:28
+I will add that I dig the node.in? helper for environment shortcuts. But I dig the RFC’s proposal for the shortcuts. Can always add more later.
+
+jtimberman Mar 16, 2017 12:28
+I'm +1 on this RFC, fwiw, aside from my comment earlier about whether we're leaving things out and if those things should be clarified in this RFC for scoping purposes.
+
+lamont Mar 16, 2017 12:28
+‘things’?
+oh i called that out, pretty explicitly
+
+jtimberman Mar 16, 2017 12:29
+i don't have a better qualifier, i haven't used THAT much of chef-sugar itself to know what the RFC leaves out.
+ok
+
+martinisoft Mar 16, 2017 12:29
+I’m a +1 as well, I think it’s quite useful overall.
+
+jtimberman Mar 16, 2017 12:30
+@lamont the comment about method_missing in the attribute syntax? i only see that as a GH comment.
+
+lamont Mar 16, 2017 12:31
+i thought i wrote some words
+
+jtimberman Mar 16, 2017 12:31
+if they're in the rfc text i'm missing them. 😄
+
+lamont Mar 16, 2017 12:31
+i wrote them in my head at some point
++We will not be pulling in the debian_before_squeeze? style of platform and platform_version helpers +at this time (simply limiting the scope, not a statement that we do or do not eventually want them).
+okay i wrote it for those
+
+jtimberman Mar 16, 2017 12:32
+yeah seeing that
+
+lamont Mar 16, 2017 12:33
+yeah i could make that apply more generally
+
+jtimberman Mar 16, 2017 12:33
+i think it would be useful to quell future inquiries like "why isn't thing included?"
+
+lamont Mar 16, 2017 12:34
+yeah i was clearly going down that route i just wrote words that only applied to those helpers and not the whole rest of it
+
+jtimberman Mar 16, 2017 12:34
+and what of the future maintenance of these helpers in chef-sugar itself? would they be removed from it, i presume?
+
+lamont Mar 16, 2017 12:34
+that was a comment:
+"I didn't address removing the helpers from chef-sugar and future-proofing against deviations between chef-sugar and core chef. Obviously the intention is that at some point in the future chef-sugar drops support for chef < 13 and then deletes all these helpers."
+
+jtimberman Mar 16, 2017 12:35
+ah i didn't see that as it's a comment outside the code view 😄
+
+lamont Mar 16, 2017 12:35
+yeah i didn’t know what language to use in the RFC
+i also felt it was kind of inevitable that just happens
+
+jtimberman Mar 16, 2017 12:36
+being explicit is probably good here, since it does affect a library used very widely 🙂
+
+lamont Mar 16, 2017 12:36
+yeah it should be perfectly transparent though
+
+thom Mar 16, 2017 12:37
+OK. So Lamont, please add some language to the RFC around future plans for sugar
+
+lamont Mar 16, 2017 12:37
+well that’s a larger scope
+
+thom Mar 16, 2017 12:37
+we should move on, since we can’t vote on this RFC until next week
+
+ssd Mar 16, 2017 12:37
+Do we maintain chef-sugar? If not, I would just leave that out. Who know what Seth may or may not have the time or inclination to do.
+
+lamont Mar 16, 2017 12:37
+right
+
+coderanger Mar 16, 2017 12:37
+We do, effectively
+
+lamont Mar 16, 2017 12:38
+seth still owns it, so i was staying away from writing up policy around it
+tim effectively maintains it
+
+tas50 Mar 16, 2017 12:38
+I have merge / release on it
+but we don’t maintain it
+
+thom Mar 16, 2017 12:38
+ok, future plans for sugar wrt to the stuff that is moving into chef. just so people know what’s going on, per the conversation above
+
+lamont Mar 16, 2017 12:38
+‘effectively'
+
+tas50 Mar 16, 2017 12:38
+seth has expressed the desire for us to merge it in
+
+lamont Mar 16, 2017 12:39
+yeah, i’m pretty sure he’d be okay with this
+
+thom Mar 16, 2017 12:40
+OK, next up is 253- exclude doc contributions from the DCO: https://github.com/chef/chef-rfc/pull/253
+
+lamont Mar 16, 2017 12:40
+anyway i’ll add some scope words and i’ll write some words around futures
+
+thom Mar 16, 2017 12:40
+thanks
+
+tas50 Mar 16, 2017 12:40
+this is just clarifying the obvious fix policy right?
+I believe that already specifically calls out documentation and testing since those don’t include IP
+
+thom Mar 16, 2017 12:41
+adam is teaching a workshop, but: we already exclude the chef-web-docs project from needing DCO, and we should apply the same process to docs that are contained in code repositories
+it means that doc contributions aren’t required to state that they’re obvious fixes
+so, yes
+
+tas50 Mar 16, 2017 12:42
+k I support this then. It avoids me saying “merging under obvious fix rule” every time
+
+ssd Mar 16, 2017 12:42
+Can the DCO bot handle such a change currently or do we need a TODO for that
+
+jtimberman Mar 16, 2017 12:42
+i think the DCO bot has a "does the commit have signed off by?" check
+
+ssd Mar 16, 2017 12:43
+(maybe not an immediate todo, the humans can just use their 👀 for now)
+
+thom Mar 16, 2017 12:43
+the dco bot has support for obvious fix, but not docs
+
+jtimberman Mar 16, 2017 12:43
+not a "does the commit have a signed off by for any non commented code or files changed ending in .md"
+
+thom Mar 16, 2017 12:43
+@ssd yeah
+i’d like to move to just approving this since it’s _really_ just a codification of existing practice
+
+jtimberman Mar 16, 2017 12:44
+I'm 👍 on the principle of it, i haven't read the RFC >.>
+
+thom Mar 16, 2017 12:45
+This is the entire change: adding
+DCO sign-off will not be required for contributions to documentation repositories (such as chef/chef-web-docs) or contributions that only affect documentation embedded within project repositories (such as the docs directory in chef/inspec).
+
+chip Mar 16, 2017 12:45
+Beat me to it
+March 16, 2017
+
+thom Mar 16, 2017 12:45
+anyone have any objections to this?
+
+coderanger Mar 16, 2017 12:46
+You might want to explicitly call out readmes?
+Since that's a way more common case than docs/
+
+jtimberman Mar 16, 2017 12:47
+i'd interpret that last part as including readmes
+
+martinisoft Mar 16, 2017 12:48
+Same here, think that blip covers READMEs
+
+coderanger Mar 16, 2017 12:48
+Yeah, I agree, just odd to cite the less common case as the example :)
+
+martinisoft Mar 16, 2017 12:48
+or even things like TESTING or CONTRIBUTING
+
+robbkidd Mar 16, 2017 12:48
+DCOBot's current implementation only checks commit message text and is unaware of "this change only affects documentation" unless someone _states_ that in the commit message.
+
+thom Mar 16, 2017 12:48
+i think it’s probably much more common in inspec, which is what adam was thinking about 🙂
+anyway, i’m gonna mash merge
+
+robbkidd Mar 16, 2017 12:49
+Can the spec state what file globs within a repo will be considered documentation?
+
+thom Mar 16, 2017 12:49
+we’re also at time, so we’ll have to talk more about support windows next week
+
+jtimberman Mar 16, 2017 12:49
+(such as files with .md extension or the docs directory in chef/inspec)
+🙂
+
+thom Mar 16, 2017 12:50
+i don’t think the RFC needs to contain that. we can write a bug on dcobot that has implementation details
+thanks everyone
+
+jtimberman Mar 16, 2017 12:50
+sure
+
+thom Mar 16, 2017 12:51
+MEETING ENDS
