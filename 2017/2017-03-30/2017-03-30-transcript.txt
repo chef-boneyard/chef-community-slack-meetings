@@ -1,0 +1,282 @@
+nathenharvey [12:01]  
+***** MEETING STARTS *****
+
+[12:01]
+Agenda for today's meeting - https://github.com/chef/chef-community-slack-meetings/blob/master/2017-03-30-agenda.md
+
+[12:02]
+We'll start with updates, cover some outstanding action items, and then review RFCs that are in process
+
+[12:02]
+I'll kick us off with the community update
+
+[12:04]
+Early bird pricing for ChefConf ends tomorrow.  As contributors, you're able to utilize the `GotChef17` discount code until our inventory contributor tickets run out but you may have friends or colleagues who are not contributors.  Please encourage them to purchase tickets before prices go up.
+
+[12:05]
+Tomorrow is also the last day to apply for a diversity scholarship for ChefConf.  The scholarships are open to anyone who identifies as underrepresented in the community.  Applications - https://chefconf.chef.io/2017/diversity-scholarship/ (edited)
+
+[12:06]
+And a reminder that we will have a Community Summit on Monday and a Hack Day on Thursday so we've got lots of great activities for you for much of the week.  The community celebration on Wednesday night will be awesome, too.
+
+[12:08]
+In addition to the summit on Monday, there are a bunch of really great learning opportunities including a workshop on story mapping that will be led by Jeff Patton.  This workshop is great for anyone who is responsible for determining which things should be built *next*.  @ubergeekgirl wrote up a post about her recent experience attending a similar workshop with Jeff - https://blog.chef.io/2017/03/29/story-mapping-jeff-patton/
+Chef Blog
+Story Mapping with Jeff Patton at ChefConf - Chef Blog
+A story map is a simple way to visualize your product idea from your users' perspective. At ChefConf 2017 Jeff Patton will lead a workshop on Story Mapping.
+
+nathenharvey [12:08 PM]
+Bring your product managers to ChefConf and have them attend that workshop.
+
+[12:09]
+I also wanted to share some of our early thoughts about our summits that we'll host after ChefConf.
+
+[12:09]
+We'll have one in London, one in NYC, and one in Seattle.  Dates and locations to be announced at or soon after ChefConf.
+
+[12:10]
+London will likely follow a similar format as years past:  a mix of presentations, demos, and open spaces.
+
+[12:11]
+For the US-based summits we're considering changing up the format a bit and would love to hear your thoughts on what would make the summits "can't miss" events for you and your teams.
+
+[12:11]
+One thought is that we tighten up the focus from a general "community summit" to a more targeted "contributor summit"
+
+[12:12]
+this would mean the summit would focus more on hacking and improving the contributor experience and less on general open spaces.
+
+[12:13]
+I'd love to hear your input and feedback on this and, of course, your input and feedback on ChefConf.
+
+[12:13]
+Those are the community updates.  Let's move on to software updates next.
+
+[12:13]
+• Releases mentioned on Discourse - (https://discourse.chef.io/c/chef-release):
+ • Supermarket 2.9.21
+ • ChefSpec 6.2 and Fauxhai 4.1
+ • Foodcritic 10.1
+ • InSpec v1.18.0 (edited)
+
+[12:14]
+Of course, the cookbook updates in preparation for Chef 13 continue as well.
+
+[12:14]
+what other software updates do *you* have to share?
+
+thom [12:15 PM]
+Chef 13’s release date is now less than two weeks away. Please get testing with your cookbooks, so we can have as smooth a release as possible
+
+
+coderanger [12:16 PM]
+I put up poise-git 1.0 if you want just the bits to use deploy keys with a git resource and not the dependency on the application cookbook (edited)
+
+
+nathenharvey [12:18 PM]
+thanks!
+
+[12:18]
+following-up on some action items from last week:
+
+[12:19]
+the mongodb cookbook has been deprecated and the sc-mongodb cookbook is offered as a suitable alternative and there was a post to discourse announcing the change
+
+[12:20]
+this is the first cookbook where we've had a Supermarket administrator intervene without express consent from the author.  That is not something we will do on a regular basis.
+
+[12:20]
+Moving on to our RFCs for today...
+
+[12:21]
+First a reminder and requests to review the status of currently accepted RFCs for accuracy at https://chef.github.io/chef-rfc/
+
+[12:21]
+and now, on to our first PR for today:  https://github.com/chef/chef-rfc/pull/258
+
+[12:21]
+PR-258 - Propose Server Enforced Recipes feature
+
+[12:21]
+@kallistec want to get everyone up-to-speed on this?
+
+kallistec [12:22 PM]
+Yeah, description on the PR is a good summary
+
+[12:22]
+ ```Chef Server will provide an endpoint that MAY serve a Chef recipe file. Chef
+Client will attempt to fetch the recipe during run context setup. If
+no user action is taken to configure the feature, the endpoint returns 404
+and Client behavior will be unaffected. When the feature is enabled, the
+endpoint returns the configured recipe file. Chef Client will evaluate and
+converge the recipe.
+```
+
+[12:23]
+most of the discussion seems to be about whether this should be a cookbook instead of a recipe
+
+[12:23]
+IMO the added complexity of supporting a full cookbook isn't the right tradeoff for the intended use case
+
+[12:24]
+A user could set up a separate chef node/client identity via the recipe for that case if desired
+
+coderanger [12:24 PM]
+I'm still really worried about the lack of templates and of testing tools :confused:
+
+kallistec [12:25 PM]
+or if the group enforcing the code on the client is in the same organization, I would recommend moving towards a shared Ci system
+
+[12:25]
+instead of using this feature
+
+[12:25]
+I think testing tools are relatively easy. You can keep your recipe in a regular cookbook structure and export it with a rake task or whatever
+
+coderanger [12:26 PM]
+Maybe we are differing on assumptions as to who would be the people writing the recipe code that gets run this way?
+
+kallistec [12:27 PM]
+My top priority use case is for service providers building features on top of chef that require a separate agent, which should be 100% orthogonal to everything else
+
+coderanger [12:27 PM]
+This proposal feels like it has some kind of concrete use case behind it but I respect if Chef Software doesn't want to disclose future product integrations or whatnot
+
+kallistec [12:28 PM]
+both in terms of delivery of the agent via the recipe, and operation of the agent
+
+martinisoft [12:29 PM]
+I have similar concerns about the testing side of things
+
+kallistec [12:29 PM]
+A key point is that the folks running the server have a vendor relationship with the folks using it
+
+[12:30]
+so it's important to minimize the possibility for interaction between the enforced chef code and the regular stuff
+
+coderanger [12:30 PM]
+So, basically you're assuming 100% of the recipe code used by this is going to tbe written by some kind of vetted partner?
+
+[12:31]
+And thus we can solve testing and complexity of writing such code on the proserv/partners side?
+
+kallistec [12:32 PM]
+Everyone else is of course free to use it as they like, but that is the target audience, yes. Definitely intended to be an expert level feature for a narrow use case
+
+coderanger [12:32 PM]
+Okay, that makes me less worried, though then it's somewhat frustrating to review an RFC with a very narrow scope because it is defined in terms of a product plan that isn't public.
+
+kallistec [12:33 PM]
+my personal feeling is that folks who want the more expansive version of the feature where we're injecting run lists and such would be better served setting up a Ci system and collaborating with each other, i.e., rubbing more devops on it
+
+[12:34]
+so this is targeted for when there are non-malleable organizational boundaries
+
+coderanger [12:35 PM]
+Basically if (and I have know foreknowedge here) this is the client side for a "install the $STARTUP agent program via a Chef Automate web button" with some fancy automatic config integration, this seems fine
+
+[12:36]
+If the goal is more broad, or if its supposed to help with the long-requested "default base role", this is not going to be enough
+
+troyready [12:36 PM]
+Yeah, seems reasonable. I'm sure some people will shoot themselves in the foot with the feature, but still seems fine enough
+
+lamont [12:36 PM]
+i still sort of vaguely foresee that people who haven’t eaten the whole devops cake will have internal organizational boundaries that are non-malleable and will try to (ab)use this feature and will smack straight into its limitations...
+
+kallistec [12:36 PM]
+Yeah, it's definitely not the default base role.
+
+martinisoft [12:36 PM]
+I’m having trouble groking it myself. If this is intended to be a separate-but-equal use, the conflation of say client mode to run it might get confusing for end users wondering why recipes are an option (and why not use it?!?). End user experience wise, without having clear and separate verbage it might get weird for newbies. Same goes for how this would look on a chef server as a stored thing.
+
+coderanger [12:37 PM]
+But it kind of looks like a base role, or a node classifier thing, or several other related features that people are chomping at the bit for, so we'll have to really clearly document the boundaries and limitations
+
+
+kallistec [12:37 PM]
+@lamont for them, the documented guidance will be that they can have separate chef client identities (and stuff everything in different server orgs if they want)
+
+coderanger [12:37 PM]
+@martinisoft I'm guessing it won't be a single stored object and will be generated on fly based on some other data
+
+kallistec [12:37 PM]
+they could enforce that setup with this mechanism
+
+[12:38]
+but that's the only way they won't get into trouble with attributes or ruby constants or whatever conflicting
+
+[12:38]
+trying to use different versions of the yum cookbook, etc.
+
+thom [12:38 PM]
+let’s not stray into server side implementation details, please
+
+coderanger [12:38 PM]
+@kallistec Having a cookbook without dependencies solves that too though
+
+[12:39]
+And keeps things much closer to the rest of the community flow
+
+martinisoft [12:39 PM]
+I’ll push up my concerns to the PR.
+
+nathenharvey [12:39 PM]
+this RFC is only a couple of days old so we can't actually vote on it today.  I'd like to propose that we continue this discussion in the PR and move on to the other PRs on the agenda in our remaining 10 minutes.
+
+[12:40]
+seems no objections to that proposal so let's move on.
+
+[12:40]
+Next up is PR-246 - Transfer mongodb cookbook on Supermarket to Sous Chefs org.
+
+[12:41]
+This is fully ready for merging and all action items have been completed.
+
+thom [12:41 PM]
+approved
+
+nathenharvey [12:41 PM]
+Next:  PR-249 - add support windows for cookbooks and ruby versions
+
+[12:41]
+this is "Approved with the proviso it gets turned into a shiny new RFC rather than an update to 81."
+
+[12:42]
+@lamont that's your action item, correct?
+
+[12:43]
+in any case, it shouldn't be voted on until that happens or there are objections to that, I suppose.
+
+thom [12:43 PM]
+yep, let’s roll on
+
+nathenharvey [12:43 PM]
+and the final open PR we have is PR-252 - add some critical chef-sugar helpers.  Looks like this was approved last week so we just need an RFC editor to merge this in.
+
+lamont [12:43 PM]
+oh yeah that’s my action item
+
+[12:43]
+still
+
+thom [12:44 PM]
+yeah, i think 252 is mergable
+
+lamont [12:44 PM]
+yeah afaik 252 needs green button whacked
+
+nathenharvey [12:44 PM]
+And that's all of our agenda items for today.  We have about 5 minutes left so I'll open the floor for any additional topics *you* might like to raise....
+
+coderanger [12:45 PM]
+Just as a general reminder, Chef 13 is sooooon so if you have backwards incompatible changes you think should be made, now is the time to propose them
+
+thom [12:46 PM]
+like, this week really
+
+nathenharvey [12:47 PM]
+ok that's the end of this meeting then.  We'll meet next week - Thursday, March 23, 2017 9AM-9:50AM PDT  (http://everytimezone.com/#2017-3-23,240,cn3)
+
+[12:47]
+***** MEETING ENDS *****
