@@ -1,0 +1,373 @@
+nathenharvey [16:01 PM] 
+**** MEETING STARTS *****
+
+[16:01]
+Agenda - https://github.com/chef/chef-community-slack-meetings/blob/master/2017-04-06-agenda.md
+
+[16:01]
+we have a some updates then a bunch of PRs to to cycle through
+
+[16:02]
+I'll get us started with a community update
+
+[16:03]
+Please be sure you've purchased your ChefConf ticket.  We're really looking forward to seeing everyone there.
+
+[16:03]
+Contributor discount code:
+
+[16:03]
+`GotChef17`
+
+[16:04]
+Today we opened up the nomination form for Awesome Community Chefs - https://blog.chef.io/2017/04/06/nominate-awesome-community-chef/
+Chef Blog
+Nominate an Awesome Community Chef - Chef Blog
+The Chef community is full of many awesome individuals who contribute and do exceptional things every day. Each year at ChefConf, individuals are awarded the Awesome Community Chef award. The Awesome Community Chef awards are a way for the community to recognize a few of the individuals who have made a dramatic impact and have …
+Today at 4:45 AM
+
+
+[16:04]
+Looking around the community, we'd love to know who has helped you succeed.
+
+[16:05]
+That post lists previous winners, too.  We are looking for 3 community members and 1 chef employee this year
+
+[16:05]
+Those are the community updates so let's move on to Software Releases.
+
+[16:05]
+Releases announced on Discourse - https://discourse.chef.io/c/chef-release
+• Kitchen-vagrant 1.1.0
+• Audit Cookbook 3.0.0
+• Supermarket 2.9.30
+• InSpec v1.19.1
+• Chef Automate 0.7.151
+• Chef Manage 2.5.1
+• Chef Reporting 1.7.1
+• Push Jobs Server 2.2.1 (edited)
+
+[16:06]
+chef-client 13 is still on track for next week
+
+[16:06]
+and the cookbook work prepping for that continues
+
+thom [16:06 PM]
+we're aiming to pick and announce a release candidate today
+
+
+nathenharvey [16:06 PM]
+what other software releases would *you* like to share here?
+
+thom [16:06 PM]
+we're also aiming to do a last Chef 12 based ChefDK release today, to clear the way for ChefDK 2
+
+
+robbkidd [16:07 PM]
+A Supermarket 3.0 is planned for next week, too, with a bow around quality metrics and an upgraded Paperclip for storing cookbooks in S3.
+
+thom [16:07 PM]
+also, maintainers should go and choose their very best GIFs and go approve https://github.com/chef/chef/pull/6022
+
+nathenharvey [16:09 PM]
+OK, any other software releases that are recent or pending that you'd like to share?
+
+[16:11]
+Moving on...
+
+Action item from last week:
+
+Update PR-249 into a new RFC - @lamont
+
+I don't think anything's been done there so we'll just push that one to a couple of weeks out since @lamont has been pushing for Chef 13 and has some vacation planned
+
+[16:11]
+Here's you're weekly reminder to review the current state of RFC - https://chef.github.io/chef-rfc/
+
+[16:11]
+and thanks to @coderanger for a bunch of updates that are on the agenda for today
+
+[16:12]
+So, next on the agenda...
+
+[16:12]
+https://github.com/chef/chef-rfc/pull/259
+
+[16:12]
+Add On Hold state and remove Rejected
+
+kallistec [16:12 PM]
+LGTM
+
+
+Simple Poll APP [16:12 PM]
+approve 259?
+----------------
+:one: yes    `10`
+coderanger, thom, kallistec, nathenharvey, stevenmurawski, tas50, jhudson, lamont, robbkidd, jtimberman
+
+----------------
+:two: no
+
+
+
+ Simple Poll        Edit Settings
+
+thom [16:13 PM]
+done, merged, thanks
+
+nathenharvey [16:13 PM]
+Next up - https://github.com/chef/chef-rfc/pull/260 - Mark a whole bunch of RFCs as implemented
+
+coderanger [16:14 PM]
+So the big caveat here is that if any of these were implemented in ways that dont match the rfc, we should note that somewhere
+
+thom [16:14 PM]
+The Chef-Server part of 67 is not done, yet
+
+coderanger [16:15 PM]
+Roger, will remove that one
+
+thom [16:15 PM]
+other than that i think we're good
+
+
+Simple Poll APP [16:16 PM]
+approve 260 with removal of chef server part from 67?
+----------------
+:one: yes    `8`
+thom, coderanger, stevenmurawski, kallistec, nathenharvey, sigje, ssd, jhudson
+
+----------------
+:two: no
+
+
+
+ Simple Poll        Edit Settings
+
+nathenharvey [16:17 PM]
+Next - https://github.com/chef/chef-rfc/pull/261 - Withdraw RFC 024
+
+coderanger [16:18 PM]
+This one is mostly my personal opinion, I think chef client should show an error message if there is no URL and that switching to local mode is more confusing in genral
+
+[16:19]
+Since the usual case is config error, not solo
+
+scottford [16:19 PM]
+joined #developer-meetings
+
+thom [16:19 PM]
+hmm. I think i'm ok withdrawing this, but I think parts of it are worth rescuing; if you don't have a config file, then probably it's ok to just do local mode, rather than trying to hit `https://localhost:8889` or whatever it is
+
+coderanger [16:19 PM]
+I mean why would that be expected behavior? (edited)
+
+kallistec [16:21 PM]
+My general opinion is to make things explicit but have educational error messaging
+
+
+coderanger [16:21 PM]
+Especially if ever going back to the client vs solo way of communicating about chef workflows like before
+
+[16:21]
+(Which we have been doing)
+
+[16:22]
+And yeah, mentioning solo in the error message seems fine
+
+thom [16:22 PM]
+i'm fine with that too
+
+nathenharvey [16:23 PM]
+OK, I move that we vote on 261 next week to give it 2 weeks in the pending state and for any further discussion / updates to the PR
+
+coderanger [16:23 PM]
+:+1:
+
+nathenharvey [16:23 PM]
+Next - https://github.com/chef/chef-rfc/pull/262 - Put a few RFCs on hold pending more resources
+
+coderanger [16:24 PM]
+These were guesses, I pinged the authors of all involved rfcs in case they don't want the status changed
+
+thom [16:24 PM]
+my suspicion is that anything that john wrote that haven't been implemented should be marked withdrawn rather than on hold
+
+jtimberman [16:25 PM]
+rfc-073 seems like something that needs revision since we're not using irc.
+
+coderanger [16:25 PM]
+I was being generous about not withdrawing things to give maximum wiggle room to the authors
+
+thom [16:26 PM]
+i think 73 should also be withdrawn, personally.
+
+jtimberman [16:27 PM]
+sure
+
+nathenharvey [16:27 PM]
+shall we give this another week for the authors to chime in and update to withdraw if that's their desire or to raise any objections?
+
+thom [16:27 PM]
+but anyway, i think all of these can move uncontroversially
+
+coderanger [16:27 PM]
+Notably the features in 43 are partially in github itself now too
+
+thom [16:27 PM]
+yep, and yep
+
+nathenharvey [16:27 PM]
+OK, let's move on to our final PR for today - https://github.com/chef/chef-rfc/pull/258 - Propose Server Enforced Recipes feature
+
+coderanger [16:27 PM]
+But yeah, comment on the PR with these suggestions and I'll take it from there :)
+
+ssd [16:28 PM]
+The Main Event
+
+
+kallistec [16:28 PM]
+I updated #258 to clarify in response to feedback
+
+coderanger [16:29 PM]
+I left my comment on the PR but basically this is fine dot gif
+
+[16:30]
+I think we can all agree it is future tech debt but it will be enough for now and will unblock whatever the server side is
+
+kallistec [16:31 PM]
+I think it's good to go. I understand concerns that keeping the scope very small makes it not useful for some use cases that have been requested, but IMO a lot more user research would be required to make a good experience for those use cases. Keeping it scoped very small means that if we do ever replace with a bigger/better thing, we don't have a lot of stuff to maintain until the next major version bump
+
+thom [16:31 PM]
+@nathenharvey i think we're probably good to vote here
+
+
+Simple Poll APP [16:32 PM]
+approve 258
+----------------
+:one: yes    `8`
+kallistec, lamont, coderanger, thom, stevenmurawski, nathenharvey, ssd, mparadise
+
+----------------
+:two: no
+
+
+
+ Simple Poll        Edit Settings
+
+ssd [16:32 PM]
+Err. we have a lot of time in this meeting still, there is someone clearly typing in slack. I suggest we let them finish.
+
+thom [16:33 PM]
+oh, sorry
+
+mparadise [16:36 PM]
+I posted a two-part request in the related chef-server PR.  One of those is implementation-specific and isn't relevant here. For the RFC itself, I had suggested that the endpoint return a normal cookbook that consists of a single recipe.  The idea being that it even though we might expand that later so that chef client can take better advantage of it, doing this now would let us keep the interface stable for most of the things we might expect to do. I did not see it as a signficiant increase in scope of effort for an initial feature.
+
+kallistec [16:37 PM]
+I can say it's a definitely a large increase in implementation effort
+
+[16:38]
+I also can say that we've sketched out a lot of variations on what a fuller version of the feature might look like and the implementation possibilities are all very different
+
+[16:39]
+Which means that trying to future-proof might go in the wrong direction regardless
+
+ssd [16:39 PM]
+I'm +1 on the current proposal with 1 minor improvement that I would like a checksum of the data we are sending to be somewhere in the response headers or response body.  Just seems like it might help track down issues in the future.
+
+[16:39]
+Not sure that needs to go in the RFC though.
+
+kallistec [16:40 PM]
+Data checksum is definitely doable
+
+ssd [16:40 PM]
+Also, I think we should clearly document what happens if the required recipe fails
+
+[16:40]
+s/document/define/
+
+thom [16:40 PM]
+beyond "you get to keep all the pieces"? :slightly_smiling_face: but yes, it would be good to be clear what will occur client side in this case, and how we report that
+
+kallistec [16:42 PM]
+I think failing the chef-client run is best, the recipe author can use ignore failure (or not) to get any desired behavior that way
+
+
+[16:42]
+whereas the converse isn't true
+
+ssd [16:42 PM]
+Either way is fine with me. Failing the run seems to be the only sensible thing without introducing a lot of work
+
+[16:42]
+since you can't easily stop Kernel.exit
+
+jhudson [16:43 PM]
+Could there be a config option to determine the behavior?
+1 reply Today at 16:47 PM View thread
+
+jhudson [16:43 PM]
+Whether you want it to fail.
+
+[16:43]
+That at least is explicit and clear.
+
+thom [16:45 PM]
+i think this is one of those times where it's much better for every one to act the same
+
+
+mparadise [16:46 PM]
+@kallistec I did not realize that the suggestion would increase scope that much. My concern is primarily around API stability, but nothing in the RFC precludes that. I am :+1:
+
+nathenharvey [16:47 PM]
+we have 3 minutes left.... @thom do you feel we're good for a vote on this one?
+
+thom [16:48 PM]
+yeah, i think we've not really said anything that changes the rfc
+
+kallistec [16:48 PM]
+@mparadise cool. We are using the code path from `chef-client -z path/to/recipe.rb` to reduce the amount of new stuff in the client
+
+
+nathenharvey [16:48 PM]
+https://chefcommunity.slack.com/archives/C1P99AXGV/p1491496324731960
+approve 258
+----------------
+:one: yes    `8`
+kallistec, lamont, coderanger, thom, stevenmurawski, nathenharvey, ssd, mparadise
+
+----------------
+:two: no
+
+ Simple Poll        Edit Settings
+
+[16:48]
+oh, that's didn't really work....maybe another poll is required...
+
+
+Simple Poll APP [16:48 PM]
+With feeling this time:  approve 258?
+----------------
+:one: yes    `7`
+coderanger, nathenharvey, mparadise, thom, kallistec, ssd, stevenmurawski
+
+----------------
+:two: no
+
+
+
+ Simple Poll        Edit Settings
+
+thom [16:50 PM]
+good enough, approved
+
+nathenharvey [16:50 PM]
+OK, we'll meet again next week - Thursday, April 13, 2017 9AM-9:50AM PDT - http://everytimezone.com/#2017-4-13,240,cn3
+
+[16:50]
+***** MEETING ENDS *****
