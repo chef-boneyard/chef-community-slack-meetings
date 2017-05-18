@@ -1,0 +1,135 @@
+stevenmurawski [11:00] 
+**** Meeting Starts **** (edited)
+
+Welcome to the developer slack meeting for Thursday May 18th!
+
+[11:01] 
+Looks like @nathenharvey isn't around, so a brief overview of today's agenda
+
+[11:02] 
+We'll have a quick community update, a chance to highlight any software releases, and then get into the RFC PR review.
+
+[11:02] 
+So, on the community front, next week is ChefConf!
+
+[11:03] 
+On behalf of the community engineering team, I can say we are looking forward to spending some great time with any of y'all who can make it.
+
+[11:03] 
+Do we have any software release updates?
+
+coderanger [11:03 AM] 
+Chef 13.1 and ChefDK 2.0 will be Very Soon™
+
+
+[11:04] 
+New revs of Manage and InSpec over the past few days
+
+stevenmurawski [11:04 AM] 
+Thanks @coderanger!
+
+[11:04] 
+I know we've also had a number of Habitat releases recently as well.
+
+[11:05] 
+Any other releases we want to highlight?
+
+lamont [11:05 AM] 
+@coderanger i think that is more likely Soon than Very Soon now
+
+tas50 [11:05 AM] 
+There was a new release of stove with artifactory support
+
+
+coderanger [11:06 AM] 
+And new major release of Berks
+
+
+lamont [11:06 AM] 
+(we had a bit of a hardware issue yesterday that is going to cause schedule delays)
+
+
+stevenmurawski [11:07 AM] 
+Thanks @coderanger @tas50 and @lamont
+
+[11:08] 
+We are moving right along today..  There are no pending action items noted from last week.
+
+[11:09] 
+There are no new PRs, but we've got two still open for discussion
+
+[11:09] 
+First up https://github.com/chef/chef-rfc/pull/267
+
+[11:10] 
+@sigje or anyone have any additional comments?
+
+[11:11] 
+Ok.. moving on
+
+[11:11] 
+Next is https://github.com/chef/chef-rfc/pull/266
+
+[11:12] 
+@wrightp or anyone else any further comments?
+
+wrightp [11:12 AM] 
+I've updated the rfc per suggestions made last week
+
+coderanger [11:13 AM] 
+So one thing we need to work out still is how to make this work with non-internet-y systems, at least as much as it works today
+
+[11:14] 
+I think it should probably be fine, right?
+
+[11:14] 
+You would set download_url
+
+[11:14] 
+And mirror the package files internally
+
+cheeseplus [11:15 AM] 
+If anything this will at least make it super clear how to do it in non-internet-y situations
+
+wrightp [11:15 AM] 
+Right. Also, I have a PR for supporting http proxies in mixlib install. I can see adding that at some point in the future
+
+coderanger [11:16 AM] 
+It's more often fully airgapped Jenkins than a proxy situation, but since we currently don't handle that super well I won't lose much sleep
+
+[11:16] 
+But we should have an answer ready :slightly_smiling_face:
+
+wrightp [11:17 AM] 
+tl;dr download url support will be available for all platforms
+
+stevenmurawski [11:18 AM] 
+Sweet.  Any other questions/comments/clarification?
+
+coderanger [11:18 AM] 
+:+1:
+
+stevenmurawski [11:20 AM] 
+Ok, we've swept through today's agenda.  Any other topics that need to be talked about?
+
+coderanger [11:20 AM] 
+ChefConfffffffff
+
+stevenmurawski [11:21 AM] 
+It's coming up fast!!  I'm only there on Monday, so looking forward to saying hi to as many folks as I can, but there'll be a good number of folks to meet and talk with throughout the event.
+
+[11:22] 
+And don't forget the hack day on Thursday.  Take some of the inspiration from Tuesday/Wednesday and write some code!
+
+[11:22] 
+Now, with ChefConf next week, we are going to take a two week break from these meetings.
+
+[11:22] 
+The next meeting will be Thursday June 8th - http://everytimezone.com/#2017-6-8,240,cn3
+
+[11:23] 
+Unless we've got any other commentary, (I'll give it a few minutes), then we are ready to wrap up  for today.
+
+[11:26] 
+Thank you everyone for joining us today!
+**** Meeting Ends ****
