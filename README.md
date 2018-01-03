@@ -4,14 +4,12 @@ This repository keeps the agenda, minutes, and log from the [Chef Community Slac
 
 ## How to use this repository
 
-The agenda for the next meeting should be set as a file marked with YYYY-MM-DD-agenda.md
-in the top level directory. When the meeting is complete, a subdirectory that matches
-the YYYY-MM-DD of the meeting should be created, with three files:
+Pull Requests to [chef/chef-rfc](https://github.com/chef/chef-rfc) can
+be in 5 states: New, Under Discussion, Ready for Vote, Approved, On Hold. There are appropriate labels for every state that isn't "New".
 
-* YYYY-MM-DD-agenda.md: the agenda
-* YYYY-MM-DD-meeting_transcript.pdf: a full transcript of the meeting
-* YYYY-MM-DD-minutes.md: The meeting minutes as recorded by the secretary
+To generate an agenda, run `bundle exec rake`. Any unlabelled issues
+will be added to the agenda as new items, items labelled as "Under
+Discussion" or "Ready for Vote" will be placed appropriately. 
 
-A new agenda file should be created, using the standard agenda linked [in the RFC](https://github.com/opscode/chef-rfc/blob/master/rfc001-slack-meetings.md) along with pre-set
-topics and speakers that may have been decided in the meeting.
-
+The meeting secretary should then apply and change labels appropriately
+as the meeting progresses.

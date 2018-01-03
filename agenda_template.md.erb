@@ -1,0 +1,38 @@
+# Chef Developers' Slack Meeting
+
+[Thursday, <%= date.strftime("%B %d, %Y") %> 9AM-9:50AM PDT](http://everytimezone.com/#<%= date.strftime("%Y-%m-%d") %>,240,cn3)
+
+\#developer-meetings channel of [chef-community.slack.com](http://chef-community.slack.com) - sign-up at [http://community-slack.chef.io](http://community-slack.chef.io)
+
+Moderator:  Thom May (thom)
+
+### Agenda
+* Agenda Review, speaker Thom May (thom): 2 minutes
+* Updates: 15 minutes max.
+  * Community update, speaker Thom May (thom): 5 minutes
+  * Software update, speaker - various people: 5 minutes
+* Review action items from last meeting (thom): 5 minutes
+* Review PRs:  35 minutes
+  * Review [status of currently accepted RFCs for accuracy](https://chef.github.io/chef-rfc/)
+<% unless new.empty? -%>
+  * Review new PRs and/or PRs deferred during last meeting
+  <% new.each do |item| -%>
+  * [<%= item[1] %>](<%= item[0] %>)
+  <% end -%>
+<% end -%>
+<% unless discussion.empty? -%>
+  * Review PRs previously discussed
+  <% discussion.each do |item| -%>
+  * [<%= item[1] %>](<%= item[0] %>)
+  <% end -%>
+<% end -%>
+<% unless voting.empty? -%>
+  * Vote on finalised PRs
+  <% voting.each do |item| -%>
+  * [<%= item[1] %>](<%= item[0] %>)
+  <% end -%>
+<% end -%>
+
+### Next Meeting
+
+[Thursday, <%= next_week.strftime("%B %d, %Y") %> 9AM-9:50AM PDT](http://everytimezone.com/#<%= next_week.strftime("%Y-%m-%d") %>,240,cn3)
