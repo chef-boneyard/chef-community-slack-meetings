@@ -7,10 +7,13 @@ def github
   @github ||= Octokit::Client.new(:netrc => true)
 end
 
+DISCUSSION_LABEL = 'label:"Under Discussion"'
+VOTING_LABEL = 'label:"Ready for Vote"'
+
 QUERY = 'repo:chef/chef-rfc is:pr state:open -label:"On Hold" -label:Approved '
-NEW = QUERY + '-label:Discussion -label:"Ready for Vote"'
-DISCUSSION = QUERY + "label:Discussion"
-VOTING = QUERY + 'label:"Ready for Vote"'
+NEW = QUERY + "-#{DISCUSSION_LABEL} -#{VOTING_LABEL}"
+DISCUSSION = QUERY + DISCUSSION_LABEL
+VOTING = QUERY + VOTING_LABEL
 
 task :workflow do
   Octokit.auto_paginate = true
