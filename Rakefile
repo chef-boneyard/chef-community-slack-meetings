@@ -18,9 +18,9 @@ VOTING = QUERY + VOTING_LABEL
 task :workflow do
   Octokit.auto_paginate = true
 
-  new = github.search_issues(NEW)[:items].map { |item| [item[:url], item[:title]] }
-  discussion = github.search_issues(DISCUSSION)[:items].map { |item| [item[:url], item[:title]] }
-  voting = github.search_issues(VOTING)[:items].map { |item| [item[:url], item[:title]] }
+  new = github.search_issues(NEW)[:items].map { |item| [item[:html_url], item[:title]] }
+  discussion = github.search_issues(DISCUSSION)[:items].map { |item| [item[:html_url], item[:title]] }
+  voting = github.search_issues(VOTING)[:items].map { |item| [item[:html_url], item[:title]] }
 
   erb = ERB.new(File.read("agenda_template.md.erb"), 0, "-")
   date = Date.parse("thursday")
