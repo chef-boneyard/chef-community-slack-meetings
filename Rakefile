@@ -1,5 +1,5 @@
 require "octokit"
-require "erb"
+require "erubis"
 require "date"
 require 'pp'
 
@@ -22,7 +22,7 @@ task :workflow do
   discussion = github.search_issues(DISCUSSION)[:items].map { |item| [item[:html_url], item[:title]] }
   voting = github.search_issues(VOTING)[:items].map { |item| [item[:html_url], item[:title]] }
 
-  erb = ERB.new(File.read("agenda_template.md.erb"), 0, "-")
+  erb = Erubis::Eruby.new(File.read("agenda_template.md.erb"))
   date = Date.parse("thursday")
   next_week = date + 7
   filename = date.strftime("%Y-%m-%d-agenda.md")
