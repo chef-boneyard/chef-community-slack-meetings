@@ -155,7 +155,7 @@
 12:35 <@holoway> ok, next topic - sersut, have anything you want to say about chef client?
 12:36 < sersut> Only a couple of things from me today...
 12:36 < sersut> Chef Client 11.14.0 & 10.34.0 RC candidates are out. We have been working on the releases for a while now. Expect to see them out next week.
-12:36 < sersut> Chef 12 scoping exercise including the supported versions of Chef Client and Ruby have been out for some time now. https://github.com/opscode/chef-rfc/pull/22
+12:36 < sersut> Chef 12 scoping exercise including the supported versions of Chef Client and Ruby have been out for some time now. https://github.com/chef/chef-rfc/pull/22
 12:36 < sersut> I'm planning to close down on this today. Comment on this PR if you haven't already
 12:36 < sersut> Given the current scoping we're expecting to have the Chef Client 12 out this fall during October..
 12:36 < sersut> short and sweet unless there are any questions :)
@@ -208,7 +208,7 @@
 12:52 < coderanger> holoway: I think we should probably find a rough middle ground between PEPs and OpenStack blueprints
 12:53 < coderanger> holoway: Less election-y than the OpenStack process, but with similar levels of team autonomy as opposed to the global BDFL model
 12:53 < coderanger> But I think the workflow on the PEP process is just about right
-12:54 < coderanger> I put in https://github.com/opscode/chef-rfc/pull/31 as an example of a hopefully nicer template than the current one we've been using
+12:54 < coderanger> I put in https://github.com/chef/chef-rfc/pull/31 as an example of a hopefully nicer template than the current one we've been using
 12:54 <@btm> coderanger: the PEP process seems reasonable to me. I'd like to see an RFC that makes the necessary alterations/decisions like if you should email chef-dev your proposal or open a PR against chef-rfc.
 12:54 < coderanger> optimally I think that should now be merged, moved from drafts to the main folder and issued a number
 12:54 < coderanger> and then developed there in Draft state

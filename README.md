@@ -1,6 +1,6 @@
 # Chef Community Meetings
 
-This repository keeps the agenda, minutes, and log from the [Chef Community Slack Meetings](https://github.com/opscode/chef-rfc/blob/master/rfc001-slack-meetings.md).
+This repository keeps the agenda, minutes, and log from the [Chef Community Slack Meetings](https://github.com/chef/chef-rfc/blob/master/rfc001-slack-meetings.md).
 
 ## How to use this repository
 
