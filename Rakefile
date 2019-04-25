@@ -1,27 +1,8 @@
-require "octokit"
 require "erubis"
 require "date"
 require 'pp'
 
-def github
-  @github ||= Octokit::Client.new(:netrc => true)
-end
-
-DISCUSSION_LABEL = 'label:"Under Discussion"'
-VOTING_LABEL = 'label:"Ready for Vote"'
-
-QUERY = 'repo:chef/chef-rfc is:pr state:open -label:"On Hold" -label:Approved '
-NEW = QUERY + "-#{DISCUSSION_LABEL} -#{VOTING_LABEL}"
-DISCUSSION = QUERY + DISCUSSION_LABEL
-VOTING = QUERY + VOTING_LABEL
-
 task :workflow do
-  Octokit.auto_paginate = true
-
-  new = github.search_issues(NEW)[:items].map { |item| [item[:html_url], item[:title]] }
-  discussion = github.search_issues(DISCUSSION)[:items].map { |item| [item[:html_url], item[:title]] }
-  voting = github.search_issues(VOTING)[:items].map { |item| [item[:html_url], item[:title]] }
-
   erb = Erubis::Eruby.new(File.read("agenda_template.md.erb"))
   date = Date.parse("thursday")
   next_week = date + 7

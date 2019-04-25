@@ -13,24 +13,6 @@ Moderator: Tim Smith ([tas50](https://www.github.com/tas50/))
 * Review action items from last meeting, speaker Tim Smith ([tas50](https://www.github.com/tas50/)): 5 minutes
 * Review PRs:  35 minutes
   * Review [status of currently accepted RFCs for accuracy](https://chef.github.io/chef-rfc/)
-<% unless new.empty? %>
-  * Review new PRs and/or PRs deferred during last meeting
-  <% new.each do |item| %>
-    * [<%= item[1] %>](<%= item[0] %>)
-  <% end %>
-<% end %>
-<% unless discussion.empty? %>
-  * Review PRs previously discussed
-  <% discussion.each do |item| %>
-    * [<%= item[1] %>](<%= item[0] %>)
-  <% end %>
-<% end %>
-<% unless voting.empty? %>
-  * Vote on finalised PRs
-  <% voting.each do |item| %>
-    * [<%= item[1] %>](<%= item[0] %>)
-  <% end %>
-<% end %>
 
 ### Next Meeting
 
