@@ -2,6 +2,7 @@ require "erubis"
 require "date"
 require 'pp'
 
+desc "generate a new agenda for the next Thursday"
 task :workflow do
   erb = Erubis::Eruby.new(File.read("agenda_template.md.erb"))
   date = Date.parse("thursday")
