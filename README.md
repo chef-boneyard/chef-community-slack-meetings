@@ -1,6 +1,10 @@
 # Chef Community Meetings
 
-This repository keeps the agenda, minutes, and log from the [Chef Community Slack Meetings](https://github.com/chef/chef-rfc/blob/master/rfc001-slack-meetings.md).
+```PLEASE NOTE THIS IS AN ARCHIVE```
+
+This repository contains the archived versions of the agenda, minutes, and log from the [Chef Community Slack Meetings](https://github.com/chef/chef-rfc/blob/master/rfc001-slack-meetings.md).
+
+As of August 1, 2019 please reference [discourse](https://discourse.chef.io/c/community-meetings/) for the latest agenda, minutes and logs.
 
 ## How to use this repository
 
